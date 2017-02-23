@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Material
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        window = UIWindow(frame: Screen.bounds)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
+        //let tvc = ToolbarController(rootViewController: svc)
+        let nvc = NavigationController(rootViewController: svc)
+        
+        let dvc = storyboard.instantiateViewController(withIdentifier: "Drawer")
+        let ndvc = NavigationDrawerController(rootViewController: nvc, leftViewController: dvc, rightViewController: nil)
+        window!.rootViewController = ndvc
+        
+        window!.makeKeyAndVisible()
         return true
     }
 
