@@ -16,6 +16,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var data: GreenData!
     @IBOutlet var graph: ScrollableGraphView!
     @IBOutlet var attributeTableView: UITableView!
+    @IBOutlet var energyPointsLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +30,23 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         logo.contentMode = .scaleAspectFit
         
         menuButton.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = UIColor(red: 46/255, green: 204/255, blue: 113/255, alpha: 1.0)
+        navigationController?.navigationBar.barTintColor = Colors.green
         
         setDataType()
+        customizeGraph()
+        
+        energyPointsLabel.text = "\(data.energyPoints) Energy Points"
+        
+       createFABMenu()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        reloadData()
+    }
+    
+    func reloadData() {
+        energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         customizeGraph()
     }
     
@@ -56,9 +71,12 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 points.append(data.getGraphData()[date]!)
                 labels.append(formatter.string(from: date))
             }
-            
             graph.set(data: points, withLabels: labels)
         }
+    }
+    
+    func createFABMenu() {
+        assertionFailure("You need to override this method and create the FAB Menu")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
