@@ -14,6 +14,8 @@ class AttributeTableViewCell: UITableViewCell {
     @IBOutlet weak var dataPointLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
     
+    var owner: DataUpdater!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,7 +28,8 @@ class AttributeTableViewCell: UITableViewCell {
     }
     
     @IBAction func updateValue(_ sender: Any) {
-        dataPointLabel.text = "\(stepper.value)"
+        dataPointLabel.text = "\(Int(stepper.value))"
+        owner.updateData(key: attributeLabel.text!, value: Int(stepper.value))
     }
 
 }

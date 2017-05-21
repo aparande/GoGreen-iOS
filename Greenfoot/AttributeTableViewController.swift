@@ -8,7 +8,11 @@
 
 import UIKit
 
-class AttributeTableViewController: UITableViewController {
+protocol DataUpdater {
+    func updateData(key:String, value:Int)
+}
+
+class AttributeTableViewController: UITableViewController, DataUpdater {
     var data: GreenData
     var dataKeys:[String]
 
@@ -24,18 +28,36 @@ class AttributeTableViewController: UITableViewController {
         
         let nib = UINib(nibName: "AttributeCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "AttributeCell")
+        
+        navigationItem.backButton.tintColor = UIColor.white
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        data.recalculateEP()
     }
     
     init(data:GreenData) {
         self.data = data
         self.dataKeys = []
         
-        for (key, value) in data.data {
+        for key in data.bonusDict.keys {
+            self.dataKeys.append(key)
+        }
+        for key in data.data.keys {
             self.dataKeys.append(key)
         }
         
         
         super.init(style: .plain)
+    }
+    
+    func updateData(key: String, value: Int) {
+        if let _ = data.data[key] {
+            data.data[key] = value
+        } else {
+            data.bonusDict[key] = value
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,8 +78,16 @@ class AttributeTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AttributeCell", for: indexPath) as! AttributeTableViewCell
 
+        cell.owner = self
         let key = dataKeys[indexPath.row]
-        cell.setInfo(attribute: key, data: data.data[key]!)
+
+        if let _ = data.data[key] {
+            cell.setInfo(attribute: key, data: data.data[key]!)
+        } else {
+            cell.setInfo(attribute: key, data: data.bonusDict[key]!)
+        }
+        
+        
 
         return cell
     }

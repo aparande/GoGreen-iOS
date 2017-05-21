@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Raleway-Regular.ttf">
+            <string>Raleway-Regular</string>
+        </array>
+        <array key="SourceSansPro-Regular.ttf">
+            <string>SourceSansPro-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="OMu-Nf-VhV" customClass="NewsTableViewCell" customModule="Greenfoot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="139"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OMu-Nf-VhV" id="3es-0r-v9O">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="138.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F4v-b0-iFw">
+                        <rect key="frame" x="0.0" y="0.0" width="138.5" height="138.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="F4v-b0-iFw" secondAttribute="height" multiplier="1:1" id="689-6O-ZXj"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News Title" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="ri1-0l-DoM">
+                        <rect key="frame" x="146.5" y="10" width="220.5" height="68"/>
+                        <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pub Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OSx-U1-gIe">
+                        <rect key="frame" x="146.5" y="86" width="220.5" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="JmZ-gS-LSO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="12"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Newspaper" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="sk8-Ul-LKZ">
+                        <rect key="frame" x="146.5" y="107" width="220.5" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Qfi-7e-VHD"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="12"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="nL1-1Q-EWg">
+                        <rect key="frame" x="51" y="51" width="37" height="37"/>
+                        <color key="color" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
+                    </activityIndicatorView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="sk8-Ul-LKZ" firstAttribute="top" secondItem="OSx-U1-gIe" secondAttribute="bottom" id="1lt-uq-ZDY"/>
+                    <constraint firstItem="F4v-b0-iFw" firstAttribute="centerY" secondItem="3es-0r-v9O" secondAttribute="centerY" id="5WE-9M-vVi"/>
+                    <constraint firstItem="OSx-U1-gIe" firstAttribute="top" secondItem="ri1-0l-DoM" secondAttribute="bottom" constant="8" symbolic="YES" id="A3Z-nW-97s"/>
+                    <constraint firstItem="ri1-0l-DoM" firstAttribute="leading" secondItem="F4v-b0-iFw" secondAttribute="trailing" constant="8" symbolic="YES" id="BdA-0a-v7z"/>
+                    <constraint firstItem="nL1-1Q-EWg" firstAttribute="centerY" secondItem="F4v-b0-iFw" secondAttribute="centerY" id="D8f-PI-LjF"/>
+                    <constraint firstItem="F4v-b0-iFw" firstAttribute="leading" secondItem="3es-0r-v9O" secondAttribute="leading" id="JqD-Qt-X4j"/>
+                    <constraint firstItem="F4v-b0-iFw" firstAttribute="top" secondItem="3es-0r-v9O" secondAttribute="top" id="dk5-O7-kQ2"/>
+                    <constraint firstItem="OSx-U1-gIe" firstAttribute="trailing" secondItem="sk8-Ul-LKZ" secondAttribute="trailing" id="e1D-3h-gBL"/>
+                    <constraint firstItem="ri1-0l-DoM" firstAttribute="leading" secondItem="OSx-U1-gIe" secondAttribute="leading" id="e9F-2v-KTW"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="sk8-Ul-LKZ" secondAttribute="bottom" constant="2.5" id="eDs-fs-BMe"/>
+                    <constraint firstItem="ri1-0l-DoM" firstAttribute="trailing" secondItem="OSx-U1-gIe" secondAttribute="trailing" id="epE-fh-YaX"/>
+                    <constraint firstItem="nL1-1Q-EWg" firstAttribute="centerX" secondItem="F4v-b0-iFw" secondAttribute="centerX" id="fu8-aR-pLE"/>
+                    <constraint firstItem="ri1-0l-DoM" firstAttribute="trailing" secondItem="3es-0r-v9O" secondAttribute="trailingMargin" id="hMu-Nv-mWm"/>
+                    <constraint firstItem="OSx-U1-gIe" firstAttribute="leading" secondItem="sk8-Ul-LKZ" secondAttribute="leading" id="jaO-S9-2Zg"/>
+                    <constraint firstItem="ri1-0l-DoM" firstAttribute="top" secondItem="3es-0r-v9O" secondAttribute="topMargin" constant="2" id="vlg-Dt-sUE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="tintColor" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="articleImageView" destination="F4v-b0-iFw" id="uyt-8g-A8U"/>
+                <outlet property="dateLabel" destination="OSx-U1-gIe" id="yJ8-eY-2gZ"/>
+                <outlet property="loaderIndicator" destination="nL1-1Q-EWg" id="LCm-h1-gNz"/>
+                <outlet property="newspaper" destination="sk8-Ul-LKZ" id="R6a-Zu-KlC"/>
+                <outlet property="titleLabel" destination="ri1-0l-DoM" id="vdt-oE-zBz"/>
+            </connections>
+            <point key="canvasLocation" x="-133.5" y="43.5"/>
+        </tableViewCell>
+    </objects>
+</document>

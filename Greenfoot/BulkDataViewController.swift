@@ -24,6 +24,9 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     var addedMonths: [Date]!
     var addedPoints: [Double]!
     
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var dataDescription: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -33,21 +36,39 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         addedMonths = []
         addedPoints = []
         
+        
+        
+        datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.addTarget(self, action: #selector(monthChosen), for: .valueChanged)
+        monthField.inputView = datePicker
+        
+        let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
+        view.addGestureRecognizer(exitGesture)
+        
+        iconImageView.image = data.icon
+        switch data.dataName {
+        case "Electric":
+            dataDescription.text = "Enter how many Kilowatts-Hours of electriicty you have used each month"
+            break
+        case "Water":
+            dataDescription.text = "Enter how many gallons of water you have used each month"
+            break
+        case "Emissions":
+            dataDescription.text = "Enter how many miles you have driven each month"
+            break
+        default:
+            dataDescription.text = "Enter how many Kilowatts-Hours of electriicty you have used each month"
+            break
+        }
+        
         let logo = UIImageView(image: UIImage(named: "Plant"))
         navigationItem.centerViews = [logo]
         logo.contentMode = .scaleAspectFit
         
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
-        
-        datePicker = UIDatePicker()
-        datePicker.datePickerMode = .date
-        datePicker.addTarget(self, action: #selector(monthChosen), for: .valueChanged)
-        //datePicker.addTarget(monthField, action: #selector(resignFirstResponder), for: .touchUpInside)
-        monthField.inputView = datePicker
-        
-        let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
-        view.addGestureRecognizer(exitGesture)
+        navigationItem.backButton.tintColor = UIColor.white
     }
     
     func setDataType(dataObj: GreenData) {
@@ -72,7 +93,12 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillDisappear(_ animated:Bool) {
         super.viewWillDisappear(true)
         for i in 0..<addedMonths.count {
-            data.addDataPoint(month: addedMonths[i], y: addedPoints[i])
+            if data.dataName == "Emissions" {
+                let point = 8.887*addedPoints[i]/Double(data.data["Average MPG"]!)
+                data.addDataPoint(month: addedMonths[i], y: point)
+            } else {
+                data.addDataPoint(month: addedMonths[i], y: addedPoints[i])
+            }
         }
     }
     

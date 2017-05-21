@@ -19,14 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame: Screen.bounds)
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
-        //let tvc = ToolbarController(rootViewController: svc)
-        let nvc = NavigationController(rootViewController: svc)
+        if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      
+            let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
+            let nvc = NavigationController(rootViewController: svc)
         
-        let dvc = storyboard.instantiateViewController(withIdentifier: "Drawer")
-        let ndvc = NavigationDrawerController(rootViewController: nvc, leftViewController: dvc, rightViewController: nil)
-        window!.rootViewController = ndvc
+            let dvc = storyboard.instantiateViewController(withIdentifier: "Drawer")
+            let ndvc = NavigationDrawerController(rootViewController: nvc, leftViewController: dvc, rightViewController: nil)
+            window!.rootViewController = ndvc
+        } else {
+        
+            let pager = TutorialViewController()
+            window!.rootViewController = pager
+        }
         
         window!.makeKeyAndVisible()
         return true
@@ -40,6 +46,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        let defaults = UserDefaults.standard
+        let modal = GreenfootModal.sharedInstance
+        for (key, value) in modal.data {
+            let data = value.data
+            let bonusAttrs = value.bonusDict
+            var serializableGraphData:[String: Double] = [:]
+            
+            for (key, value) in value.getGraphData() {
+                serializableGraphData[Date.longDateToString(date: key)] = value
+            }
+            
+            defaults.set(data, forKey: key+":data")
+            defaults.set(bonusAttrs, forKey: key+":bonus")
+            defaults.set(serializableGraphData, forKey: key+":graph")
+
+        }
+        
+        defaults.synchronize()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

@@ -11,15 +11,48 @@ import Material
 
 class DrawerTableViewController: UITableViewController {
     
-    func summary() {
+    private func summary() {
         let summaryVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
         let nvc = NavigationController(rootViewController: summaryVC)
         navigationDrawerController?.transition(to: nvc)
         navigationDrawerController?.closeLeftView()
     }
-    func electric() {
-        let electricVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Electric")
+    private func electric() {
+        let electricVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
+        
+        let electricData = GreenfootModal.sharedInstance.data["Electric"]!
+        
+        electricVC.setDataType(data:electricData)
         let nvc = NavigationController(rootViewController: electricVC)
+        navigationDrawerController?.transition(to: nvc)
+        navigationDrawerController?.closeLeftView()
+    }
+    
+    private func water() {
+        let waterVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
+        
+        let waterData = GreenfootModal.sharedInstance.data["Water"]!
+        
+        waterVC.setDataType(data:waterData)
+        let nvc = NavigationController(rootViewController: waterVC)
+        navigationDrawerController?.transition(to: nvc)
+        navigationDrawerController?.closeLeftView()
+    }
+    
+    private func emissions() {
+        let co2VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
+        let co2Data = GreenfootModal.sharedInstance.data["Emissions"]!
+        
+        co2VC.setDataType(data: co2Data)
+        
+        let nvc = NavigationController(rootViewController: co2VC)
+        navigationDrawerController?.transition(to: nvc)
+        navigationDrawerController?.closeLeftView()
+    }
+    
+    private func news() {
+        let newsVC = NewsTableViewController()
+        let nvc = NavigationController(rootViewController: newsVC)
         navigationDrawerController?.transition(to: nvc)
         navigationDrawerController?.closeLeftView()
     }
@@ -32,8 +65,14 @@ class DrawerTableViewController: UITableViewController {
         case 1:
             electric()
             break
+        case 2:
+            water()
+        case 3:
+            emissions()
+        case 4:
+            news()
         default:
-            electric()
+            summary()
             break
         }
     }
