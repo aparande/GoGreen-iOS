@@ -20,12 +20,11 @@
 		1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCBF1E105D0600AD351A /* Main.storyboard */; };
 		1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC21E105D0600AD351A /* Assets.xcassets */; };
 		1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */; };
-		1F8047511ED1D615000C39AD /* AttributeDescriptorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F8047501ED1D615000C39AD /* AttributeDescriptorCell.xib */; };
-		1F8047531ED1D7E6000C39AD /* DescriptionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8047521ED1D7E6000C39AD /* DescriptionTableViewController.swift */; };
 		1F8CAF321EBAD12F005945EA /* NewsXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */; };
 		1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9195051E67922B0035A4AD /* BulkDataViewController.swift */; };
 		1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F91DDE31E1570A70020371F /* GeosansLight.ttf */; };
 		1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */; };
+		1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */; };
 		1FA917BA1EC547D300C6ABE9 /* AddDataTutorial.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */; };
 		1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */; };
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
@@ -48,12 +47,11 @@
 		1F70CCC21E105D0600AD351A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F70CCC51E105D0600AD351A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F70CCC71E105D0600AD351A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1F8047501ED1D615000C39AD /* AttributeDescriptorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeDescriptorCell.xib; sourceTree = "<group>"; };
-		1F8047521ED1D7E6000C39AD /* DescriptionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionTableViewController.swift; sourceTree = "<group>"; };
 		1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsXMLParser.swift; sourceTree = "<group>"; };
 		1F9195051E67922B0035A4AD /* BulkDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulkDataViewController.swift; sourceTree = "<group>"; };
 		1F91DDE31E1570A70020371F /* GeosansLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeosansLight.ttf; sourceTree = "<group>"; };
 		1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewController.swift; sourceTree = "<group>"; };
+		1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCollectionViewController.swift; sourceTree = "<group>"; };
 		1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataTutorial.xib; sourceTree = "<group>"; };
 		1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -117,8 +115,7 @@
 				1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */,
 				1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */,
 				1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */,
-				1F8047501ED1D615000C39AD /* AttributeDescriptorCell.xib */,
-				1F8047521ED1D7E6000C39AD /* DescriptionTableViewController.swift */,
+				1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -219,7 +216,6 @@
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
 				1FA917BA1EC547D300C6ABE9 /* AddDataTutorial.xib in Resources */,
 				1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */,
-				1F8047511ED1D615000C39AD /* AttributeDescriptorCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,10 +276,10 @@
 			files = (
 				1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */,
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,
-				1F8047531ED1D7E6000C39AD /* DescriptionTableViewController.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
+				1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F8CAF321EBAD12F005945EA /* NewsXMLParser.swift in Sources */,

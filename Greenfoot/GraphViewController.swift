@@ -174,7 +174,9 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func showInfo() {
-        let dtvc = DescriptionTableViewController(data: self.data)
-        navigationController?.pushViewController(dtvc, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let dcvc = storyboard.instantiateViewController(withIdentifier: "DescriptionCollectionViewController") as! DescriptionCollectionViewController
+        dcvc.setData(data: self.data)
+        navigationController?.pushViewController(dcvc, animated: true)
     }
 }

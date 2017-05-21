@@ -395,6 +395,86 @@
             </objects>
             <point key="canvasLocation" x="1685.5999999999999" y="171.36431784107947"/>
         </scene>
+        <!--Description Collection View Controller-->
+        <scene sceneID="Va8-NF-zEi">
+            <objects>
+                <collectionViewController storyboardIdentifier="DescriptionCollectionViewController" id="IfN-MW-eth" customClass="DescriptionCollectionViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" directionalLockEnabled="YES" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="tcn-bC-QNP">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="I1Y-r3-96b">
+                            <size key="itemSize" width="358" height="142"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DescriptionCell" id="dyN-F0-K60" customClass="DescriptionCell" customModule="Greenfoot" customModuleProvider="target">
+                                <rect key="frame" x="8.5" y="0.0" width="358" height="142"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="358" height="142"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attribute" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="UB3-3j-8bL">
+                                            <rect key="frame" x="11" y="7" width="336" height="29"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="29" id="HRY-7D-e73"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="25"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap for more info" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hin-0l-Zrx">
+                                            <rect key="frame" x="11" y="44" width="336" height="90"/>
+                                            <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="17"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </view>
+                                <color key="backgroundColor" red="0.17413058349999999" green="0.74924308910000004" blue="0.47892460460000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="UB3-3j-8bL" firstAttribute="leading" secondItem="dyN-F0-K60" secondAttribute="leadingMargin" constant="3" id="209-iW-HoZ"/>
+                                    <constraint firstItem="UB3-3j-8bL" firstAttribute="centerX" secondItem="dyN-F0-K60" secondAttribute="centerX" id="3bh-Wb-e0z"/>
+                                    <constraint firstItem="hin-0l-Zrx" firstAttribute="top" secondItem="UB3-3j-8bL" secondAttribute="bottom" constant="8" symbolic="YES" id="Tej-1w-LFt"/>
+                                    <constraint firstItem="UB3-3j-8bL" firstAttribute="trailing" secondItem="hin-0l-Zrx" secondAttribute="trailing" id="TvE-aW-9AO"/>
+                                    <constraint firstItem="hin-0l-Zrx" firstAttribute="bottom" secondItem="dyN-F0-K60" secondAttribute="bottomMargin" id="eUu-h3-eqG"/>
+                                    <constraint firstItem="UB3-3j-8bL" firstAttribute="leading" secondItem="hin-0l-Zrx" secondAttribute="leading" id="qnj-1x-Ten"/>
+                                    <constraint firstItem="UB3-3j-8bL" firstAttribute="top" secondItem="dyN-F0-K60" secondAttribute="topMargin" constant="-1" id="uxT-wg-r8B"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="2" height="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="moreInfoLabel" destination="hin-0l-Zrx" id="UW3-3b-mcq"/>
+                                    <outlet property="titleLabel" destination="UB3-3j-8bL" id="RIW-Zf-bSd"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="IfN-MW-eth" id="Px6-4o-pGc"/>
+                            <outlet property="delegate" destination="IfN-MW-eth" id="OER-rD-ig8"/>
+                        </connections>
+                    </collectionView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YDm-I3-8RJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2432.8000000000002" y="172.26386806596702"/>
+        </scene>
         <!--Bulk Data View Controller-->
         <scene sceneID="SrR-kO-OkK">
             <objects>
