@@ -28,8 +28,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         prepToolbar()
         
         var infoImage = Icon.info_white
-        infoImage = infoImage!.resize(toHeight: 30)
-        infoImage = infoImage!.resize(toWidth: 30)
+        infoImage = infoImage!.resize(toHeight: 20)
+        infoImage = infoImage!.resize(toWidth: 20)
         let infoButton = IconButton(image: infoImage)
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         infoButton.imageView?.contentMode = .scaleAspectFit

@@ -36,25 +36,23 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
         }
     }
     func parser(_ parser: XMLParser, foundCharacters string:String) {
-        if (currentElement == "title" && string != "Climate change | The Guardian" && string != "NYT > Environment") || currentElement == "link" || currentElement == "pubDate" {
+        if (currentElement == "title" && string != "Climate change | The Guardian" && string != "NYT > Environment" && string != "Global Climate Change - Vital Signs of the Planet - News RSS Feed" || currentElement == "link" || currentElement == "pubDate") {
             foundCharacters += string
         }
     }
-    
+
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName: String?) {
+        if elementName == "item" && currentDataDictionary.keys.count != 0{
+            currentDataDictionary["source"] = currentFeed
+            arrParsedData.append(currentDataDictionary)
+            currentDataDictionary = [:]
+            return
+        }
+        
         foundCharacters = foundCharacters.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
         if !foundCharacters.isEmpty {
-            if currentDataDictionary.keys.count != 4 {
-                currentDataDictionary[currentElement] = foundCharacters
-                foundCharacters = ""
-            } else {
-                currentDataDictionary["source"] = currentFeed
-                arrParsedData.append(currentDataDictionary)
-                currentDataDictionary = [:]
-                
-                currentDataDictionary[currentElement] = foundCharacters
-                foundCharacters = ""
-            }
+            currentDataDictionary[currentElement] = foundCharacters
+            foundCharacters = ""
             
             if currentDataDictionary.keys.contains("image") {
                 currentDataDictionary["source"] = currentFeed

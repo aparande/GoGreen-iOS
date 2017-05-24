@@ -28,6 +28,7 @@ class GreenfootModal: NewsParserDelegate {
     
     var nyTimesXmlParser: NewsXMLParser
     var guardianXmlParser: NewsXMLParser
+    var nasaXmlParser: NewsXMLParser
     var newsFeed = [Dictionary<String, String>]()
     
     init() {
@@ -35,13 +36,16 @@ class GreenfootModal: NewsParserDelegate {
         
         nyTimesXmlParser = NewsXMLParser()
         guardianXmlParser = NewsXMLParser()
+        nasaXmlParser = NewsXMLParser()
 
         
         nyTimesXmlParser.delegate = self
         guardianXmlParser.delegate = self
+        nasaXmlParser.delegate = self
         
         nyTimesXmlParser.startParsingWithContentsOfUrl(feed: "New York Times", rssUrl: URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!)
         guardianXmlParser.startParsingWithContentsOfUrl(feed: "The Guardian", rssUrl: URL(string: "https://www.theguardian.com/environment/climate-change/rss")!)
+        nasaXmlParser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "https://climate.nasa.gov/news/rss.xml")!)
         
         prepElectric()
         prepWater()

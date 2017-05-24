@@ -3,7 +3,7 @@
 import Foundation
 
 protocol NewsParserDelegate {
-    func parsingWasFinished()
+    func parsingWasFinished(feed: String, parser: NewsXMLParser)
 }
 
 class NewsXMLParser: NSObject, XMLParserDelegate {
@@ -13,7 +13,10 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
     var foundCharacters = ""
     var delegate: NewsParserDelegate?
     
-    func startParsingWithContentsOfUrl(rssUrl: URL) {
+    var currentFeed:String = ""
+    
+    func startParsingWithContentsOfUrl(feed:String, rssUrl: URL) {
+        currentFeed = feed
         let parser = XMLParser(contentsOf: rssUrl)!
         parser.delegate = self
         parser.parse()
@@ -27,26 +30,47 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
         }
     }
     func parser(_ parser: XMLParser, foundCharacters string:String) {
-        if (currentElement == "title" && string != "Climate change | The Guardian" && string != "NYT > Environment") || currentElement == "link" || currentElement == "pubDate" {
+        if (currentElement == "title" && string != "Climate change | The Guardian" && string != "NYT > Environment" && string != "Global Climate Change - Vital Signs of the Planet - News RSS Feed" || currentElement == "link" || currentElement == "pubDate") {
             foundCharacters += string
         }
     }
-    
+     //This could be made more efficient
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName: String?) {
+       
+        if elementName == "item" && currentDataDictionary.keys.count != 0{
+            currentDataDictionary["source"] = currentFeed
+            arrParsedData.append(currentDataDictionary)
+            currentDataDictionary = [:]
+            return
+        }
+        
         foundCharacters = foundCharacters.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
         if !foundCharacters.isEmpty {
-            currentDataDictionary[currentElement] = foundCharacters
-            foundCharacters = ""
+            if currentDataDictionary.keys.count != 4 {
+                currentDataDictionary[currentElement] = foundCharacters
+                foundCharacters = ""
+            } else {
+                print("hi")
+                currentDataDictionary["source"] = currentFeed
+                arrParsedData.append(currentDataDictionary)
+                currentDataDictionary = [:]
+                
+                currentDataDictionary[currentElement] = foundCharacters
+                foundCharacters = ""
+            }
             
             if currentDataDictionary.keys.contains("image") {
+                currentDataDictionary["source"] = currentFeed
                 arrParsedData.append(currentDataDictionary)
                 currentDataDictionary = [:]
             }
+            
+            
         }
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        delegate?.parsingWasFinished()
+        delegate?.parsingWasFinished(feed: currentFeed, parser: self)
     }
 }
 
@@ -56,13 +80,17 @@ class MyClass: NewsParserDelegate {
     init() {
         parser = NewsXMLParser()
         parser.delegate = self
+
+        //parser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "https://climate.nasa.gov/news/rss.xml")!)
+        //parser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!)
+        parser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "https://www.theguardian.com/environment/climate-change/rss")!)
         
-        //parser.startParsingWithContentsOfUrl(rssUrl: URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!)
-        parser.startParsingWithContentsOfUrl(rssUrl: URL(string: "https://www.theguardian.com/environment/climate-change/rss")!)
     }
     
-    func parsingWasFinished() {
-        print(parser.arrParsedData[0])
+    func parsingWasFinished(feed: String, parser: NewsXMLParser) {
+        for data in parser.arrParsedData {
+            print(data)
+        }
     }
 }
 

@@ -45,11 +45,12 @@ class NewsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell") as! NewsTableViewCell
     
         // Configure the cell...
-        let url = model.newsFeed[indexPath.row]["image"]!
-        if let _ = ImageDatabase.images[url]  {
+        if let url = model.newsFeed[indexPath.row]["image"] {
+            if let _ = ImageDatabase.images[url]  {
             
-        } else {
-            downloadImage(url, indexPath: indexPath)
+            } else {
+                downloadImage(url, indexPath: indexPath)
+            }
         }
         
         cell.setInfo(model.newsFeed[indexPath.row])
@@ -107,13 +108,15 @@ class NewsTableViewCell: UITableViewCell {
         dateLabel.text = Date.longFormat(date: info["pubDate"]!)
         newspaper.text = info["source"]
         
-        let url = info["image"]!
-        guard let image = ImageDatabase.images[url] else {
-            loaderIndicator.startAnimating()
-            return
+        if let url = info["image"] {
+            guard let image = ImageDatabase.images[url] else {
+                loaderIndicator.startAnimating()
+                return
+            }
+            articleImageView.image = image
+        } else {
+            articleImageView.image = UIImage(named: info["source"]!)!
         }
-        
-        articleImageView.image = image
     }
 }
 
