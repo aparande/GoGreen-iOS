@@ -50,6 +50,17 @@ class DrawerTableViewController: UITableViewController {
         navigationDrawerController?.closeLeftView()
     }
     
+    private func gas() {
+        let gasVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
+        let gasData = GreenfootModal.sharedInstance.data["Gas"]!
+        
+        gasVC.setDataType(data: gasData)
+        
+        let nvc = NavigationController(rootViewController: gasVC)
+        navigationDrawerController?.transition(to: nvc)
+        navigationDrawerController?.closeLeftView()
+    }
+    
     private func news() {
         let newsVC = NewsTableViewController()
         let nvc = NavigationController(rootViewController: newsVC)
@@ -69,8 +80,13 @@ class DrawerTableViewController: UITableViewController {
             water()
         case 3:
             emissions()
+            break
         case 4:
+            gas()
+            break
+        case 5:
             news()
+            break
         default:
             summary()
             break

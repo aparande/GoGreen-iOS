@@ -50,6 +50,7 @@ class GreenfootModal: NewsParserDelegate {
         prepElectric()
         prepWater()
         prepCO2()
+        prepGas()
     }
     
     private func prepElectric() {
@@ -197,6 +198,26 @@ class GreenfootModal: NewsParserDelegate {
         data["Emissions"] = co2Data
     }
     
+    private func prepGas() {
+        //https://www.eia.gov/pub/oil_gas/natural_gas/feature_articles/2010/ngtrendsresidcon/ngtrendsresidcon.pdf
+        
+        //4.7 metric tons/12 = 390 kg
+        let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Mcf", base: 25, averageLabel: "Mcf per Day", icon: Icon.fire_white)
+        
+        let defaults = UserDefaults.standard
+        
+        if let serializableGraphData = defaults.object(forKey: "Gas:graph") as? [String:Double] {
+            for (key, value) in serializableGraphData {
+                gasData.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
+            }
+        }
+        
+        gasData.attributes.append("General")
+        gasData.descriptions.append("Although it is cleaner burning than gasoline and other fossil fuels, natural gas, or methane, is a strong greenhouse gas. Leakage while mining it, as well as carbon dioxide released while burning it, contribute to the changing climate. The average American uses 7 Mcf of natural gas per month, which is the same as 70 Ccf and 7000000 BTU")
+        
+        data["Gas"] = gasData
+    }
+    
     func parsingWasFinished(feed:String, parser:NewsXMLParser) {
         newsFeed.append(contentsOf: parser.arrParsedData)
 
@@ -310,6 +331,7 @@ extension Icon {
     static let water_white = UIImage(named: "Water-Drop")!
     static let smoke_white = UIImage(named: "Smoke")!
     static let info_white = UIImage(named: "Information-256")
+    static let fire_white = UIImage(named: "Fire")!
     
     static let chart_green = UIImage(named: "Chart_Green")!
     static let fire_green = UIImage(named: "Fire_Green")!

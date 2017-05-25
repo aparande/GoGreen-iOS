@@ -57,6 +57,9 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         case "Emissions":
             dataDescription.text = "Enter how many miles you have driven each month"
             break
+        case "Gas":
+            dataDescription.text = "Enter how much natural gas you have used each month"
+            break
         default:
             dataDescription.text = "Enter how many Kilowatts-Hours of electriicty you have used each month"
             break
@@ -96,6 +99,21 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
             if data.dataName == "Emissions" {
                 let point = 8.887*addedPoints[i]/Double(data.data["Average MPG"]!)
                 data.addDataPoint(month: addedMonths[i], y: point)
+            } else if data.dataName == "Gas" {
+                let unitConversion:(Double) -> Double = {
+                    given in
+                    if given > 100 {
+                        //The unit is probably Ccf, so divide by 10 to get Mcf
+                        return given / 10
+                    } else if given > 1000000 {
+                        //The unit is probably BTU, so divide by 1000000 to get Mcf
+                        return given / 1000000
+                    } else {
+                        return given
+                    }
+                }
+                
+                data.addDataPoint(month: addedMonths[i], y: unitConversion(addedPoints[i]))
             } else {
                 data.addDataPoint(month: addedMonths[i], y: addedPoints[i])
             }
