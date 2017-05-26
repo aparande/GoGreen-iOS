@@ -33,7 +33,7 @@ extension UIViewController {
         logo.contentMode = .scaleAspectFit
         
         menuButton.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = UIColor(red: 46/255, green: 204/255, blue: 113/255, alpha: 1.0)
+        navigationController?.navigationBar.barTintColor = Colors.green
     }
 }
 

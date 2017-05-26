@@ -10,7 +10,11 @@ import UIKit
 import Material
 
 class DrawerTableViewController: UITableViewController {
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
     private func summary() {
         let summaryVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
         let nvc = NavigationController(rootViewController: summaryVC)
