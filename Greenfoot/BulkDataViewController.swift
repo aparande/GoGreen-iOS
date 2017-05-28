@@ -72,6 +72,8 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
         navigationItem.backButton.tintColor = UIColor.white
+        
+        self.tableView.isHidden = true
     }
     
     func setDataType(dataObj: GreenData) {
@@ -80,6 +82,8 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     
     //@IBOutlet (probably)
     @IBAction func addDataPoint(sender: AnyObject?) {
+        self.tableView.isHidden = false
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         let date = formatter.date(from: monthField.text!)!
@@ -91,6 +95,7 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         
         //update the table view
         tableView.reloadData()
+        tableView.scrollToRow(at: IndexPath(row: addedMonths.count-1, section:0), at: .bottom, animated: true)
     }
     
     override func viewWillDisappear(_ animated:Bool) {

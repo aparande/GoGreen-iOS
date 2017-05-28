@@ -13,6 +13,7 @@
 		1F418C591EBD1C3000F5ED42 /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
 		1F62E6A51E1B2FC500D237EF /* DrawerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */; };
+		1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C73B51EDB593C006A0003 /* EditDataCell.xib */; };
 		1F6E2EED1EBE878700445D41 /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6E2EEC1EBE878700445D41 /* NewsCell.xib */; };
 		1F6E2EEF1EBE8EBA00445D41 /* ImageDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */; };
 		1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F70CCBB1E105D0600AD351A /* AppDelegate.swift */; };
@@ -39,6 +40,7 @@
 		1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTableViewController.swift; sourceTree = "<group>"; };
+		1F6C73B51EDB593C006A0003 /* EditDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDataCell.xib; sourceTree = "<group>"; };
 		1F6E2EEC1EBE878700445D41 /* NewsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloadOperations.swift; sourceTree = "<group>"; };
 		1F70CCB81E105D0600AD351A /* Greenfoot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Greenfoot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +107,7 @@
 				1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */,
 				1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */,
 				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
+				1F6C73B51EDB593C006A0003 /* EditDataCell.xib */,
 				1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */,
 				1FC859BA1E147F4C007F7393 /* Fonts */,
 				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
@@ -220,6 +223,7 @@
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
 				1FA917BA1EC547D300C6ABE9 /* AddDataTutorial.xib in Resources */,
 				1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */,
+				1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

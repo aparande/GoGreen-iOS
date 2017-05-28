@@ -42,6 +42,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         dailyAverageLabel.text  = "\(data.averageValue) " + data.averageLabel
         
+        attributeTableView.tableFooterView = UIView(frame: CGRect.zero)
+        
         createFABMenu()
     }
     
@@ -81,6 +83,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             graph.set(data: points, withLabels: labels)
             
             graph.referenceLineUnits = data.yLabel
+            graph.layoutSubviews()
+            
         }
     }
 
@@ -98,7 +102,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         addFabItem.fabButton.addTarget(self, action: #selector(bulkAdd), for: .touchUpInside)
         
         let attributeFabItem = FABMenuItem()
-        attributeFabItem.title = "Attributes"
+        attributeFabItem.title = "Edit"
         attributeFabItem.fabButton.image = Icon.cm.edit
         attributeFabItem.fabButton.tintColor = .white
         attributeFabItem.fabButton.backgroundColor = Colors.green

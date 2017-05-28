@@ -309,6 +309,16 @@ class GreenData {
         return graphData
     }
     
+    func editDataPoint(month:Date, y:Double) {
+        graphData[month] = y
+        recalculateEP()
+    }
+    
+    func removeDataPoint(month:Date) {
+        graphData.removeValue(forKey: month)
+        recalculateEP()
+    }
+    
     func recalculateEP() {
         energyPoints = 0
         for key in bonusDict.keys {

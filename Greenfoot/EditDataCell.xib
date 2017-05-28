@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="GeosansLight.ttf">
+            <string>GeosansLight</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditCell" id="OBq-2o-lJ1" customClass="EditTableViewCell" customModule="Greenfoot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="313" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OBq-2o-lJ1" id="mjv-0U-qUr">
+                <rect key="frame" x="0.0" y="0.0" width="313" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100000" stepValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="W7Y-OB-I7L">
+                        <rect key="frame" x="211" y="8" width="94" height="29"/>
+                        <color key="tintColor" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <action selector="updateValue:" destination="OBq-2o-lJ1" eventType="valueChanged" id="wJZ-oI-jw7"/>
+                        </connections>
+                    </stepper>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DOc-gF-jEy">
+                        <rect key="frame" x="8" y="10.5" width="90" height="25.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="90" id="94Y-kA-gFW"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="23"/>
+                        <color key="textColor" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VgC-Ff-hpa">
+                        <rect key="frame" x="106" y="7" width="97" height="30"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        <connections>
+                            <outlet property="delegate" destination="OBq-2o-lJ1" id="x5U-if-FVd"/>
+                        </connections>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="VgC-Ff-hpa" firstAttribute="bottom" secondItem="W7Y-OB-I7L" secondAttribute="bottom" id="B8t-N2-TAT"/>
+                    <constraint firstItem="W7Y-OB-I7L" firstAttribute="leading" secondItem="VgC-Ff-hpa" secondAttribute="trailing" constant="8" symbolic="YES" id="GJH-3P-lxv"/>
+                    <constraint firstItem="DOc-gF-jEy" firstAttribute="centerY" secondItem="W7Y-OB-I7L" secondAttribute="centerY" id="W9J-oL-gNc"/>
+                    <constraint firstItem="VgC-Ff-hpa" firstAttribute="leading" secondItem="DOc-gF-jEy" secondAttribute="trailing" constant="8" symbolic="YES" id="anj-Fq-2fO"/>
+                    <constraint firstItem="W7Y-OB-I7L" firstAttribute="top" secondItem="mjv-0U-qUr" secondAttribute="topMargin" id="jKP-PD-lVI"/>
+                    <constraint firstItem="W7Y-OB-I7L" firstAttribute="trailing" secondItem="mjv-0U-qUr" secondAttribute="trailingMargin" id="mWQ-fh-xjp"/>
+                    <constraint firstItem="DOc-gF-jEy" firstAttribute="leading" secondItem="mjv-0U-qUr" secondAttribute="leadingMargin" id="xUq-ww-oqD"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="attributeLabel" destination="DOc-gF-jEy" id="sqe-CY-HrF"/>
+                <outlet property="dataTextField" destination="VgC-Ff-hpa" id="SDS-fg-0EH"/>
+                <outlet property="stepper" destination="W7Y-OB-I7L" id="hfV-Tm-cgS"/>
+            </connections>
+            <point key="canvasLocation" x="-172.5" y="-1"/>
+        </tableViewCell>
+    </objects>
+</document>

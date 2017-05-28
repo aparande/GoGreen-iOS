@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Material
 
 class AttributeTableViewCell: UITableViewCell {
 
@@ -29,7 +30,58 @@ class AttributeTableViewCell: UITableViewCell {
     
     @IBAction func updateValue(_ sender: Any) {
         dataPointLabel.text = "\(Int(stepper.value))"
-        owner.updateData(key: attributeLabel.text!, value: Int(stepper.value))
+        owner.updateAttribute(key: attributeLabel.text!, value: Int(stepper.value))
     }
+}
 
+class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
+    @IBOutlet weak var attributeLabel: UILabel!
+    @IBOutlet weak var dataTextField: UITextField!
+    @IBOutlet weak var stepper: UIStepper!
+    
+    var owner: DataUpdater!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        dataTextField.delegate = self
+        
+        let doneToolbar: UIToolbar = UIToolbar()
+        doneToolbar.barStyle = .default
+        doneToolbar.barTintColor = Colors.green
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        //let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(save))
+        let done = UIBarButtonItem(image: Icon.check, style: .plain, target: self, action: #selector(save))
+        done.tintColor = UIColor.white
+        
+        var items:[UIBarButtonItem] = []
+        items.append(flexSpace)
+        items.append(done)
+        
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        self.dataTextField.inputAccessoryView = doneToolbar
+    }
+    
+    func save() {
+        if let text = self.dataTextField.text {
+            stepper.value = Double(text)!
+            owner.updateData(month: attributeLabel.text!, point: Double(text)!)
+        }
+        
+        self.dataTextField.resignFirstResponder()
+    }
+    
+    func setInfo(attribute:String, data:Int) {
+        stepper.value = Double(data)
+        attributeLabel.text = attribute
+        dataTextField.text = "\(data)"
+    }
+    
+    @IBAction func updateValue(_ sender: Any) {
+        dataTextField.text = "\(stepper.value)"
+        owner.updateData(month: attributeLabel.text!, point: stepper.value)
+    }
 }
