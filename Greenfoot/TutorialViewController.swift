@@ -15,6 +15,14 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     var tutorialControllers:[UIViewController]!
     var currentViewController: TutorialPageViewController!
     
+    init() {
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -26,10 +34,11 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         let electricSlide:[String: Any] = ["Title":"Electric", "Desc":"One of our largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your Kilowatt-Hour usage. It will be marked clearly near the amount due. Swipe up to enter this data, otherwise swipe right to enter it later.", "Icon":Icon.electric_white]
         
         let waterSlide:[String: Any] = ["Title":"Water", "Desc":"Another large portion of our carbon footprint comes from our water usage. Find your old water bills and enter how many gallons you have used each month. Swipe up to enter the data, otherwise swipe right to enter it later.", "Icon":Icon.water_white]
+        let gasSlide:[String: Any] = ["Title":"Gas", "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, methane is a greenhouse gas itself, and the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month. Swipe up to enter the data, otherwise swipe right to enter it later", "Icon":Icon.fire_white]
         
         let endSlide:[String: Any] = ["Title":"Ready?", "Desc":"You are now ready to use Greenfoot! Additional information you can enter to alter how many energy points you receive can be found on different pages.", "Icon":Icon.logo_white]
         
-        vcData = [titleSlide, electricSlide, waterSlide, endSlide]
+        vcData = [titleSlide, electricSlide, waterSlide, gasSlide, endSlide]
         
         tutorialControllers = makeViewControllers()
         

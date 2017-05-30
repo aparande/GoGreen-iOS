@@ -20,6 +20,9 @@
         <array key="Raleway-Regular.ttf">
             <string>Raleway-Regular</string>
         </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
     </customFonts>
     <scenes>
         <!--Summary View Controller-->
@@ -372,25 +375,21 @@
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NFk-Pi-SJU" customClass="ScrollableGraphView" customModule="ScrollableGraphView">
                                 <rect key="frame" x="15" y="130" width="341" height="238"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="lineCurviness">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="dataPointFillColor">
-                                        <color key="value" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
-                                        <color key="value" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="lineStyle_">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shouldAutomaticallyDetectRange" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shouldRangeAlwaysStartAtZero" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shouldAdaptRange" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shouldShowReferenceLineUnits" value="YES"/>
-                                </userDefinedRuntimeAttributes>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO DATA" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ktY-jB-TXp">
+                                        <rect key="frame" x="0.0" y="0.0" width="341" height="238"/>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="40"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="ktY-jB-TXp" firstAttribute="height" secondItem="NFk-Pi-SJU" secondAttribute="height" id="92A-nT-qIR"/>
+                                    <constraint firstItem="ktY-jB-TXp" firstAttribute="width" secondItem="NFk-Pi-SJU" secondAttribute="width" id="Vjt-g2-nz8"/>
+                                    <constraint firstItem="ktY-jB-TXp" firstAttribute="centerY" secondItem="NFk-Pi-SJU" secondAttribute="centerY" id="aXm-zT-pB8"/>
+                                    <constraint firstItem="ktY-jB-TXp" firstAttribute="centerX" secondItem="NFk-Pi-SJU" secondAttribute="centerX" id="sBN-8S-oyH"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -431,6 +430,7 @@
                         <outlet property="energyPointsLabel" destination="E3W-KQ-vV2" id="SRV-qS-Iol"/>
                         <outlet property="graph" destination="NFk-Pi-SJU" id="b9p-nw-PT9"/>
                         <outlet property="iconImageView" destination="rhC-sZ-QVN" id="kPy-Aq-FQW"/>
+                        <outlet property="noDataLabel" destination="ktY-jB-TXp" id="dOD-Le-hK0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8C1-th-OkN" userLabel="First Responder" sceneMemberID="firstResponder"/>

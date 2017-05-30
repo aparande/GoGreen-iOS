@@ -41,6 +41,7 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(monthChosen), for: .valueChanged)
+        datePicker.maximumDate = Date()
         monthField.inputView = datePicker
         
         let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
@@ -107,14 +108,15 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
             } else if data.dataName == "Gas" {
                 let unitConversion:(Double) -> Double = {
                     given in
-                    if given > 100 {
+                    
+                    if given < 100 {
+                        return given
+                    } else if given < 1000000 {
                         //The unit is probably Ccf, so divide by 10 to get Mcf
                         return given / 10
-                    } else if given > 1000000 {
+                    } else  {
                         //The unit is probably BTU, so divide by 1000000 to get Mcf
                         return given / 1000000
-                    } else {
-                        return given
                     }
                 }
                 

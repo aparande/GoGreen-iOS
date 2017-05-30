@@ -108,6 +108,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(monthChosen), for: .valueChanged)
+        datePicker.maximumDate = Date()
         monthField.inputView = datePicker
         
         let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
@@ -119,7 +120,26 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         formatter.dateFormat = "MM/yy"
         let date = formatter.date(from: monthField.text!)!
         addedMonths.append(date)
-        addedPoints.append(Double(amountField.text!)!)
+        
+        if dataType == "Gas" {
+            let unitConversion:(Double) -> Double = {
+                given in
+                
+                if given < 100 {
+                    return given
+                } else if given < 1000000 {
+                    //The unit is probably Ccf, so divide by 10 to get Mcf
+                    return given / 10
+                } else  {
+                    //The unit is probably BTU, so divide by 1000000 to get Mcf
+                    return given / 1000000
+                }
+            }
+            
+            addedPoints.append(unitConversion(Double(amountField.text!)!))
+        } else {
+            addedPoints.append(Double(amountField.text!)!)
+        }
         
         monthField.text = ""
         amountField.text = ""

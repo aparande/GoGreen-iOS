@@ -21,6 +21,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet var energyPointsLabel: UILabel!
     @IBOutlet var dailyAverageLabel:UILabel!
     @IBOutlet var iconImageView: UIImageView!
+    @IBOutlet weak var noDataLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         infoButton.imageView?.contentMode = .scaleAspectFit
         navigationItem.rightViews = [infoButton]
         
-        customizeGraph()
+        designGraph()
+        loadGraph()
         
         iconImageView.image = data.icon
         
@@ -55,7 +57,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func reloadData() {
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         attributeTableView.reloadData()
-        customizeGraph()
+        loadGraph()
     }
     
     func setDataType(data:GreenData) {
@@ -63,7 +65,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.data = data
     }
     
-    func customizeGraph() {
+    func loadGraph() {
         //Customize the graph stuff here, and set the data
         if let _ =  graph {
             var dates:[Date] = Array(data.getGraphData().keys)
@@ -83,9 +85,36 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             graph.set(data: points, withLabels: labels)
             
             graph.referenceLineUnits = data.yLabel
-            graph.layoutSubviews()
             
+            noDataLabel.isHidden = (points.count != 0)
+            
+            graph.layoutSubviews()
         }
+    }
+    
+    func designGraph() {
+        graph.backgroundColor = Colors.green
+        graph.backgroundFillColor = Colors.green
+        graph.lineWidth = 1
+        graph.lineColor = UIColor.white
+        
+        graph.dataPointSpacing = 80
+        graph.dataPointSize = 2
+        graph.dataPointFillColor = Color.white
+        
+        graph.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        graph.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
+        graph.referenceLineLabelColor = UIColor.white
+        graph.dataPointLabelColor = UIColor.white.withAlphaComponent(0.8)
+        
+        graph.leftmostPointPadding = 75
+        graph.topMargin = 20
+        
+        graph.shouldAutomaticallyDetectRange = true
+        graph.shouldRangeAlwaysStartAtZero = true
+        graph.clipsToBounds = true
+        
+        graph.cornerRadius = 10
     }
 
     func createFABMenu() {
