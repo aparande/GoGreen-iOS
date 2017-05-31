@@ -37,12 +37,33 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         addedPoints = []
         
         
-        
+        //Create the DatePicker to be the input for the month field
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(monthChosen), for: .valueChanged)
         datePicker.maximumDate = Date()
         monthField.inputView = datePicker
+        
+        //Create a toolbar for the month field
+        let nextToolbar: UIToolbar = UIToolbar()
+        nextToolbar.barStyle = .default
+        nextToolbar.barTintColor = Colors.green
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let next = UIBarButtonItem(title: "Next", style: .plain, target: self.pointField, action: #selector(becomeFirstResponder))
+        next.tintColor = UIColor.white
+        nextToolbar.items = [flexSpace, next]
+        nextToolbar.sizeToFit()
+        monthField.inputAccessoryView = nextToolbar
+        
+        //Create the toolbar for the points field
+        let doneToolbar: UIToolbar = UIToolbar()
+        doneToolbar.barStyle = .default
+        doneToolbar.barTintColor = Colors.green
+        let done = UIBarButtonItem(image: Icon.check, style: .plain, target: self, action: #selector(addDataPoint(sender:)))
+        done.tintColor = UIColor.white
+        doneToolbar.items = [flexSpace, done]
+        doneToolbar.sizeToFit()
+        pointField.inputAccessoryView = doneToolbar
         
         let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
         view.addGestureRecognizer(exitGesture)
@@ -83,16 +104,26 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     
     //@IBOutlet (probably)
     @IBAction func addDataPoint(sender: AnyObject?) {
+        guard let month = monthField.text else {
+            return
+        }
+        
+        guard let point = pointField.text else {
+            return
+        }
+        
         self.tableView.isHidden = false
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
-        let date = formatter.date(from: monthField.text!)!
+        let date = formatter.date(from: month)!
         addedMonths.append(date)
-        addedPoints.append(Double(pointField.text!)!)
+        addedPoints.append(Double(point)!)
     
         monthField.text = ""
         pointField.text = ""
+        
+        pointField.resignFirstResponder()
         
         //update the table view
         tableView.reloadData()

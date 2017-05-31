@@ -111,11 +111,38 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         datePicker.maximumDate = Date()
         monthField.inputView = datePicker
         
+        //Create a toolbar for the month field
+        let nextToolbar: UIToolbar = UIToolbar()
+        nextToolbar.barStyle = .default
+        nextToolbar.barTintColor = Colors.green
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let next = UIBarButtonItem(title: "Next", style: .plain, target: self.amountField, action: #selector(becomeFirstResponder))
+        next.tintColor = UIColor.white
+        nextToolbar.items = [flexSpace, next]
+        nextToolbar.sizeToFit()
+        monthField.inputAccessoryView = nextToolbar
+        
+        //Create the toolbar for the points field
+        let doneToolbar: UIToolbar = UIToolbar()
+        doneToolbar.barStyle = .default
+        doneToolbar.barTintColor = Colors.green
+        let done = UIBarButtonItem(image: Icon.check, style: .plain, target: self, action: #selector(addDataPoint(sender:)))
+        done.tintColor = UIColor.white
+        doneToolbar.items = [flexSpace, done]
+        doneToolbar.sizeToFit()
+        amountField.inputAccessoryView = doneToolbar
+        
+        self.amountField.inputAccessoryView = doneToolbar
+        
         let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
         importerView.addGestureRecognizer(exitGesture)
     }
     
     @IBAction func addDataPoint(sender: AnyObject?) {
+        if amountField.text == "" || monthField.text == "" {
+            return
+        }
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         let date = formatter.date(from: monthField.text!)!
@@ -146,6 +173,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         //update the graph view
         updateGraphView()
+        amountField.resignFirstResponder()
     }
     
     func updateGraphView() {
@@ -154,6 +182,28 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
+        
+        for i in 0..<addedMonths.count-1 {
+            var locMin = i
+            var min = addedMonths[i]
+            for k in (i+1)..<addedMonths.count {
+                if min.compare(addedMonths[k]) == ComparisonResult.orderedDescending {
+                    locMin = k
+                    min = addedMonths[k]
+                }
+            }
+            let tempMonth = addedMonths[i]
+            let tempPoint = addedPoints[i]
+            
+            addedMonths[i] = min
+            addedMonths[locMin] = tempMonth
+            
+            addedPoints[i] = addedPoints[locMin]
+            addedPoints[locMin] = tempPoint
+        }
+        
+        addedMonths.sort(by: { (date1, date2) -> Bool in
+            return date1.compare(date2) == ComparisonResult.orderedAscending })
         
         for i in 0...addedMonths.count-1 {
             points.append(addedPoints[i])
@@ -172,15 +222,12 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     
     func designGraph() {
         graph.backgroundFillColor = UIColor(red: 45/255, green: 191/255, blue: 122/255, alpha: 1.0)
-
-        graph.lineWidth = 1
-        //graph.lineColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
-        graph.lineColor = UIColor.white
-        graph.lineStyle = ScrollableGraphViewLineStyle.smooth
+        graph.lineColor = UIColor.clear
         
-        graph.dataPointSpacing = 80
-        graph.dataPointSize = 2
-        graph.dataPointFillColor = Color.white
+        graph.shouldDrawBarLayer = true
+        graph.barColor = UIColor.white.withAlphaComponent(0.5)
+        graph.shouldDrawDataPoint = false
+        graph.barLineColor = UIColor.clear
         
         graph.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
         graph.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
@@ -188,6 +235,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         graph.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graph.shouldAutomaticallyDetectRange = true
+        graph.shouldAdaptRange = true
+        graph.shouldRangeAlwaysStartAtZero = true
         graph.clipsToBounds = true
     }
     

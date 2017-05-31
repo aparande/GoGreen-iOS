@@ -154,6 +154,10 @@ class GreenfootModal: NewsParserDelegate {
         co2Data.bonus = {
             base, attr in
             
+            if co2Data.data["Average MPG"] == 0 || attr == 0 {
+                return 0
+            }
+            
             let additiveMiles = 5.0 * Double(attr)*30/60.0
             print("Eco-Miles: \(additiveMiles)")
             let additive = co2Emissions(additiveMiles, co2Data.data["Average MPG"]!)
@@ -177,7 +181,7 @@ class GreenfootModal: NewsParserDelegate {
             co2Data.data["Average MPG"] = 0
         }
         
-        if let serializableGraphData = defaults.object(forKey: "Water:graph") as? [String:Double] {
+        if let serializableGraphData = defaults.object(forKey: "Emissions:graph") as? [String:Double] {
             for (key, value) in serializableGraphData {
                 co2Data.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
             }

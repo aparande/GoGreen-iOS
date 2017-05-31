@@ -95,12 +95,12 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func designGraph() {
         graph.backgroundColor = Colors.green
         graph.backgroundFillColor = Colors.green
-        graph.lineWidth = 1
-        graph.lineColor = UIColor.white
+        graph.lineColor = UIColor.clear
         
-        graph.dataPointSpacing = 80
-        graph.dataPointSize = 2
-        graph.dataPointFillColor = Color.white
+        graph.shouldDrawBarLayer = true
+        graph.barColor = UIColor.white.withAlphaComponent(0.5)
+        graph.shouldDrawDataPoint = false
+        graph.barLineColor = UIColor.clear
         
         graph.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
         graph.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
@@ -112,6 +112,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         graph.shouldAutomaticallyDetectRange = true
         graph.shouldRangeAlwaysStartAtZero = true
+        graph.shouldAdaptRange = true
         graph.clipsToBounds = true
         
         graph.cornerRadius = 10
