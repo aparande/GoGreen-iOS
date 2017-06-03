@@ -90,6 +90,16 @@ class GreenfootModal: NewsParserDelegate {
     private func prepWater() {
         //https://www3.epa.gov/watersense/pubs/indoor.html
         let waterData = GreenData(name: "Water", xLabel:"Month", yLabel:"Gallons", base:12000, averageLabel:"Gallons Per Day", icon: Icon.water_white)
+        waterData.calculateEP = {
+            base, point in
+            //return Int(base/1000 - point/1000)
+            let difference = Double(base-point)
+            if difference < 0 {
+                return Int(-sqrt(difference/(-10)))
+            } else {
+                return Int(sqrt(difference/10))
+            }
+        }
         
         //http://www.home-water-works.org/indoor-use/showers
         waterData.baselines["Shower length"] = 8
@@ -205,8 +215,11 @@ class GreenfootModal: NewsParserDelegate {
     private func prepGas() {
         //https://www.eia.gov/pub/oil_gas/natural_gas/feature_articles/2010/ngtrendsresidcon/ngtrendsresidcon.pdf
         
-        //4.7 metric tons/12 = 390 kg
-        let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Mcf", base: 25, averageLabel: "Mcf per Day", icon: Icon.fire_white)
+        let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Therms", base: 700, averageLabel: "Therms per Day", icon: Icon.fire_white)
+        gasData.calculateEP = {
+            base, point in
+            return Int((1 - point/base)*100)
+        }
         
         let defaults = UserDefaults.standard
         
@@ -217,7 +230,7 @@ class GreenfootModal: NewsParserDelegate {
         }
         
         gasData.attributes.append("General")
-        gasData.descriptions.append("Although it is cleaner burning than gasoline and other fossil fuels, natural gas, or methane, is a strong greenhouse gas. Leakage while mining it, as well as carbon dioxide released while burning it, contribute to the changing climate. The average American uses 7 Mcf of natural gas per month, which is the same as 70 Ccf and 7000000 BTU")
+        gasData.descriptions.append("Although it is cleaner burning than gasoline and other fossil fuels, natural gas, or methane, is a strong greenhouse gas. Leakage while mining it, as well as carbon dioxide released while burning it, contribute to the changing climate. The average American uses 0.7 Mcf of natural gas per month, which is the same as 700 Ccf or 700 Therms")
         
         data["Gas"] = gasData
     }

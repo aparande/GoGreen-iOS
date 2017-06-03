@@ -104,11 +104,7 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     
     //@IBOutlet (probably)
     @IBAction func addDataPoint(sender: AnyObject?) {
-        guard let month = monthField.text else {
-            return
-        }
-        
-        guard let point = pointField.text else {
+        if monthField.text == "" || pointField.text == "" {
             return
         }
         
@@ -116,9 +112,9 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
-        let date = formatter.date(from: month)!
+        let date = formatter.date(from: monthField.text!)!
         addedMonths.append(date)
-        addedPoints.append(Double(point)!)
+        addedPoints.append(Double(pointField.text!)!)
     
         monthField.text = ""
         pointField.text = ""
@@ -140,14 +136,10 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
                 let unitConversion:(Double) -> Double = {
                     given in
                     
-                    if given < 100 {
+                    if given < 10 {
+                        return given*1000
+                    } else {
                         return given
-                    } else if given < 1000000 {
-                        //The unit is probably Ccf, so divide by 10 to get Mcf
-                        return given / 10
-                    } else  {
-                        //The unit is probably BTU, so divide by 1000000 to get Mcf
-                        return given / 1000000
                     }
                 }
                 
