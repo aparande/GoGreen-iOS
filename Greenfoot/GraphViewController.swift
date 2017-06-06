@@ -149,11 +149,9 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fabMenu.close()
         fabMenu.fabButton?.motion(.rotationAngle(0))
         
-        if data.dataName == "Emissions" && data.data["Average MPG"] == 0 {
-            let alertView = UIAlertController(title: "Error", message: "Before you can input your mileage data, please enter the number of cars you have and their average miles per gallon", preferredStyle: .alert)
-            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            self.present(alertView, animated: true, completion: nil)
-            return
+        if data.dataName == "Emissions" {
+            let aevc = AddEmissionsViewController(style: .grouped)
+            navigationController?.pushViewController(aevc, animated: true)
         } else {
             let bvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "BulkDataViewController") as! BulkDataViewController
             bvc.setDataType(dataObj: data)

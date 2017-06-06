@@ -60,6 +60,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(data, forKey: key+":data")
             defaults.set(bonusAttrs, forKey: key+":bonus")
             defaults.set(serializableGraphData, forKey: key+":graph")
+            
+            if let emissions = value as? EmissionsData {
+                emissions.save(defaults: defaults)
+            }
 
         }
         

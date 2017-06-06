@@ -40,6 +40,7 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var stepper: UIStepper!
     
     var owner: DataUpdater!
+    var indexPath:IndexPath?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,15 +52,10 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
         doneToolbar.barTintColor = Colors.green
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        //let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(save))
         let done = UIBarButtonItem(image: Icon.check, style: .plain, target: self, action: #selector(save))
         done.tintColor = UIColor.white
         
-        var items:[UIBarButtonItem] = []
-        items.append(flexSpace)
-        items.append(done)
-        
-        doneToolbar.items = items
+        doneToolbar.items = [flexSpace, done]
         doneToolbar.sizeToFit()
         
         self.dataTextField.inputAccessoryView = doneToolbar
@@ -68,7 +64,7 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
     func save() {
         if let text = self.dataTextField.text {
             stepper.value = Double(text)!
-            owner.updateData(month: attributeLabel.text!, point: Double(text)!)
+            owner.updateData(month: attributeLabel.text!, point: Double(text)!, path: indexPath)
         }
         
         self.dataTextField.resignFirstResponder()
@@ -82,6 +78,6 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     @IBAction func updateValue(_ sender: Any) {
         dataTextField.text = "\(stepper.value)"
-        owner.updateData(month: attributeLabel.text!, point: stepper.value)
+        owner.updateData(month: attributeLabel.text!, point: stepper.value, path: indexPath)
     }
 }

@@ -143,10 +143,7 @@ class GreenfootModal: NewsParserDelegate {
     }
     
     private func prepCO2() {
-        //https://www.epa.gov/sites/production/files/2016-02/documents/420f14040a.pdf
-        
-        //4.7 metric tons/12 = 390 kg
-        let co2Data = GreenData(name: "Emissions", xLabel: "Month", yLabel: "kg", base: 390, averageLabel: "Kilograms per Day", icon: Icon.smoke_white)
+        let co2Data = EmissionsData()
         
         //https://www.reference.com/world-view/many-cars-average-american-family-own-f0e6dffd882f2857
         
@@ -154,12 +151,7 @@ class GreenfootModal: NewsParserDelegate {
         co2Data.baselines["Number of Cars"] = 2
         co2Data.baselines["Average MPG"] = 22
         //http://www.businessinsider.com/heres-how-much-the-average-american-walks-every-day-2015-7 (5900 steps - 3 miles, so at 5 mph, about 30 minutes)
-        co2Data.baselines["Daily Minutes spent walking/biking"] = 30
-        
-        let co2Emissions:(Double, Int) -> Double = {
-            miles, mpg in
-            return 8.887*miles/Double(mpg)
-        }
+        co2Data.baselines["Walking/Biking"] = 30
         
         co2Data.bonus = {
             base, attr in
@@ -170,7 +162,7 @@ class GreenfootModal: NewsParserDelegate {
             
             let additiveMiles = 5.0 * Double(attr)*30/60.0
             print("Eco-Miles: \(additiveMiles)")
-            let additive = co2Emissions(additiveMiles, co2Data.data["Average MPG"]!)
+            let additive = co2Data.co2Emissions(additiveMiles, co2Data.data["Average MPG"]!)
             print("Eco-Emission: \(additive)")
             
             return Int(additive)
@@ -180,7 +172,7 @@ class GreenfootModal: NewsParserDelegate {
         if let bonusDict = defaults.dictionary(forKey: "Emissions:bonus") {
             co2Data.bonusDict = bonusDict as! [String:Int]
         } else {
-            co2Data.bonusDict["Daily Minutes spent walking/biking"] = 0
+            co2Data.bonusDict["Walking/Biking"] = 0
         }
         
         if let data = defaults.dictionary(forKey: "Emissions:data") {
@@ -201,12 +193,12 @@ class GreenfootModal: NewsParserDelegate {
         co2Data.descriptions.append("We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg")
         
         co2Data.attributes.append("Average MPG")
-        co2Data.descriptions.append("The average number of miles per gallon of a car is 22 mpg. Cars with higher mileage ratings emit less carbon dioxide over the same amount of distance. Your average MPG can be calculated by adding up the mpg of each vehicle you own and dividing by the numer of vehicles you own.")
+        co2Data.descriptions.append("The average number of miles per gallon of a car is 22 mpg. Cars with higher mileage ratings emit less carbon dioxide over the same amount of distance. Your average MPG is calculated by adding up the mpg of each vehicle you own and dividing by the numer of vehicles you own.")
         
         co2Data.attributes.append("Number of Cars")
         co2Data.descriptions.append("The average American owns two cars. When you record this number, do not record electric vehicles.")
         
-        co2Data.attributes.append("Daily Minutes spent walking/biking")
+        co2Data.attributes.append("Walking/Biking")
         co2Data.descriptions.append("The more you can walk or bike to places, the less your carbon footprint will be. The average American should be walking 30 minutes each day.")
         
         data["Emissions"] = co2Data
@@ -344,6 +336,103 @@ class GreenData {
         
         for x in graphData.keys {
             energyPoints += calculateEP(baseline, graphData[x]!)
+        }
+    }
+}
+
+class EmissionsData: GreenData {
+    var carData:[String:[String:Int]]
+    var carMileage:[String:Int]
+    
+    let co2Emissions:(Double, Int) -> Double = {
+        miles, mpg in
+        return 8.887*miles/Double(mpg)
+    }
+    
+    init() {
+        let defaults = UserDefaults.standard
+        
+        if let odometerData = defaults.dictionary(forKey: "CarData") as? [String:[String:Int]] {
+            carData = odometerData
+        } else {
+            carData = [:]
+        }
+        
+        if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:Int] {
+            carMileage = mileages
+        } else {
+            carMileage = [:]
+        }
+        
+        //https://www.epa.gov/sites/production/files/2016-02/documents/420f14040a.pdf
+        //4.7 metric tons/12 = 390 kg
+        super.init(name: "Emissions", xLabel: "Month", yLabel: "kg", base: 390, averageLabel: "Kilograms per Day", icon: Icon.smoke_white)
+    }
+    
+    func save(defaults: UserDefaults) {
+        defaults.set(carMileage, forKey: "MilesData")
+        defaults.set(carData, forKey: "CarData")
+    }
+    
+    func compileToGraph() {
+        var totalMPG = 0
+        for (_, value) in carMileage {
+            totalMPG += value
+        }
+        
+        if totalMPG == 0 || carMileage.count == 0 {
+            return
+        }
+        
+        self.data["Average MPG"] = totalMPG/carMileage.count
+        self.data["Number of Cars"] = carMileage.count
+        
+        var dictArr:[[String:Int]] = []
+        for key in carData.keys {
+            dictArr.append(carData[key]!)
+        }
+        var keys:[String] = []
+        for dict in dictArr {
+            for key in dict.keys {
+                if !keys.contains(key) {
+                    keys.append(key)
+                }
+            }
+        }
+        keys.sort(by: {
+            (date1, date2) in
+            let d1 = Date.monthFormat(date: date1)
+            let d2 = Date.monthFormat(date: date2)
+            return d1.compare(d2) == ComparisonResult.orderedAscending
+        })
+        
+        var sums:[String:Int] = [:]
+        for i in 0..<keys.count {
+            let key = keys[i]
+            var sum = 0
+            for dict in dictArr {
+                if let val = dict[key] {
+                    sum += val
+                }
+            }
+            sums[key] = sum
+        }
+        
+        var differences:[String:Int] = [:]
+        for i in 0..<keys.count-1 {
+            let firstKey = keys[i]
+            let nextKey = keys[i+1]
+            differences[firstKey] = sums[nextKey]!-sums[firstKey]!
+        }
+        
+        for (key, value) in differences {
+            let date = Date.monthFormat(date: key)
+            let co2 = co2Emissions(Double(value), self.data["Average MPG"]!)
+            if let _ = getGraphData()[date] {
+                editDataPoint(month: date, y: co2)
+            } else {
+                addDataPoint(month: date, y: co2)
+            }
         }
     }
 }

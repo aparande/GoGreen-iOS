@@ -11,7 +11,7 @@ import Material
 
 protocol DataUpdater {
     func updateAttribute(key:String, value:Int)
-    func updateData(month:String, point:Double)
+    func updateData(month:String, point:Double, path: IndexPath?)
 }
 
 class AttributeTableViewController: UITableViewController, DataUpdater {
@@ -96,7 +96,7 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         }
     }
     
-    func updateData(month: String, point: Double) {
+    func updateData(month: String, point: Double, path: IndexPath?) {
         let date = Date.monthFormat(date: month)
         self.data.editDataPoint(month: date, y:point)
     }
@@ -109,7 +109,8 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        
+        return (data.dataName == "Emissions") ? 1 : 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -123,17 +124,34 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AttributeCell", for: indexPath) as! AttributeTableViewCell
-            cell.owner = self
-            
             let key = dataKeys[indexPath.row]
             
-            if let _ = data.data[key] {
-                cell.setInfo(attribute: key, data: data.data[key]!)
+            if key == "Average MPG" || key == "Number of Cars" {
+                let cell = UITableViewCell(style: .value1, reuseIdentifier: "General Cell")
+                
+                let geoSans = UIFont(name: "GeosansLight", size: 23.0)
+                cell.textLabel?.font = geoSans!
+                cell.textLabel?.textColor = Colors.green
+                
+                let droidSans = UIFont(name: "Droid Sans", size: 15.0)
+                cell.detailTextLabel?.font = droidSans
+                cell.detailTextLabel?.textColor = UIColor.black
+                
+                cell.textLabel?.text = key
+                cell.detailTextLabel?.text = String(describing: data.data[key]!)
+                return cell
+                
             } else {
-                cell.setInfo(attribute: key, data: data.bonusDict[key]!)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AttributeCell", for: indexPath) as! AttributeTableViewCell
+                cell.owner = self
+                
+                if let _ = data.data[key] {
+                    cell.setInfo(attribute: key, data: data.data[key]!)
+                } else {
+                    cell.setInfo(attribute: key, data: data.bonusDict[key]!)
+                }
+                return cell
             }
-            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditCell", for: indexPath) as! EditTableViewCell
             cell.owner = self
