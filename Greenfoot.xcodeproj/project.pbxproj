@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB0FE71E2B3684006463AE /* DroidSans.ttf */; };
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
 		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
@@ -221,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */,
 				1F6E2EED1EBE878700445D41 /* NewsCell.xib in Resources */,
 				1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */,
 				1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */,

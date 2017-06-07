@@ -439,6 +439,7 @@ class EmissionsData: GreenData {
 
 struct Colors {
     static let green = UIColor(red: 46/255, green: 204/255, blue: 113/255, alpha: 1.0)
+    static let darkGreen = UIColor(red: 45/255, green: 191/255, blue: 122/255, alpha: 1.0)
 }
 
 extension Icon {

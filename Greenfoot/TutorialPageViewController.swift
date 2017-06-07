@@ -32,13 +32,14 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     var slideDescription: String!
     
     //Importer View Outlet Variables
-    var importerView: UIView!
+    var importerView: UIView?
     @IBOutlet weak var monthField: UITextField!
     @IBOutlet weak var amountField: UITextField!
     @IBOutlet weak var stepper: UIStepper!
     @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var graph: ScrollableGraphView!
     @IBOutlet weak var iconDataImageView: UIImageView!
+    @IBOutlet weak var closeButton: IconButton!
     //Importer View Variables
     var datePicker: UIDatePicker!
     var addedMonths: [Date] = []
@@ -47,6 +48,25 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let random = arc4random_uniform(5)
+        switch random {
+        case 0:
+            self.view.backgroundColor = UIColor.black
+        case 1:
+            self.view.backgroundColor = UIColor.green
+        case 2:
+            self.view.backgroundColor = UIColor.blue
+            break
+        case 3:
+            self.view.backgroundColor = UIColor.yellow
+            break
+        case 4:
+            self.view.backgroundColor = UIColor.red
+            break
+        default:
+            self.view.backgroundColor = UIColor.orange
+        }
+        
         
         iconImageView.image  = icon
         slideTitleLabel.text = dataType
@@ -56,15 +76,17 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         slideDescriptionLabel.sizeToFit()
         
         if !hasAttributes {
-            goButton.isHidden = true
             skipButton.isHidden = true
-        }
-        
-        if isFinal {
-            goButton.isHidden = false
             goButton.removeTarget(self, action: #selector(revealDataAdder), for: .touchUpInside)
             goButton.addTarget(self, action: #selector(skip(_:)), for: .touchUpInside)
         }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ah))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    func ah() {
+        print("Tapped")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -80,25 +102,41 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     }
     
     @IBAction func revealDataAdder() {
-        importerView = Bundle.main.loadNibNamed("AddDataTutorial", owner: self, options: nil)![0] as! UIView
+        print("AHHHHHH")
+        if let _ = importerView {
+            importerView!.frame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
+            
+            let resultFrame = self.view.bounds
+            
+            UIView.beginAnimations(nil, context: nil)
+            UIView.setAnimationDuration(1.0)
+            UIView.setAnimationDelay(0.25)
+            UIView.setAnimationCurve(.easeOut)
+            
+            importerView!.frame = resultFrame
+            
+            UIView.commitAnimations()
+            return
+        }
+        importerView = Bundle.main.loadNibNamed("AddDataTutorial", owner: self, options: nil)![0] as? UIView
         
-        importerView.frame = importerView.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
+        importerView!.frame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
         
         designGraph()
-        graph.set(data: [0.0, 0.0, 0.0, 0.0], withLabels: ["2/17", "3/17", "4/17", "5/17"])
+        //graph.set(data: [0.0, 0.0, 0.0, 0.0], withLabels: ["2/17", "3/17", "4/17", "5/17"])
         
         iconDataImageView.image = icon
         
-        self.view.addSubview(importerView)
+        self.view.addSubview(importerView!)
         
         let resultFrame = self.view.bounds
         
         UIView.beginAnimations(nil, context: nil)
         UIView.setAnimationDuration(1.0)
-        UIView.setAnimationDelay(0.5)
+        UIView.setAnimationDelay(0.25)
         UIView.setAnimationCurve(.easeOut)
         
-        importerView.frame = resultFrame
+        importerView!.frame = resultFrame
         
         UIView.commitAnimations()
         
@@ -135,7 +173,10 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         self.amountField.inputAccessoryView = doneToolbar
         
         let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
-        importerView.addGestureRecognizer(exitGesture)
+        importerView!.addGestureRecognizer(exitGesture)
+        
+        self.closeButton.image = Icon.cm.close
+        self.closeButton.tintColor = UIColor.white
     }
     
     @IBAction func addDataPoint(sender: AnyObject?) {
@@ -211,13 +252,14 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         } else {
             placeholderLabel.isHidden = true
             
-            designGraph()
             graph.set(data: points, withLabels: labels)
+            graph.layoutSubviews()
         }
     }
     
     func designGraph() {
-        graph.backgroundFillColor = UIColor(red: 45/255, green: 191/255, blue: 122/255, alpha: 1.0)
+        graph.backgroundFillColor = Colors.darkGreen
+        graph.backgroundColor = Colors.darkGreen
         graph.lineColor = UIColor.clear
         
         graph.shouldDrawBarLayer = true
@@ -234,6 +276,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         graph.shouldAdaptRange = true
         graph.shouldRangeAlwaysStartAtZero = true
         graph.clipsToBounds = true
+        
+        graph.cornerRadius = 10
     }
     
     @IBAction func incrementData(_ sender: Any) {
@@ -261,15 +305,30 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         return super.resignFirstResponder()
     }
     
-    func setValues(title: String, description: String, icon: UIImage, isEditable:Bool, isLast:Bool) {
+    func setValues(title: String, description: String, icon: UIImage, isEditable:Bool) {
         dataType = title
         slideDescription = description
         self.icon = icon
         hasAttributes = isEditable
-        isFinal = isLast
     }
     
     @IBAction func skip(_ sender: Any) {
+        print("AHHHHHH 2")
+        //usleep(250000)
         delegate.skipPage()
+    }
+    
+    @IBAction func closeDataImporter(_ sender: Any) {
+        let endFrame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(1.0)
+        UIView.setAnimationDelay(0.25)
+        UIView.setAnimationCurve(.easeOut)
+        
+        importerView!.frame = endFrame
+        
+        UIView.commitAnimations()
+        
     }
 }
