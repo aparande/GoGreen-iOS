@@ -42,31 +42,14 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     @IBOutlet weak var closeButton: IconButton!
     //Importer View Variables
     var datePicker: UIDatePicker!
+    var monthToolbarField: UITextField!
+    var pointToolbarField: UITextField!
     var addedMonths: [Date] = []
     var addedPoints: [Double] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let random = arc4random_uniform(5)
-        switch random {
-        case 0:
-            self.view.backgroundColor = UIColor.black
-        case 1:
-            self.view.backgroundColor = UIColor.green
-        case 2:
-            self.view.backgroundColor = UIColor.blue
-            break
-        case 3:
-            self.view.backgroundColor = UIColor.yellow
-            break
-        case 4:
-            self.view.backgroundColor = UIColor.red
-            break
-        default:
-            self.view.backgroundColor = UIColor.orange
-        }
-        
         
         iconImageView.image  = icon
         slideTitleLabel.text = dataType
@@ -80,13 +63,6 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             goButton.removeTarget(self, action: #selector(revealDataAdder), for: .touchUpInside)
             goButton.addTarget(self, action: #selector(skip(_:)), for: .touchUpInside)
         }
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ah))
-        self.view.addGestureRecognizer(tap)
-    }
-    
-    func ah() {
-        print("Tapped")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -102,7 +78,6 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     }
     
     @IBAction func revealDataAdder() {
-        print("AHHHHHH")
         if let _ = importerView {
             importerView!.frame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
             
@@ -143,6 +118,11 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         monthField.delegate = self
         amountField.delegate = self
         
+        amountField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        
+        monthField.textColor = UIColor.white
+        amountField.textColor = UIColor.white
+        
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(monthChosen), for: .valueChanged)
@@ -150,26 +130,21 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         monthField.inputView = datePicker
         
         //Create a toolbar for the month field
-        let nextToolbar: UIToolbar = UIToolbar()
-        nextToolbar.barStyle = .default
-        nextToolbar.barTintColor = Colors.green
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let next = UIBarButtonItem(title: "Next", style: .plain, target: self.amountField, action: #selector(becomeFirstResponder))
-        next.tintColor = UIColor.white
-        nextToolbar.items = [flexSpace, next]
-        nextToolbar.sizeToFit()
+        let nextToolbar = InputToolbar(left: Icon.cm.close, right: "Next", color: Colors.green)
+        nextToolbar.leftButton?.target = self
+        nextToolbar.leftButton?.action = #selector(resignFirstResponder)
+        nextToolbar.rightButton?.target = self.amountField
+        nextToolbar.rightButton?.action = #selector(becomeFirstResponder)
+        monthToolbarField = nextToolbar.centerField
         monthField.inputAccessoryView = nextToolbar
         
         //Create the toolbar for the points field
-        let doneToolbar: UIToolbar = UIToolbar()
-        doneToolbar.barStyle = .default
-        doneToolbar.barTintColor = Colors.green
-        let done = UIBarButtonItem(image: Icon.check, style: .plain, target: self, action: #selector(addDataPoint(sender:)))
-        done.tintColor = UIColor.white
-        doneToolbar.items = [flexSpace, done]
-        doneToolbar.sizeToFit()
-        amountField.inputAccessoryView = doneToolbar
-        
+        let doneToolbar = InputToolbar(left: Icon.cm.close, right: Icon.cm.check, color: Colors.green)
+        doneToolbar.leftButton?.target = self
+        doneToolbar.leftButton?.action = #selector(resignFirstResponder)
+        doneToolbar.rightButton?.target = self
+        doneToolbar.rightButton?.action = #selector(addDataPoint(sender:))
+        pointToolbarField = doneToolbar.centerField
         self.amountField.inputAccessoryView = doneToolbar
         
         let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
@@ -187,6 +162,16 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         let date = formatter.date(from: monthField.text!)!
+        
+        if addedMonths.contains(date) {
+            let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
+            
+            amountField.resignFirstResponder()
+            return
+        }
+        
         addedMonths.append(date)
         
         if dataType == "Gas" {
@@ -207,6 +192,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         monthField.text = ""
         amountField.text = ""
+        monthToolbarField.text = ""
+        pointToolbarField.text = ""
         
         //update the graph view
         updateGraphView()
@@ -254,6 +241,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             
             graph.set(data: points, withLabels: labels)
             graph.layoutSubviews()
+            graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width + 40.0, y:0), animated: true)
         }
     }
     
@@ -276,12 +264,14 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         graph.shouldAdaptRange = true
         graph.shouldRangeAlwaysStartAtZero = true
         graph.clipsToBounds = true
+        graph.direction = .rightToLeft
         
         graph.cornerRadius = 10
     }
     
     @IBAction func incrementData(_ sender: Any) {
         amountField.text = "\(stepper.value)"
+        textFieldDidChange(textfield: amountField)
     }
     
     func monthChosen() {
@@ -289,6 +279,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         formatter.dateFormat = "MM/yy"
         let date = formatter.string(from: datePicker.date)
         monthField.text! = date
+        monthToolbarField.text = date
     }
     
     override func resignFirstResponder() -> Bool {
@@ -313,13 +304,13 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     }
     
     @IBAction func skip(_ sender: Any) {
-        print("AHHHHHH 2")
-        //usleep(250000)
         delegate.skipPage()
     }
     
     @IBAction func closeDataImporter(_ sender: Any) {
-        let endFrame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
+        let _ = self.resignFirstResponder()
+        
+        let endFrame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height+25)
         
         UIView.beginAnimations(nil, context: nil)
         UIView.setAnimationDuration(1.0)
@@ -329,6 +320,11 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         importerView!.frame = endFrame
         
         UIView.commitAnimations()
-        
+    }
+    
+    func textFieldDidChange(textfield: UITextField) {
+        if textfield == amountField {
+            pointToolbarField.text = amountField.text
+        }
     }
 }

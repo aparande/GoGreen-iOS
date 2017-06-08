@@ -89,6 +89,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             noDataLabel.isHidden = (points.count != 0)
             
             graph.layoutSubviews()
+            
+            graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width + 40.0, y:0), animated: true)
         }
     }
     
@@ -114,6 +116,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         graph.shouldRangeAlwaysStartAtZero = true
         graph.shouldAdaptRange = true
         graph.clipsToBounds = true
+        graph.direction = .rightToLeft
         
         graph.cornerRadius = 10
     }

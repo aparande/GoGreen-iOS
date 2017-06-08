@@ -181,6 +181,11 @@
                 <constraint firstItem="GtF-vZ-bxH" firstAttribute="width" secondItem="Ffs-cq-QRe" secondAttribute="height" multiplier="1:1" id="vNR-or-D9X"/>
                 <constraint firstItem="xGt-Dp-sa0" firstAttribute="leading" secondItem="Ue5-X7-CQt" secondAttribute="leading" id="x9j-gp-pYu"/>
             </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                    <size key="value" width="0.0" height="0.0"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
             <point key="canvasLocation" x="-43.5" y="39.5"/>
         </view>
     </objects>

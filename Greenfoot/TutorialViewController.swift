@@ -11,10 +11,21 @@ import Material
 
 class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, TutorialPageDelegate {
 
-    var vcData:[[String:Any]]!
+    var vcData:[[String:Any]]
     var currentViewController: TutorialPageViewController!
     
     init() {
+        let titleSlide:[String: Any] = ["Title":"Welcome!", "Desc":"Welcome to Greenfoot! To start keeping track of your carbon footprint, enter some data. Any data you don't enter now can be entered later.", "Icon":Icon.logo_white]
+        
+        let electricSlide:[String: Any] = ["Title":"Electric", "Desc":"One of the largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your Kilowatt-Hour usage. It will be marked clearly near the amount due.", "Icon":Icon.electric_white]
+        
+        let waterSlide:[String: Any] = ["Title":"Water", "Desc":"Another large portion of our carbon footprint comes from our water usage. Find your old water bills and enter how many gallons you have used each month.", "Icon":Icon.water_white]
+        let gasSlide:[String: Any] = ["Title":"Gas", "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, methane is a greenhouse gas itself, and the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month.", "Icon":Icon.fire_white]
+        
+        let endSlide:[String: Any] = ["Title":"Ready?", "Desc":"You are now ready to use Greenfoot! Additional information you can enter to alter how many energy points you receive can be found on different pages. Make sure to update the data in the application each time you receive a new bill so we can help you keep track of your carbon footprint the best we can!", "Icon":Icon.logo_white]
+        
+        vcData = [titleSlide, electricSlide, waterSlide, gasSlide, endSlide]
+        
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     }
     
@@ -30,19 +41,8 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         
         self.view.backgroundColor = Colors.green
         
-        let titleSlide:[String: Any] = ["Title":"Welcome!", "Desc":"Welcome to Greenfoot! To start keeping track of your carbon footprint, enter some data. Any data you don't enter now can be entered later.", "Icon":Icon.logo_white]
         
-        let electricSlide:[String: Any] = ["Title":"Electric", "Desc":"One of the largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your Kilowatt-Hour usage. It will be marked clearly near the amount due.", "Icon":Icon.electric_white]
-        
-        let waterSlide:[String: Any] = ["Title":"Water", "Desc":"Another large portion of our carbon footprint comes from our water usage. Find your old water bills and enter how many gallons you have used each month.", "Icon":Icon.water_white]
-        let gasSlide:[String: Any] = ["Title":"Gas", "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, methane is a greenhouse gas itself, and the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month.", "Icon":Icon.fire_white]
-        
-        let endSlide:[String: Any] = ["Title":"Ready?", "Desc":"You are now ready to use Greenfoot! Additional information you can enter to alter how many energy points you receive can be found on different pages. Make sure to update the data in the application each time you receive a new bill so we can help you keep track of your carbon footprint the best we can!", "Icon":Icon.logo_white]
-        
-        vcData = [titleSlide, electricSlide, waterSlide, gasSlide, endSlide]
-        
-        
-        currentViewController = makeViewController(data: titleSlide) as! TutorialPageViewController
+        currentViewController = makeViewController(data: vcData[0])
         currentViewController.delegate = self
         
         setViewControllers([currentViewController], direction: .forward, animated: true, completion: nil)
@@ -69,7 +69,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         currentViewController.delegate = self
     }
     
-    func makeViewController(data: [String: Any]) -> UIViewController {
+    func makeViewController(data: [String: Any]) -> TutorialPageViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TutorialViewController") as! TutorialPageViewController
         if data["Title"] as! String == "Welcome!"  {
             vc.setValues(title: data["Title"] as! String, description: data["Desc"] as! String, icon: data["Icon"] as! UIImage, isEditable: false)
@@ -81,25 +81,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         
         return vc
     }
-/*
-    func makeViewControllers() -> [UIViewController] {
-        var result:[UIViewController] = []
-        for data in vcData {
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TutorialViewController") as! TutorialPageViewController
-            if data["Title"] as! String == "Welcome!"  {
-                vc.setValues(title: data["Title"] as! String, description: data["Desc"] as! String, icon: data["Icon"] as! UIImage, isEditable: false)
-            } else if data["Title"] as! String == "Ready?" {
-                vc.setValues(title: data["Title"] as! String, description: data["Desc"] as! String, icon: data["Icon"] as! UIImage, isEditable: false)
-            } else {
-                vc.setValues(title: data["Title"] as! String, description: data["Desc"] as! String, icon: data["Icon"] as! UIImage, isEditable: true)
-            }
-            
-            result.append(vc)
-        }
-        
-        return result
-    }
-    */
+    
     func indexOf(vc: UIViewController) -> Int {
         if let viewController = vc as? TutorialPageViewController {
             let title = viewController.dataType
@@ -119,7 +101,6 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
             currentViewController.delegate = self
             setViewControllers([currentViewController], direction: .forward, animated: true, completion: {
                 completed in
-                print("hi")
             })
         } else {
             UserDefaults.standard.set(true, forKey: "CompletedTutorial")

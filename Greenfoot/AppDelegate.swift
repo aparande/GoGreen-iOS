@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame: Screen.bounds)
         
+        //You wont use this, but initialize it so the tutorial view controller isn't laggy
+        let _ = GreenfootModal.sharedInstance
+        
         if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
       
@@ -31,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
         
             let pager = TutorialViewController()
+            
             window!.rootViewController = pager
         }
         

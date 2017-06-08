@@ -15,23 +15,27 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var tableView: UITableView!
     
     @IBOutlet var monthField:UITextField!
-    
     @IBOutlet var pointField:UITextField!
     @IBOutlet weak var stepper: UIStepper!
     
-    var datePicker: UIDatePicker!
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var dataDescription: UILabel!
     
+    
+    var datePicker: UIDatePicker!
     var addedMonths: [Date]!
     var addedPoints: [Double]!
     
-    @IBOutlet weak var iconImageView: UIImageView!
-    @IBOutlet weak var dataDescription: UILabel!
+    var monthToolbarField: UITextField!
+    var pointToolbarField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         monthField.delegate = self
         pointField.delegate = self
+        
+        pointField.addTarget(self, action: #selector(textFieldDidChange(textfield:)), for: .editingChanged)
         
         addedMonths = []
         addedPoints = []
@@ -45,24 +49,21 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         monthField.inputView = datePicker
         
         //Create a toolbar for the month field
-        let nextToolbar: UIToolbar = UIToolbar()
-        nextToolbar.barStyle = .default
-        nextToolbar.barTintColor = Colors.green
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let next = UIBarButtonItem(title: "Next", style: .plain, target: self.pointField, action: #selector(becomeFirstResponder))
-        next.tintColor = UIColor.white
-        nextToolbar.items = [flexSpace, next]
-        nextToolbar.sizeToFit()
+        let nextToolbar = InputToolbar(left: Icon.cm.close, right: "Next", color: Colors.green)
+        nextToolbar.leftButton?.target = self
+        nextToolbar.leftButton?.action = #selector(resignFirstResponder)
+        nextToolbar.rightButton?.target = self.pointField
+        nextToolbar.rightButton?.action = #selector(becomeFirstResponder)
+        monthToolbarField = nextToolbar.centerField
         monthField.inputAccessoryView = nextToolbar
         
         //Create the toolbar for the points field
-        let doneToolbar: UIToolbar = UIToolbar()
-        doneToolbar.barStyle = .default
-        doneToolbar.barTintColor = Colors.green
-        let done = UIBarButtonItem(image: Icon.check, style: .plain, target: self, action: #selector(addDataPoint(sender:)))
-        done.tintColor = UIColor.white
-        doneToolbar.items = [flexSpace, done]
-        doneToolbar.sizeToFit()
+        let doneToolbar = InputToolbar(left: Icon.cm.close, right: Icon.cm.check, color: Colors.green)
+        doneToolbar.leftButton?.target = self
+        doneToolbar.leftButton?.action = #selector(resignFirstResponder)
+        doneToolbar.rightButton?.target = self
+        doneToolbar.rightButton?.action = #selector(addDataPoint(sender:))
+        pointToolbarField = doneToolbar.centerField
         pointField.inputAccessoryView = doneToolbar
         
         let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
@@ -108,16 +109,27 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
             return
         }
         
-        self.tableView.isHidden = false
-        
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         let date = formatter.date(from: monthField.text!)!
+        
+        if let _ = data.getGraphData()[date] {
+            let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
+            
+            pointField.resignFirstResponder()
+            return
+        }
         addedMonths.append(date)
         addedPoints.append(Double(pointField.text!)!)
     
+        self.tableView.isHidden = false
+        
         monthField.text = ""
         pointField.text = ""
+        monthToolbarField.text = ""
+        pointToolbarField.text = ""
         
         pointField.resignFirstResponder()
         
@@ -180,6 +192,7 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         formatter.dateFormat = "MM/yy"
         let date = formatter.string(from: datePicker.date)
         monthField.text! = date
+        monthToolbarField.text = date
     }
     
     override func resignFirstResponder() -> Bool {
@@ -191,5 +204,11 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         }
         
         return super.resignFirstResponder()
+    }
+    
+    func textFieldDidChange(textfield: UITextField) {
+        if textfield == pointField {
+            pointToolbarField.text = pointField.text
+        }
     }
 }

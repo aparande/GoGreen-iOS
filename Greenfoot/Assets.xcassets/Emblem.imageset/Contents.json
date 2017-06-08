@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Emblem_256.png",
+      "filename" : "Emblem.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Emblem_512.png",
+      "filename" : "Emblem-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Emblem.png",
+      "filename" : "Emblem-2.png",
       "scale" : "3x"
     }
   ],
