@@ -71,9 +71,7 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        print("finished parsing")
         delegate?.parsingWasFinished(parser: self)
         arrParsedData = []
-        print("Cleaned Array")
     }
 }
