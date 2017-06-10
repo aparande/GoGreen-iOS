@@ -33,8 +33,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     
     //Importer View Outlet Variables
     var importerView: UIView?
-    @IBOutlet weak var monthField: UITextField!
-    @IBOutlet weak var amountField: UITextField!
+    @IBOutlet weak var monthField: TextField!
+    @IBOutlet weak var amountField: TextField!
     @IBOutlet weak var stepper: UIStepper!
     @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var graph: ScrollableGraphView!
@@ -70,9 +70,32 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             return
         }
         
+        var conversionFactor = 1.0
+        if dataType == "Gas" {
+            /*
+            let unitConversion:(Double) -> Double = {
+                given in
+                
+                if given < 10 {
+                    return given*1000
+                } else {
+                    return given
+                }
+            } */
+            
+            for point in addedPoints {
+                if point > 10 {
+                    conversionFactor = 1.0
+                    break
+                } else {
+                    conversionFactor = 1000.0
+                }
+            }
+        }
+        
         if addedPoints.count != 0 {
             for i in 0...addedMonths.count-1 {
-                greenData.addDataPoint(month: addedMonths[i], y: addedPoints[i])
+                greenData.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i])
             }
         }
     }
@@ -122,6 +145,16 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         monthField.textColor = UIColor.white
         amountField.textColor = UIColor.white
+        
+        monthField.placeholderNormalColor = UIColor.white
+        monthField.placeholderActiveColor = UIColor.white
+        monthField.dividerNormalColor = UIColor.white
+        monthField.dividerActiveColor = UIColor.white
+        
+        amountField.placeholderNormalColor = UIColor.white
+        amountField.placeholderActiveColor = UIColor.white
+        amountField.dividerNormalColor = UIColor.white
+        amountField.dividerActiveColor = UIColor.white
         
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
@@ -173,22 +206,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         }
         
         addedMonths.append(date)
-        
-        if dataType == "Gas" {
-            let unitConversion:(Double) -> Double = {
-                given in
-                
-                if given < 10 {
-                    return given*1000
-                } else {
-                    return given
-                }
-            }
-        
-            addedPoints.append(unitConversion(Double(amountField.text!)!))
-        } else {
-            addedPoints.append(Double(amountField.text!)!)
-        }
+        addedPoints.append(Double(amountField.text!)!)
         
         monthField.text = ""
         amountField.text = ""
@@ -241,7 +259,10 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             
             graph.set(data: points, withLabels: labels)
             graph.layoutSubviews()
-            graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width + 40.0, y:0), animated: true)
+            
+            if graph.contentSize.width > graph.frame.width {
+                graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width + 40.0, y:0), animated: true)
+            }
         }
     }
     
@@ -264,7 +285,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         graph.shouldAdaptRange = true
         graph.shouldRangeAlwaysStartAtZero = true
         graph.clipsToBounds = true
-        graph.direction = .rightToLeft
+        graph.direction = .leftToRight
         
         graph.cornerRadius = 10
     }
@@ -286,8 +307,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         monthField.resignFirstResponder()
         amountField.resignFirstResponder()
         
-        monthField.dividerColor = UIColor.white
-        amountField.dividerColor = UIColor.white
+        monthField.tintColor = UIColor.white
+        amountField.tintColor = UIColor.white
         
         if amountField.text! != "" {
             stepper.value = Double(amountField.text!)!

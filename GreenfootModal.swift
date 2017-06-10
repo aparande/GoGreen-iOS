@@ -26,26 +26,23 @@ class GreenfootModal: NewsParserDelegate {
         }
     }
     
-    var nyTimesXmlParser: NewsXMLParser
-    var guardianXmlParser: NewsXMLParser
-    var nasaXmlParser: NewsXMLParser
+    var newsParser:NewsXMLParser
     var newsFeed = [Dictionary<String, String>]()
     
     init() {
         data = [:]
         
-        nyTimesXmlParser = NewsXMLParser()
-        guardianXmlParser = NewsXMLParser()
-        nasaXmlParser = NewsXMLParser()
-
+        newsParser = NewsXMLParser()
+        newsParser.delegate = self
         
-        nyTimesXmlParser.delegate = self
-        guardianXmlParser.delegate = self
-        nasaXmlParser.delegate = self
+        let nyTimes = URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!
+        let guardian = URL(string: "https://www.theguardian.com/environment/climate-change/rss")!
+        let nasa = URL(string: "https://climate.nasa.gov/news/rss.xml")!
+        let climateHome = URL(string: "http://feeds.feedburner.com/ClimateHome?format=xml")!
+        let climateWire = URL(string: "https://www.eenews.net/cw/rss.xml")!
         
-        nyTimesXmlParser.startParsingWithContentsOfUrl(feed: "New York Times", rssUrl: URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!)
-        guardianXmlParser.startParsingWithContentsOfUrl(feed: "The Guardian", rssUrl: URL(string: "https://www.theguardian.com/environment/climate-change/rss")!)
-        nasaXmlParser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "https://climate.nasa.gov/news/rss.xml")!)
+        let rssUrls = ["New York Times": nyTimes, "The Guardian":guardian, "NASA": nasa, "Climate Home":climateHome, "ClimateWire":climateWire]
+        newsParser.startParsingWithContentsOfUrl(rssUrls: rssUrls)
         
         prepElectric()
         prepWater()
@@ -88,16 +85,15 @@ class GreenfootModal: NewsParserDelegate {
     }
     
     private func prepWater() {
-        //https://www3.epa.gov/watersense/pubs/indoor.html
-        let waterData = GreenData(name: "Water", xLabel:"Month", yLabel:"Gallons", base:12000, averageLabel:"Gallons Per Day", icon: Icon.water_white)
+        //https://www.epa.gov/watersense/how-we-use-water
+        let waterData = GreenData(name: "Water", xLabel:"Month", yLabel:"Gallons", base:9000, averageLabel:"Gallons Per Day", icon: Icon.water_white)
         waterData.calculateEP = {
             base, point in
-            //return Int(base/1000 - point/1000)
-            let difference = Double(base-point)
-            if difference < 0 {
-                return Int(-sqrt(difference/(-10)))
+            let diff = base - point
+            if diff < 0 {
+                return Int(-1*pow(-1 * diff, 1.0/3.0))
             } else {
-                return Int(sqrt(difference/10))
+                return Int(pow(diff, 1.0/3.0))
             }
         }
         
@@ -206,12 +202,18 @@ class GreenfootModal: NewsParserDelegate {
     
     private func prepGas() {
         //https://www.eia.gov/pub/oil_gas/natural_gas/feature_articles/2010/ngtrendsresidcon/ngtrendsresidcon.pdf
-        
+        //http://www.nationmaster.com/country-info/stats/Energy/Natural-gas/Consumption-per-capita
         let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Therms", base: 700, averageLabel: "Therms per Day", icon: Icon.fire_white)
-        gasData.calculateEP = {
+        /*gasData.calculateEP = {
             base, point in
-            return Int((1 - point/base)*100)
-        }
+            
+            let diff = base - point
+            if diff < 0 {
+                return Int(-1*pow(-5*diff, 1.0/3.0))
+            } else {
+                return Int(pow(diff, 1.0/3.0))
+            }
+        } */
         
         let defaults = UserDefaults.standard
         
@@ -227,7 +229,7 @@ class GreenfootModal: NewsParserDelegate {
         data["Gas"] = gasData
     }
     
-    func parsingWasFinished(feed:String, parser:NewsXMLParser) {
+    func parsingWasFinished(parser:NewsXMLParser) {
         newsFeed.append(contentsOf: parser.arrParsedData)
 
         let formatter = DateFormatter()
@@ -300,7 +302,12 @@ class GreenData {
         
         self.calculateEP = {
             base, point in
-            return Int(base - point)
+            let diff = base - point
+            if diff < 0 {
+                return Int(-1*pow(-5 * diff, 1.0/3.0))
+            } else {
+                return Int(pow(5 * diff, 1.0/3.0))
+            }
         }
         
         bonus = {

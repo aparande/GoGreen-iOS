@@ -94,6 +94,10 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
+        
+        navigationItem.backButton.title = "Save"
+        navigationItem.backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
+        navigationItem.backButton.titleColor = UIColor.white
         navigationItem.backButton.tintColor = UIColor.white
         
         self.tableView.isHidden = true
@@ -140,22 +144,44 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillDisappear(_ animated:Bool) {
         super.viewWillDisappear(true)
+        var conversionFactor = 1.0
+        if data.dataName == "Gas" {
+            /*
+             let unitConversion:(Double) -> Double = {
+             given in
+             
+             if given < 10 {
+             return given*1000
+             } else {
+             return given
+             }
+             } */
+            
+            for (_, value) in data.getGraphData() {
+                if value > 10 {
+                    conversionFactor = 1.0
+                    break
+                } else {
+                    conversionFactor = 1000.0
+                }
+            }
+            
+            for point in addedPoints {
+                if point > 10 && conversionFactor == 1000.0 {
+                    conversionFactor = 1.0
+                    break
+                } else if conversionFactor != 1.0 {
+                    conversionFactor = 1000.0
+                }
+            }
+        }
+
         for i in 0..<addedMonths.count {
             if data.dataName == "Emissions" {
                 let point = 8.887*addedPoints[i]/Double(data.data["Average MPG"]!)
                 data.addDataPoint(month: addedMonths[i], y: point)
             } else if data.dataName == "Gas" {
-                let unitConversion:(Double) -> Double = {
-                    given in
-                    
-                    if given < 10 {
-                        return given*1000
-                    } else {
-                        return given
-                    }
-                }
-                
-                data.addDataPoint(month: addedMonths[i], y: unitConversion(addedPoints[i]))
+                data.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i])
             } else {
                 data.addDataPoint(month: addedMonths[i], y: addedPoints[i])
             }

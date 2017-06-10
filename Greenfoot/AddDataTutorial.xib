@@ -74,6 +74,8 @@
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Amount" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gIL-Xy-dmU" customClass="TextField" customModule="Material">
                     <rect key="frame" x="150" y="390" width="110" height="30"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="110" id="IvK-Ic-smE"/>
                     </constraints>
@@ -190,7 +192,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Emblem" width="256" height="256"/>
+        <image name="Emblem" width="512" height="512"/>
         <image name="Fire" width="512" height="512"/>
         <image name="Lightning_Bolt_White" width="512" height="512"/>
     </resources>

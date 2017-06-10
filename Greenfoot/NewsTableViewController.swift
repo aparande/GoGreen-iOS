@@ -111,6 +111,7 @@ class NewsTableViewCell: UITableViewCell {
         if let url = info["image"] {
             guard let image = ImageDatabase.images[url] else {
                 loaderIndicator.startAnimating()
+                self.articleImageView.image = nil
                 return
             }
             articleImageView.image = image

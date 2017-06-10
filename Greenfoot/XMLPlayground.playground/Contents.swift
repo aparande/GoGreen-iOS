@@ -3,23 +3,28 @@
 import Foundation
 
 protocol NewsParserDelegate {
-    func parsingWasFinished(feed: String, parser: NewsXMLParser)
+    func parsingWasFinished(parser: NewsXMLParser)
 }
 
 class NewsXMLParser: NSObject, XMLParserDelegate {
+    var urls:[String : URL] = [:]
     var arrParsedData = [Dictionary<String, String>]()
     var currentDataDictionary = Dictionary<String, String>()
     var currentElement = ""
     var foundCharacters = ""
     var delegate: NewsParserDelegate?
     
-    var currentFeed:String = ""
+    var parserPairs:[XMLParser:String] = [:]
     
-    func startParsingWithContentsOfUrl(feed:String, rssUrl: URL) {
-        currentFeed = feed
-        let parser = XMLParser(contentsOf: rssUrl)!
-        parser.delegate = self
-        parser.parse()
+    func startParsingWithContentsOfUrl(rssUrls: [String:URL]) {
+        for (source, url) in rssUrls {
+            let parser = XMLParser(contentsOf: url)
+            if let _ = parser {
+                parser!.delegate = self
+                parserPairs[parser!] = source
+                parser!.parse()
+            }
+        }
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName:String, namespaceURI:String?, qualifiedName qName:String?, attributes attributeDict:[String : String]) {
@@ -30,7 +35,7 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
         }
     }
     func parser(_ parser: XMLParser, foundCharacters string:String) {
-        if (currentElement == "title" && string != "Climate change | The Guardian" && string != "NYT > Environment" && string != "Global Climate Change - Vital Signs of the Planet - News RSS Feed" || currentElement == "link" || currentElement == "pubDate") {
+        if (currentElement == "title" || currentElement == "link" || currentElement == "pubDate") {
             foundCharacters += string
         }
     }
@@ -38,7 +43,7 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName: String?) {
        
         if elementName == "item" && currentDataDictionary.keys.count != 0{
-            currentDataDictionary["source"] = currentFeed
+            currentDataDictionary["source"] = parserPairs[parser]
             arrParsedData.append(currentDataDictionary)
             currentDataDictionary = [:]
             return
@@ -51,7 +56,7 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
                 foundCharacters = ""
             } else {
                 print("hi")
-                currentDataDictionary["source"] = currentFeed
+                currentDataDictionary["source"] = parserPairs[parser]
                 arrParsedData.append(currentDataDictionary)
                 currentDataDictionary = [:]
                 
@@ -60,7 +65,7 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
             }
             
             if currentDataDictionary.keys.contains("image") {
-                currentDataDictionary["source"] = currentFeed
+                currentDataDictionary["source"] = parserPairs[parser]
                 arrParsedData.append(currentDataDictionary)
                 currentDataDictionary = [:]
             }
@@ -70,7 +75,7 @@ class NewsXMLParser: NSObject, XMLParserDelegate {
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        delegate?.parsingWasFinished(feed: currentFeed, parser: self)
+        delegate?.parsingWasFinished(parser: self)
     }
 }
 
@@ -83,11 +88,18 @@ class MyClass: NewsParserDelegate {
 
         //parser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "https://climate.nasa.gov/news/rss.xml")!)
         //parser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!)
-        parser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "https://www.theguardian.com/environment/climate-change/rss")!)
+        //parser.startParsingWithContentsOfUrl(feed: "NASA", rssUrl: URL(string: "https://www.theguardian.com/environment/climate-change/rss")!)
+        
+        let guardian = URL(string: "https://www.theguardian.com/environment/climate-change/rss")!
+        let nytimes = URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!
+        let nasa = URL(string: "https://climate.nasa.gov/news/rss.xml")!
+        let climateWire = URL(string: "https://www.eenews.net/cw/rss.xml")!
+        let rssUrls = ["The Guardian": guardian, "New York Times": nytimes, "NASA":nasa, "ClimateWire":climateWire]
+        parser.startParsingWithContentsOfUrl(rssUrls: rssUrls)
         
     }
     
-    func parsingWasFinished(feed: String, parser: NewsXMLParser) {
+    func parsingWasFinished(parser: NewsXMLParser) {
         for data in parser.arrParsedData {
             print(data)
         }
