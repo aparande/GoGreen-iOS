@@ -166,7 +166,13 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return (section == 0) ? "Attributes" : "Data"
+        if section == 0 && dataKeys.count == 0 {
+            return nil
+        } else if section == 0 {
+            return "Attributes"
+        } else {
+            return "Data"
+        }
     }
     
     //The following deal with editing the table view
