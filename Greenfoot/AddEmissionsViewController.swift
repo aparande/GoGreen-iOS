@@ -25,6 +25,10 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
+        
+        navigationItem.backButton.title = "Save"
+        navigationItem.backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
+        navigationItem.backButton.titleColor = UIColor.white
         navigationItem.backButton.tintColor = UIColor.white
         
         let addButton = IconButton(image: Icon.add, tintColor: UIColor.white)
@@ -47,7 +51,7 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+        //super.viewWillDisappear(true)
         
         data.compileToGraph()
     }
@@ -87,7 +91,7 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         
         let date = keys[indexPath.row]
         let value = sectionData[date]!
-        cell.setInfo(attribute: date, data: value)
+        cell.setInfo(attribute: date, data: Double(value))
         return cell
     }
     

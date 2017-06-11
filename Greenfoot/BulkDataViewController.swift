@@ -14,8 +14,8 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet var tableView: UITableView!
     
-    @IBOutlet var monthField:UITextField!
-    @IBOutlet var pointField:UITextField!
+    @IBOutlet var monthField:TextField!
+    @IBOutlet var pointField:TextField!
     @IBOutlet weak var stepper: UIStepper!
     
     @IBOutlet weak var iconImageView: UIImageView!
@@ -34,6 +34,18 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         monthField.delegate = self
         pointField.delegate = self
+        
+        monthField.dividerActiveColor = Colors.green
+        monthField.dividerNormalColor = Colors.green
+        monthField.placeholderNormalColor = Colors.green
+        monthField.placeholderActiveColor = Colors.green
+        monthField.tintColor = Colors.green
+        
+        pointField.dividerActiveColor = Colors.green
+        pointField.dividerNormalColor = Colors.green
+        pointField.placeholderNormalColor = Colors.green
+        pointField.placeholderActiveColor = Colors.green
+        pointField.tintColor = Colors.green
         
         pointField.addTarget(self, action: #selector(textFieldDidChange(textfield:)), for: .editingChanged)
         

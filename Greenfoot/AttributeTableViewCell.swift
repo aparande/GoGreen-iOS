@@ -70,8 +70,8 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.dataTextField.resignFirstResponder()
     }
     
-    func setInfo(attribute:String, data:Int) {
-        stepper.value = Double(data)
+    func setInfo(attribute:String, data:Double) {
+        stepper.value = data
         attributeLabel.text = attribute
         dataTextField.text = "\(data)"
     }

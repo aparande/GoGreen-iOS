@@ -81,6 +81,8 @@ class GreenfootModal: NewsParserDelegate {
         electricData.attributes.append("Solar Panels")
         electricData.descriptions.append("One way to make your electric consumption greener is to install solar panels. Just 12 solar panels can power a 2000 square foot home!")
         
+        electricData.recalculateEP()
+        
         data["Electric"] = electricData
     }
     
@@ -134,6 +136,8 @@ class GreenfootModal: NewsParserDelegate {
         
         waterData.attributes.append("Bathroom Frequency")
         waterData.descriptions.append("Although it may not seem like it, each time you flush the toilet, a substantial amount of water is used. The average American flushes the toilet 10 times a day.")
+        
+        waterData.recalculateEP()
         
         data["Water"] = waterData
     }
@@ -197,23 +201,15 @@ class GreenfootModal: NewsParserDelegate {
         co2Data.attributes.append("Walking/Biking")
         co2Data.descriptions.append("The more you can walk or bike to places, the less your carbon footprint will be. The average American should be walking 30 minutes each day.")
         
+        co2Data.recalculateEP()
+        
         data["Emissions"] = co2Data
     }
     
     private func prepGas() {
         //https://www.eia.gov/pub/oil_gas/natural_gas/feature_articles/2010/ngtrendsresidcon/ngtrendsresidcon.pdf
         //http://www.nationmaster.com/country-info/stats/Energy/Natural-gas/Consumption-per-capita
-        let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Therms", base: 700, averageLabel: "Therms per Day", icon: Icon.fire_white)
-        /*gasData.calculateEP = {
-            base, point in
-            
-            let diff = base - point
-            if diff < 0 {
-                return Int(-1*pow(-5*diff, 1.0/3.0))
-            } else {
-                return Int(pow(diff, 1.0/3.0))
-            }
-        } */
+        let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Therms", base: 61, averageLabel: "Therms per Day", icon: Icon.fire_white)
         
         let defaults = UserDefaults.standard
         
@@ -225,6 +221,8 @@ class GreenfootModal: NewsParserDelegate {
         
         gasData.attributes.append("General")
         gasData.descriptions.append("Although it is cleaner burning than gasoline and other fossil fuels, natural gas, or methane, is a strong greenhouse gas. Leakage while mining it, as well as carbon dioxide released while burning it, contribute to the changing climate. The average American uses 0.7 Mcf of natural gas per month, which is the same as 700 Ccf or 700 Therms")
+        
+        gasData.recalculateEP()
         
         data["Gas"] = gasData
     }

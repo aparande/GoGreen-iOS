@@ -134,6 +134,17 @@ class NewsViewController: UIViewController {
         
         webView.loadRequest(URLRequest(url: newsUrl))
         
+        let shareButton = IconButton(image: Icon.cm.share, tintColor: UIColor.white)
+        shareButton.addTarget(self, action: #selector(share), for: .touchUpInside)
+        navigationItem.rightViews = [shareButton]
+        
         navigationItem.backButton.tintColor = UIColor.white
+    }
+    
+    func share() {
+        let message = "Check out this article I found using Greenfoot: "+newsUrl.absoluteString
+        let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
+        activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
+        self.present(activityView, animated: true, completion: nil)
     }
 }

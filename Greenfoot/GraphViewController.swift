@@ -143,8 +143,15 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         attributeFabItem.fabButton.backgroundColor = Colors.green
         attributeFabItem.fabButton.addTarget(self, action: #selector(attributeAdd), for: .touchUpInside)
         
+        let shareFabItem = FABMenuItem()
+        shareFabItem.title = "Share"
+        shareFabItem.fabButton.image = Icon.cm.share
+        shareFabItem.fabButton.tintColor = .white
+        shareFabItem.fabButton.backgroundColor = Colors.green
+        shareFabItem.fabButton.addTarget(self, action: #selector(share), for: .touchUpInside)
+        
         fabMenu.fabButton = fabButton
-        fabMenu.fabMenuItems = [addFabItem, attributeFabItem]
+        fabMenu.fabMenuItems = [addFabItem, attributeFabItem, shareFabItem]
         
         
         self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(24).right(24)
@@ -169,6 +176,13 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fabMenu.fabButton?.motion(.rotationAngle(0))
         let advc = AttributeTableViewController(data: data)
         navigationController?.pushViewController(advc, animated: true)
+    }
+    
+    func share() {
+        let message = "I earned "+energyPointsLabel.text!+" Energy Points on Greenfoot from "+data.dataName+"! How many do you have?"
+        let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
+        activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
+        self.present(activityView, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

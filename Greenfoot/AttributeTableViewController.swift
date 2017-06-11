@@ -160,7 +160,7 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             formatter.dateFormat = "MM/yy"
             let month = months[indexPath.row]
             
-            cell.setInfo(attribute: formatter.string(from: month), data: Int(data.getGraphData()[month]!))
+            cell.setInfo(attribute: formatter.string(from: month), data: data.getGraphData()[month]!)
             return cell
         }
     }
@@ -186,9 +186,17 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let key = months.remove(at: indexPath.row)
-            self.data.removeDataPoint(month: key)
-            tableView.deleteRows(at: [indexPath], with: .right)
+            let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
+                _ in
+                let key = self.months.remove(at: indexPath.row)
+                self.data.removeDataPoint(month: key)
+                self.tableView.deleteRows(at: [indexPath], with: .right)
+            }))
+            
+            alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
+            
         }
     }
 }
