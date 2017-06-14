@@ -187,15 +187,26 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
         }
-
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
         for i in 0..<addedMonths.count {
             if data.dataName == "Emissions" {
                 let point = 8.887*addedPoints[i]/Double(data.data["Average MPG"]!)
                 data.addDataPoint(month: addedMonths[i], y: point)
+            
+                let date = formatter.string(from: addedMonths[i])
+                data.addToServer(month: date, point: point)
             } else if data.dataName == "Gas" {
                 data.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i])
+                
+                let date = formatter.string(from: addedMonths[i])
+                data.addToServer(month: date, point: conversionFactor * addedPoints[i])
             } else {
                 data.addDataPoint(month: addedMonths[i], y: addedPoints[i])
+                
+                let date = formatter.string(from: addedMonths[i])
+                data.addToServer(month: date, point: addedPoints[i])
             }
         }
     }

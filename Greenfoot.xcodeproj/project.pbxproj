@@ -17,6 +17,7 @@
 		1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C73B51EDB593C006A0003 /* EditDataCell.xib */; };
 		1F6E2EED1EBE878700445D41 /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6E2EEC1EBE878700445D41 /* NewsCell.xib */; };
 		1F6E2EEF1EBE8EBA00445D41 /* ImageDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */; };
+		1F6EF2881EF07903000EF403 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6EF2871EF07903000EF403 /* CoreLocation.framework */; };
 		1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F70CCBB1E105D0600AD351A /* AppDelegate.swift */; };
 		1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */; };
 		1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCBF1E105D0600AD351A /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 		1F6C73B51EDB593C006A0003 /* EditDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDataCell.xib; sourceTree = "<group>"; };
 		1F6E2EEC1EBE878700445D41 /* NewsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloadOperations.swift; sourceTree = "<group>"; };
+		1F6EF2871EF07903000EF403 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1F70CCB81E105D0600AD351A /* Greenfoot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Greenfoot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F70CCBB1E105D0600AD351A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F6EF2881EF07903000EF403 /* CoreLocation.framework in Frameworks */,
 				28D5E3560046B69D741C08F5 /* Pods_Greenfoot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -157,6 +160,7 @@
 		E473182E0F49E8B1125128CF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1F6EF2871EF07903000EF403 /* CoreLocation.framework */,
 				88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */,
 			);
 			name = Frameworks;

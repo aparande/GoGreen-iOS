@@ -8,12 +8,13 @@
 
 import UIKit
 import Material
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
-
+    let locationManager = CLLocationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -38,8 +39,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window!.rootViewController = pager
         }
         
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
         window!.makeKeyAndVisible()
+        
         return true
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error while updating location " + error.localizedDescription)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        CLGeocoder().reverseGeocodeLocation(manager.location!, completionHandler: {
+            (placemarks, error) in
+            if error != nil {
+                print("Reverse geocoder failed with error "+error!.localizedDescription)
+                return
+            }
+            if placemarks?.count != 0 {
+                let pm = placemarks![0] as CLPlacemark
+                self.saveLocationInfo(placemark: pm)
+            } else {
+                print("Problem with the data received")
+            }
+        })
+    }
+    
+    func saveLocationInfo(placemark: CLPlacemark) {
+        locationManager.stopUpdatingLocation()
+        
+        guard let _ = GreenfootModal.sharedInstance.locality else {
+            var localityData:[String:String] = [:]
+            localityData["City"] = placemark.locality
+            localityData["State"] = placemark.administrativeArea
+            localityData["Country"] = placemark.country
+            GreenfootModal.sharedInstance.locality = localityData
+            print("Saved locale")
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/yy"
+            for (_, value) in GreenfootModal.sharedInstance.data {
+                for (month, amount) in value.getGraphData() {
+                    let date = formatter.string(from: month)
+                    if !value.uploadedData.contains(date) {
+                        value.addToServer(month: date, point: amount)
+                    }
+                }
+            }
+            return
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -55,6 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for (key, value) in modal.data {
             let data = value.data
             let bonusAttrs = value.bonusDict
+            let uploaded = value.uploadedData
+            
             var serializableGraphData:[String: Double] = [:]
             
             for (key, value) in value.getGraphData() {
@@ -64,11 +118,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(data, forKey: key+":data")
             defaults.set(bonusAttrs, forKey: key+":bonus")
             defaults.set(serializableGraphData, forKey: key+":graph")
+            defaults.set(uploaded, forKey: key+":uploaded")
             
             if let emissions = value as? EmissionsData {
                 emissions.save(defaults: defaults)
             }
 
+        }
+        
+        if let locality = modal.locality {
+            defaults.set(locality, forKey:"LocalityData")
         }
         
         defaults.synchronize()

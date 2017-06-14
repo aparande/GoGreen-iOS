@@ -12,7 +12,7 @@ import Material
 class SummaryViewController: UIViewController {
     
     @IBOutlet weak var pointLabel:UILabel!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

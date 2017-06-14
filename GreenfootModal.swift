@@ -29,8 +29,24 @@ class GreenfootModal: NewsParserDelegate {
     var newsParser:NewsXMLParser
     var newsFeed = [Dictionary<String, String>]()
     
+    var locality:[String:String]?
+    let profId:String
+    
     init() {
         data = [:]
+        
+        let defaults = UserDefaults.standard
+        
+        if let uuid = defaults.string(forKey: "ProfId") {
+            profId = uuid
+        } else {
+            profId = UUID().uuidString
+            defaults.set(profId, forKey: "ProfId")
+        }
+        
+        if let locale_data = defaults.dictionary(forKey: "LocalityData") as? [String:String] {
+            locality = locale_data
+        }
         
         newsParser = NewsXMLParser()
         newsParser.delegate = self
@@ -73,6 +89,10 @@ class GreenfootModal: NewsParserDelegate {
             for (key, value) in serializableGraphData {
                 electricData.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
             }
+        }
+        
+        if let data = defaults.array(forKey: "Electric:uploaded") {
+            electricData.uploadedData = data as! [String]
         }
         
         electricData.attributes.append("General")
@@ -123,6 +143,10 @@ class GreenfootModal: NewsParserDelegate {
             for (key, value) in serializableGraphData {
                 waterData.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
             }
+        }
+        
+        if let data = defaults.array(forKey: "Water:uploaded") {
+            waterData.uploadedData = data as! [String]
         }
         
         waterData.attributes.append("General")
@@ -189,6 +213,10 @@ class GreenfootModal: NewsParserDelegate {
             }
         }
         
+        if let data = defaults.array(forKey: "Emissions:uploaded") {
+            co2Data.uploadedData = data as! [String]
+        }
+        
         co2Data.attributes.append("General")
         co2Data.descriptions.append("We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg")
         
@@ -217,6 +245,10 @@ class GreenfootModal: NewsParserDelegate {
             for (key, value) in serializableGraphData {
                 gasData.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
             }
+        }
+        
+        if let data = defaults.array(forKey: "Gas:uploaded") {
+            gasData.uploadedData = data as! [String]
         }
         
         gasData.attributes.append("General")
@@ -257,6 +289,8 @@ class GreenData {
     var bonus: (Int, Int) -> Int
 
     private var graphData:[Date: Double]
+    var uploadedData:[String]
+    
     var averageValue:Double {
         get {
             var sum = 0.0
@@ -290,6 +324,7 @@ class GreenData {
         
         attributes = []
         descriptions = []
+        uploadedData = []
         
         dataName = name
         graphData = [:]
@@ -342,6 +377,54 @@ class GreenData {
         for x in graphData.keys {
             energyPoints += calculateEP(baseline, graphData[x]!)
         }
+    }
+    
+    func addToServer(month:String, point:Double) {
+        let modal = GreenfootModal.sharedInstance
+        guard let locality = modal.locality else {
+            return
+        }
+        let base = URL(string: "http://localhost:8000")!
+        //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
+        let url = URL(string: "input", relativeTo: base)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        
+        let bodyData = "profId=\(modal.profId)&dataType=\(dataName)&month=\(month)&amount=\(Int(point))&city=\(locality["City"]!)&state=\(locality["State"]!)&country=\(locality["Country"]!)"
+        request.httpBody = bodyData.data(using: String.Encoding.utf8)
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: {
+            (data, response, error) in
+            
+            if error != nil {
+                guard let description = error? .localizedDescription else {
+                    return
+                }
+                print(description)
+                return
+            }
+            
+            if let HTTPResponse = response as? HTTPURLResponse {
+                let statusCode = HTTPResponse.statusCode
+                if statusCode != 200 {
+                    print("Couldn't connect error because status not 200 its \(statusCode)")
+                }
+            }
+            
+            do  {
+                let retVal = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                
+                print(retVal!)
+                if retVal!["status"] as! String == "Success" {
+                    self.uploadedData.append(month)
+                }
+            } catch _ {
+                print("Failed decoding JSON")
+            }
+        })
+        task.resume()
     }
 }
 
