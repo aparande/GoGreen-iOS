@@ -651,9 +651,9 @@
                             <constraint firstItem="44R-3Z-8H8" firstAttribute="leading" secondItem="PUy-3a-8QJ" secondAttribute="leadingMargin" constant="8" id="03T-tj-2ex"/>
                             <constraint firstItem="xkQ-hD-mvX" firstAttribute="leading" secondItem="JP2-Ig-fUo" secondAttribute="trailing" constant="8" symbolic="YES" id="0pE-dC-Cfc"/>
                             <constraint firstItem="44R-3Z-8H8" firstAttribute="centerY" secondItem="znk-T7-KOg" secondAttribute="centerY" id="1fz-6o-JTl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hTB-gX-6Oc" secondAttribute="trailing" id="6DK-jL-W2w"/>
                             <constraint firstItem="hTB-gX-6Oc" firstAttribute="leading" secondItem="xkQ-hD-mvX" secondAttribute="trailing" constant="5" id="6eT-6a-Iwm"/>
                             <constraint firstItem="aRE-sn-4tb" firstAttribute="leading" secondItem="PUy-3a-8QJ" secondAttribute="leadingMargin" constant="2" id="8zz-gN-aOL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hTB-gX-6Oc" secondAttribute="trailing" id="97p-KI-vWm"/>
                             <constraint firstItem="xkQ-hD-mvX" firstAttribute="bottom" secondItem="hTB-gX-6Oc" secondAttribute="bottom" id="99M-Co-BOv"/>
                             <constraint firstItem="44R-3Z-8H8" firstAttribute="height" secondItem="znk-T7-KOg" secondAttribute="height" id="Cc0-MK-AtB"/>
                             <constraint firstItem="znk-T7-KOg" firstAttribute="top" secondItem="77S-1O-WpN" secondAttribute="top" id="FvF-u3-RGG"/>
