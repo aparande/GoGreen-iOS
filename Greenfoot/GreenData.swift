@@ -123,18 +123,43 @@ class GreenData {
     
     func addToServer(month:String, point:Double) {
         //This is the check to see if the user wants to share their data
-        let modal = GreenfootModal.sharedInstance
-        guard let locality = modal.locality else {
+        guard let locality = GreenfootModal.sharedInstance.locality else {
             return
         }
+        
+        var parameters:[String:Any] = ["month":month, "amount":Int(point)]
+        parameters["profId"] = GreenfootModal.sharedInstance.profId
+        parameters["dataType"] = dataName
+        
+        parameters["city"] = locality["City"]!
+        parameters["state"] = locality["State"]
+        parameters["country"] = locality["Country"]
+        
+        uploadToServer(atEndpoint: "input", withParameters: parameters)
+    }
+    
+    func updateOnServer(month:String, point: Double) {
+        //This is the check to see if the user wants to share their data
+        guard let _ = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["month":month, "amount":Int(point)]
+        parameters["profId"] = GreenfootModal.sharedInstance.profId
+        parameters["dataType"] = dataName
+        
+        uploadToServer(atEndpoint: "updateDataPoint", withParameters: parameters)
+    }
+    
+    private func uploadToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any]) {
         let base = URL(string: "http://localhost:8000")!
         //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
-        let url = URL(string: "input", relativeTo: base)!
+        let url = URL(string: endpoint, relativeTo: base)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
         
-        let bodyData = "profId=\(modal.profId)&dataType=\(dataName)&month=\(month)&amount=\(Int(point))&city=\(locality["City"]!)&state=\(locality["State"]!)&country=\(locality["Country"]!)"
+        let bodyData = bodyFromParameters(parameters: parameters)
         request.httpBody = bodyData.data(using: String.Encoding.utf8)
         
         let session = URLSession.shared
@@ -161,8 +186,10 @@ class GreenData {
                 
                 print(retVal!)
                 if retVal!["status"] as! String == "Success" {
-                    self.uploadedData.append(month)
-                    CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: point, uploaded: true)
+                    if let month = parameters["month"] as? String {
+                        self.uploadedData.append(month)
+                        CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
+                    }
                 }
             } catch _ {
                 print("Failed decoding JSON")
@@ -171,55 +198,13 @@ class GreenData {
         task.resume()
     }
     
-    func updateOnServer(month:String, point: Double) {
-        //This is the check to see if the user wants to share their data
-        let modal = GreenfootModal.sharedInstance
-        guard let _ = modal.locality else {
-            return
+    private func bodyFromParameters(parameters:[String:Any]) -> String {
+        var bodyData = ""
+        for (key, value) in parameters {
+            bodyData.append(key+"\(value)&")
         }
-        
-        let base = URL(string: "http://localhost:8000")!
-        //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
-        let url = URL(string: "updateDataPoint", relativeTo: base)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        
-        let bodyData = "profId=\(modal.profId)&dataType=\(dataName)&month=\(month)&amount=\(Int(point))"
-        request.httpBody = bodyData.data(using: String.Encoding.utf8)
-        
-        let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: {
-            (data, response, error) in
-            
-            if error != nil {
-                guard let description = error? .localizedDescription else {
-                    return
-                }
-                print(description)
-                return
-            }
-            
-            if let HTTPResponse = response as? HTTPURLResponse {
-                let statusCode = HTTPResponse.statusCode
-                if statusCode != 200 {
-                    print("Couldn't connect error because status not 200 its \(statusCode)")
-                }
-            }
-            
-            do  {
-                let retVal = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                
-                print(retVal!)
-                if retVal!["status"] as! String == "Success" {
-                    self.uploadedData.append(month)
-                    CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: point, uploaded: true)
-                }
-            } catch _ {
-                print("Failed decoding JSON")
-            }
-        })
-        task.resume()
+        bodyData.remove(at: bodyData.index(before: bodyData.endIndex))
+        return bodyData
     }
 }
 
@@ -336,7 +321,7 @@ class EmissionsData: GreenData {
                     uploadedData.remove(at: index)
                     updateOnServer(month: key, point: co2)
                 } else {
-                    self.data.addToServer(month: key, point: co2)
+                    addToServer(month: key, point: co2)
                 }
             } else {
                 addDataPoint(month: date, y: co2, save:true)
