@@ -201,7 +201,7 @@ class GreenData {
     private func bodyFromParameters(parameters:[String:Any]) -> String {
         var bodyData = ""
         for (key, value) in parameters {
-            bodyData.append(key+"\(value)&")
+            bodyData.append(key+"=\(value)&")
         }
         bodyData.remove(at: bodyData.index(before: bodyData.endIndex))
         return bodyData
