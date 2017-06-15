@@ -183,10 +183,30 @@ class EmissionsData: GreenData {
     init() {
         let defaults = UserDefaults.standard
         
-        if let odometerData = defaults.dictionary(forKey: "CarData") as? [String:[String:Int]] {
-            carData = odometerData
-        } else {
-            carData = [:]
+        carData = [:]
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName:"Car")
+            
+            do {
+                let managedObjects = try managedContext.fetch(fetchRequest)
+                
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM/yy"
+                for managedObj in managedObjects {
+                    let name = managedObj.value(forKeyPath: "name") as! String
+                    let amount = managedObj.value(forKeyPath: "amount") as! Int
+                    let month = managedObj.value(forKeyPath: "month") as! String
+                    
+                    if let _ = carData[name] {
+                        carData[name]![month] = amount
+                    } else {
+                        carData[name] = [month:amount]
+                    }
+                }
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
         }
         
         if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:Int] {
@@ -198,11 +218,6 @@ class EmissionsData: GreenData {
         //https://www.epa.gov/sites/production/files/2016-02/documents/420f14040a.pdf
         //4.7 metric tons/12 = 390 kg
         super.init(name: "Emissions", xLabel: "Month", yLabel: "kg", base: 390, averageLabel: "Kilograms per Day", icon: Icon.smoke_white)
-    }
-    
-    func save(defaults: UserDefaults) {
-        defaults.set(carMileage, forKey: "MilesData")
-        defaults.set(carData, forKey: "CarData")
     }
     
     func compileToGraph() {
@@ -262,7 +277,27 @@ class EmissionsData: GreenData {
             if let _ = getGraphData()[date] {
                 editDataPoint(month: date, y: co2)
             } else {
-                addDataPoint(month: date, y: co2, save:false)
+                addDataPoint(month: date, y: co2, save:true)
+            }
+        }
+    }
+    
+    private func saveDataPoint(car:String, month: String, amount: Int16) {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            let entity = NSEntityDescription.entity(forEntityName: "Car", in: managedContext)!
+            
+            let point = NSManagedObject(entity: entity, insertInto: managedContext)
+            
+            point.setValue(month, forKeyPath: "month")
+            point.setValue(amount, forKeyPath: "amount")
+            point.setValue(car, forKey: "name")
+            
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
             }
         }
     }

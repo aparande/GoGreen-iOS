@@ -192,15 +192,7 @@ class GreenfootModal: NewsParserDelegate {
             co2Data.data["Average MPG"] = 0
         }
         
-        if let serializableGraphData = defaults.object(forKey: "Emissions:graph") as? [String:Double] {
-            for (key, value) in serializableGraphData {
-                co2Data.addDataPoint(month: Date.stringToLongDate(date: key), y: value, save: false)
-            }
-        }
-        
-        if let data = defaults.array(forKey: "Emissions:uploaded") {
-            co2Data.uploadedData = data as! [String]
-        }
+        CoreDataHelper.fetch(data: co2Data)
         
         co2Data.attributes.append("General")
         co2Data.descriptions.append("We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg")

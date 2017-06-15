@@ -138,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             defaults.set(bonusAttrs, forKey: key+":bonus")
             
             if let emissions = value as? EmissionsData {
-                emissions.save(defaults: defaults)
+                defaults.set(emissions.carMileage, forKey: "MilesData")
             }
 
         }
