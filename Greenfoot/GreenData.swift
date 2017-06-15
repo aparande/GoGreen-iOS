@@ -122,6 +122,7 @@ class GreenData {
     }
     
     func addToServer(month:String, point:Double) {
+        //This is the check to see if the user wants to share their data
         let modal = GreenfootModal.sharedInstance
         guard let locality = modal.locality else {
             return
@@ -134,6 +135,57 @@ class GreenData {
         
         
         let bodyData = "profId=\(modal.profId)&dataType=\(dataName)&month=\(month)&amount=\(Int(point))&city=\(locality["City"]!)&state=\(locality["State"]!)&country=\(locality["Country"]!)"
+        request.httpBody = bodyData.data(using: String.Encoding.utf8)
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: {
+            (data, response, error) in
+            
+            if error != nil {
+                guard let description = error? .localizedDescription else {
+                    return
+                }
+                print(description)
+                return
+            }
+            
+            if let HTTPResponse = response as? HTTPURLResponse {
+                let statusCode = HTTPResponse.statusCode
+                if statusCode != 200 {
+                    print("Couldn't connect error because status not 200 its \(statusCode)")
+                }
+            }
+            
+            do  {
+                let retVal = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                
+                print(retVal!)
+                if retVal!["status"] as! String == "Success" {
+                    self.uploadedData.append(month)
+                    CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: point, uploaded: true)
+                }
+            } catch _ {
+                print("Failed decoding JSON")
+            }
+        })
+        task.resume()
+    }
+    
+    func updateOnServer(month:String, point: Double) {
+        //This is the check to see if the user wants to share their data
+        let modal = GreenfootModal.sharedInstance
+        guard let _ = modal.locality else {
+            return
+        }
+        
+        let base = URL(string: "http://localhost:8000")!
+        //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
+        let url = URL(string: "updateDataPoint", relativeTo: base)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        
+        let bodyData = "profId=\(modal.profId)&dataType=\(dataName)&month=\(month)&amount=\(Int(point))"
         request.httpBody = bodyData.data(using: String.Encoding.utf8)
         
         let session = URLSession.shared
@@ -276,8 +328,19 @@ class EmissionsData: GreenData {
             let co2 = co2Emissions(Double(value), self.data["Average MPG"]!)
             if let _ = getGraphData()[date] {
                 editDataPoint(month: date, y: co2)
+                
+                //Mark the point as un-uploaded in the database always
+                CoreDataHelper.update(data: self, month: date, updatedValue: co2, uploaded: false)
+                //If the data is uploaded, update it, else, uploade it
+                if let index = uploadedData.index(of: key) {
+                    uploadedData.remove(at: index)
+                    updateOnServer(month: key, point: co2)
+                } else {
+                    self.data.addToServer(month: key, point: co2)
+                }
             } else {
                 addDataPoint(month: date, y: co2, save:true)
+                addToServer(month: key, point: co2)
             }
         }
     }
