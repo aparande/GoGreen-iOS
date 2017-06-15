@@ -193,17 +193,17 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         for i in 0..<addedMonths.count {
             if data.dataName == "Emissions" {
                 let point = 8.887*addedPoints[i]/Double(data.data["Average MPG"]!)
-                data.addDataPoint(month: addedMonths[i], y: point)
+                data.addDataPoint(month: addedMonths[i], y: point, save: false)
             
                 let date = formatter.string(from: addedMonths[i])
                 data.addToServer(month: date, point: point)
             } else if data.dataName == "Gas" {
-                data.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i])
+                data.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i], save:false)
                 
                 let date = formatter.string(from: addedMonths[i])
                 data.addToServer(month: date, point: conversionFactor * addedPoints[i])
             } else {
-                data.addDataPoint(month: addedMonths[i], y: addedPoints[i])
+                data.addDataPoint(month: addedMonths[i], y: addedPoints[i], save: true)
                 
                 let date = formatter.string(from: addedMonths[i])
                 data.addToServer(month: date, point: addedPoints[i])

@@ -95,7 +95,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         if addedPoints.count != 0 {
             for i in 0...addedMonths.count-1 {
-                greenData.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i])
+                greenData.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i], save: true)
             }
         }
     }

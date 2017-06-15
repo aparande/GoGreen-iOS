@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import CoreLocation
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -93,6 +94,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             return
         }
     }
+    
+    // CORE-DATA
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "greenfoot")
+        container.loadPersistentStores(completionHandler: {
+            (storeDescription, error) in
+            
+            if let error = error as NSError? {
+                print(error)
+            }
+        })
+        return container
+    }()
+    
+    func saveContext() {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                print(nserror)
+            }
+        }
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -107,18 +133,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         for (key, value) in modal.data {
             let data = value.data
             let bonusAttrs = value.bonusDict
-            let uploaded = value.uploadedData
-            
-            var serializableGraphData:[String: Double] = [:]
-            
-            for (key, value) in value.getGraphData() {
-                serializableGraphData[Date.longDateToString(date: key)] = value
-            }
             
             defaults.set(data, forKey: key+":data")
             defaults.set(bonusAttrs, forKey: key+":bonus")
-            defaults.set(serializableGraphData, forKey: key+":graph")
-            defaults.set(uploaded, forKey: key+":uploaded")
             
             if let emissions = value as? EmissionsData {
                 emissions.save(defaults: defaults)

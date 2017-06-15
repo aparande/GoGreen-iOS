@@ -35,6 +35,9 @@
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
 		1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */; };
 		1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D31EF19A2A007F7835 /* GreenData.swift */; };
+		1FC291D61EF1C235007F7835 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC291D51EF1C235007F7835 /* CoreData.framework */; };
+		1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
+		1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */; };
 		1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */; };
 		28D5E3560046B69D741C08F5 /* Pods_Greenfoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */; };
 /* End PBXBuildFile section */
@@ -69,6 +72,9 @@
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		1FC291D31EF19A2A007F7835 /* GreenData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenData.swift; sourceTree = "<group>"; };
+		1FC291D51EF1C235007F7835 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = greenfoot.xcdatamodel; sourceTree = "<group>"; };
+		1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		1FCB0FE71E2B3684006463AE /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
 		1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputToolbar.swift; sourceTree = "<group>"; };
 		6AC0A5254D86C03173AE76C5 /* Pods-Greenfoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Greenfoot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot.debug.xcconfig"; sourceTree = "<group>"; };
@@ -81,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FC291D61EF1C235007F7835 /* CoreData.framework in Frameworks */,
 				1F6EF2881EF07903000EF403 /* CoreLocation.framework in Frameworks */,
 				28D5E3560046B69D741C08F5 /* Pods_Greenfoot.framework in Frameworks */,
 			);
@@ -110,13 +117,11 @@
 		1F70CCBA1E105D0600AD351A /* Greenfoot */ = {
 			isa = PBXGroup;
 			children = (
-				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
+				1FC291DB1EF1CDB6007F7835 /* Modal */,
 				1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */,
 				1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */,
 				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
-				1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */,
 				1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */,
-				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
 				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
 				1F70CCBB1E105D0600AD351A /* AppDelegate.swift */,
 				1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */,
@@ -141,6 +146,18 @@
 			path = Greenfoot;
 			sourceTree = "<group>";
 		};
+		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
+				1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */,
+				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
+				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
+				1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */,
+			);
+			name = Modal;
+			sourceTree = "<group>";
+		};
 		1FC859BA1E147F4C007F7393 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +180,7 @@
 		E473182E0F49E8B1125128CF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FC291D51EF1C235007F7835 /* CoreData.framework */,
 				1F6EF2871EF07903000EF403 /* CoreLocation.framework */,
 				88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */,
 			);
@@ -304,6 +322,7 @@
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */,
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,
+				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
@@ -313,6 +332,7 @@
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F8CAF321EBAD12F005945EA /* NewsXMLParser.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,
+				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
 				1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */,
 				1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */,
 				1F6E2EEF1EBE8EBA00445D41 /* ImageDownloadOperations.swift in Sources */,
@@ -490,6 +510,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */,
+			);
+			currentVersion = 1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */;
+			path = greenfoot.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1F70CCB01E105D0600AD351A /* Project object */;
 }

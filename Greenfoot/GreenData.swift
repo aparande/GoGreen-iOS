@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Material
+import CoreData
 
 class GreenData {
     var dataName:String
@@ -86,9 +87,13 @@ class GreenData {
         }
     }
     
-    func addDataPoint(month:Date, y:Double) {
+    func addDataPoint(month:Date, y:Double, save: Bool) {
         graphData[month] = y
         energyPoints += calculateEP(baseline, y)
+        
+        if save {
+            CoreDataHelper.save(data: self, month: month, amount: y)
+        }
     }
     
     func getGraphData() -> [Date: Double] {
@@ -156,6 +161,7 @@ class GreenData {
                 print(retVal!)
                 if retVal!["status"] as! String == "Success" {
                     self.uploadedData.append(month)
+                    CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: point, uploaded: true)
                 }
             } catch _ {
                 print("Failed decoding JSON")
@@ -256,7 +262,7 @@ class EmissionsData: GreenData {
             if let _ = getGraphData()[date] {
                 editDataPoint(month: date, y: co2)
             } else {
-                addDataPoint(month: date, y: co2)
+                addDataPoint(month: date, y: co2, save:false)
             }
         }
     }

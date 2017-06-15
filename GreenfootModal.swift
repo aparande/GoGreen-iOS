@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Material
+import CoreData
 
 class GreenfootModal: NewsParserDelegate {
     static let sharedInstance = GreenfootModal()
@@ -84,16 +85,8 @@ class GreenfootModal: NewsParserDelegate {
         if let data = defaults.dictionary(forKey: "Electric:data") {
             electricData.data = data as! [String:Int]
         }
-
-        if let serializableGraphData = defaults.object(forKey: "Electric:graph") as? [String:Double] {
-            for (key, value) in serializableGraphData {
-                electricData.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
-            }
-        }
         
-        if let data = defaults.array(forKey: "Electric:uploaded") {
-            electricData.uploadedData = data as! [String]
-        }
+        CoreDataHelper.fetch(data: electricData)
         
         electricData.attributes.append("General")
         electricData.descriptions.append("Electric consumption is one of the largest contributers to an individuals carbon footprint. The average American consums 901 Kilowatt-Hours of Energy per month. You can find the Kilowatt-Hour consumption at the bottom of your electricity bill.")
@@ -139,15 +132,7 @@ class GreenfootModal: NewsParserDelegate {
             waterData.data = data as! [String:Int]
         }
         
-        if let serializableGraphData = defaults.object(forKey: "Water:graph") as? [String:Double] {
-            for (key, value) in serializableGraphData {
-                waterData.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
-            }
-        }
-        
-        if let data = defaults.array(forKey: "Water:uploaded") {
-            waterData.uploadedData = data as! [String]
-        }
+        CoreDataHelper.fetch(data: waterData)
         
         waterData.attributes.append("General")
         waterData.descriptions.append("An easy resource to waste is water because we use it so much in our daily lives. The average amount of water the average American uses in a month is 12,000 gallons. Reducing water consumption is another step you can take towards being green.")
@@ -209,7 +194,7 @@ class GreenfootModal: NewsParserDelegate {
         
         if let serializableGraphData = defaults.object(forKey: "Emissions:graph") as? [String:Double] {
             for (key, value) in serializableGraphData {
-                co2Data.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
+                co2Data.addDataPoint(month: Date.stringToLongDate(date: key), y: value, save: false)
             }
         }
         
@@ -239,17 +224,7 @@ class GreenfootModal: NewsParserDelegate {
         //http://www.nationmaster.com/country-info/stats/Energy/Natural-gas/Consumption-per-capita
         let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Therms", base: 61, averageLabel: "Therms per Day", icon: Icon.fire_white)
         
-        let defaults = UserDefaults.standard
-        
-        if let serializableGraphData = defaults.object(forKey: "Gas:graph") as? [String:Double] {
-            for (key, value) in serializableGraphData {
-                gasData.addDataPoint(month: Date.stringToLongDate(date: key), y: value)
-            }
-        }
-        
-        if let data = defaults.array(forKey: "Gas:uploaded") {
-            gasData.uploadedData = data as! [String]
-        }
+        CoreDataHelper.fetch(data: gasData)
         
         gasData.attributes.append("General")
         gasData.descriptions.append("Although it is cleaner burning than gasoline and other fossil fuels, natural gas, or methane, is a strong greenhouse gas. Leakage while mining it, as well as carbon dioxide released while burning it, contribute to the changing climate. The average American uses 0.7 Mcf of natural gas per month, which is the same as 700 Ccf or 700 Therms")
