@@ -108,6 +108,10 @@ class GreenData {
     func removeDataPoint(month:Date) {
         graphData.removeValue(forKey: month)
         recalculateEP()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        deleteFromServer(month: formatter.string(from: month))
     }
     
     func recalculateEP() {
@@ -135,7 +139,14 @@ class GreenData {
         parameters["state"] = locality["State"]
         parameters["country"] = locality["Country"]
         
-        uploadToServer(atEndpoint: "input", withParameters: parameters)
+        let completion = {
+            if let month = parameters["month"] as? String {
+                self.uploadedData.append(month)
+                CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
+            }
+        }
+        
+        connectToServer(atEndpoint: "input", withParameters: parameters, completion: completion)
     }
     
     func updateOnServer(month:String, point: Double) {
@@ -148,10 +159,34 @@ class GreenData {
         parameters["profId"] = GreenfootModal.sharedInstance.profId
         parameters["dataType"] = dataName
         
-        uploadToServer(atEndpoint: "updateDataPoint", withParameters: parameters)
+        let completion = {
+            if let month = parameters["month"] as? String {
+                self.uploadedData.append(month)
+                CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
+            }
+        }
+        
+        connectToServer(atEndpoint: "updateDataPoint", withParameters: parameters, completion: completion)
     }
     
-    private func uploadToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any]) {
+    func deleteFromServer(month: String) {
+        //This is the check to see if the user wants to share their data
+        guard let _ = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["month":month]
+        parameters["profId"] = GreenfootModal.sharedInstance.profId
+        parameters["dataType"] = dataName
+        
+        let completion = {
+            print("Successfully deleted from server")
+        }
+        
+        connectToServer(atEndpoint: "deleteDataPoint", withParameters: parameters, completion: completion)
+    }
+    
+    private func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (Void) -> Void) {
         let base = URL(string: "http://localhost:8000")!
         //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
         let url = URL(string: endpoint, relativeTo: base)!
@@ -186,10 +221,8 @@ class GreenData {
                 
                 print(retVal!)
                 if retVal!["status"] as! String == "Success" {
-                    if let month = parameters["month"] as? String {
-                        self.uploadedData.append(month)
-                        CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
-                    }
+                    completion()
+                    return
                 }
             } catch _ {
                 print("Failed decoding JSON")
