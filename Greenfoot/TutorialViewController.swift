@@ -19,7 +19,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         
         let electricSlide:[String: Any] = ["Title":"Electric", "Desc":"One of the largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your Kilowatt-Hour usage. It will be marked clearly near the amount due.", "Icon":Icon.electric_white]
         
-        let waterSlide:[String: Any] = ["Title":"Water", "Desc":"Another large portion of our carbon footprint comes from our water usage. Find your old water bills and enter how many gallons you have used each month.", "Icon":Icon.water_white]
+        let waterSlide:[String: Any] = ["Title":"Water", "Desc":"Another large portion of our carbon footprint comes from our water usage. Find your old water bills and enter how many gallons you have used each month. If your provider bills you bimonthly or quarterly, divide your usage evenly for each month you were billed over.", "Icon":Icon.water_white]
         let gasSlide:[String: Any] = ["Title":"Gas", "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, methane is a greenhouse gas itself, and the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month.", "Icon":Icon.fire_white]
         
         let endSlide:[String: Any] = ["Title":"Ready?", "Desc":"You are now ready to use Greenfoot! Additional information you can enter to alter how many energy points you receive can be found on different pages. Make sure to update the data in the application each time you receive a new bill so we can help you keep track of your carbon footprint the best we can!", "Icon":Icon.logo_white]

@@ -67,6 +67,7 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         nextToolbar.rightButton?.target = self.pointField
         nextToolbar.rightButton?.action = #selector(becomeFirstResponder)
         monthToolbarField = nextToolbar.centerField
+        monthToolbarField.text = Date.monthFormat(date: Date())
         monthField.inputAccessoryView = nextToolbar
         
         //Create the toolbar for the points field
@@ -119,15 +120,12 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         data = dataObj
     }
     
-    //@IBOutlet (probably)
     @IBAction func addDataPoint(sender: AnyObject?) {
         if monthField.text == "" || pointField.text == "" {
             return
         }
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        let date = formatter.date(from: monthField.text!)!
+        let date = Date.monthFormat(string: monthField.text!)
         
         if let _ = data.getGraphData()[date] {
             let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
@@ -137,8 +135,16 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
             pointField.resignFirstResponder()
             return
         }
+        
+        guard let point = Double(pointField.text!) else {
+            let alertView = UIAlertController(title: "Error", message: "Please enter a valid number", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
+            return
+        }
+        
         addedMonths.append(date)
-        addedPoints.append(Double(pointField.text!)!)
+        addedPoints.append(point)
     
         self.tableView.isHidden = false
         
@@ -239,8 +245,8 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         monthField.resignFirstResponder()
         pointField.resignFirstResponder()
         
-        if pointField.text! != "" {
-            stepper.value = Double(pointField.text!)!
+        if let point = Double(pointField.text!) {
+            stepper.value = point
         }
         
         return super.resignFirstResponder()
@@ -250,5 +256,12 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         if textfield == pointField {
             pointToolbarField.text = pointField.text
         }
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == monthField {
+            monthField.text = Date.monthFormat(date: Date())
+        }
+        return true
     }
 }
