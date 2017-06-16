@@ -97,18 +97,8 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     }
     
     func updateData(month: String, point: Double, path: IndexPath?) {
-        let date = Date.monthFormat(date: month)
+        let date = Date.monthFormat(string: month)
         self.data.editDataPoint(month: date, y:point)
-        
-        //Mark the point as unuploaded in the database always
-        CoreDataHelper.update(data: data, month: date, updatedValue: point, uploaded: false)
-        //If the data is uploaded, update it, else, uploade it
-        if let index = self.data.uploadedData.index(of: month) {
-            self.data.uploadedData.remove(at: index)
-            self.data.updateOnServer(month: month, point: point)
-        } else {
-            self.data.addToServer(month: month, point: point)
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -201,7 +191,6 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
                 _ in
                 let key = self.months.remove(at: indexPath.row)
                 self.data.removeDataPoint(month: key)
-                CoreDataHelper.delete(data: self.data, month: key)
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
             

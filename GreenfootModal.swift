@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Material
-import CoreData
 
 class GreenfootModal: NewsParserDelegate {
     static let sharedInstance = GreenfootModal()
@@ -261,10 +260,16 @@ extension Icon {
 }
 
 extension Date {
-    static func monthFormat(date:String) -> Date {
+    static func monthFormat(string:String) -> Date {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
-        return formatter.date(from: date)!
+        return formatter.date(from: string)!
+    }
+    
+    static func monthFormat(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        return formatter.string(from: date)
     }
     
     static func longFormat(date:String) -> String {

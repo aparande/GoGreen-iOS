@@ -93,6 +93,9 @@ class GreenData {
         
         if save {
             CoreDataHelper.save(data: self, month: month, amount: y)
+            
+            //If save is true, that means its a new data point, so you want to try uploading to the server
+            addToServer(month: Date.monthFormat(date: month), point: y)
         }
     }
     
@@ -103,15 +106,26 @@ class GreenData {
     func editDataPoint(month:Date, y:Double) {
         graphData[month] = y
         recalculateEP()
+        
+        //Mark the point as unuploaded in the database always
+        CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
+        //If the data is uploaded, update it, else, uploade it
+        let date = Date.monthFormat(date: month)
+        if let index = uploadedData.index(of: date) {
+            uploadedData.remove(at: index)
+            updateOnServer(month: date, point: y)
+        } else {
+            addToServer(month: date, point: y)
+        }
     }
     
     func removeDataPoint(month:Date) {
         graphData.removeValue(forKey: month)
         recalculateEP()
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        deleteFromServer(month: formatter.string(from: month))
+        CoreDataHelper.delete(data: self, month: month)
+        
+        deleteFromServer(month: Date.monthFormat(date: month))
     }
     
     func recalculateEP() {
@@ -142,14 +156,14 @@ class GreenData {
         let completion = {
             if let month = parameters["month"] as? String {
                 self.uploadedData.append(month)
-                CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
+                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
             }
         }
         
         connectToServer(atEndpoint: "input", withParameters: parameters, completion: completion)
     }
     
-    func updateOnServer(month:String, point: Double) {
+    fileprivate func updateOnServer(month:String, point: Double) {
         //This is the check to see if the user wants to share their data
         guard let _ = GreenfootModal.sharedInstance.locality else {
             return
@@ -162,14 +176,14 @@ class GreenData {
         let completion = {
             if let month = parameters["month"] as? String {
                 self.uploadedData.append(month)
-                CoreDataHelper.update(data: self, month: Date.monthFormat(date: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
+                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
             }
         }
         
         connectToServer(atEndpoint: "updateDataPoint", withParameters: parameters, completion: completion)
     }
     
-    func deleteFromServer(month: String) {
+    fileprivate func deleteFromServer(month: String) {
         //This is the check to see if the user wants to share their data
         guard let _ = GreenfootModal.sharedInstance.locality else {
             return
@@ -186,7 +200,7 @@ class GreenData {
         connectToServer(atEndpoint: "deleteDataPoint", withParameters: parameters, completion: completion)
     }
     
-    private func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (Void) -> Void) {
+    fileprivate func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (Void) -> Void) {
         let base = URL(string: "http://localhost:8000")!
         //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
         let url = URL(string: endpoint, relativeTo: base)!
@@ -317,8 +331,8 @@ class EmissionsData: GreenData {
         }
         keys.sort(by: {
             (date1, date2) in
-            let d1 = Date.monthFormat(date: date1)
-            let d2 = Date.monthFormat(date: date2)
+            let d1 = Date.monthFormat(string: date1)
+            let d2 = Date.monthFormat(string: date2)
             return d1.compare(d2) == ComparisonResult.orderedAscending
         })
         
@@ -342,7 +356,7 @@ class EmissionsData: GreenData {
         }
         
         for (key, value) in differences {
-            let date = Date.monthFormat(date: key)
+            let date = Date.monthFormat(string: key)
             let co2 = co2Emissions(Double(value), self.data["Average MPG"]!)
             if let _ = getGraphData()[date] {
                 editDataPoint(month: date, y: co2)

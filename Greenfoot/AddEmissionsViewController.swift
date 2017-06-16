@@ -86,8 +86,8 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         var keys = Array(sectionData.keys)
         keys = keys.sorted(by: {
             (key1, key2) -> Bool in
-            let d1 = Date.monthFormat(date: key1)
-            let d2 = Date.monthFormat(date: key2)
+            let d1 = Date.monthFormat(string: key1)
+            let d2 = Date.monthFormat(string: key2)
             return d1.compare(d2) == ComparisonResult.orderedAscending
         })
         
