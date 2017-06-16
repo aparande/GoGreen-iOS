@@ -48,11 +48,15 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
             noDataLabel.textAlignment = .center
             noDataLabel.numberOfLines = 0
             self.tableView.backgroundView = noDataLabel
+        } else {
+            let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
+            editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
+            navigationItem.rightViews = [editButton, addButton]
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        //super.viewWillDisappear(true)
+        super.viewWillDisappear(true)
         
         data.compileToGraph()
     }
@@ -140,6 +144,47 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
+        }
+    }
+    
+    func beginEdit() {
+        self.tableView.setEditing(true, animated: true)
+        
+        let doneButton = IconButton(image: Icon.check, tintColor: UIColor.white)
+        doneButton.addTarget(self, action: #selector(endEdit), for: .touchUpInside)
+        navigationItem.rightViews = [doneButton]
+    }
+    
+    func endEdit() {
+        self.tableView.setEditing(false, animated: true)
+        let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
+        editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
+        navigationItem.rightViews = [editButton]
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
+                _ in
+                let carName = self.cars[indexPath.section]
+                let cell = tableView.cellForRow(at: indexPath) as! EditTableViewCell
+                self.data.carData[carName]?.removeValue(forKey: cell.attributeLabel.text!)
+                self.data.compileToGraph()
+                self.tableView.deleteRows(at: [indexPath], with: .right)
+            }))
+            
+            alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
+            
         }
     }
 }

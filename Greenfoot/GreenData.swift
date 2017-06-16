@@ -349,6 +349,9 @@ class EmissionsData: GreenData {
         }
         
         var differences:[String:Int] = [:]
+        if keys.count-1 < 0 {
+            return
+        }
         for i in 0..<keys.count-1 {
             let firstKey = keys[i]
             let nextKey = keys[i+1]
