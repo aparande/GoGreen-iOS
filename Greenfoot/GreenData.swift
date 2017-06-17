@@ -306,8 +306,10 @@ class EmissionsData: GreenData {
     
     func compileToGraph() {
         var totalMPG = 0
-        for (_, value) in carMileage {
-            totalMPG += value
+        for (key, value) in carMileage {
+            if carData[key] != nil && carData[key]!.count != 0 {
+                totalMPG += value
+            }
         }
         
         if totalMPG == 0 || carMileage.count == 0 {
@@ -365,34 +367,23 @@ class EmissionsData: GreenData {
             let co2 = co2Emissions(Double(value), self.data["Average MPG"]!)
             if let _ = getGraphData()[date] {
                 editDataPoint(month: date, y: co2)
-                
-                //Mark the point as un-uploaded in the database always
-                CoreDataHelper.update(data: self, month: date, updatedValue: co2, uploaded: false)
-                //If the data is uploaded, update it, else, uploade it
-                if let index = uploadedData.index(of: key) {
-                    uploadedData.remove(at: index)
-                    updateOnServer(month: key, point: co2)
-                } else {
-                    addToServer(month: key, point: co2)
-                }
             } else {
                 addDataPoint(month: date, y: co2, save:true)
-                addToServer(month: key, point: co2)
             }
         }
     }
     
-    private func saveDataPoint(car:String, month: String, amount: Int16) {
+    func addPointToCoreData(car:String, month: String, point: Int16) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let managedContext = appDelegate.persistentContainer.viewContext
             
             let entity = NSEntityDescription.entity(forEntityName: "Car", in: managedContext)!
             
-            let point = NSManagedObject(entity: entity, insertInto: managedContext)
+            let obj = NSManagedObject(entity: entity, insertInto: managedContext)
             
-            point.setValue(month, forKeyPath: "month")
-            point.setValue(amount, forKeyPath: "amount")
-            point.setValue(car, forKey: "name")
+            obj.setValue(car, forKeyPath: "name")
+            obj.setValue(month, forKeyPath: "month")
+            obj.setValue(point, forKeyPath: "amount")
             
             do {
                 try managedContext.save()
@@ -417,6 +408,52 @@ class EmissionsData: GreenData {
                 }
             } catch let error as NSError {
                 print("Could not delete. \(error), \(error.userInfo)")
+            }
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    func deletePointForCar(_ car:String, month:String) {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let predicate = NSPredicate(format: "name == %@ and month == %@", argumentArray: [car, month])
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
+            fetchRequest.predicate = predicate
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            do {
+                let fetchedEntities = try managedContext.fetch(fetchRequest)
+                for entry in fetchedEntities {
+                    managedContext.delete(entry)
+                }
+            } catch let error as NSError {
+                print("Could not delete. \(error), \(error.userInfo)")
+            }
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    func updateCoreDataForCar(car: String, month: String, amount: Int16) {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let predicate = NSPredicate(format: "name == %@ AND month == %@", argumentArray: [car, month])
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
+            fetchRequest.predicate = predicate
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            do {
+                let fetchedEntities = try managedContext.fetch(fetchRequest)
+                fetchedEntities.first?.setValue(amount, forKeyPath: "amount")
+            } catch let error as NSError {
+                print("Could not update. \(error), \(error.userInfo)")
             }
             do {
                 try managedContext.save()

@@ -66,7 +66,7 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         if let _ = path {
             let carName = cars[path!.section]
             data.carData[carName]?[month] = Int(point)
-            updateCoreDataForCar(car: carName, month: month, amount: Int16(point))
+            self.data.updateCoreDataForCar(car: carName, month: month, amount: Int16(point))
         }
     }
     
@@ -127,28 +127,6 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         }
     }
     
-    private func updateCoreDataForCar(car: String, month: String, amount: Int16) {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let predicate = NSPredicate(format: "name == %@ AND month == %@", argumentArray: [car, month])
-            
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
-            fetchRequest.predicate = predicate
-            
-            let managedContext = appDelegate.persistentContainer.viewContext
-            do {
-                let fetchedEntities = try managedContext.fetch(fetchRequest)
-                fetchedEntities.first?.setValue(amount, forKeyPath: "amount")
-            } catch let error as NSError {
-                print("Could not update. \(error), \(error.userInfo)")
-            }
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }
-        }
-    }
-    
     func beginEdit() {
         self.tableView.setEditing(true, animated: true)
         
@@ -205,6 +183,7 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
                 let carName = self.cars[indexPath.section]
                 let cell = tableView.cellForRow(at: indexPath) as! EditTableViewCell
                 self.data.carData[carName]?.removeValue(forKey: cell.attributeLabel.text!)
+                self.data.deletePointForCar(carName, month: cell.attributeLabel.text!)
                 self.data.compileToGraph()
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
@@ -303,7 +282,7 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
             owner.data.carData[carName] = [date:1000]
         }
         
-        addPointToCoreData(car: carName, month: date, point: 1000)
+        owner.data.addPointToCoreData(car: carName, month: date, point: 1000)
         
         let row = owner.data.carData[carName]!.count-1
         let path = IndexPath(row: row, section: sectionNum)
@@ -341,25 +320,5 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
         
         textField.resignFirstResponder()
         return true
-    }
-    
-    private func addPointToCoreData(car:String, month: String, point: Int16) {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let managedContext = appDelegate.persistentContainer.viewContext
-            
-            let entity = NSEntityDescription.entity(forEntityName: "Car", in: managedContext)!
-            
-            let obj = NSManagedObject(entity: entity, insertInto: managedContext)
-            
-            obj.setValue(car, forKeyPath: "name")
-            obj.setValue(month, forKeyPath: "month")
-            obj.setValue(point, forKeyPath: "amount")
-            
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }
-        }
     }
 }
