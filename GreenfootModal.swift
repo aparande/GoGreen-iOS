@@ -200,7 +200,7 @@ class GreenfootModal: NewsParserDelegate {
         co2Data.descriptions.append("The average number of miles per gallon of a car is 22 mpg. Cars with higher mileage ratings emit less carbon dioxide over the same amount of distance. Your average MPG is calculated by adding up the mpg of each vehicle you own and dividing by the numer of vehicles you own.")
         
         co2Data.attributes.append("Number of Cars")
-        co2Data.descriptions.append("The average American owns two cars. When you record this number, do not record electric vehicles.")
+        co2Data.descriptions.append("The average American owns two cars. Recording data for each car you own (excluding electric vehicles) will lead to a more accurate picture of your carbon footprint")
         
         co2Data.attributes.append("Walking/Biking")
         co2Data.descriptions.append("The more you can walk or bike to places, the less your carbon footprint will be. The average American should be walking 30 minutes each day.")
@@ -242,6 +242,7 @@ class GreenfootModal: NewsParserDelegate {
 struct Colors {
     static let green = UIColor(red: 46/255, green: 204/255, blue: 113/255, alpha: 1.0)
     static let darkGreen = UIColor(red: 45/255, green: 191/255, blue: 122/255, alpha: 1.0)
+    static let red = UIColor(red:231/255, green: 76/255, blue:60/255, alpha:1.0)
 }
 
 extension Icon {

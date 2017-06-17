@@ -311,6 +311,8 @@ class EmissionsData: GreenData {
         }
         
         if totalMPG == 0 || carMileage.count == 0 {
+            self.data["Average MPG"] = 0
+            self.data["Number of Cars"] = 0
             return
         }
         
@@ -392,6 +394,30 @@ class EmissionsData: GreenData {
             point.setValue(amount, forKeyPath: "amount")
             point.setValue(car, forKey: "name")
             
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    func deleteCar(_ car:String) {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let predicate = NSPredicate(format: "name == %@", argumentArray: [car])
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
+            fetchRequest.predicate = predicate
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            do {
+                let fetchedEntities = try managedContext.fetch(fetchRequest)
+                for entry in fetchedEntities {
+                    managedContext.delete(entry)
+                }
+            } catch let error as NSError {
+                print("Could not delete. \(error), \(error.userInfo)")
+            }
             do {
                 try managedContext.save()
             } catch let error as NSError {

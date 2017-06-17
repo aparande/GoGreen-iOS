@@ -13,6 +13,7 @@ import CoreData
 class AddEmissionsViewController: UITableViewController, DataUpdater {
     let data = GreenfootModal.sharedInstance.data["Emissions"] as! EmissionsData
     var cars:[String] = []
+    var sectionHeaders: [Int:EmissionHeaderView] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +105,7 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = Bundle.main.loadNibNamed("EmissionHeader", owner: nil, options: nil)![0] as? EmissionHeaderView
         view?.setOwner(owner: self, section: section)
+        sectionHeaders[section] = view
         return view
     }
     
@@ -150,6 +152,10 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
     func beginEdit() {
         self.tableView.setEditing(true, animated: true)
         
+        for (_, view) in sectionHeaders {
+            view.beginEdit()
+        }
+        
         let doneButton = IconButton(image: Icon.check, tintColor: UIColor.white)
         doneButton.addTarget(self, action: #selector(endEdit), for: .touchUpInside)
         navigationItem.rightViews = [doneButton]
@@ -157,9 +163,30 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
     
     func endEdit() {
         self.tableView.setEditing(false, animated: true)
-        let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
-        editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
-        navigationItem.rightViews = [editButton]
+        
+        for (_, view) in sectionHeaders {
+            view.endEdit()
+        }
+        
+        data.compileToGraph()
+        
+        let addButton = IconButton(image: Icon.add, tintColor: UIColor.white)
+        addButton.addTarget(self, action: #selector(addSection), for: .touchUpInside)
+        navigationItem.rightViews = [addButton]
+        
+        if cars.count == 0 {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: tableView.bounds.height/2, width: tableView.bounds.width, height: tableView.bounds.height))
+            noDataLabel.text = "NO DATA"
+            noDataLabel.font = UIFont(name: "Droid Sans", size: 75.0)
+            noDataLabel.textColor = Color.grey.base.withAlphaComponent(0.7)
+            noDataLabel.textAlignment = .center
+            noDataLabel.numberOfLines = 0
+            self.tableView.backgroundView = noDataLabel
+        } else {
+            let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
+            editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
+            navigationItem.rightViews = [editButton, addButton]
+        }
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -219,6 +246,27 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
         
         self.mileageField.inputAccessoryView = doneToolbar
     }
+    
+    func beginEdit() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.addButton.backgroundColor = Colors.red
+            self.addButton.image = Icon.close
+        }, completion: nil)
+        
+        addButton.removeTarget(self, action: #selector(add(_:)), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(remove), for: .touchUpInside)
+    }
+    
+    func endEdit() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.addButton.backgroundColor = Colors.green
+            self.addButton.image = Icon.add
+        }, completion: nil)
+        
+        addButton.removeTarget(self, action: #selector(remove), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(add(_:)), for: .touchUpInside)
+    }
+    
     @IBAction func add(_ sender: Any) {
         if nameField.text == "" || mileageField.text == "" {
             let alertView = UIAlertController(title: "Error", message: "Before recording your odometer data, please enter in the name of your car and how many miles per gallon it runs", preferredStyle: .alert)
@@ -261,6 +309,16 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
         let path = IndexPath(row: row, section: sectionNum)
         
         owner.tableView.insertRows(at: [path], with: .automatic)
+    }
+    
+    func remove() {
+        //Remove the mileage data, the car data, and the odometer data
+        let carName = owner.cars.remove(at: sectionNum)
+        owner.data.carMileage.removeValue(forKey: carName)
+        owner.data.carData.removeValue(forKey: carName)
+        owner.sectionHeaders.removeValue(forKey: sectionNum)
+        owner.data.deleteCar(carName)
+        owner.tableView.deleteSections([sectionNum], with: .automatic)
     }
     
     func setOwner(owner: AddEmissionsViewController, section: Int) {

@@ -38,9 +38,11 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         
         navigationItem.backButton.tintColor = UIColor.white
         
-        let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
-        editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
-        navigationItem.rightViews = [editButton]
+        if data.dataName != "Emissions" {
+            let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
+            editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
+            navigationItem.rightViews = [editButton]
+        }
         
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
