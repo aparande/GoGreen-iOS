@@ -150,7 +150,6 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         
         let addButton = IconButton(image: Icon.add, tintColor: UIColor.white)
         addButton.addTarget(self, action: #selector(addSection), for: .touchUpInside)
-        navigationItem.rightViews = [addButton]
         
         if cars.count == 0 {
             let noDataLabel = UILabel(frame: CGRect(x: 0, y: tableView.bounds.height/2, width: tableView.bounds.width, height: tableView.bounds.height))
@@ -160,6 +159,8 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
             noDataLabel.textAlignment = .center
             noDataLabel.numberOfLines = 0
             self.tableView.backgroundView = noDataLabel
+            
+            navigationItem.rightViews = [addButton]
         } else {
             let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
             editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
