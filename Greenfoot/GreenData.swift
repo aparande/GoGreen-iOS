@@ -27,6 +27,8 @@ class GreenData {
     var bonus: (Int, Int) -> Int
     
     private var graphData:[Date: Double]
+    private var epData:[Date: Int]
+    
     var uploadedData:[String]
     
     var averageValue:Double {
@@ -66,6 +68,7 @@ class GreenData {
         
         dataName = name
         graphData = [:]
+        epData = [:]
         energyPoints = 0
         baseline = base
         self.averageLabel = averageLabel
@@ -89,7 +92,9 @@ class GreenData {
     
     func addDataPoint(month:Date, y:Double, save: Bool) {
         graphData[month] = y
-        energyPoints += calculateEP(baseline, y)
+        let ep = calculateEP(baseline, y)
+        epData[month] = ep
+        energyPoints += ep
         
         if save {
             CoreDataHelper.save(data: self, month: month, amount: y)
@@ -102,10 +107,18 @@ class GreenData {
     func getGraphData() -> [Date: Double] {
         return graphData
     }
+    func getEPData() -> [Date: Int] {
+        return epData
+    }
     
     func editDataPoint(month:Date, y:Double) {
+        let epPrev = calculateEP(baseline, graphData[month]!)
+        
         graphData[month] = y
-        recalculateEP()
+        let ep = calculateEP(baseline, y)
+        epData[month] = ep
+        
+        energyPoints = energyPoints - epPrev + ep
         
         //Mark the point as unuploaded in the database always
         CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
@@ -156,7 +169,7 @@ class GreenData {
         let completion = {
             if let month = parameters["month"] as? String {
                 self.uploadedData.append(month)
-                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
+                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
             }
         }
         
@@ -176,7 +189,7 @@ class GreenData {
         let completion = {
             if let month = parameters["month"] as? String {
                 self.uploadedData.append(month)
-                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: Double(parameters["amount"]! as! Int), uploaded: true)
+                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
             }
         }
         

@@ -17,7 +17,9 @@ class CoreDataHelper {
     static func fetch(data: GreenData) {
         if let _ = appDelegate {
             let managedContext = appDelegate!.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName:data.dataName)
+            let predicate = NSPredicate(format: "dataType == %@", argumentArray: [data.dataName])
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
+            fetchRequest.predicate = predicate
             
             do {
                 let managedObjects = try managedContext.fetch(fetchRequest)
@@ -27,7 +29,6 @@ class CoreDataHelper {
                 for managedObj in managedObjects {
                     let date = managedObj.value(forKeyPath: "month") as! Date
                     let amount = managedObj.value(forKeyPath: "amount") as! Double
-                    //Unwrap the optional pls
                     let uploaded = managedObj.value(forKeyPath: "uploaded") as! Bool
                     
                     if uploaded {
@@ -48,13 +49,14 @@ class CoreDataHelper {
         if let _ = appDelegate {
             let managedContext = appDelegate!.persistentContainer.viewContext
             
-            let entity = NSEntityDescription.entity(forEntityName: data.dataName, in: managedContext)!
+            let entity = NSEntityDescription.entity(forEntityName: "DataPoint", in: managedContext)!
             
             let point = NSManagedObject(entity: entity, insertInto: managedContext)
             
             point.setValue(month, forKeyPath: "month")
             point.setValue(amount, forKeyPath: "amount")
             point.setValue(false, forKey: "uploaded")
+            point.setValue(data.dataName, forKey: "dataType")
             
             do {
                 try managedContext.save()
@@ -67,9 +69,9 @@ class CoreDataHelper {
     
     static func update(data: GreenData, month:Date, updatedValue: Double, uploaded: Bool) {
         if let _ = appDelegate {
-            let predicate = NSPredicate(format: "month == %@", argumentArray: [month])
+            let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
             
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: data.dataName)
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
             fetchRequest.predicate = predicate
             
             let managedContext = appDelegate!.persistentContainer.viewContext
@@ -90,9 +92,9 @@ class CoreDataHelper {
     
     static func delete(data: GreenData, month: Date) {
         if let _ = appDelegate {
-            let predicate = NSPredicate(format: "month == %@", argumentArray: [month])
+            let predicate = NSPredicate(format: "dataType == %@ month == %@", argumentArray: [data.dataName, month])
             
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: data.dataName)
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
             fetchRequest.predicate = predicate
             
             let managedContext = appDelegate!.persistentContainer.viewContext
