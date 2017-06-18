@@ -96,6 +96,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F14FADF1EF71498005E9F33 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */,
+				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
+				1F6C73B51EDB593C006A0003 /* EditDataCell.xib */,
+				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
+				1F6E2EEC1EBE878700445D41 /* NewsCell.xib */,
+				1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		1F70CCAF1E105D0600AD351A = {
 			isa = PBXGroup;
 			children = (
@@ -117,27 +130,22 @@
 		1F70CCBA1E105D0600AD351A /* Greenfoot */ = {
 			isa = PBXGroup;
 			children = (
+				1FC859BA1E147F4C007F7393 /* Fonts */,
 				1FC291DB1EF1CDB6007F7835 /* Modal */,
-				1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */,
-				1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */,
+				1F14FADF1EF71498005E9F33 /* Views */,
 				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
+				1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */,
 				1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */,
 				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
 				1F70CCBB1E105D0600AD351A /* AppDelegate.swift */,
 				1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */,
 				1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */,
-				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
-				1F6C73B51EDB593C006A0003 /* EditDataCell.xib */,
 				1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */,
-				1FC859BA1E147F4C007F7393 /* Fonts */,
-				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
 				1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */,
 				1F70CCC21E105D0600AD351A /* Assets.xcassets */,
 				1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */,
 				1F70CCC71E105D0600AD351A /* Info.plist */,
-				1F6E2EEC1EBE878700445D41 /* NewsCell.xib */,
 				1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */,
-				1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */,
 				1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */,
 				1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */,
 				1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */,
