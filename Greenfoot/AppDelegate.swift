@@ -41,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
       
             let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
+            //let svc = SummaryViewController()
             let nvc = NavigationController(rootViewController: svc)
         
             let dvc = storyboard.instantiateViewController(withIdentifier: "Drawer")

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="GeosansLight.ttf">
+            <string>GeosansLight</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SummaryViewController" customModule="Greenfoot" customModuleProvider="target">
+            <connections>
+                <outlet property="graph" destination="37G-oQ-9Qw" id="D0W-vn-neF"/>
+                <outlet property="pointLabel" destination="Afz-sa-CCR" id="ng5-fs-8aN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Uv5-F5-crJ" userLabel="Slide One">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="2eN-7v-aXP">
+                    <rect key="frame" x="18" y="164" width="339" height="339"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="2eN-7v-aXP" secondAttribute="height" multiplier="1:1" id="wzB-bC-SMr"/>
+                    </constraints>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3yw-wg-Vk4">
+                    <rect key="frame" x="68" y="224" width="240" height="219"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="62" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Afz-sa-CCR">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="164"/>
+                            <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="140"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustsFontSizeToFitWidth" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Energy Points" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="kaX-wG-eIO">
+                            <rect key="frame" x="0.0" y="169" width="240" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="Gmm-tm-Cw0"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="45"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustsFontSizeToFitWidth" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="3yw-wg-Vk4" firstAttribute="top" secondItem="2eN-7v-aXP" secondAttribute="top" constant="60" id="EQM-id-dNj"/>
+                <constraint firstAttribute="trailing" secondItem="2eN-7v-aXP" secondAttribute="trailing" constant="18" id="IuM-wK-lpq"/>
+                <constraint firstItem="3yw-wg-Vk4" firstAttribute="centerY" secondItem="2eN-7v-aXP" secondAttribute="centerY" id="Ng9-KV-IV0"/>
+                <constraint firstItem="2eN-7v-aXP" firstAttribute="leading" secondItem="Uv5-F5-crJ" secondAttribute="leading" constant="18" id="Ppw-Vl-r4h"/>
+                <constraint firstItem="2eN-7v-aXP" firstAttribute="centerY" secondItem="Uv5-F5-crJ" secondAttribute="centerY" id="cm9-Du-jiu"/>
+                <constraint firstItem="2eN-7v-aXP" firstAttribute="centerX" secondItem="Uv5-F5-crJ" secondAttribute="centerX" id="gDR-fG-IbG"/>
+                <constraint firstItem="3yw-wg-Vk4" firstAttribute="centerX" secondItem="2eN-7v-aXP" secondAttribute="centerX" id="lUF-Vo-iw4"/>
+                <constraint firstItem="3yw-wg-Vk4" firstAttribute="leading" secondItem="2eN-7v-aXP" secondAttribute="leading" constant="50" id="xdL-c0-9R1"/>
+            </constraints>
+        </view>
+        <view contentMode="scaleToFill" id="xbY-th-WWO" userLabel="Slide Two">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="37G-oQ-9Qw" customClass="ScrollableGraphView" customModule="ScrollableGraphView">
+                    <rect key="frame" x="32" y="225" width="311" height="217"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="217" id="kgD-LK-Ubv"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="37G-oQ-9Qw" firstAttribute="centerY" secondItem="xbY-th-WWO" secondAttribute="centerY" id="ShF-hT-6by"/>
+                <constraint firstItem="37G-oQ-9Qw" firstAttribute="leading" secondItem="xbY-th-WWO" secondAttribute="leading" constant="32" id="ocP-49-oOp"/>
+                <constraint firstItem="37G-oQ-9Qw" firstAttribute="centerX" secondItem="xbY-th-WWO" secondAttribute="centerX" id="sXc-0r-Bep"/>
+            </constraints>
+            <point key="canvasLocation" x="496" y="53"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Emblem" width="512" height="512"/>
+    </resources>
+</document>

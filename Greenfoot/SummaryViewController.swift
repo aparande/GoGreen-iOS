@@ -13,9 +13,11 @@ import ScrollableGraphView
 class SummaryViewController: UIViewController {
     
     @IBOutlet weak var pointLabel:UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var graph: ScrollableGraphView!
     
-    var graph: ScrollableGraphView?
     private var monthlyEP:[Date: Int] = [:]
+    private var viewFrame: CGRect!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +27,21 @@ class SummaryViewController: UIViewController {
         let shareButton = IconButton(image: Icon.cm.share, tintColor: UIColor.white)
         shareButton.addTarget(self, action: #selector(share), for: .touchUpInside)
         navigationItem.rightViews = [shareButton]
+        
+        let viewHeight = self.view.frame.height - UIApplication.shared.statusBarFrame.height - (self.navigationController?.navigationBar.frame.height)!
+        viewFrame = CGRect(origin: self.view.frame.origin, size: CGSize(width: self.view.frame.width, height: viewHeight))
+        self.scrollView.contentSize = CGSize(width: viewFrame.width * 2, height: viewHeight)
+        
+        let subViews = UINib.init(nibName: "SummaryView", bundle: nil).instantiate(withOwner: self, options: nil) as! [UIView]
+        
+        subViews[0].frame = viewFrame!
+        subViews[0].addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showGraph)))
+        self.scrollView.addSubview(subViews[0])
+        
+        let newOrigin = CGPoint(x:viewFrame!.width, y:0)
+        subViews[1].frame = CGRect(origin: newOrigin, size: viewFrame!.size)
+        subViews[1].addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showEmblem)))
+        self.scrollView.addSubview(subViews[1])
         
         let modal = GreenfootModal.sharedInstance
         pointLabel.text = "\(modal.totalEnergyPoints)"
@@ -38,6 +55,18 @@ class SummaryViewController: UIViewController {
                 }
             }
         }
+        
+        designGraph()
+        loadGraph()
+    }
+    
+    func showGraph() {
+        let newOrigin = CGPoint(x: self.viewFrame!.width, y:0)
+        self.scrollView.scrollRectToVisible(CGRect(origin: newOrigin, size: self.viewFrame!.size), animated: true)
+    }
+    
+    func showEmblem() {
+        self.scrollView.scrollRectToVisible(CGRect(origin: CGPoint.zero, size: self.viewFrame!.size), animated: true)
     }
     
     func share() {
@@ -45,6 +74,48 @@ class SummaryViewController: UIViewController {
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
         self.present(activityView, animated: true, completion: nil)
+    }
+    
+    private func loadGraph() {
+        //Customize the graph stuff here, and set the data
+        if let _ =  graph {
+            var dates:[Date] = Array(monthlyEP.keys)
+            dates.sort(by: { (date1, date2) -> Bool in
+                return date1.compare(date2) == ComparisonResult.orderedAscending })
+            
+            var labels: [String] = []
+            var points: [Double] = []
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/yy"
+            
+            var hasNegative = false
+            
+            for date in dates {
+                let point = Double(monthlyEP[date]!)
+                
+                if !hasNegative {
+                    hasNegative = (point < 0)
+                }
+                
+                points.append(point)
+                labels.append(formatter.string(from: date))
+            }
+            
+            if !hasNegative {
+                graph.shouldRangeAlwaysStartAtZero = true
+            }
+            
+            graph.set(data: points, withLabels: labels)
+            
+            graph.referenceLineUnits = "EP"
+            
+            graph.layoutSubviews()
+            
+            if graph.contentSize.width > graph.frame.width {
+                graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width+30, y:0), animated: true)
+            }
+        }
     }
     
     private func designGraph() {
@@ -69,8 +140,7 @@ class SummaryViewController: UIViewController {
         graph.topMargin = 20
         
         graph.shouldAutomaticallyDetectRange = true
-        graph.shouldRangeAlwaysStartAtZero = true
-        graph.shouldAdaptRange = true
+        graph.shouldRangeAlwaysStartAtZero = false
         graph.clipsToBounds = true
         graph.direction = .leftToRight
         

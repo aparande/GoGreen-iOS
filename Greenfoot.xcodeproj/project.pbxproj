@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F06F95D1EF762000047CEB4 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F06F95C1EF762000047CEB4 /* SummaryView.xib */; };
 		1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB0FE71E2B3684006463AE /* DroidSans.ttf */; };
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F06F95C1EF762000047CEB4 /* SummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
 		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenfootModal.swift; sourceTree = SOURCE_ROOT; };
@@ -105,6 +107,7 @@
 				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
 				1F6E2EEC1EBE878700445D41 /* NewsCell.xib */,
 				1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */,
+				1F06F95C1EF762000047CEB4 /* SummaryView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */,
 				1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */,
 				1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */,
+				1F06F95D1EF762000047CEB4 /* SummaryView.xib in Resources */,
 				1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */,
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
 				1FA917BA1EC547D300C6ABE9 /* AddDataTutorial.xib in Resources */,
