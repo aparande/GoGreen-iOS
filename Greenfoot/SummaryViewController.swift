@@ -16,7 +16,7 @@ class SummaryViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var graph: ScrollableGraphView!
     
-    private var monthlyEP:[Date: Int] = [:]
+    private var monthlyEP:[Date: Double] = [:]
     private var viewFrame: CGRect!
     
     override func viewDidLoad() {
@@ -55,28 +55,18 @@ class SummaryViewController: UIViewController {
         for (_, data) in modal.data {
             for (month, value) in data.getEPData() {
                 if let ep = monthlyEP[month] {
-                    monthlyEP[month] = ep+value
+                    monthlyEP[month] = ep + Double(value)
                 } else {
-                    monthlyEP[month] = value
+                    monthlyEP[month] = Double(value)
                 }
             }
         }
         
-        designGraph()
-        loadGraph()
-        
-        print("Printing")
-        print(scrollView.frame.size)
-        print(viewFrame.size)
-        print(scrollView.contentSize)
+        graph.design()
+        graph.loadData(monthlyEP, labeled: "EP")
     }
     
     func showGraph() {
-        print("Printing")
-        print(scrollView.frame.size)
-        print(viewFrame.size)
-        print(scrollView.contentSize)
-        
         let newOrigin = CGPoint(x: self.viewFrame!.width, y:0)
         self.scrollView.scrollRectToVisible(CGRect(origin: newOrigin, size: self.viewFrame!.size), animated: true)
     }
@@ -95,72 +85,8 @@ class SummaryViewController: UIViewController {
     private func loadGraph() {
         //Customize the graph stuff here, and set the data
         if let _ =  graph {
-            var dates:[Date] = Array(monthlyEP.keys)
-            dates.sort(by: { (date1, date2) -> Bool in
-                return date1.compare(date2) == ComparisonResult.orderedAscending })
             
-            var labels: [String] = []
-            var points: [Double] = []
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/yy"
-            
-            var hasNegative = false
-            
-            for date in dates {
-                let point = Double(monthlyEP[date]!)
-                
-                if !hasNegative {
-                    hasNegative = (point < 0)
-                }
-                
-                points.append(point)
-                labels.append(formatter.string(from: date))
-            }
-            
-            if !hasNegative {
-                graph.shouldRangeAlwaysStartAtZero = true
-            }
-            
-            graph.set(data: points, withLabels: labels)
-            
-            graph.referenceLineUnits = "EP"
-            
-            graph.layoutSubviews()
-            
-            if graph.contentSize.width > graph.frame.width {
-                graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width+30, y:0), animated: true)
-            }
         }
-    }
-    
-    private func designGraph() {
-        guard let graph = self.graph else {
-            return
-        }
-        graph.backgroundColor = Colors.green
-        graph.backgroundFillColor = Colors.green
-        graph.lineColor = UIColor.clear
-        
-        graph.shouldDrawBarLayer = true
-        graph.barColor = UIColor.white.withAlphaComponent(0.5)
-        graph.shouldDrawDataPoint = false
-        graph.barLineColor = UIColor.clear
-        
-        graph.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        graph.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
-        graph.referenceLineLabelColor = UIColor.white
-        graph.dataPointLabelColor = UIColor.white.withAlphaComponent(0.8)
-        
-        graph.leftmostPointPadding = 75
-        graph.topMargin = 20
-        
-        graph.shouldAutomaticallyDetectRange = true
-        graph.shouldRangeAlwaysStartAtZero = false
-        graph.clipsToBounds = true
-        graph.direction = .leftToRight
-        
-        graph.cornerRadius = 10
     }
 }
 
@@ -176,6 +102,73 @@ extension UIViewController {
         
         //menuButton.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
+    }
+}
+
+extension ScrollableGraphView {
+    func design() {
+        self.backgroundColor = Colors.green
+        self.backgroundFillColor = Colors.green
+        self.lineColor = UIColor.clear
+        
+        self.shouldDrawBarLayer = true
+        self.barColor = UIColor.white.withAlphaComponent(0.5)
+        self.shouldDrawDataPoint = false
+        self.barLineColor = UIColor.clear
+        
+        self.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        self.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
+        self.referenceLineLabelColor = UIColor.white
+        self.dataPointLabelColor = UIColor.white.withAlphaComponent(0.8)
+        
+        self.leftmostPointPadding = 75
+        self.topMargin = 20
+        
+        self.shouldAutomaticallyDetectRange = true
+        self.shouldRangeAlwaysStartAtZero = false
+        self.clipsToBounds = true
+        self.direction = .leftToRight
+        
+        self.cornerRadius = 10
+    }
+    
+    func loadData(_ data:[Date: Double], labeled label:String) {
+        var dates:[Date] = Array(data.keys)
+        dates.sort(by: { (date1, date2) -> Bool in
+            return date1.compare(date2) == ComparisonResult.orderedAscending })
+        
+        var labels: [String] = []
+        var points: [Double] = []
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        
+        var hasNegative = false
+        
+        for date in dates {
+            let point = data[date]!
+            
+            if !hasNegative {
+                hasNegative = (point < 0)
+            }
+            
+            points.append(point)
+            labels.append(formatter.string(from: date))
+        }
+        
+        if !hasNegative {
+            self.shouldRangeAlwaysStartAtZero = true
+        }
+        
+        self.set(data: points, withLabels: labels)
+        
+        self.referenceLineUnits = label
+        
+        self.layoutSubviews()
+        
+        if self.contentSize.width > self.frame.width {
+            self.setContentOffset(CGPoint(x:self.contentSize.width - self.frame.width+30, y:0), animated: true)
+        }
     }
 }
 

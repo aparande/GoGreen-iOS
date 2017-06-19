@@ -36,8 +36,9 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         infoButton.imageView?.contentMode = .scaleAspectFit
         navigationItem.rightViews = [infoButton]
         
-        designGraph()
-        loadGraph()
+        graph.design()
+        graph.loadData(data.getGraphData(), labeled: data.yLabel)
+        noDataLabel.isHidden = (data.getGraphData().keys.count != 0)
         
         iconImageView.image = data.icon
         
@@ -57,70 +58,14 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func reloadData() {
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         attributeTableView.reloadData()
-        loadGraph()
+        
+        graph.loadData(data.getGraphData(), labeled: data.yLabel)
+        noDataLabel.isHidden = (data.getGraphData().keys.count != 0)
     }
     
     func setDataType(data:GreenData) {
         //assertionFailure("You need to override this method. Something like data=GreenfootModal.electricData should be put here")
         self.data = data
-    }
-    
-    func loadGraph() {
-        //Customize the graph stuff here, and set the data
-        if let _ =  graph {
-            var dates:[Date] = Array(data.getGraphData().keys)
-            dates.sort(by: { (date1, date2) -> Bool in
-                return date1.compare(date2) == ComparisonResult.orderedAscending })
-            
-            var labels: [String] = []
-            var points: [Double] = []
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/yy"
-            
-            for date in dates {
-                points.append(data.getGraphData()[date]!)
-                labels.append(formatter.string(from: date))
-            }
-            graph.set(data: points, withLabels: labels)
-            
-            graph.referenceLineUnits = data.yLabel
-            
-            noDataLabel.isHidden = (points.count != 0)
-            
-            graph.layoutSubviews()
-            
-            if graph.contentSize.width > graph.frame.width {
-                graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width+30, y:0), animated: true)
-            }
-        }
-    }
-    
-    func designGraph() {
-        graph.backgroundColor = Colors.green
-        graph.backgroundFillColor = Colors.green
-        graph.lineColor = UIColor.clear
-        
-        graph.shouldDrawBarLayer = true
-        graph.barColor = UIColor.white.withAlphaComponent(0.5)
-        graph.shouldDrawDataPoint = false
-        graph.barLineColor = UIColor.clear
-        
-        graph.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        graph.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
-        graph.referenceLineLabelColor = UIColor.white
-        graph.dataPointLabelColor = UIColor.white.withAlphaComponent(0.8)
-        
-        graph.leftmostPointPadding = 75
-        graph.topMargin = 20
-        
-        graph.shouldAutomaticallyDetectRange = true
-        graph.shouldRangeAlwaysStartAtZero = true
-        graph.shouldAdaptRange = true
-        graph.clipsToBounds = true
-        graph.direction = .leftToRight
-        
-        graph.cornerRadius = 10
     }
 
     func createFABMenu() {
