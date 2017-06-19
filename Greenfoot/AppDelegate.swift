@@ -40,13 +40,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
       
+            let tvc = UITabBarController()
+            
             let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
-            //let svc = SummaryViewController()
-            let nvc = NavigationController(rootViewController: svc)
+            let sNVC = NavigationController(rootViewController: svc)
+            let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
+            svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
+            
+            let electricVc = getGraphController(named: "Electric", andTag: 2)
+            let waterVc = getGraphController(named: "Water", andTag: 3)
+            let emissionVc = getGraphController(named: "Emissions", andTag: 4)
+            let gasVc = getGraphController(named: "Gas", andTag: 5)
+            
+            tvc.viewControllers = [sNVC, electricVc, waterVc, emissionVc, gasVc]
+            
+            tvc.tabBar.tintColor = Colors.green
         
-            let dvc = storyboard.instantiateViewController(withIdentifier: "Drawer")
-            let ndvc = NavigationDrawerController(rootViewController: nvc, leftViewController: dvc, rightViewController: nil)
-            window!.rootViewController = ndvc
+            window!.rootViewController = tvc
         } else {
         
             let pager = TutorialViewController()
@@ -62,6 +72,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         window!.makeKeyAndVisible()
         
         return true
+    }
+    
+    private func getGraphController(named name:String, andTag tag:Int) -> NavigationController {
+        let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
+        graphVC.setDataType(data:GreenfootModal.sharedInstance.data[name]!)
+        
+        var icon: UIImage!
+        switch name {
+        case "Electric":
+            icon = Icon.electric_white
+            break
+        case "Water":
+            icon = Icon.water_white
+            break
+        case "Emissions":
+            icon = Icon.smoke_white
+            break
+        case "Gas":
+            icon = Icon.fire_white
+            break
+        default:
+            icon = Icon.electric_white
+        }
+        icon = icon.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
+        graphVC.tabBarItem = UITabBarItem(title: name, image: icon, tag: tag)
+        
+        return NavigationController(rootViewController: graphVC)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

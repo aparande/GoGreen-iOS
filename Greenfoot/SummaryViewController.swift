@@ -20,6 +20,8 @@ class SummaryViewController: UIViewController {
     private var viewFrame: CGRect!
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         prepToolbar()
@@ -28,7 +30,8 @@ class SummaryViewController: UIViewController {
         shareButton.addTarget(self, action: #selector(share), for: .touchUpInside)
         navigationItem.rightViews = [shareButton]
         
-        let viewHeight = self.view.frame.height - UIApplication.shared.statusBarFrame.height - (self.navigationController?.navigationBar.frame.height)!
+        let viewHeight = self.view.frame.height - UIApplication.shared.statusBarFrame.height - (self.navigationController?.navigationBar.frame.height)!-(self.tabBarController?.tabBar.frame.size.height)!
+
         viewFrame = CGRect(origin: self.view.frame.origin, size: CGSize(width: self.view.frame.width, height: viewHeight))
         self.scrollView.contentSize = CGSize(width: viewFrame.width * 2, height: viewHeight)
         
@@ -42,6 +45,9 @@ class SummaryViewController: UIViewController {
         subViews[1].frame = CGRect(origin: newOrigin, size: viewFrame!.size)
         subViews[1].addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showEmblem)))
         self.scrollView.addSubview(subViews[1])
+        
+        //Makes sure the scrollview fits the screen and doesn't allow vertical scrolling
+        self.automaticallyAdjustsScrollViewInsets = false
         
         let modal = GreenfootModal.sharedInstance
         pointLabel.text = "\(modal.totalEnergyPoints)"
@@ -58,9 +64,19 @@ class SummaryViewController: UIViewController {
         
         designGraph()
         loadGraph()
+        
+        print("Printing")
+        print(scrollView.frame.size)
+        print(viewFrame.size)
+        print(scrollView.contentSize)
     }
     
     func showGraph() {
+        print("Printing")
+        print(scrollView.frame.size)
+        print(viewFrame.size)
+        print(scrollView.contentSize)
+        
         let newOrigin = CGPoint(x: self.viewFrame!.width, y:0)
         self.scrollView.scrollRectToVisible(CGRect(origin: newOrigin, size: self.viewFrame!.size), animated: true)
     }
@@ -150,15 +166,15 @@ class SummaryViewController: UIViewController {
 
 extension UIViewController {
     func prepToolbar() {
-        let menuButton = IconButton(image: Icon.cm.menu)
-        menuButton.addTarget(navigationDrawerController, action: #selector(NavigationDrawerController.openLeftView(velocity:)), for: .touchUpInside)
-        navigationItem.leftViews = [menuButton]
+        //let menuButton = IconButton(image: Icon.cm.menu)
+        //menuButton.addTarget(navigationDrawerController, action: #selector(NavigationDrawerController.openLeftView(velocity:)), for: .touchUpInside)
+        //navigationItem.leftViews = [menuButton]
         
         let logo = UIImageView(image: Icon.logo_white)
         navigationItem.centerViews = [logo]
         logo.contentMode = .scaleAspectFit
         
-        menuButton.tintColor = UIColor.white
+        //menuButton.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
     }
 }

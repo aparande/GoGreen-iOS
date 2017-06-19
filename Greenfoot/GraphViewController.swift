@@ -153,8 +153,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fabMenu.fabButton = fabButton
         fabMenu.fabMenuItems = [addFabItem, attributeFabItem, shareFabItem]
         
-        
-        self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(24).right(24)
+        self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(75).right(25)
     }
     
     func bulkAdd() {
