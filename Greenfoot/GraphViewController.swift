@@ -175,3 +175,70 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.pushViewController(dcvc, animated: true)
     }
 }
+
+extension ScrollableGraphView {
+    func design() {
+        self.backgroundColor = Colors.green
+        self.backgroundFillColor = Colors.green
+        self.lineColor = UIColor.clear
+        
+        self.shouldDrawBarLayer = true
+        self.barColor = UIColor.white.withAlphaComponent(0.5)
+        self.shouldDrawDataPoint = false
+        self.barLineColor = UIColor.clear
+        
+        self.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        self.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
+        self.referenceLineLabelColor = UIColor.white
+        self.dataPointLabelColor = UIColor.white.withAlphaComponent(0.8)
+        
+        self.leftmostPointPadding = 75
+        self.topMargin = 20
+        
+        self.shouldAutomaticallyDetectRange = true
+        self.shouldRangeAlwaysStartAtZero = false
+        self.clipsToBounds = true
+        self.direction = .leftToRight
+        
+        self.cornerRadius = 10
+    }
+    
+    func loadData(_ data:[Date: Double], labeled label:String) {
+        var dates:[Date] = Array(data.keys)
+        dates.sort(by: { (date1, date2) -> Bool in
+            return date1.compare(date2) == ComparisonResult.orderedAscending })
+        
+        var labels: [String] = []
+        var points: [Double] = []
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        
+        var hasNegative = false
+        
+        for date in dates {
+            let point = data[date]!
+            
+            if !hasNegative {
+                hasNegative = (point < 0)
+            }
+            
+            points.append(point)
+            labels.append(formatter.string(from: date))
+        }
+        
+        if !hasNegative {
+            self.shouldRangeAlwaysStartAtZero = true
+        }
+        
+        self.set(data: points, withLabels: labels)
+        
+        self.referenceLineUnits = label
+        
+        self.layoutSubviews()
+        
+        if self.contentSize.width > self.frame.width {
+            self.setContentOffset(CGPoint(x:self.contentSize.width - self.frame.width+30, y:0), animated: true)
+        }
+    }
+}

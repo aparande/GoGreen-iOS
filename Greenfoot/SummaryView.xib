@@ -17,7 +17,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SummaryViewController" customModule="Greenfoot" customModuleProvider="target">
             <connections>
-                <outlet property="graph" destination="37G-oQ-9Qw" id="D0W-vn-neF"/>
+                <outlet property="barChart" destination="0PZ-jr-45D" id="1cx-tg-I5S"/>
+                <outlet property="pieChart" destination="feK-3A-GVu" id="1cm-YY-MaB"/>
                 <outlet property="pointLabel" destination="Afz-sa-CCR" id="ng5-fs-8aN"/>
             </connections>
         </placeholder>
@@ -76,21 +77,28 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="37G-oQ-9Qw" customClass="ScrollableGraphView" customModule="ScrollableGraphView">
-                    <rect key="frame" x="32" y="225" width="311" height="217"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0PZ-jr-45D" customClass="BarChartView" customModule="Charts">
+                    <rect key="frame" x="16" y="347" width="343" height="300"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="217" id="kgD-LK-Ubv"/>
-                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feK-3A-GVu" customClass="PieChartView" customModule="Charts">
+                    <rect key="frame" x="16" y="20" width="343" height="300"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <gestureRecognizers/>
             <constraints>
-                <constraint firstItem="37G-oQ-9Qw" firstAttribute="centerY" secondItem="xbY-th-WWO" secondAttribute="centerY" id="ShF-hT-6by"/>
-                <constraint firstItem="37G-oQ-9Qw" firstAttribute="leading" secondItem="xbY-th-WWO" secondAttribute="leading" constant="32" id="ocP-49-oOp"/>
-                <constraint firstItem="37G-oQ-9Qw" firstAttribute="centerX" secondItem="xbY-th-WWO" secondAttribute="centerX" id="sXc-0r-Bep"/>
+                <constraint firstAttribute="bottom" secondItem="0PZ-jr-45D" secondAttribute="bottom" constant="20" id="AEw-ck-CaY"/>
+                <constraint firstItem="feK-3A-GVu" firstAttribute="leading" secondItem="xbY-th-WWO" secondAttribute="leading" constant="16" id="Iut-Ck-MjC"/>
+                <constraint firstItem="feK-3A-GVu" firstAttribute="top" secondItem="xbY-th-WWO" secondAttribute="top" constant="20" id="N86-Wo-RLo"/>
+                <constraint firstItem="0PZ-jr-45D" firstAttribute="top" secondItem="feK-3A-GVu" secondAttribute="bottom" constant="27" id="Xz8-Cv-HFr"/>
+                <constraint firstItem="feK-3A-GVu" firstAttribute="height" secondItem="0PZ-jr-45D" secondAttribute="height" id="c3B-R4-fob"/>
+                <constraint firstItem="0PZ-jr-45D" firstAttribute="leading" secondItem="xbY-th-WWO" secondAttribute="leading" constant="16" id="cCz-OH-fn9"/>
+                <constraint firstAttribute="trailing" secondItem="feK-3A-GVu" secondAttribute="trailing" constant="16" id="xEZ-Fr-Yf1"/>
+                <constraint firstAttribute="trailing" secondItem="0PZ-jr-45D" secondAttribute="trailing" constant="16" id="xMA-HT-BSg"/>
             </constraints>
-            <point key="canvasLocation" x="496" y="53"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <point key="canvasLocation" x="495.5" y="52.5"/>
         </view>
     </objects>
     <resources>

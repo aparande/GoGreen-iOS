@@ -243,6 +243,10 @@ struct Colors {
     static let green = UIColor(red: 46/255, green: 204/255, blue: 113/255, alpha: 1.0)
     static let darkGreen = UIColor(red: 45/255, green: 191/255, blue: 122/255, alpha: 1.0)
     static let red = UIColor(red:231/255, green: 76/255, blue:60/255, alpha:1.0)
+    static let blue = UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 1.0)
+    static let purple = UIColor(red: 155/255, green: 89/255, blue: 182/255, alpha: 1.0)
+    
+    static let options = [green, red, blue, purple, darkGreen]
 }
 
 extension Icon {
