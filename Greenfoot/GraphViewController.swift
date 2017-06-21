@@ -16,7 +16,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var data: GreenData!
     var fabMenu:FABMenu!
     
-    @IBOutlet var graph: BarChartView!
+    @IBOutlet var graph: BarGraph!
     @IBOutlet var attributeTableView: UITableView!
     @IBOutlet var energyPointsLabel: UILabel!
     @IBOutlet var dailyAverageLabel:UILabel!

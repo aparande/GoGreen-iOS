@@ -13,6 +13,7 @@
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
 		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
 		1F418C591EBD1C3000F5ED42 /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */; };
+		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
 		1F62E6A51E1B2FC500D237EF /* DrawerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */; };
 		1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C73B51EDB593C006A0003 /* EditDataCell.xib */; };
@@ -49,6 +50,7 @@
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
 		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenfootModal.swift; sourceTree = SOURCE_ROOT; };
 		1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
+		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTableViewController.swift; sourceTree = "<group>"; };
 		1F6C73B51EDB593C006A0003 /* EditDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDataCell.xib; sourceTree = "<group>"; };
@@ -101,6 +103,9 @@
 		1F14FADF1EF71498005E9F33 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1F487AA61EFAC9700072D28F /* BarGraph.swift */,
+				1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */,
+				1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */,
 				1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */,
 				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
 				1F6C73B51EDB593C006A0003 /* EditDataCell.xib */,
@@ -143,16 +148,13 @@
 				1F70CCBB1E105D0600AD351A /* AppDelegate.swift */,
 				1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */,
 				1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */,
-				1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */,
 				1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */,
 				1F70CCC21E105D0600AD351A /* Assets.xcassets */,
 				1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */,
 				1F70CCC71E105D0600AD351A /* Info.plist */,
-				1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */,
 				1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */,
 				1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */,
 				1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */,
-				1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -160,6 +162,7 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
+				1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */,
 				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
 				1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */,
 				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
@@ -331,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */,
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,

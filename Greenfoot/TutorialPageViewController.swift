@@ -36,7 +36,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     @IBOutlet weak var monthField: TextField!
     @IBOutlet weak var amountField: TextField!
     @IBOutlet weak var stepper: UIStepper!
-    @IBOutlet weak var graph: BarChartView!
+    @IBOutlet weak var graph: BarGraph!
     @IBOutlet weak var iconDataImageView: UIImageView!
     @IBOutlet weak var closeButton: IconButton!
     //Importer View Variables
@@ -193,7 +193,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
-        let date = formatter.date(from: monthField.text!)!
+        let dateText = monthField.text!
+        let date = formatter.date(from: dateText)!
         
         if addedMonths.contains(date) {
             let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
@@ -205,7 +206,9 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         }
         
         addedMonths.append(date)
-        addedPoints.append(Double(amountField.text!)!)
+        
+        let point = Double(amountField.text!)!
+        addedPoints.append(point)
         
         monthField.text = ""
         amountField.text = ""
@@ -213,6 +216,18 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         pointToolbarField.text = ""
         
         //update the graph view
+        /*
+        addedMonths.sort(by: { (date1, date2) -> Bool in
+            return date1.compare(date2) == ComparisonResult.orderedAscending })
+        let position = addedMonths.index(of: date)!
+        
+        graph.addDataPoint(labeled: dateText, value: point, atX: Double(position)) */
+        
+        var dataDict:[Date:Double] = [:]
+        for i in 0..<addedMonths.count {
+            dataDict[addedMonths[i]] = addedPoints[i]
+        }
+        graph.loadData(dataDict, labeled: dataType)
         amountField.resignFirstResponder()
     }
     

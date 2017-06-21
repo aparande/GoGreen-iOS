@@ -77,7 +77,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0PZ-jr-45D" customClass="BarChartView" customModule="Charts">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0PZ-jr-45D" customClass="BarGraph" customModule="Greenfoot" customModuleProvider="target">
                     <rect key="frame" x="16" y="347" width="343" height="300"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>

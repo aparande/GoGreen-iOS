@@ -14,7 +14,7 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var pointLabel:UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var barChart: BarChartView!
+    @IBOutlet weak var barChart: BarGraph!
     @IBOutlet weak var pieChart: PieChartView!
     
     private var monthlyEP:[Date: Double] = [:]
@@ -107,106 +107,6 @@ extension UIViewController {
         
         //menuButton.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
-    }
-}
-
-extension BarChartView {
-    func loadData(_ data:[Date: Double], labeled label:String) {
-        self.noDataText = "NO DATA"
-        self.noDataTextColor = UIColor.white.withAlphaComponent(0.8)
-        self.noDataFont = UIFont(name: "DroidSans", size: 35.0)
-        
-        //Creates the corner radius
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = true
-        
-        if data.keys.count == 0 {
-            return
-        }
-        
-        //Covert the dictionary into two arrays ordered in ascending dates
-        var dates:[Date] = Array(data.keys)
-        dates.sort(by: { (date1, date2) -> Bool in
-            return date1.compare(date2) == ComparisonResult.orderedAscending })
-        
-        var labels: [String] = []
-        var points: [Double] = []
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        
-        var hasNegative = false
-        
-        for date in dates {
-            let point = data[date]!
-            
-            if !hasNegative {
-                hasNegative = (point < 0)
-            }
-            
-            points.append(point)
-            labels.append(formatter.string(from: date))
-        }
-        
-        var dataEntries: [BarChartDataEntry] = []
-        for i in 0..<points.count {
-            let dataEntry = BarChartDataEntry(x: Double(i), y: points[i])
-            dataEntries.append(dataEntry)
-        }
-        
-        let chartDataSet = BarChartDataSet(values: dataEntries, label: label)
-        let chartData = BarChartData(dataSet: chartDataSet)
-        
-        chartData.barWidth = fixedToPercentWidth(30, withSpacing: 25, numberOfBars: points.count)
-    
-        self.xAxis.valueFormatter = IndexAxisValueFormatter(values: labels)
-        self.data = chartData
-        
-        //Design the chart
-        self.chartDescription?.text = ""
-        chartDataSet.colors = [UIColor.white.withAlphaComponent(0.5)]
-        self.backgroundColor = Colors.green
-        
-        self.legend.enabled = false
-        self.rightAxis.enabled = false
-        
-        self.xAxis.drawGridLinesEnabled = false
-        self.xAxis.labelPosition = .bottom
-        self.xAxis.axisLineColor = UIColor.clear
-        self.xAxis.labelTextColor = UIColor.white.withAlphaComponent(0.8)
-        
-        self.leftAxis.gridColor = UIColor.white.withAlphaComponent(0.5)
-        self.leftAxis.labelTextColor = UIColor.white
-        self.leftAxis.labelFont = UIFont.boldSystemFont(ofSize: 8)
-        self.leftAxis.axisLineColor = UIColor.clear
-        
-        if let max = points.max() {
-            self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
-        }
-        
-        let xAxisLine = ChartLimitLine(limit: 0.0, label: "")
-        xAxisLine.lineColor = UIColor.white
-        self.leftAxis.addLimitLine(xAxisLine)
-        
-        //Adds some padding
-        self.extraTopOffset = 10
-        self.extraBottomOffset = 10
-        
-        self.data?.setDrawValues(false)
-        self.doubleTapToZoomEnabled = false
-        //self.setScaleMinima(10, scaleY: 1)
-        
-        self.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
-    }
-    
-    private func fixedToPercentWidth(_ fixed: Double, withSpacing spacing:Double, numberOfBars barNum: Int) -> Double {
-        let viewportWidth = self.width
-        
-        let totalSpace = fixed * Double(barNum) + spacing * Double(barNum - 1)
-        
-        self.setScaleMinima(CGFloat(totalSpace)/viewportWidth, scaleY: 1.0)
-        
-        return fixed * Double(barNum)/totalSpace
     }
 }
 
