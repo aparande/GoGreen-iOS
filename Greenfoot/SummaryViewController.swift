@@ -112,6 +112,18 @@ extension UIViewController {
 
 extension BarChartView {
     func loadData(_ data:[Date: Double], labeled label:String) {
+        self.noDataText = "NO DATA"
+        self.noDataTextColor = UIColor.white.withAlphaComponent(0.8)
+        self.noDataFont = UIFont(name: "DroidSans", size: 35.0)
+        
+        //Creates the corner radius
+        self.layer.cornerRadius = 10
+        self.layer.masksToBounds = true
+        
+        if data.keys.count == 0 {
+            return
+        }
+        
         //Covert the dictionary into two arrays ordered in ascending dates
         var dates:[Date] = Array(data.keys)
         dates.sort(by: { (date1, date2) -> Bool in
@@ -167,7 +179,10 @@ extension BarChartView {
         self.leftAxis.labelTextColor = UIColor.white
         self.leftAxis.labelFont = UIFont.boldSystemFont(ofSize: 8)
         self.leftAxis.axisLineColor = UIColor.clear
-        self.leftAxis.axisMaximum = 10 * ceil(points.max()! / 10.0)
+        
+        if let max = points.max() {
+            self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+        }
         
         let xAxisLine = ChartLimitLine(limit: 0.0, label: "")
         xAxisLine.lineColor = UIColor.white
@@ -180,10 +195,6 @@ extension BarChartView {
         self.data?.setDrawValues(false)
         self.doubleTapToZoomEnabled = false
         //self.setScaleMinima(10, scaleY: 1)
-        
-        //Creates the corner radius
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = true
         
         self.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
     }

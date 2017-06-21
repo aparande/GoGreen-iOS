@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import ScrollableGraphView
 import Material
+import Charts
 
 protocol TutorialPageDelegate {
     func skipPage()
@@ -36,8 +36,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     @IBOutlet weak var monthField: TextField!
     @IBOutlet weak var amountField: TextField!
     @IBOutlet weak var stepper: UIStepper!
-    @IBOutlet weak var placeholderLabel: UILabel!
-    @IBOutlet weak var graph: ScrollableGraphView!
+    @IBOutlet weak var graph: BarChartView!
     @IBOutlet weak var iconDataImageView: UIImageView!
     @IBOutlet weak var closeButton: IconButton!
     //Importer View Variables
@@ -120,7 +119,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         importerView!.frame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
         
-        designGraph()
+        graph.loadData([:], labeled: dataType)
         //graph.set(data: [0.0, 0.0, 0.0, 0.0], withLabels: ["2/17", "3/17", "4/17", "5/17"])
         
         iconDataImageView.image = icon
@@ -214,80 +213,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         pointToolbarField.text = ""
         
         //update the graph view
-        updateGraphView()
         amountField.resignFirstResponder()
-    }
-    
-    func updateGraphView() {
-        var labels: [String] = []
-        var points: [Double] = []
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        
-        for i in 0..<addedMonths.count-1 {
-            var locMin = i
-            var min = addedMonths[i]
-            for k in (i+1)..<addedMonths.count {
-                if min.compare(addedMonths[k]) == ComparisonResult.orderedDescending {
-                    locMin = k
-                    min = addedMonths[k]
-                }
-            }
-            let tempMonth = addedMonths[i]
-            let tempPoint = addedPoints[i]
-            
-            addedMonths[i] = min
-            addedMonths[locMin] = tempMonth
-            
-            addedPoints[i] = addedPoints[locMin]
-            addedPoints[locMin] = tempPoint
-        }
-        
-        addedMonths.sort(by: { (date1, date2) -> Bool in
-            return date1.compare(date2) == ComparisonResult.orderedAscending })
-        
-        for i in 0...addedMonths.count-1 {
-            points.append(addedPoints[i])
-            labels.append(formatter.string(from: addedMonths[i]))
-        }
-        
-        if points.count == 0 {
-            placeholderLabel.isHidden = false
-        } else {
-            placeholderLabel.isHidden = true
-            
-            graph.set(data: points, withLabels: labels)
-            graph.layoutSubviews()
-            
-            if graph.contentSize.width > graph.frame.width {
-                graph.setContentOffset(CGPoint(x:graph.contentSize.width - graph.frame.width + 40.0, y:0), animated: true)
-            }
-        }
-    }
-    
-    func designGraph() {
-        graph.backgroundFillColor = Colors.darkGreen
-        graph.backgroundColor = Colors.darkGreen
-        graph.lineColor = UIColor.clear
-        
-        graph.shouldDrawBarLayer = true
-        graph.barColor = UIColor.white.withAlphaComponent(0.5)
-        graph.shouldDrawDataPoint = false
-        graph.barLineColor = UIColor.clear
-        
-        graph.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        graph.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
-        graph.referenceLineLabelColor = UIColor.white
-        graph.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
-        
-        graph.shouldAutomaticallyDetectRange = true
-        graph.shouldAdaptRange = true
-        graph.shouldRangeAlwaysStartAtZero = true
-        graph.clipsToBounds = true
-        graph.direction = .leftToRight
-        
-        graph.cornerRadius = 10
     }
     
     @IBAction func incrementData(_ sender: Any) {
