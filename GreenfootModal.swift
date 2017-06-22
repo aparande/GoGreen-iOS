@@ -85,7 +85,25 @@ class GreenfootModal: NewsParserDelegate {
             electricData.data = data as! [String:Int]
         }
         
+        //If you were to try and load the e_factor from the web here, under the current code, an endless loop would be created
+        if defaults.object(forKey: "e_factor") != nil {
+            let conversionFactor = defaults.double(forKey: "e_factor")
+            electricData.calculateCO2 = {
+                point in
+                
+                return point * conversionFactor/1000
+            }
+        } else {
+            electricData.calculateCO2 = {
+                _ in
+                return 0
+            }
+        }
+        
         CoreDataHelper.fetch(data: electricData)
+        electricData.recalculateEP()
+        
+        
         
         electricData.attributes.append("General")
         electricData.descriptions.append("Electric consumption is one of the largest contributers to an individuals carbon footprint. The average American consums 901 Kilowatt-Hours of Energy per month. You can find the Kilowatt-Hour consumption at the bottom of your electricity bill.")
@@ -93,7 +111,7 @@ class GreenfootModal: NewsParserDelegate {
         electricData.attributes.append("Solar Panels")
         electricData.descriptions.append("One way to make your electric consumption greener is to install solar panels. Just 12 solar panels can power a 2000 square foot home!")
         
-        electricData.recalculateEP()
+        
         
         data["Electric"] = electricData
     }
@@ -109,6 +127,12 @@ class GreenfootModal: NewsParserDelegate {
             } else {
                 return Int(pow(diff, 1.0/3.0))
             }
+        }
+        
+        waterData.calculateCO2 = {
+            _ in
+            //Since water doesn't count towards CO2
+            return 0
         }
         
         //http://www.home-water-works.org/indoor-use/showers
@@ -214,6 +238,12 @@ class GreenfootModal: NewsParserDelegate {
         //https://www.eia.gov/pub/oil_gas/natural_gas/feature_articles/2010/ngtrendsresidcon/ngtrendsresidcon.pdf
         //http://www.nationmaster.com/country-info/stats/Energy/Natural-gas/Consumption-per-capita
         let gasData = GreenData(name: "Gas", xLabel: "Month", yLabel: "Therms", base: 61, averageLabel: "Therms per Day", icon: Icon.fire_white)
+        
+        gasData.calculateCO2 = {
+            point in
+            //See spreadsheet for this conversion factor
+            return point*11.7
+        }
         
         CoreDataHelper.fetch(data: gasData)
         

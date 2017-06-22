@@ -129,17 +129,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             localityData["City"] = placemark.locality
             localityData["State"] = placemark.administrativeArea
             localityData["Country"] = placemark.country
+            localityData["Zip"] = placemark.postalCode
             GreenfootModal.sharedInstance.locality = localityData
             print("Saved locale")
             
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/yy"
-            for (_, value) in GreenfootModal.sharedInstance.data {
+            for (key, value) in GreenfootModal.sharedInstance.data {
                 for (month, amount) in value.getGraphData() {
                     let date = formatter.string(from: month)
                     if !value.uploadedData.contains(date) {
                         value.addToServer(month: date, point: amount)
                     }
+                }
+                
+                if key == "Electric" {
+                    value.fetchEGrid()
                 }
             }
             return

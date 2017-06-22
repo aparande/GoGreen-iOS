@@ -24,10 +24,12 @@ class GreenData {
     var icon:UIImage
     
     var calculateEP: (Double, Double) -> Int
+    var calculateCO2: (Double) -> Double
     var bonus: (Int, Int) -> Int
     
     private var graphData:[Date: Double]
     private var epData:[Date: Int]
+    private var co2Equivalent:[Date: Double]
     
     var uploadedData:[String]
     
@@ -53,6 +55,8 @@ class GreenData {
     var yLabel:String
     
     var energyPoints:Int
+    var totalCarbon: Int
+    
     var baseline:Double
     
     init(name:String, xLabel:String, yLabel:String, base: Double, averageLabel:String, icon:UIImage) {
@@ -67,9 +71,14 @@ class GreenData {
         uploadedData = []
         
         dataName = name
+        
         graphData = [:]
         epData = [:]
+        co2Equivalent = [:]
+        
         energyPoints = 0
+        totalCarbon = 0
+        
         baseline = base
         self.averageLabel = averageLabel
         self.icon = icon
@@ -88,13 +97,23 @@ class GreenData {
             base, attr in
             return (attr > base) ? 5*(attr-base) : 0
         }
+        
+        calculateCO2 = {
+            point in
+            return point
+        }
     }
     
     func addDataPoint(month:Date, y:Double, save: Bool) {
         graphData[month] = y
+        
         let ep = calculateEP(baseline, y)
         epData[month] = ep
         energyPoints += ep
+        
+        let carbon = calculateCO2(y)
+        co2Equivalent[month] = carbon
+        totalCarbon += Int(carbon)
         
         if save {
             CoreDataHelper.save(data: self, month: month, amount: y)
@@ -112,13 +131,18 @@ class GreenData {
     }
     
     func editDataPoint(month:Date, y:Double) {
-        let epPrev = calculateEP(baseline, graphData[month]!)
+        let epPrev = epData[month]!
+        let carbonPrev = co2Equivalent[month]!
         
         graphData[month] = y
+        
         let ep = calculateEP(baseline, y)
         epData[month] = ep
-        
         energyPoints = energyPoints - epPrev + ep
+        
+        let carbon = calculateCO2(y)
+        co2Equivalent[month] = carbon
+        totalCarbon = totalCarbon - Int(carbonPrev) + Int(carbon)
         
         //Mark the point as unuploaded in the database always
         CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
@@ -134,7 +158,11 @@ class GreenData {
     
     func removeDataPoint(month:Date) {
         graphData.removeValue(forKey: month)
-        recalculateEP()
+        let carbon = co2Equivalent.removeValue(forKey: month)!
+        let ep = epData.removeValue(forKey: month)!
+        
+        totalCarbon -= Int(carbon)
+        energyPoints -= ep
         
         CoreDataHelper.delete(data: self, month: month)
         
@@ -143,6 +171,7 @@ class GreenData {
     
     func recalculateEP() {
         energyPoints = 0
+        
         for key in bonusDict.keys {
             energyPoints += bonus(baselines[key]!, bonusDict[key]!)
         }
@@ -150,6 +179,46 @@ class GreenData {
         for x in graphData.keys {
             energyPoints += calculateEP(baseline, graphData[x]!)
         }
+    }
+    
+    private func recalculateCarbon() {
+        totalCarbon = 0
+        for (key, value) in graphData {
+            let carbon = calculateCO2(value)
+            
+            totalCarbon += Int(carbon)
+            co2Equivalent[key] = carbon
+            
+        }
+    }
+    
+    func fetchEGrid() {
+        if dataName != "Electric" {
+            return
+        }
+        
+        guard let locality = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        let parameters:[String:String] = ["zip":locality["Zip"]!]
+        connectToServer(atEndpoint: "getFromEGrid", withParameters: parameters, completion: {
+            data in
+            
+            if data["status"] as! String == "Success" {
+                let e_factor = data["e_factor"] as! Double
+                UserDefaults.standard.set(e_factor, forKey: "e_factor")
+                
+                self.calculateCO2 = {
+                    point in
+                    return point * e_factor/1000
+                }
+                
+                self.recalculateCarbon()
+            } else {
+                print("Failed to load electric grid because: "+(data["message"] as! String))
+            }
+        })
     }
     
     func addToServer(month:String, point:Double) {
@@ -166,14 +235,13 @@ class GreenData {
         parameters["state"] = locality["State"]
         parameters["country"] = locality["Country"]
         
-        let completion = {
-            if let month = parameters["month"] as? String {
+        connectToServer(atEndpoint: "input", withParameters: parameters, completion: {
+            data in
+            if data["status"] as! String == "Success" {
                 self.uploadedData.append(month)
                 CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
             }
-        }
-        
-        connectToServer(atEndpoint: "input", withParameters: parameters, completion: completion)
+        })
     }
     
     fileprivate func updateOnServer(month:String, point: Double) {
@@ -186,14 +254,13 @@ class GreenData {
         parameters["profId"] = GreenfootModal.sharedInstance.profId
         parameters["dataType"] = dataName
         
-        let completion = {
-            if let month = parameters["month"] as? String {
+        connectToServer(atEndpoint: "updateDataPoint", withParameters: parameters, completion: {
+            data in
+            if data["status"] as! String == "Success" {
                 self.uploadedData.append(month)
                 CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
             }
-        }
-        
-        connectToServer(atEndpoint: "updateDataPoint", withParameters: parameters, completion: completion)
+        })
     }
     
     fileprivate func deleteFromServer(month: String) {
@@ -205,15 +272,19 @@ class GreenData {
         var parameters:[String:Any] = ["month":month]
         parameters["profId"] = GreenfootModal.sharedInstance.profId
         parameters["dataType"] = dataName
-        
-        let completion = {
-            print("Successfully deleted from server")
-        }
-        
-        connectToServer(atEndpoint: "deleteDataPoint", withParameters: parameters, completion: completion)
+
+        connectToServer(atEndpoint: "deleteDataPoint", withParameters: parameters, completion: {
+            data in
+                
+            if data["status"] as! String == "Success" {
+                print("Successfully deleted from server")
+            } else {
+                print("Couldn't delete from server")
+            }
+        })
     }
     
-    fileprivate func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (Void) -> Void) {
+    fileprivate func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (NSDictionary) -> Void) {
         let base = URL(string: "http://192.168.1.78:8000")!
         //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
         let url = URL(string: endpoint, relativeTo: base)!
@@ -230,9 +301,11 @@ class GreenData {
             
             if error != nil {
                 guard let description = error? .localizedDescription else {
+                    completion(["status":"Failed", "message":"Unknown error found"])
                     return
                 }
                 print(description)
+                completion(["status":"Failed", "message":description])
                 return
             }
             
@@ -246,13 +319,9 @@ class GreenData {
             do  {
                 let retVal = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                 
-                print(retVal!)
-                if retVal!["status"] as! String == "Success" {
-                    completion()
-                    return
-                }
+                completion(retVal!)
             } catch _ {
-                print("Failed decoding JSON")
+                completion(["status":"Failed", "message":"Could not decode JSON"])
             }
         })
         task.resume()
