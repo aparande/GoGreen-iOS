@@ -108,6 +108,27 @@ extension UIViewController {
         //menuButton.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
     }
+    
+    func prepSegmentedToolbar(segmentAction: Selector) {
+        navigationController?.navigationBar.barTintColor = Colors.green
+        
+        let segmentedView = UISegmentedControl(items: ["Usage", "Energy Points"])
+        segmentedView.selectedSegmentIndex = 0
+        segmentedView.layer.cornerRadius = 5.0
+        segmentedView.tintColor = UIColor.white
+        
+        let containerView = UIView()
+        containerView.addSubview(segmentedView)
+        
+        navigationItem.centerViews = [containerView]
+        
+        //Centers the segmented control in the view
+        let segmentedX = (containerView.bounds.width - segmentedView.bounds.width*1.5)/2
+        let segmentedY = (containerView.bounds.height - segmentedView.bounds.height)/2
+        segmentedView.frame.origin = CGPoint(x: segmentedX, y: segmentedY)
+        
+        segmentedView.addTarget(self, action: segmentAction, for: .valueChanged)
+    }
 }
 
 extension PieChartView {

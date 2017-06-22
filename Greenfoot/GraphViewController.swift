@@ -25,7 +25,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        prepToolbar()
+        prepSegmentedToolbar(segmentAction: #selector(changeGraph(sender:)))
         
         var infoImage = Icon.info_white
         infoImage = infoImage!.resize(toHeight: 20)
@@ -57,6 +57,23 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         attributeTableView.reloadData()
         
         graph.loadData(data.getGraphData(), labeled: data.yLabel)
+    }
+    
+    func changeGraph(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            graph.loadData(data.getGraphData(), labeled: data.yLabel)
+            break
+        case 1:
+            var epData:[Date:Double] = [:]
+            for (key, value) in data.getEPData() {
+                epData[key] = Double(value)
+            }
+            graph.loadData(epData, labeled: "Energy Points")
+            break
+        default:
+            break
+        }
     }
     
     func setDataType(data:GreenData) {
