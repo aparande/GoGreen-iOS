@@ -27,13 +27,13 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Do any additional setup after loading the view.
         prepSegmentedToolbar(segmentAction: #selector(changeGraph(sender:)))
         
-        var infoImage = Icon.info_white
+        /*var infoImage = Icon.info_white
         infoImage = infoImage!.resize(toHeight: 20)
         infoImage = infoImage!.resize(toWidth: 20)
         let infoButton = IconButton(image: infoImage)
         infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         infoButton.imageView?.contentMode = .scaleAspectFit
-        navigationItem.rightViews = [infoButton]
+        navigationItem.rightViews = [infoButton]*/
         
         graph.loadData(data.getGraphData(), labeled: data.yLabel)
         
@@ -71,6 +71,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             graph.loadData(epData, labeled: "Energy Points")
             break
+        case 2:
+            graph.loadData(data.getCarbonData(), labeled: "Carbon")
         default:
             break
         }

@@ -109,7 +109,7 @@ class BarGraph: BarChartView {
         self.doubleTapToZoomEnabled = false
         //self.setScaleMinima(10, scaleY: 1)
         
-        self.animate(xAxisDuration: 1.0, yAxisDuration: 2.0, easingOption: .linear)
+        self.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: .linear)
     }
     
     func addDataPoint(labeled label:String, value: Double, atX x: Double) {

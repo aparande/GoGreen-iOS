@@ -129,6 +129,9 @@ class GreenData {
     func getEPData() -> [Date: Int] {
         return epData
     }
+    func getCarbonData() -> [Date: Double] {
+        return co2Equivalent
+    }
     
     func editDataPoint(month:Date, y:Double) {
         let epPrev = epData[month]!

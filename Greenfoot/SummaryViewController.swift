@@ -112,7 +112,7 @@ extension UIViewController {
     func prepSegmentedToolbar(segmentAction: Selector) {
         navigationController?.navigationBar.barTintColor = Colors.green
         
-        let segmentedView = UISegmentedControl(items: ["Usage", "Energy Points"])
+        let segmentedView = UISegmentedControl(items: ["Usage", "Energy Points", "Carbon"])
         segmentedView.selectedSegmentIndex = 0
         segmentedView.layer.cornerRadius = 5.0
         segmentedView.tintColor = UIColor.white
@@ -123,7 +123,7 @@ extension UIViewController {
         navigationItem.centerViews = [containerView]
         
         //Centers the segmented control in the view
-        let segmentedX = (containerView.bounds.width - segmentedView.bounds.width*1.5)/2
+        let segmentedX = (containerView.bounds.width - segmentedView.bounds.width)/2
         let segmentedY = (containerView.bounds.height - segmentedView.bounds.height)/2
         segmentedView.frame.origin = CGPoint(x: segmentedX, y: segmentedY)
         
