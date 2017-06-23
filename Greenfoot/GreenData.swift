@@ -51,6 +51,27 @@ class GreenData {
         }
     }
     
+    var averageMonthly: Double {
+        get {
+            var sum = 0.0
+            var count = 0.0
+            
+            for (_, value) in graphData {
+                sum += value
+                count += 1
+            }
+            
+            if count == 0 {
+                return 0
+            }
+            
+            var ans = sum/count
+            ans *= 10
+            let rounded = Int(ans)
+            return Double(rounded)/10.0
+        }
+    }
+    
     var xLabel:String
     var yLabel:String
     
@@ -58,6 +79,7 @@ class GreenData {
     var totalCarbon: Int
     
     var baseline:Double
+    var stateConsumption: Double?
     
     init(name:String, xLabel:String, yLabel:String, base: Double, averageLabel:String, icon:UIImage) {
         self.xLabel = xLabel
@@ -220,6 +242,32 @@ class GreenData {
                 self.recalculateCarbon()
             } else {
                 print("Failed to load electric grid because: "+(data["message"] as! String))
+            }
+        })
+    }
+    
+    func fetchConsumption() {
+        if dataName != "Electric" {
+            return
+        }
+        
+        guard let locality = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        
+        var parameters:[String:String] = ["type":"Electric"]
+        parameters["state"] = locality["State"]!
+        parameters["country"] = locality["Country"]!
+        connectToServer(atEndpoint: "/getFromConsumption", withParameters: parameters, completion: {
+            data in
+            
+            if data["status"] as! String == "Success" {
+                let consumption = data["value"] as! Double
+                self.stateConsumption = consumption
+                print(self.stateConsumption!)
+            } else {
+                print("Failed to load consumption because: "+(data["message"] as! String))
             }
         })
     }

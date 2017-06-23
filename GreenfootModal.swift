@@ -103,8 +103,6 @@ class GreenfootModal: NewsParserDelegate {
         CoreDataHelper.fetch(data: electricData)
         electricData.recalculateEP()
         
-        
-        
         electricData.attributes.append("General")
         electricData.descriptions.append("Electric consumption is one of the largest contributers to an individuals carbon footprint. The average American consums 901 Kilowatt-Hours of Energy per month. You can find the Kilowatt-Hour consumption at the bottom of your electricity bill.")
         

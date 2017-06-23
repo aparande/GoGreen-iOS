@@ -145,6 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 
                 if key == "Electric" {
                     value.fetchEGrid()
+                    value.fetchConsumption()
                 }
             }
             return
