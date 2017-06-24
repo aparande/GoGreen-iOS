@@ -266,6 +266,8 @@ class GreenData {
                 let consumption = data["value"] as! Double
                 self.stateConsumption = consumption
                 print(self.stateConsumption!)
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "fetchedConsumption"), object: nil)
             } else {
                 print("Failed to load consumption because: "+(data["message"] as! String))
             }

@@ -91,6 +91,8 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
             
             chartForData(named: name).loadData(dict, labeled: labelForData(named: name))
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadConsumption), name: NSNotification.Name(rawValue: "fetchedConsumption"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +108,7 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
     func showEmblem() {
         let newOrigin = CGPoint(x: 0, y:viewFrame.height * 2)
         //self.scrollView.scrollRectToVisible(CGRect(origin: CGPoint.zero, size: self.viewFrame!.size), animated: true)
-        for (name, data) in GreenfootModal.sharedInstance.data {
+        /*for (name, data) in GreenfootModal.sharedInstance.data {
             var dict = ["U.S": data.baseline]
             if let consumption = data.stateConsumption {
                 let state = GreenfootModal.sharedInstance.locality!["State"]!
@@ -118,7 +120,7 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
             }
             
             chartForData(named: name).loadData(dict, labeled: labelForData(named: name))
-        }
+        }*/
         
         self.scrollView.scrollRectToVisible(CGRect(origin: newOrigin, size: self.viewFrame!.size), animated: true)
     }
@@ -162,6 +164,22 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
             default:
                 return ""
         }
+    }
+    
+    func reloadConsumption() {
+        print("Hi")
+        let data = GreenfootModal.sharedInstance.data["Electric"]!
+        var dict = ["U.S": data.baseline]
+        if let consumption = data.stateConsumption {
+            let state = GreenfootModal.sharedInstance.locality!["State"]!
+            dict[state] = consumption
+        }
+        
+        if data.getGraphData().count != 0 {
+            dict["You"] = data.averageMonthly
+        }
+        
+        electricChart.loadData(dict, labeled: "Monthly Electricity Consumption (kWh)")
     }
 }
 
