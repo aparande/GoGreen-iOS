@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Material
 
-class GreenfootModal: NewsParserDelegate {
+class GreenfootModal {
     static let sharedInstance = GreenfootModal()
     
     var data:[String:GreenData]
@@ -36,9 +36,6 @@ class GreenfootModal: NewsParserDelegate {
         }
     }
     
-    var newsParser:NewsXMLParser
-    var newsFeed = [Dictionary<String, String>]()
-    
     var locality:[String:String]?
     let profId:String
     
@@ -57,18 +54,6 @@ class GreenfootModal: NewsParserDelegate {
         if let locale_data = defaults.dictionary(forKey: "LocalityData") as? [String:String] {
             locality = locale_data
         }
-        
-        newsParser = NewsXMLParser()
-        newsParser.delegate = self
-        
-        let nyTimes = URL(string: "http://rss.nytimes.com/services/xml/rss/nyt/Environment.xml")!
-        let guardian = URL(string: "https://www.theguardian.com/environment/climate-change/rss")!
-        let nasa = URL(string: "https://climate.nasa.gov/news/rss.xml")!
-        let climateHome = URL(string: "http://feeds.feedburner.com/ClimateHome?format=xml")!
-        let climateWire = URL(string: "https://www.eenews.net/cw/rss.xml")!
-        
-        let rssUrls = ["New York Times": nyTimes, "The Guardian":guardian, "NASA": nasa, "Climate Home":climateHome, "ClimateWire":climateWire]
-        newsParser.startParsingWithContentsOfUrl(rssUrls: rssUrls)
         
         prepElectric()
         prepWater()
@@ -262,19 +247,6 @@ class GreenfootModal: NewsParserDelegate {
         gasData.recalculateEP()
         
         data["Gas"] = gasData
-    }
-    
-    func parsingWasFinished(parser:NewsXMLParser) {
-        newsFeed.append(contentsOf: parser.arrParsedData)
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, dd MMM yyyy HH:mm:ss zzz"
-        newsFeed.sort(by: {
-            let dateOne = formatter.date(from: $0["pubDate"]!)!
-            let dateTwo = formatter.date(from: $1["pubDate"]!)!
-                
-            return dateOne > dateTwo
-        })
     }
 }
 

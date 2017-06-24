@@ -12,12 +12,10 @@
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
 		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
-		1F418C591EBD1C3000F5ED42 /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
 		1F62E6A51E1B2FC500D237EF /* DrawerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */; };
 		1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C73B51EDB593C006A0003 /* EditDataCell.xib */; };
-		1F6E2EED1EBE878700445D41 /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6E2EEC1EBE878700445D41 /* NewsCell.xib */; };
 		1F6E2EEF1EBE8EBA00445D41 /* ImageDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */; };
 		1F6EF2881EF07903000EF403 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6EF2871EF07903000EF403 /* CoreLocation.framework */; };
 		1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F70CCBB1E105D0600AD351A /* AppDelegate.swift */; };
@@ -25,7 +23,6 @@
 		1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCBF1E105D0600AD351A /* Main.storyboard */; };
 		1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC21E105D0600AD351A /* Assets.xcassets */; };
 		1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */; };
-		1F8CAF321EBAD12F005945EA /* NewsXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */; };
 		1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9195051E67922B0035A4AD /* BulkDataViewController.swift */; };
 		1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F91DDE31E1570A70020371F /* GeosansLight.ttf */; };
 		1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */; };
@@ -49,12 +46,10 @@
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
 		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenfootModal.swift; sourceTree = SOURCE_ROOT; };
-		1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		1F62E6A41E1B2FC500D237EF /* DrawerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTableViewController.swift; sourceTree = "<group>"; };
 		1F6C73B51EDB593C006A0003 /* EditDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDataCell.xib; sourceTree = "<group>"; };
-		1F6E2EEC1EBE878700445D41 /* NewsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloadOperations.swift; sourceTree = "<group>"; };
 		1F6EF2871EF07903000EF403 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1F70CCB81E105D0600AD351A /* Greenfoot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Greenfoot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,7 +59,6 @@
 		1F70CCC21E105D0600AD351A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F70CCC51E105D0600AD351A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F70CCC71E105D0600AD351A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsXMLParser.swift; sourceTree = "<group>"; };
 		1F9195051E67922B0035A4AD /* BulkDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulkDataViewController.swift; sourceTree = "<group>"; };
 		1F91DDE31E1570A70020371F /* GeosansLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeosansLight.ttf; sourceTree = "<group>"; };
 		1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewController.swift; sourceTree = "<group>"; };
@@ -110,7 +104,6 @@
 				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
 				1F6C73B51EDB593C006A0003 /* EditDataCell.xib */,
 				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
-				1F6E2EEC1EBE878700445D41 /* NewsCell.xib */,
 				1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */,
 				1F06F95C1EF762000047CEB4 /* SummaryView.xib */,
 			);
@@ -143,7 +136,6 @@
 				1F14FADF1EF71498005E9F33 /* Views */,
 				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
 				1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */,
-				1F418C581EBD1C3000F5ED42 /* NewsTableViewController.swift */,
 				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
 				1F70CCBB1E105D0600AD351A /* AppDelegate.swift */,
 				1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */,
@@ -164,7 +156,6 @@
 			children = (
 				1F6E2EEE1EBE8EBA00445D41 /* ImageDownloadOperations.swift */,
 				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
-				1F8CAF311EBAD12F005945EA /* NewsXMLParser.swift */,
 				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
 				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
 				1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */,
@@ -265,7 +256,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */,
-				1F6E2EED1EBE878700445D41 /* NewsCell.xib in Resources */,
 				1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */,
 				1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */,
 				1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */,
@@ -346,13 +336,11 @@
 				1FA018A01EE394D6005ED9E2 /* AddEmissionsViewController.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
-				1F8CAF321EBAD12F005945EA /* NewsXMLParser.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,
 				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
 				1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */,
 				1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */,
 				1F6E2EEF1EBE8EBA00445D41 /* ImageDownloadOperations.swift in Sources */,
-				1F418C591EBD1C3000F5ED42 /* NewsTableViewController.swift in Sources */,
 				1F62E6A51E1B2FC500D237EF /* DrawerTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
