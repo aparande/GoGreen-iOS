@@ -18,6 +18,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SummaryViewController" customModule="Greenfoot" customModuleProvider="target">
             <connections>
                 <outlet property="barChart" destination="0PZ-jr-45D" id="1cx-tg-I5S"/>
+                <outlet property="carbonLabel" destination="Xdr-Bf-5a0" id="LhI-xQ-67j"/>
                 <outlet property="electricChart" destination="Wdw-3R-WZY" id="7fc-g1-7pb"/>
                 <outlet property="emissionsChart" destination="ANJ-TP-Ewn" id="RYe-qZ-96P"/>
                 <outlet property="gasChart" destination="Eg9-DJ-Yeo" id="Doh-Kt-zZR"/>

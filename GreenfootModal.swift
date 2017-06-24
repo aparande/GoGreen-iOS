@@ -26,6 +26,16 @@ class GreenfootModal: NewsParserDelegate {
         }
     }
     
+    var totalCarbon: Int {
+        get {
+            var sum = 0
+            for (_, value) in data {
+                sum += value.totalCarbon
+            }
+            return sum
+        }
+    }
+    
     var newsParser:NewsXMLParser
     var newsFeed = [Dictionary<String, String>]()
     

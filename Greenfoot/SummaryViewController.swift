@@ -13,6 +13,7 @@ import Charts
 class SummaryViewController: UIViewController, ChartViewDelegate {
     
     @IBOutlet weak var pointLabel:UILabel!
+    @IBOutlet weak var carbonLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var barChart: BarGraph!
     
@@ -94,6 +95,7 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         pointLabel.text = "\(GreenfootModal.sharedInstance.totalEnergyPoints)"
+        carbonLabel.text = "\(GreenfootModal.sharedInstance.totalCarbon)"
     }
     
     func showGraph() {
