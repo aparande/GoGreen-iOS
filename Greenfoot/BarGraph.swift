@@ -146,6 +146,18 @@ class BarGraph: BarChartView {
         }
     }
     
+    func showError(_ error: String) {
+        self.noDataText = error
+        self.noDataTextColor = UIColor.white.withAlphaComponent(0.8)
+        self.noDataFont = UIFont(name: "DroidSans", size: 20.0)
+        
+        //Creates the corner radius
+        self.layer.cornerRadius = 10
+        self.layer.masksToBounds = true
+        
+        self.backgroundColor = Colors.green
+    }
+    
     private func insertLabel(_ newLabel:String, atPosition x:Double) {
         labels.insert(newLabel, at: Int(x))
         self.xAxis.setLabelCount(labels.count, force: true)

@@ -15,7 +15,6 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
     @IBOutlet weak var pointLabel:UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var barChart: BarGraph!
-    @IBOutlet weak var pieChart: PieChartView!
     
     @IBOutlet weak var electricChart: HorizontalBarChartView!
     @IBOutlet weak var waterChart: HorizontalBarChartView!
@@ -60,7 +59,6 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
         self.automaticallyAdjustsScrollViewInsets = false
         
         let modal = GreenfootModal.sharedInstance
-        pointLabel.text = "\(modal.totalEnergyPoints)"
         
         for (key, data) in modal.data {
             for (month, value) in data.getEPData() {
@@ -79,8 +77,6 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
         barChart.delegate = self
         barChart.loadData(monthlyEP, labeled: "EP")
         
-        pieChart.loadData(epBreakdown, labeled: "Breakdown")
-        
         for (name, data) in GreenfootModal.sharedInstance.data {
             var dict = ["U.S": data.baseline]
             if let consumption = data.stateConsumption {
@@ -94,6 +90,10 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
             
             chartForData(named: name).loadData(dict, labeled: labelForData(named: name))
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        pointLabel.text = "\(GreenfootModal.sharedInstance.totalEnergyPoints)"
     }
     
     func showGraph() {
@@ -196,72 +196,6 @@ extension UIViewController {
         segmentedView.frame.origin = CGPoint(x: segmentedX, y: segmentedY)
         
         segmentedView.addTarget(self, action: segmentAction, for: .valueChanged)
-    }
-}
-
-extension PieChartView {
-    func loadData(_ data:[String:Double], labeled label:String) {
-        //Covert the dictionary into two arrays ordered in ascending dates
-        var points:[Double] = []
-        var labels:[String] = []
-        
-        for (name, point) in data {
-            points.append(point)
-            labels.append(name)
-        }
-        
-        var entries:[ChartDataEntry] = []
-        for i in 0..<points.count {
-            let dataEntry = ChartDataEntry(x: Double(i), y: points[i])
-            entries.append(dataEntry)
-        }
-        
-        let pieChartDataSet = PieChartDataSet(values: entries, label: label)
-        pieChartDataSet.sliceSpace = 5.0
-        
-        let pieChartData = PieChartData(dataSet: pieChartDataSet)
-        pieChartData.setValueFormatter(DefaultValueFormatter(block: {
-            (value, entry, index, _) in
-            return "\(value)\n"+labels[Int(entry.x)]
-        }))
-        
-        self.legend.enabled = false
-        self.chartDescription?.text = ""
-
-        self.data = pieChartData
-        
-        var colors: [UIColor] = []
-        for i in 0..<points.count {
-            switch labels[i] {
-            case "Electric":
-                colors.append(Colors.green)
-                break
-            case "Water":
-                colors.append(Colors.blue)
-                break
-            case "Gas":
-                colors.append(Colors.red)
-                break
-            case "Emissions":
-                colors.append(Colors.purple)
-                break
-            default:
-                colors.append(Colors.darkGreen)
-                break
-            }
-        }
-        pieChartDataSet.colors = colors
-        
-        self.extraTopOffset = 0
-        self.extraBottomOffset = 0
-        
-        self.minOffset = 0
-        
-        self.rotationEnabled = false
-        self.holeRadiusPercent = 0.25
-        self.transparentCircleRadiusPercent = 0.3
-        
-        self.animate(xAxisDuration: 2.0, easingOption: .easeInCirc)
     }
 }
 

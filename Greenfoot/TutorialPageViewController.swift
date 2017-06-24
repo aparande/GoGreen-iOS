@@ -120,6 +120,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         importerView!.frame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
         
         graph.loadData([:], labeled: dataType)
+        graph.backgroundColor = Colors.darkGreen
         //graph.set(data: [0.0, 0.0, 0.0, 0.0], withLabels: ["2/17", "3/17", "4/17", "5/17"])
         
         iconDataImageView.image = icon
@@ -228,6 +229,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             dataDict[addedMonths[i]] = addedPoints[i]
         }
         graph.loadData(dataDict, labeled: dataType)
+        graph.backgroundColor = Colors.darkGreen
         amountField.resignFirstResponder()
     }
     

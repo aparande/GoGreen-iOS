@@ -61,7 +61,11 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         attributeTableView.reloadData()
         
-        graph.loadData(data.getGraphData(), labeled: data.yLabel)
+        guard let segmentedView = self.navigationItem.centerViews[0].subviews[0] as? UISegmentedControl else {
+            graph.loadData(data.getGraphData(), labeled: data.yLabel)
+            return
+        }
+        changeGraph(sender: segmentedView)
     }
     
     func changeGraph(sender: UISegmentedControl) {
@@ -78,6 +82,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             break
         case 2:
             graph.loadData(data.getCarbonData(), labeled: "Carbon")
+            break
         default:
             break
         }

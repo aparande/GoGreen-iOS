@@ -95,8 +95,9 @@ class GreenfootModal: NewsParserDelegate {
             }
         } else {
             electricData.calculateCO2 = {
-                _ in
-                return 0
+                point in
+                //1232.8 is the average conversion factor in lbs/MWh, so at least you can present some data with no internet
+                return point * 1232.8/1000
             }
         }
         
