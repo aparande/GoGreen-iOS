@@ -65,13 +65,6 @@ class DrawerTableViewController: UITableViewController {
         navigationDrawerController?.closeLeftView()
     }
     
-    private func news() {
-        let newsVC = NewsTableViewController()
-        let nvc = NavigationController(rootViewController: newsVC)
-        navigationDrawerController?.transition(to: nvc)
-        navigationDrawerController?.closeLeftView()
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch (indexPath.row) {
         case 0:
@@ -87,9 +80,6 @@ class DrawerTableViewController: UITableViewController {
             break
         case 4:
             gas()
-            break
-        case 5:
-            news()
             break
         default:
             summary()
