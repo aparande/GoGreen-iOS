@@ -82,18 +82,17 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
         pieChart.loadData(epBreakdown, labeled: "Breakdown")
         
         for (name, data) in GreenfootModal.sharedInstance.data {
-            var dict = ["You": data.averageMonthly]
+            var dict = ["U.S": data.baseline]
             if let consumption = data.stateConsumption {
                 let state = GreenfootModal.sharedInstance.locality!["State"]!
                 dict[state] = consumption
-                chartForData(named: name).loadData(dict, labeled: name)
-            } else {
-                if data.getGraphData().count == 0 {
-                    chartForData(named: name).showError("Add data to compare your monthly \(name) usage")
-                } else {
-                    chartForData(named: name).loadData(dict, labeled: name)
-                }
             }
+            
+            if data.getGraphData().count != 0 {
+                dict["You"] = data.averageMonthly
+            }
+            
+            chartForData(named: name).loadData(dict, labeled: labelForData(named: name))
         }
     }
     
@@ -106,17 +105,17 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
         let newOrigin = CGPoint(x: 0, y:viewFrame.height * 2)
         //self.scrollView.scrollRectToVisible(CGRect(origin: CGPoint.zero, size: self.viewFrame!.size), animated: true)
         for (name, data) in GreenfootModal.sharedInstance.data {
+            var dict = ["U.S": data.baseline]
             if let consumption = data.stateConsumption {
                 let state = GreenfootModal.sharedInstance.locality!["State"]!
-                let dict = ["You":data.averageMonthly, state:consumption]
-                chartForData(named: name).loadData(dict, labeled: name)
-            } else {
-                if data.getGraphData().count == 0 {
-                    chartForData(named: name).showError("Add data to compare your monthly \(name) usage")
-                } else {
-                    chartForData(named: name).showError("Turn on location services to compare your monthly \(name) usage")
-                }
+                dict[state] = consumption
             }
+            
+            if data.getGraphData().count != 0 {
+                dict["You"] = data.averageMonthly
+            }
+            
+            chartForData(named: name).loadData(dict, labeled: labelForData(named: name))
         }
         
         self.scrollView.scrollRectToVisible(CGRect(origin: newOrigin, size: self.viewFrame!.size), animated: true)
@@ -145,6 +144,21 @@ class SummaryViewController: UIViewController, ChartViewDelegate {
                 return gasChart
             default:
                 return electricChart
+        }
+    }
+    
+    private func labelForData(named name:String) -> String {
+        switch name {
+            case "Electric":
+                return "Monthly Electricity Consumption (kWh)"
+            case "Water":
+                return "Monthly Water Consumption (Gal)"
+            case "Emissions":
+                return "Monthly CO2 Emission (kg)"
+            case "Gas":
+                return "Monthly Gas Consumption (Therms)"
+            default:
+                return ""
         }
     }
 }
@@ -281,6 +295,8 @@ extension HorizontalBarChartView {
         
         let chartDataSet = BarChartDataSet(values: dataEntries, label: label)
         let chartData = BarChartData(dataSet: chartDataSet)
+        //chartData.setValueTextColor(UIColor.white)
+        //chartData.setValueFont(UIFont.boldSystemFont(ofSize: 8))
         
         self.xAxis.valueFormatter = IndexAxisValueFormatter(values: labels)
         self.data = chartData
@@ -298,7 +314,7 @@ extension HorizontalBarChartView {
         self.xAxis.labelPosition = .bottomInside
         self.xAxis.axisLineColor = UIColor.clear
         self.xAxis.labelTextColor = UIColor.white
-        self.xAxis.labelCount = 2
+        self.xAxis.labelCount = labels.count
         
         self.leftAxis.gridColor = UIColor.white.withAlphaComponent(0.5)
         self.leftAxis.labelTextColor = UIColor.white
@@ -306,7 +322,6 @@ extension HorizontalBarChartView {
         self.leftAxis.axisLineColor = UIColor.clear
         
         if let max = points.max() {
-            print("Maximum on Y axis \(max)")
             self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
         }
         

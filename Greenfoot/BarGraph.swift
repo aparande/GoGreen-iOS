@@ -96,14 +96,23 @@ class BarGraph: BarChartView {
         }
         
         if hasNegative {
-            let xAxisLine = ChartLimitLine(limit: 0.0, label: "")
-            xAxisLine.lineColor = UIColor.white
-            self.leftAxis.addLimitLine(xAxisLine)
+            let line = ChartLimitLine(limit: 0.0, label: "")
+            line.lineColor = UIColor.white
+            self.leftAxis.addLimitLine(line)
+            
+            if let min = points.min() {
+                print("Minimum on Y axis \(min)")
+                self.leftAxis.axisMinimum = 10 * floor(min/10.0)
+            }
+        } else {
+            self.leftAxis.axisMinimum = 0.0
+            self.leftAxis.removeAllLimitLines()
         }
         
         //Adds some padding
         self.extraTopOffset = 10
         self.extraBottomOffset = 10
+        self.extraLeftOffset = 5
         
         self.data?.setDrawValues(false)
         self.doubleTapToZoomEnabled = false

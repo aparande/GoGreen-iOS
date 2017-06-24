@@ -27,6 +27,11 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Do any additional setup after loading the view.
         prepSegmentedToolbar(segmentAction: #selector(changeGraph(sender:)))
         
+        if data.dataName == "Water" {
+            let segmentedView = self.navigationItem.centerViews[0].subviews[0] as? UISegmentedControl
+            segmentedView?.removeSegment(at: 2, animated: false)
+        }
+        
         /*var infoImage = Icon.info_white
         infoImage = infoImage!.resize(toHeight: 20)
         infoImage = infoImage!.resize(toWidth: 20)
