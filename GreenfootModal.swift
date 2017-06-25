@@ -61,6 +61,39 @@ class GreenfootModal {
         prepGas()
     }
     
+    func logEnergyPoints() {
+        if UserDefaults.standard.bool(forKey: "UpdateEP") {
+            //Update the server because you've already uploaded once
+            let parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
+            APIInterface.connectToServer(atEndpoint: "/updateEnergyPoints", withParameters: parameters, completion: {
+                data in
+                
+                if data["status"] as! String == "Success" {
+                    print("Sucessfully updated Energy Points")
+                }
+            })
+        } else {
+            //Insert into the server because this is the first upload
+            guard let locale = locality else {
+                return
+            }
+            
+            var parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
+            parameters["state"] = locale["State"]
+            parameters["country"] = locale["Country"]
+            parameters["city"] = locale["City"]
+            APIInterface.connectToServer(atEndpoint: "/logEnergyPoints", withParameters: parameters, completion: {
+                data in
+                
+                if data["status"] as! String == "Success" {
+                    UserDefaults.standard.set(true, forKey: "UpdateEP")
+                } else {
+                    print("Couldn't log energy points")
+                }
+            })
+        }
+    }
+    
     private func prepElectric() {
         //https://www.eia.gov/tools/faqs/faq.cfm?id=97&t=3
         let  electricData = GreenData(name: "Electric", xLabel:"Month", yLabel: "kWh", base: 901, averageLabel:"kWh per Day", icon:Icon.electric_white)
@@ -286,25 +319,5 @@ extension Date {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         return formatter.string(from: date)
-    }
-    
-    static func longFormat(date:String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, dd MMM yyyy HH:mm:ss zzz"
-        let theDate = formatter.date(from: date)!
-        formatter.dateFormat = "E, MM/dd hh:mm a"
-        return formatter.string(from: theDate)
-    }
-    
-    static func longDateToString(date:Date) -> String{
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, dd MMM yyyy HH:mm:ss zzz"
-        return formatter.string(from: date)
-    }
-    
-    static func stringToLongDate(date:String) -> Date {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E, dd MMM yyyy HH:mm:ss zzz"
-        return formatter.date(from: date)!
     }
 }

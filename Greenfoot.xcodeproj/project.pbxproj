@@ -29,6 +29,7 @@
 		1FA018A01EE394D6005ED9E2 /* AddEmissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */; };
 		1FA018A21EE39629005ED9E2 /* EmissionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */; };
 		1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */; };
+		1FA737F91F001F4100B721D0 /* APIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA737F81F001F4100B721D0 /* APIInterface.swift */; };
 		1FA917BA1EC547D300C6ABE9 /* AddDataTutorial.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */; };
 		1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */; };
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
@@ -65,6 +66,7 @@
 		1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEmissionsViewController.swift; sourceTree = "<group>"; };
 		1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmissionHeader.xib; sourceTree = "<group>"; };
 		1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCollectionViewController.swift; sourceTree = "<group>"; };
+		1FA737F81F001F4100B721D0 /* APIInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIInterface.swift; sourceTree = "<group>"; };
 		1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataTutorial.xib; sourceTree = "<group>"; };
 		1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
 				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
 				1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */,
+				1FA737F81F001F4100B721D0 /* APIInterface.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
+				1FA737F91F001F4100B721D0 /* APIInterface.swift in Sources */,
 				1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */,
 				1FA018A01EE394D6005ED9E2 /* AddEmissionsViewController.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
