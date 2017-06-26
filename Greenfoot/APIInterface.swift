@@ -64,4 +64,6 @@ class APIInterface {
 
 enum APINotifications:String {
     case consumption = "fetchedConsumption"
+    case stateRank = "fetchedStateRank"
+    case cityRank = "fetchedCityRank"
 }

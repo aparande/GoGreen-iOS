@@ -148,6 +148,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     value.fetchConsumption()
                 }
             }
+            
+            GreenfootModal.sharedInstance.logEnergyPoints(refreshRankings: true)
+            
             return
         }
     }
@@ -177,6 +180,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         if let locality = modal.locality {
             defaults.set(locality, forKey:"LocalityData")
+        }
+        
+        if modal.rankings.keys.count == 4 {
+            defaults.set(modal.rankings, forKey:"Rankings")
         }
         
         defaults.synchronize()

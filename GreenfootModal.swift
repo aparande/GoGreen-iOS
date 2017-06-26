@@ -38,9 +38,11 @@ class GreenfootModal {
     
     var locality:[String:String]?
     let profId:String
+    var rankings:[String:Int]
     
     init() {
         data = [:]
+        rankings = [:]
         
         let defaults = UserDefaults.standard
         
@@ -55,13 +57,17 @@ class GreenfootModal {
             locality = locale_data
         }
         
+        if let rankings = defaults.dictionary(forKey: "Rankings") as? [String:Int] {
+            self.rankings = rankings
+        }
+        
         prepElectric()
         prepWater()
         prepCO2()
         prepGas()
     }
     
-    func logEnergyPoints() {
+    func logEnergyPoints(refreshRankings:Bool) {
         if UserDefaults.standard.bool(forKey: "UpdateEP") {
             //Update the server because you've already uploaded once
             let parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
@@ -70,6 +76,11 @@ class GreenfootModal {
                 
                 if data["status"] as! String == "Success" {
                     print("Sucessfully updated Energy Points")
+                    if refreshRankings {
+                        self.fetchRankings()
+                    }
+                } else {
+                    print(data["message"] as! String)
                 }
             })
         } else {
@@ -88,10 +99,51 @@ class GreenfootModal {
                 if data["status"] as! String == "Success" {
                     UserDefaults.standard.set(true, forKey: "UpdateEP")
                 } else {
-                    print("Couldn't log energy points")
+                    print(data["message"] as! String)
                 }
             })
         }
+    }
+    
+    func fetchRankings() {
+        guard let locale = locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["id":profId]
+        parameters["state"] = locale["State"]
+        parameters["country"] = locale["Country"]
+        
+        APIInterface.connectToServer(atEndpoint: "/getStateRank", withParameters: parameters, completion: {
+            data in
+            
+            if data["status"] as! String == "Success" {
+                self.rankings["StateRank"] = data["Rank"] as? Int
+                self.rankings["StateCount"] = data["Count"] as? Int
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.stateRank.rawValue), object: nil)
+                }
+            } else {
+                print(data["message"] as! String)
+            }
+        })
+        
+        parameters["city"] = locale["City"]
+        
+        APIInterface.connectToServer(atEndpoint: "/getCityRank", withParameters: parameters, completion: {
+            data in
+            
+            if data["status"] as! String == "Success" {
+                self.rankings["CityRank"] = data["Rank"] as? Int
+                self.rankings["CityCount"] = data["Count"] as? Int
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.cityRank.rawValue), object: nil)
+                }
+            } else {
+                print(data["message"] as! String)
+            }
+        })
     }
     
     private func prepElectric() {

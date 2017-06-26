@@ -14,6 +14,14 @@ class SummaryViewController: UIViewController {
     
     @IBOutlet weak var pointLabel:UILabel!
     
+    @IBOutlet weak var cityRankLabel: UILabel!
+    @IBOutlet weak var cityCountLabel: UILabel!
+    
+    @IBOutlet weak var stateRankLabel: UILabel!
+    @IBOutlet weak var stateCountLabel: UILabel!
+    
+    @IBOutlet weak var rankingView: UIView!
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -23,11 +31,24 @@ class SummaryViewController: UIViewController {
         let shareButton = IconButton(image: Icon.cm.share, tintColor: UIColor.white)
         shareButton.addTarget(self, action: #selector(share), for: .touchUpInside)
         navigationItem.rightViews = [shareButton]
+        
+        let rankings = GreenfootModal.sharedInstance.rankings
+        if rankings.keys.count != 4 {
+            rankingView.isHidden = true
+        } else {
+            cityRankLabel.text = "\(rankings["CityRank"]!)"
+            cityCountLabel.text = "out of \(rankings["CityCount"]!)"
+            stateRankLabel.text = "\(rankings["StateRank"]!)"
+            stateCountLabel.text = "out of \(rankings["StateCount"]!)"
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshRank), name: NSNotification.Name(rawValue: APINotifications.stateRank.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshRank), name: NSNotification.Name(rawValue: APINotifications.cityRank.rawValue), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         pointLabel.text = "\(GreenfootModal.sharedInstance.totalEnergyPoints)"
-        GreenfootModal.sharedInstance.logEnergyPoints()
+        GreenfootModal.sharedInstance.logEnergyPoints(refreshRankings: false)
     }
     
     func share() {
@@ -35,6 +56,20 @@ class SummaryViewController: UIViewController {
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
         self.present(activityView, animated: true, completion: nil)
+    }
+    
+    func refreshRank() {
+        let rankings = GreenfootModal.sharedInstance.rankings
+        if rankings.keys.count != 4 {
+            rankingView.isHidden = true
+        } else {
+            cityRankLabel.text = "\(rankings["CityRank"]!)"
+            cityCountLabel.text = "out of \(rankings["CityCount"]!)"
+            stateRankLabel.text = "\(rankings["StateRank"]!)"
+            stateCountLabel.text = "out of \(rankings["StateCount"]!)"
+            
+            rankingView.isHidden = false
+        }
     }
 }
 
