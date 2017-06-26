@@ -25,6 +25,9 @@
 		1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */; };
 		1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9195051E67922B0035A4AD /* BulkDataViewController.swift */; };
 		1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F91DDE31E1570A70020371F /* GeosansLight.ttf */; };
+		1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */; };
+		1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */; };
+		1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */; };
 		1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */; };
 		1FA018A01EE394D6005ED9E2 /* AddEmissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */; };
 		1FA018A21EE39629005ED9E2 /* EmissionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */; };
@@ -62,6 +65,9 @@
 		1F70CCC71E105D0600AD351A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F9195051E67922B0035A4AD /* BulkDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulkDataViewController.swift; sourceTree = "<group>"; };
 		1F91DDE31E1570A70020371F /* GeosansLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeosansLight.ttf; sourceTree = "<group>"; };
+		1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyChangeTableViewCell.swift; sourceTree = "<group>"; };
+		1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonthlyChangeCell.xib; sourceTree = "<group>"; };
 		1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewController.swift; sourceTree = "<group>"; };
 		1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEmissionsViewController.swift; sourceTree = "<group>"; };
 		1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmissionHeader.xib; sourceTree = "<group>"; };
@@ -100,14 +106,16 @@
 			isa = PBXGroup;
 			children = (
 				1F487AA61EFAC9700072D28F /* BarGraph.swift */,
-				1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */,
 				1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */,
+				1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */,
+				1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */,
 				1FA018A11EE39629005ED9E2 /* EmissionHeader.xib */,
 				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
 				1F6C73B51EDB593C006A0003 /* EditDataCell.xib */,
 				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
 				1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */,
 				1F06F95C1EF762000047CEB4 /* SummaryView.xib */,
+				1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -149,6 +157,7 @@
 				1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */,
 				1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */,
 				1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */,
+				1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -261,6 +270,7 @@
 				1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */,
 				1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */,
 				1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */,
+				1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */,
 				1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */,
 				1F06F95D1EF762000047CEB4 /* SummaryView.xib in Resources */,
 				1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */,
@@ -330,10 +340,12 @@
 				1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */,
+				1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */,
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,
 				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
+				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
 				1FA737F91F001F4100B721D0 /* APIInterface.swift in Sources */,
 				1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */,
