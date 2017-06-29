@@ -34,6 +34,7 @@ class MonthlyChangeTableViewCell: UITableViewCell {
             secondMonthValueLabel.text = "\(Int(info[keys[0]]!))"
             
             changeLabel.text = "\(Int(info[keys[0]]!))"
+            changeLabel.textColor = Colors.green
         } else if keys.count == 2 {
             firstMonthLabel.text = "\(unit) on \(Date.monthFormat(date: keys[0]))"
             firstMonthValueLabel.text = "\(Int(info[keys[0]]!))"
@@ -42,6 +43,8 @@ class MonthlyChangeTableViewCell: UITableViewCell {
             secondMonthValueLabel.text = "\(Int(info[keys[1]]!))"
             
             changeLabel.text = "\(Int(abs(info[keys[1]]! - info[keys[0]]!)))"
+            
+            changeLabel.textColor = (info[keys[1]]! - info[keys[0]]! <= 0) ? Colors.red : Colors.green
         } else {
             firstMonthLabel.text = "No Data"
             firstMonthValueLabel.text = "NA"
@@ -50,6 +53,7 @@ class MonthlyChangeTableViewCell: UITableViewCell {
             secondMonthValueLabel.text = "NA"
             
             changeLabel.text = "NA"
+            changeLabel.textColor = Colors.green
         }
     }
 }

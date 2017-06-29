@@ -19,7 +19,7 @@ class HistoryViewController: UITableViewController {
         
         self.navigationItem.title = "Breakdown"
         self.navigationItem.titleLabel.textColor = UIColor.white
-        self.navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 20)
+        self.navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
 
         let cellNib = UINib(nibName: "MonthlyChangeCell", bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: "ChangeCell")
@@ -38,6 +38,8 @@ class HistoryViewController: UITableViewController {
         
         epHistoryChart.loadData(monthlyBreakdown, labeled: "Energy Points")
         epHistoryChart.legend.enabled = true
+        epHistoryChart.legend.textColor = UIColor.white
+        epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,7 +66,7 @@ class HistoryViewController: UITableViewController {
             break
         case 3:
             image = Icon.fire_white
-            unit = "therm"
+            unit = "therms"
             data = GreenfootModal.sharedInstance.data["Gas"]!
             break
         default:

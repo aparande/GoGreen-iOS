@@ -170,7 +170,20 @@ extension HorizontalBarChartView {
         self.leftAxis.axisLineColor = UIColor.clear
         
         if let max = points.max() {
-            self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+            switch floor(log10(max)) {
+            case 1:
+                self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+                break
+            case 2:
+                self.leftAxis.axisMaximum = 100 * ceil(max / 100.0)
+                break
+            case 3:
+                self.leftAxis.axisMaximum = 1000 * ceil(max / 1000.0)
+                break
+            default:
+                self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+                break
+            }
         }
         
         self.leftAxis.axisMinimum = 0
@@ -178,6 +191,7 @@ extension HorizontalBarChartView {
         //Adds some padding
         self.extraTopOffset = 10
         self.extraBottomOffset = -10
+        self.extraRightOffset = 5
         
         self.data?.setDrawValues(false)
         self.doubleTapToZoomEnabled = false

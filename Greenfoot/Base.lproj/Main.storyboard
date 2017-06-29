@@ -820,7 +820,7 @@
                                         </label>
                                     </subviews>
                                 </view>
-                                <color key="backgroundColor" red="0.17413058349999999" green="0.74924308910000004" blue="0.47892460460000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="UB3-3j-8bL" firstAttribute="leading" secondItem="dyN-F0-K60" secondAttribute="leadingMargin" constant="3" id="209-iW-HoZ"/>
                                     <constraint firstItem="UB3-3j-8bL" firstAttribute="centerX" secondItem="dyN-F0-K60" secondAttribute="centerX" id="3bh-Wb-e0z"/>

@@ -10,7 +10,7 @@ import UIKit
 import Material
 import Charts
 
-class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate {
+class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, ChartViewDelegate {
 
     let greenModal = GreenfootModal.sharedInstance
     var data: GreenData!
@@ -41,6 +41,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationItem.rightViews = [infoButton]*/
         
         graph.loadData(data.getGraphData(), labeled: data.yLabel)
+        graph.delegate = self
         
         iconImageView.image = data.icon
         
@@ -86,6 +87,29 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         default:
             break
         }
+    }
+    
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        //Create the point viewer and push it onto the navigation stack
+        var labels = data.getGraphData().keys.sorted(by: {
+            (date1, date2) in
+            return date1.compare(date2) == ComparisonResult.orderedAscending
+        })
+        
+        if Int(entry.x) >= labels.count {
+            return
+        }
+        
+        let label = labels[Int(entry.x)]
+        let labelString = Date.monthFormat(date: label)
+        
+        var values:[String: Double] = ["Usage":data.getGraphData()[label]!, "EP":Double(data.getEPData()[label]!)]
+        if let value = data.getCarbonData()[label] {
+            values["Carbon"] = value
+        }
+        
+        let pointVc = DataPointViewController(unit: data.yLabel, timestamp: labelString, values: values, data: self.data)
+        self.navigationController?.pushViewController(pointVc, animated: true)
     }
     
     func setDataType(data:GreenData) {

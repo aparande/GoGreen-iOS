@@ -91,8 +91,20 @@ class BarGraph: BarChartView {
         self.leftAxis.axisLineColor = UIColor.clear
         
         if let max = points.max() {
-            print("Maximum on Y axis \(max)")
-            self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+            switch floor(log10(max)) {
+            case 1:
+                self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+                break
+            case 2:
+                self.leftAxis.axisMaximum = 100 * ceil(max / 100.0)
+                break
+            case 3:
+                self.leftAxis.axisMaximum = 1000 * ceil(max / 1000.0)
+                break
+            default:
+                self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+                break
+            }
         }
         
         if hasNegative {
@@ -101,7 +113,7 @@ class BarGraph: BarChartView {
             self.leftAxis.addLimitLine(line)
             
             if let min = points.min() {
-                print("Minimum on Y axis \(min)")
+                //print("Minimum on Y axis \(min)")
                 self.leftAxis.axisMinimum = 10 * floor(min/10.0)
             }
         } else {
