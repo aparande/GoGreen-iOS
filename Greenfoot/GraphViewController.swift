@@ -62,6 +62,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         attributeTableView.reloadData()
         
+        graph.highlightValues(nil)
+        
         guard let segmentedView = self.navigationItem.centerViews[0].subviews[0] as? UISegmentedControl else {
             graph.loadData(data.getGraphData(), labeled: data.yLabel)
             return

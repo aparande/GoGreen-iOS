@@ -12,14 +12,24 @@ import Charts
 class DataPointViewController: UITableViewController {
     var values: [String:Double]
     var date: String
-    var unit: String
-    var data: GreenData
+    var unit: String?
+    var data: GreenData?
+    var isData: Bool
+    
+    init(timestamp:String, values: [String: Double]) {
+        date = timestamp
+        self.values = values
+        isData = false
+        
+        super.init(style: .plain)
+    }
     
     init(unit: String, timestamp: String, values: [String:Double], data:GreenData) {
         date = timestamp
         self.values = values
         self.unit = unit
         self.data = data
+        isData = true
         
         super.init(style: .plain)
     }
@@ -31,7 +41,8 @@ class DataPointViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationItem.backBarButtonItem?.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationItem.backButton.tintColor = UIColor.white
         
         self.navigationItem.title = date
         self.navigationItem.titleLabel.textColor = UIColor.white
@@ -43,14 +54,52 @@ class DataPointViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return (isData) ? 3 : values.keys.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: "ValueCell")
+        let cell = (isData) ? setDataCells(indexPath: indexPath) : setUnitCells(indexPath: indexPath)
         
         cell.textLabel?.font = UIFont(name: "DroidSans", size: 17.0)
         cell.textLabel?.textColor = Colors.green
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.width, height: 200))
+        
+        if isData {
+            let graph = HorizontalBarChartView(frame: CGRect(x: 10, y: 10, width: self.tableView.width-20, height: 180))
+            
+            graph.isUserInteractionEnabled = false
+            
+            var data:[String:Double] = ["You":values["Usage"]!, "U.S":self.data!.baseline]
+            if let stateConsumption = self.data!.stateConsumption {
+                data[(GreenfootModal.sharedInstance.locality?["State"])!] = stateConsumption
+            }
+            
+            graph.loadData(data, labeled: "Comparison")
+            
+            container.addSubview(graph)
+        } else {
+            let graph = BarGraph(frame: CGRect(x: 10, y: 10, width: self.tableView.width-20, height: 180))
+            graph.isUserInteractionEnabled = false
+            let data:[String:Double] = values
+            
+            graph.loadData(data)
+            container.addSubview(graph)
+        }
+        
+        return container
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 200
+    }
+    
+    private func setDataCells(indexPath: IndexPath) -> UITableViewCell{
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "ValueCell")
         
         switch indexPath.row {
         case 0:
@@ -77,25 +126,32 @@ class DataPointViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.width, height: 200))
+    private func setUnitCells(indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "ValueCell")
         
-        let graph = HorizontalBarChartView(frame: CGRect(x: 10, y: 10, width: self.tableView.width-20, height: 180))
         
-        graph.isUserInteractionEnabled = false
-        
-        var data:[String:Double] = ["You":values["Usage"]!, "U.S":self.data.baseline]
-        if let stateConsumption = self.data.stateConsumption {
-            data[(GreenfootModal.sharedInstance.locality?["State"])!] = stateConsumption
+        switch Array(values.keys)[indexPath.row] {
+        case "Electric":
+            cell.textLabel?.text = "Electricity Consumption"
+            cell.detailTextLabel?.text = "\(values["Electric"]!) EP"
+            break
+        case "Gallons":
+            cell.textLabel?.text = "Water Consumption"
+            cell.detailTextLabel?.text = "\(values["Gallons"]!) EP"
+            break
+        case "Emissions":
+            cell.textLabel?.text = "CO2 Emissions"
+            cell.detailTextLabel?.text = "\(values["Emissions"]!) EP"
+            break
+        case "Gas":
+            cell.textLabel?.text = "Natural Gas"
+            cell.detailTextLabel?.text = "\(values["Gas"]!) EP"
+            break
+        default:
+            cell.textLabel?.text = "null"
+            cell.detailTextLabel?.text = "null"
         }
         
-        graph.loadData(data, labeled: "Comparison")
-        
-        container.addSubview(graph)
-        return container
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 200
+        return cell
     }
 }

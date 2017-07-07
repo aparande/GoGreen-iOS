@@ -8,23 +8,27 @@
 
 import UIKit
 import Material
+import Charts
 
-class HistoryViewController: UITableViewController {
+class HistoryViewController: UITableViewController, ChartViewDelegate {
     @IBOutlet weak var epHistoryChart: BarGraph!
+    
+    var monthlyBreakdown:[Date:Double]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationItem.backBarButtonItem?.tintColor = UIColor.white
-        
         self.navigationItem.title = "Breakdown"
         self.navigationItem.titleLabel.textColor = UIColor.white
         self.navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
+    
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationItem.backButton.tintColor = UIColor.white
 
         let cellNib = UINib(nibName: "MonthlyChangeCell", bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: "ChangeCell")
         
-        var monthlyBreakdown:[Date:Double] = [:]
+        monthlyBreakdown = [:]
         
         for (_, data) in GreenfootModal.sharedInstance.data {
             for (month, value) in data.getEPData() {
@@ -40,6 +44,7 @@ class HistoryViewController: UITableViewController {
         epHistoryChart.legend.enabled = true
         epHistoryChart.legend.textColor = UIColor.white
         epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
+        epHistoryChart.delegate = self
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -99,6 +104,39 @@ class HistoryViewController: UITableViewController {
         cell.setInfo(icon: image, info: info, unit: unit)
         
         return cell
+    }
+    
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        let keys = monthlyBreakdown.keys.sorted(by: {
+            (date1, date2) in
+            return date1.compare(date2) == ComparisonResult.orderedAscending
+        })
+        
+        if Int(entry.x) > keys.count {
+            return
+        }
+        
+        let date = keys[Int(entry.x)]
+        let modal = GreenfootModal.sharedInstance
+        var data:[String: Double] = [:]
+        if let electric = modal.data["Electric"]!.getEPData()[date] {
+            data["Electric"] = Double(electric)
+        }
+        
+        if let water = modal.data["Water"]!.getEPData()[date] {
+            data["Gallons"] = Double(water)
+        }
+        
+        if let emissions = modal.data["Emissions"]!.getEPData()[date] {
+            data["Emissions"] = Double(emissions)
+        }
+        
+        if let gas = modal.data["Gas"]!.getEPData()[date] {
+            data["Gas"] = Double(gas)
+        }
+        
+        let dpvc = DataPointViewController(timestamp: Date.monthFormat(date: date), values: data)
+        self.navigationController?.pushViewController(dpvc, animated: true)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

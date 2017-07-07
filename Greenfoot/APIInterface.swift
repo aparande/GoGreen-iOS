@@ -10,7 +10,8 @@ import Foundation
 
 class APIInterface {
     static func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (NSDictionary) -> Void) {
-        let base = URL(string: "http://192.168.1.78:8000")!
+        //let base = URL(string: "http://192.168.1.78:8000")!
+        let base = URL(string: "http://localhost:8000")!
         //let base = URL(string: "http://ec2-13-58-235-219.us-east-2.compute.amazonaws.com:8000")!
         let url = URL(string: endpoint, relativeTo: base)!
         var request = URLRequest(url: url)
