@@ -84,7 +84,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             graph.loadData(epData, labeled: "Energy Points")
             break
         case 2:
-            graph.loadData(data.getCarbonData(), labeled: "Carbon")
+            graph.loadData(data.getCarbonData(), labeled: "Pounds of Carbon")
             break
         default:
             break

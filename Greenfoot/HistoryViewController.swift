@@ -47,6 +47,11 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         epHistoryChart.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        epHistoryChart.highlightValues(nil)
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChangeCell", for: indexPath) as! MonthlyChangeTableViewCell
 
@@ -87,7 +92,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         })
         
         var info:[Date: Double] = [:]
-        if keys.count == 2 {
+        if keys.count >= 2 {
             let firstMonth = keys[0]
             let firstValue = data.getGraphData()[firstMonth]!
         
@@ -112,7 +117,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             return date1.compare(date2) == ComparisonResult.orderedAscending
         })
         
-        if Int(entry.x) > keys.count {
+        if Int(entry.x) >= keys.count {
             return
         }
         
@@ -124,7 +129,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         }
         
         if let water = modal.data["Water"]!.getEPData()[date] {
-            data["Gallons"] = Double(water)
+            data["Water"] = Double(water)
         }
         
         if let emissions = modal.data["Emissions"]!.getEPData()[date] {

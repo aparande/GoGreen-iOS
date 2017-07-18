@@ -149,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 }
             }
             
-            GreenfootModal.sharedInstance.logEnergyPoints(refreshRankings: true)
+            GreenfootModal.sharedInstance.logEnergyPoints()
             
             return
         }

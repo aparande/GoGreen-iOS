@@ -133,19 +133,19 @@ class DataPointViewController: UITableViewController {
         switch Array(values.keys)[indexPath.row] {
         case "Electric":
             cell.textLabel?.text = "Electricity Consumption"
-            cell.detailTextLabel?.text = "\(values["Electric"]!) EP"
+            cell.detailTextLabel?.text = "\(Int(values["Electric"]!)) EP"
             break
-        case "Gallons":
+        case "Water":
             cell.textLabel?.text = "Water Consumption"
-            cell.detailTextLabel?.text = "\(values["Gallons"]!) EP"
+            cell.detailTextLabel?.text = "\(Int(values["Water"]!)) EP"
             break
         case "Emissions":
             cell.textLabel?.text = "CO2 Emissions"
-            cell.detailTextLabel?.text = "\(values["Emissions"]!) EP"
+            cell.detailTextLabel?.text = "\(Int(values["Emissions"]!)) EP"
             break
         case "Gas":
             cell.textLabel?.text = "Natural Gas"
-            cell.detailTextLabel?.text = "\(values["Gas"]!) EP"
+            cell.detailTextLabel?.text = "\(Int(values["Gas"]!)) EP"
             break
         default:
             cell.textLabel?.text = "null"

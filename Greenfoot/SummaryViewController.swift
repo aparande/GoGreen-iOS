@@ -48,7 +48,8 @@ class SummaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         pointLabel.text = "\(GreenfootModal.sharedInstance.totalEnergyPoints)"
-        GreenfootModal.sharedInstance.logEnergyPoints(refreshRankings: false)
+        
+        GreenfootModal.sharedInstance.logEnergyPoints()
     }
     
     func share() {

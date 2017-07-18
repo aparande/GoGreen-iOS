@@ -77,7 +77,10 @@ class BarGraph: BarChartView {
         self.chartDescription?.text = ""
         chartDataSet.colors = [UIColor.white.withAlphaComponent(0.5)]
         
-        self.legend.enabled = false
+        self.legend.enabled = true
+        self.legend.textColor = UIColor.white
+        self.legend.font = UIFont.boldSystemFont(ofSize: 10)
+        
         self.rightAxis.enabled = false
         
         self.xAxis.drawGridLinesEnabled = false
@@ -116,21 +119,21 @@ class BarGraph: BarChartView {
                 //print("Minimum on Y axis \(min)")
                 self.leftAxis.axisMinimum = 10 * floor(min/10.0)
             }
+            
+            self.leftAxis.axisMaximum = 0.0
         } else {
             self.leftAxis.axisMinimum = 0.0
             self.leftAxis.removeAllLimitLines()
         }
-        
-        //Adds some padding
-        self.extraTopOffset = 10
-        self.extraBottomOffset = 10
-        self.extraLeftOffset = 5
         
         self.data?.setDrawValues(false)
         self.doubleTapToZoomEnabled = false
         //self.setScaleMinima(10, scaleY: 1)
         
         self.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: .linear)
+
+        //Adds some padding
+        self.setViewPortOffsets(left: 30, top: 15, right: 0, bottom: 40)
     }
     
     func loadData(_ values:[String: Double]) {
@@ -232,21 +235,21 @@ class BarGraph: BarChartView {
                 //print("Minimum on Y axis \(min)")
                 self.leftAxis.axisMinimum = 10 * floor(min/10.0)
             }
+            
+            self.leftAxis.axisMaximum = 0.0
         } else {
             self.leftAxis.axisMinimum = 0.0
             self.leftAxis.removeAllLimitLines()
         }
-        
-        //Adds some padding
-        self.extraTopOffset = 10
-        self.extraBottomOffset = 10
-        self.extraLeftOffset = 5
         
         self.data?.setDrawValues(false)
         self.doubleTapToZoomEnabled = false
         //self.setScaleMinima(10, scaleY: 1)
         
         self.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: .linear)
+        
+        //Adds some padding
+        self.setViewPortOffsets(left: 30, top: 20, right: 0, bottom: 20)
     }
     
     func addDataPoint(labeled label:String, value: Double, atX x: Double) {

@@ -40,6 +40,8 @@ class GreenfootModal {
     let profId:String
     var rankings:[String:Int]
     
+    private var rankingFetchInProgress: Bool
+    
     init() {
         data = [:]
         rankings = [:]
@@ -61,13 +63,15 @@ class GreenfootModal {
             self.rankings = rankings
         }
         
+        rankingFetchInProgress = false
+        
         prepElectric()
         prepWater()
         prepCO2()
         prepGas()
     }
     
-    func logEnergyPoints(refreshRankings:Bool) {
+    func logEnergyPoints() {
         if UserDefaults.standard.bool(forKey: "UpdateEP") {
             //Update the server because you've already uploaded once
             let parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
@@ -76,7 +80,7 @@ class GreenfootModal {
                 
                 if data["status"] as! String == "Success" {
                     print("Sucessfully updated Energy Points")
-                    if refreshRankings {
+                    if !self.rankingFetchInProgress {
                         self.fetchRankings()
                     }
                 } else {
@@ -98,6 +102,10 @@ class GreenfootModal {
                 
                 if data["status"] as! String == "Success" {
                     UserDefaults.standard.set(true, forKey: "UpdateEP")
+                    
+                    if !self.rankingFetchInProgress {
+                        self.fetchRankings()
+                    }
                 } else {
                     print(data["message"] as! String)
                 }
@@ -110,6 +118,8 @@ class GreenfootModal {
             return
         }
         
+        rankingFetchInProgress = true
+        
         var parameters:[String:Any] = ["id":profId]
         parameters["state"] = locale["State"]
         parameters["country"] = locale["Country"]
@@ -120,6 +130,10 @@ class GreenfootModal {
             if data["status"] as! String == "Success" {
                 self.rankings["StateRank"] = data["Rank"] as? Int
                 self.rankings["StateCount"] = data["Count"] as? Int
+                
+                if self.rankings.keys.count == 4 {
+                    self.rankingFetchInProgress = false
+                }
                 
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.stateRank.rawValue), object: nil)
@@ -137,6 +151,11 @@ class GreenfootModal {
             if data["status"] as! String == "Success" {
                 self.rankings["CityRank"] = data["Rank"] as? Int
                 self.rankings["CityCount"] = data["Count"] as? Int
+                
+                if self.rankings.keys.count == 4 {
+                    self.rankingFetchInProgress = false
+                }
+                
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.cityRank.rawValue), object: nil)
                 }

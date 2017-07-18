@@ -44,7 +44,7 @@ class MonthlyChangeTableViewCell: UITableViewCell {
             
             changeLabel.text = "\(Int(abs(info[keys[1]]! - info[keys[0]]!)))"
             
-            changeLabel.textColor = (info[keys[1]]! - info[keys[0]]! <= 0) ? Colors.red : Colors.green
+            changeLabel.textColor = (info[keys[1]]! - info[keys[0]]! <= 0) ? Colors.green : Colors.red
         } else {
             firstMonthLabel.text = "No Data"
             firstMonthValueLabel.text = "NA"
