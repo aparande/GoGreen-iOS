@@ -360,6 +360,7 @@ struct Colors {
     static let red = UIColor(red:231/255, green: 76/255, blue:60/255, alpha:1.0)
     static let blue = UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 1.0)
     static let purple = UIColor(red: 155/255, green: 89/255, blue: 182/255, alpha: 1.0)
+    static let grey = UIColor(red: 127/255, green: 140/255, blue: 141/255, alpha: 1.0)
     
     static let options = [green, red, blue, purple, darkGreen]
 }

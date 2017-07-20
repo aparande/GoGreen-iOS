@@ -63,6 +63,10 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     func save() {
         if let text = self.dataTextField.text {
+            if text == "" {
+                self.dataTextField.text = "\(stepper.value)"
+                return
+            }
             stepper.value = Double(text)!
             owner.updateData(month: attributeLabel.text!, point: Double(text)!, path: indexPath)
         }

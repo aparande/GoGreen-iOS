@@ -22,6 +22,7 @@ class CoreDataHelper {
             fetchRequest.predicate = predicate
             
             do {
+                var unuploaded: [Date: Double] = [:]
                 let managedObjects = try managedContext.fetch(fetchRequest)
                 
                 let formatter = DateFormatter()
@@ -33,11 +34,19 @@ class CoreDataHelper {
                     
                     if uploaded {
                         data.uploadedData.append(formatter.string(from: date))
+                    } else {
+                        unuploaded[date] = amount
                     }
                     
                     data.addDataPoint(month: date, y: amount, save: false)
                 }
                 print("Loaded Data For \(data.dataName)")
+                
+                DispatchQueue.global(qos: .background).async {
+                    for (key, value) in unuploaded {
+                        data.addToServer(month: Date.monthFormat(date: key), point: value)
+                    }
+                }
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
             }

@@ -26,10 +26,12 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     @IBOutlet weak var slideDescriptionLabel: UILabel!
     @IBOutlet weak var goButton: RaisedButton!
     @IBOutlet weak var skipButton: UIButton!
+    
     //Normal View Variables
     var dataType:String!
     var icon:UIImage!
     var slideDescription: String!
+    var units:String?
     
     //Importer View Outlet Variables
     var importerView: UIView?
@@ -39,6 +41,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     @IBOutlet weak var graph: BarGraph!
     @IBOutlet weak var iconDataImageView: UIImageView!
     @IBOutlet weak var closeButton: IconButton!
+    
     //Importer View Variables
     var datePicker: UIDatePicker!
     var monthToolbarField: UITextField!
@@ -71,17 +74,6 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         var conversionFactor = 1.0
         if dataType == "Gas" {
-            /*
-            let unitConversion:(Double) -> Double = {
-                given in
-                
-                if given < 10 {
-                    return given*1000
-                } else {
-                    return given
-                }
-            } */
-            
             for point in addedPoints {
                 if point > 10 {
                     conversionFactor = 1.0
@@ -119,7 +111,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         importerView!.frame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
         
-        graph.loadData([:], labeled: dataType)
+        graph.loadData([:], labeled: units!)
         graph.backgroundColor = Colors.darkGreen
         //graph.set(data: [0.0, 0.0, 0.0, 0.0], withLabels: ["2/17", "3/17", "4/17", "5/17"])
         
@@ -217,18 +209,11 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         pointToolbarField.text = ""
         
         //update the graph view
-        /*
-        addedMonths.sort(by: { (date1, date2) -> Bool in
-            return date1.compare(date2) == ComparisonResult.orderedAscending })
-        let position = addedMonths.index(of: date)!
-        
-        graph.addDataPoint(labeled: dateText, value: point, atX: Double(position)) */
-        
         var dataDict:[Date:Double] = [:]
         for i in 0..<addedMonths.count {
             dataDict[addedMonths[i]] = addedPoints[i]
         }
-        graph.loadData(dataDict, labeled: dataType)
+        graph.loadData(dataDict, labeled: units!)
         graph.backgroundColor = Colors.darkGreen
         amountField.resignFirstResponder()
     }
@@ -260,8 +245,9 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         return super.resignFirstResponder()
     }
     
-    func setValues(title: String, description: String, icon: UIImage, isEditable:Bool) {
+    func setValues(title: String, description: String, icon: UIImage, units: String?, isEditable:Bool) {
         dataType = title
+        self.units = units
         slideDescription = description
         self.icon = icon
         hasAttributes = isEditable
@@ -290,5 +276,13 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         if textfield == amountField {
             pointToolbarField.text = amountField.text
         }
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == monthField {
+            textField.text = Date.monthFormat(date: Date())
+        }
+        
+        return true
     }
 }

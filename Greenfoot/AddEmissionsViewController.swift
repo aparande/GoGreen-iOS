@@ -213,6 +213,18 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
         nameField.delegate = self
         mileageField.delegate = self
         
+        nameField.dividerActiveColor = Colors.green
+        nameField.dividerNormalColor = Colors.green
+        nameField.placeholderNormalColor = Colors.green
+        nameField.placeholderActiveColor = Colors.green
+        nameField.tintColor = Colors.green
+        
+        mileageField.dividerActiveColor = Colors.green
+        mileageField.dividerNormalColor = Colors.green
+        mileageField.placeholderNormalColor = Colors.green
+        mileageField.placeholderActiveColor = Colors.green
+        mileageField.tintColor = Colors.green
+        
         let doneToolbar: UIToolbar = UIToolbar()
         doneToolbar.barStyle = .default
         doneToolbar.barTintColor = Colors.green
@@ -255,20 +267,50 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
             return
         }
         
-        if !nameField.isUserInteractionEnabled && !mileageField.isUserInteractionEnabled {
-            nameField.isUserInteractionEnabled = false
-            mileageField.isUserInteractionEnabled = false
-        }
-        
         let carName = nameField.text!
         let mileage = Int(mileageField.text!)!
         
         owner.cars[sectionNum] = carName
         owner.data.carMileage[carName] = mileage
         
+        if nameField.isUserInteractionEnabled && mileageField.isUserInteractionEnabled {
+            nameField.isUserInteractionEnabled = false
+            mileageField.isUserInteractionEnabled = false
+            
+            mileageField.textColor = Colors.grey
+            nameField.textColor = Colors.grey
+            
+            mileageField.setNeedsDisplay()
+            nameField.setNeedsDisplay()
+            
+            UserDefaults.standard.set(owner.data.carMileage, forKey: "MilesData")
+        }
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         let date = formatter.string(from: Date())
+        
+        guard let sectionData = owner.data.carData[carName] else {
+            //This is the first row in the section
+            owner.data.carData[carName] = [date:1000]
+            owner.data.addPointToCoreData(car: carName, month: date, point: 1000)
+            
+            let row = owner.data.carData[carName]!.count-1
+            let path = IndexPath(row: row, section: sectionNum)
+            
+            owner.tableView.insertRows(at: [path], with: .automatic)
+            return
+        }
+        
+        var keys = Array(sectionData.keys)
+        keys = keys.sorted(by: {
+            (key1, key2) -> Bool in
+            let d1 = Date.monthFormat(string: key1)
+            let d2 = Date.monthFormat(string: key2)
+            return d1.compare(d2) == ComparisonResult.orderedDescending
+        })
+        
+        let lastVal = owner.data.carData[carName]![keys[0]]!
         
         if let _ = owner.data.carData[carName] {
             if let _ = owner.data.carData[carName]![date] {
@@ -277,13 +319,13 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
                 owner.present(alertView, animated: true, completion: nil)
                 return
             } else {
-                owner.data.carData[carName]![date] = 1000
+                owner.data.carData[carName]![date] = lastVal
             }
         } else {
-            owner.data.carData[carName] = [date:1000]
+            owner.data.carData[carName] = [date:lastVal]
         }
         
-        owner.data.addPointToCoreData(car: carName, month: date, point: 1000)
+        owner.data.addPointToCoreData(car: carName, month: date, point: Int16(lastVal))
         
         let row = owner.data.carData[carName]!.count-1
         let path = IndexPath(row: row, section: sectionNum)
@@ -292,13 +334,20 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
     }
     
     func remove() {
-        //Remove the mileage data, the car data, and the odometer data
-        let carName = owner.cars.remove(at: sectionNum)
-        owner.data.carMileage.removeValue(forKey: carName)
-        owner.data.carData.removeValue(forKey: carName)
-        owner.sectionHeaders.removeValue(forKey: sectionNum)
-        owner.data.deleteCar(carName)
-        owner.tableView.deleteSections([sectionNum], with: .automatic)
+        let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete all data for this car?", preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
+            _ in
+            //Remove the mileage data, the car data, and the odometer data
+            let carName = self.owner.cars.remove(at: self.sectionNum)
+            self.owner.data.carMileage.removeValue(forKey: carName)
+            self.owner.data.carData.removeValue(forKey: carName)
+            self.owner.sectionHeaders.removeValue(forKey: self.sectionNum)
+            self.owner.data.deleteCar(carName)
+            self.owner.tableView.deleteSections([self.sectionNum], with: .automatic)
+        }))
+        
+        alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        owner.present(alertView, animated: true, completion: nil)
     }
     
     func setOwner(owner: AddEmissionsViewController, section: Int) {
@@ -311,6 +360,9 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
             
             nameField.isUserInteractionEnabled = false
             mileageField.isUserInteractionEnabled = false
+            
+            mileageField.textColor = Colors.grey
+            nameField.textColor = Colors.grey
         }
     }
     

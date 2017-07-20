@@ -120,7 +120,9 @@ class BarGraph: BarChartView {
                 self.leftAxis.axisMinimum = 10 * floor(min/10.0)
             }
             
-            self.leftAxis.axisMaximum = 0.0
+            if points.count == 1 {
+                self.leftAxis.axisMaximum = 0.0
+            }
         } else {
             self.leftAxis.axisMinimum = 0.0
             self.leftAxis.removeAllLimitLines()

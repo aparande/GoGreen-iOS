@@ -74,6 +74,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func changeGraph(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
+            self.dailyAverageLabel.text = "\(data.averageValue) " + data.averageLabel
             graph.loadData(data.getGraphData(), labeled: data.yLabel)
             break
         case 1:
@@ -81,9 +82,11 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             for (key, value) in data.getEPData() {
                 epData[key] = Double(value)
             }
+            self.dailyAverageLabel.text = "\(data.averageValue) " + data.averageLabel
             graph.loadData(epData, labeled: "Energy Points")
             break
         case 2:
+            self.dailyAverageLabel.text = "\(data.averageCarbon) lbs of Carbon per Day"
             graph.loadData(data.getCarbonData(), labeled: "Pounds of Carbon")
             break
         default:

@@ -27,12 +27,13 @@ class GreenData {
     var calculateCO2: (Double) -> Double
     var bonus: (Int, Int) -> Int
     
-    private var graphData:[Date: Double]
-    private var epData:[Date: Int]
-    private var co2Equivalent:[Date: Double]
+    fileprivate var graphData:[Date: Double]
+    fileprivate var epData:[Date: Int]
+    fileprivate var co2Equivalent:[Date: Double]
     
     var uploadedData:[String]
     
+    //Returns the average daily usage. Displays on each data tab
     var averageValue:Double {
         get {
             var sum = 0.0
@@ -51,23 +52,14 @@ class GreenData {
         }
     }
     
-    var averageMonthly: Double {
-        get {
-            var sum = 0.0
-            var count = 0.0
+    //Returns the average daily carbon emission
+    var averageCarbon:Double {
+        get{
+            let count = Double(getCarbonData().keys.count) * 31.0
             
-            for (_, value) in graphData {
-                sum += value
-                count += 1
-            }
-            
-            if count == 0 {
-                return 0
-            }
-            
-            var ans = sum/count
-            ans *= 10
-            let rounded = Int(ans)
+            var value = Double(totalCarbon)/count
+            value *= 10
+            let rounded = Int(value)
             return Double(rounded)/10.0
         }
     }
@@ -384,7 +376,18 @@ class EmissionsData: GreenData {
         
         //https://www.epa.gov/sites/production/files/2016-02/documents/420f14040a.pdf
         //4.7 metric tons/12 = 390 kg
-        super.init(name: "Emissions", xLabel: "Month", yLabel: "kg", base: 390, averageLabel: "Kilograms per Day", icon: Icon.smoke_white)
+        //The base is in kilograms, but the unit is in miles, because to compare for energy points, you need to use kilograms to account for the mileage
+        super.init(name: "Emissions", xLabel: "Month", yLabel: "Miles", base: 390, averageLabel: "Miles per Day", icon: Icon.smoke_white)
+        
+        self.calculateEP = {
+            base, point in
+            let diff = base - self.co2Emissions(point, self.data["Average MPG"]!)
+            if diff < 0 {
+                return Int(-1*pow(-5 * diff, 1.0/3.0))
+            } else {
+                return Int(pow(5 * diff, 1.0/3.0))
+            }
+        }
     }
     
     func compileToGraph() {
@@ -408,6 +411,7 @@ class EmissionsData: GreenData {
         for key in carData.keys {
             dictArr.append(carData[key]!)
         }
+        
         var keys:[String] = []
         for dict in dictArr {
             for key in dict.keys {
@@ -447,12 +451,57 @@ class EmissionsData: GreenData {
         
         for (key, value) in differences {
             let date = Date.monthFormat(string: key)
-            let co2 = co2Emissions(Double(value), self.data["Average MPG"]!)
+            let miles = Double(value)
             if let _ = getGraphData()[date] {
-                editDataPoint(month: date, y: co2)
+                editDataPoint(month: date, y: miles)
             } else {
-                addDataPoint(month: date, y: co2, save:true)
+                addDataPoint(month: date, y: miles, save:true)
             }
+        }
+    }
+    
+    override func addDataPoint(month:Date, y:Double, save: Bool) {
+        graphData[month] = y
+        
+        let ep = calculateEP(baseline, y)
+        epData[month] = ep
+        energyPoints += ep
+        
+        let carbon = co2Emissions(y, self.data["Average MPG"]!)
+        co2Equivalent[month] = carbon
+        totalCarbon += Int(carbon)
+        
+        if save {
+            CoreDataHelper.save(data: self, month: month, amount: y)
+            
+            //If save is true, that means its a new data point, so you want to try uploading to the server
+            addToServer(month: Date.monthFormat(date: month), point: y)
+        }
+    }
+    
+    override func editDataPoint(month:Date, y:Double) {
+        let epPrev = epData[month]!
+        let carbonPrev = co2Equivalent[month]!
+        
+        graphData[month] = y
+        
+        let ep = calculateEP(baseline, y)
+        epData[month] = ep
+        energyPoints = energyPoints - epPrev + ep
+        
+        let carbon = co2Emissions(y, self.data["Average MPG"]!)
+        co2Equivalent[month] = carbon
+        totalCarbon = totalCarbon - Int(carbonPrev) + Int(carbon)
+        
+        //Mark the point as unuploaded in the database always
+        CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
+        //If the data is uploaded, update it, else, uploade it
+        let date = Date.monthFormat(date: month)
+        if let index = uploadedData.index(of: date) {
+            uploadedData.remove(at: index)
+            updateOnServer(month: date, point: y)
+        } else {
+            addToServer(month: date, point: y)
         }
     }
     
