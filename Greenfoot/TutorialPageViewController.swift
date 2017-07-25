@@ -14,7 +14,7 @@ protocol TutorialPageDelegate {
     func skipPage()
 }
 
-class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
+class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartViewDelegate  {
 
     var delegate:TutorialPageDelegate!
     var hasAttributes:Bool!
@@ -46,13 +46,12 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     var datePicker: UIDatePicker!
     var monthToolbarField: UITextField!
     var pointToolbarField: UITextField!
-    var addedMonths: [Date] = []
-    var addedPoints: [Double] = []
+
+    var addedValues: [Date:Double]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         iconImageView.image  = icon
         slideTitleLabel.text = dataType
         slideDescriptionLabel.text = slideDescription
@@ -74,7 +73,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         var conversionFactor = 1.0
         if dataType == "Gas" {
-            for point in addedPoints {
+            for (_, point) in addedValues {
                 if point > 10 {
                     conversionFactor = 1.0
                     break
@@ -84,9 +83,11 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             }
         }
         
-        if addedPoints.count != 0 {
-            for i in 0...addedMonths.count-1 {
-                greenData.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i], save: true)
+        for (date, point) in addedValues {
+            if let _ = greenData.getGraphData()[date] {
+                
+            } else {
+                greenData.addDataPoint(month: date, y: conversionFactor * point, save: true)
             }
         }
     }
@@ -111,7 +112,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         importerView!.frame = importerView!.frame.offsetBy(dx: 0, dy: self.view.bounds.size.height)
         
-        graph.loadData([:], labeled: units!)
+        graph.loadData(addedValues, labeled: units!)
         graph.backgroundColor = Colors.darkGreen
         //graph.set(data: [0.0, 0.0, 0.0, 0.0], withLabels: ["2/17", "3/17", "4/17", "5/17"])
         
@@ -177,6 +178,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         
         self.closeButton.image = Icon.cm.close
         self.closeButton.tintColor = UIColor.white
+        
+        graph.delegate = self
     }
     
     @IBAction func addDataPoint(sender: AnyObject?) {
@@ -189,7 +192,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         let dateText = monthField.text!
         let date = formatter.date(from: dateText)!
         
-        if addedMonths.contains(date) {
+        if let _ = addedValues[date] {
             let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             self.present(alertView, animated: true, completion: nil)
@@ -198,10 +201,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             return
         }
         
-        addedMonths.append(date)
-        
         let point = Double(amountField.text!)!
-        addedPoints.append(point)
+        addedValues[date] = point
         
         monthField.text = ""
         amountField.text = ""
@@ -209,11 +210,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         pointToolbarField.text = ""
         
         //update the graph view
-        var dataDict:[Date:Double] = [:]
-        for i in 0..<addedMonths.count {
-            dataDict[addedMonths[i]] = addedPoints[i]
-        }
-        graph.loadData(dataDict, labeled: units!)
+
+        graph.loadData(addedValues, labeled: units!)
         graph.backgroundColor = Colors.darkGreen
         amountField.resignFirstResponder()
     }
@@ -251,6 +249,13 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         slideDescription = description
         self.icon = icon
         hasAttributes = isEditable
+        
+        guard let greenData = GreenfootModal.sharedInstance.data[dataType] else {
+            self.addedValues = [:]
+            return
+        }
+        
+        addedValues = greenData.getGraphData()
     }
     
     @IBAction func skip(_ sender: Any) {
@@ -284,5 +289,39 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
         }
         
         return true
+    }
+    
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        let labels = addedValues.keys.sorted(by: {
+            (date1, date2) in
+            return date1.compare(date2) == ComparisonResult.orderedAscending
+        })
+        
+        if Int(entry.x) >= labels.count {
+            return
+        }
+        
+        let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
+            _ in
+            
+            let key = labels[Int(entry.x)]
+            self.addedValues.removeValue(forKey: key)
+            
+            guard let greenData = GreenfootModal.sharedInstance.data[self.dataType] else {
+                return
+            }
+            
+            if let _ = greenData.getGraphData()[key] {
+                greenData.removeDataPoint(month: key)
+            }
+            
+            self.graph.highlightValues(nil)
+            self.graph.loadData(self.addedValues, labeled: self.units!)
+            self.graph.backgroundColor = Colors.darkGreen
+        }))
+        
+        alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alertView, animated: true, completion: nil)
     }
 }

@@ -101,7 +101,7 @@ class CoreDataHelper {
     
     static func delete(data: GreenData, month: Date) {
         if let _ = appDelegate {
-            let predicate = NSPredicate(format: "dataType == %@ month == %@", argumentArray: [data.dataName, month])
+            let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
             
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
             fetchRequest.predicate = predicate

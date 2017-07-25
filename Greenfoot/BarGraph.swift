@@ -24,6 +24,7 @@ class BarGraph: BarChartView {
         self.backgroundColor = Colors.green
         
         if data.keys.count == 0 {
+            self.data = nil
             return
         }
         
@@ -150,6 +151,7 @@ class BarGraph: BarChartView {
         self.backgroundColor = Colors.green
         
         if values.keys.count == 0 {
+            self.data = nil
             return
         }
         

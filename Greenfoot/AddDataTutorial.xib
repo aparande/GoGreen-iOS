@@ -31,7 +31,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGt-Dp-sa0" customClass="RaisedButton" customModule="Material">
-                    <rect key="frame" x="42" y="440" width="294" height="66"/>
+                    <rect key="frame" x="42" y="485" width="294" height="66"/>
                     <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="66" id="QJw-jw-7zF"/>
@@ -50,7 +50,7 @@
                     </connections>
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uwg-mZ-86m" customClass="TextField" customModule="Material">
-                    <rect key="frame" x="16" y="390" width="126" height="30"/>
+                    <rect key="frame" x="16" y="435" width="126" height="30"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -72,7 +72,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Amount" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gIL-Xy-dmU" customClass="TextField" customModule="Material">
-                    <rect key="frame" x="150" y="390" width="110" height="30"/>
+                    <rect key="frame" x="150" y="435" width="110" height="30"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -94,7 +94,7 @@
                     </connections>
                 </textField>
                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100000" stepValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="8fw-Ah-sqL">
-                    <rect key="frame" x="265" y="390" width="94" height="29"/>
+                    <rect key="frame" x="265" y="435" width="94" height="29"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
@@ -102,7 +102,7 @@
                     </connections>
                 </stepper>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KmG-8n-9RJ" customClass="BarGraph" customModule="Greenfoot" customModuleProvider="target">
-                    <rect key="frame" x="16" y="169" width="343" height="200"/>
+                    <rect key="frame" x="16" y="169" width="343" height="245"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="Ffs-cq-QRe">
@@ -115,7 +115,7 @@
                     <rect key="frame" x="137" y="61" width="100" height="100"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ue5-X7-CQt" customClass="RaisedButton" customModule="Material">
-                    <rect key="frame" x="42" y="514" width="294" height="66"/>
+                    <rect key="frame" x="42" y="559" width="294" height="66"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="26"/>
                     <state key="normal" title="Done">
@@ -151,7 +151,7 @@
                 <constraint firstItem="WsD-8x-YLL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="A4K-JP-JBn"/>
                 <constraint firstItem="Uwg-mZ-86m" firstAttribute="top" secondItem="KmG-8n-9RJ" secondAttribute="bottom" constant="21" id="B7d-hZ-DJE"/>
                 <constraint firstItem="xGt-Dp-sa0" firstAttribute="trailing" secondItem="Ue5-X7-CQt" secondAttribute="trailing" id="Gmj-lC-nN9"/>
-                <constraint firstAttribute="bottom" secondItem="Ue5-X7-CQt" secondAttribute="bottom" constant="87" id="KGi-lb-JWz"/>
+                <constraint firstAttribute="bottom" secondItem="Ue5-X7-CQt" secondAttribute="bottom" constant="42" id="KGi-lb-JWz"/>
                 <constraint firstItem="KmG-8n-9RJ" firstAttribute="top" secondItem="GtF-vZ-bxH" secondAttribute="bottom" constant="8" symbolic="YES" id="PJi-b4-q3a"/>
                 <constraint firstItem="Ue5-X7-CQt" firstAttribute="top" secondItem="xGt-Dp-sa0" secondAttribute="bottom" constant="8" id="PxC-2V-jhP"/>
                 <constraint firstItem="GtF-vZ-bxH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="137" id="RNF-N9-YC5"/>

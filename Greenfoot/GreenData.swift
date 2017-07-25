@@ -57,6 +57,10 @@ class GreenData {
         get{
             let count = Double(getCarbonData().keys.count) * 31.0
             
+            if count == 0 {
+                return 0
+            }
+            
             var value = Double(totalCarbon)/count
             value *= 10
             let rounded = Int(value)
@@ -376,12 +380,12 @@ class EmissionsData: GreenData {
         
         //https://www.epa.gov/sites/production/files/2016-02/documents/420f14040a.pdf
         //4.7 metric tons/12 = 390 kg
-        //The base is in kilograms, but the unit is in miles, because to compare for energy points, you need to use kilograms to account for the mileage
-        super.init(name: "Emissions", xLabel: "Month", yLabel: "Miles", base: 390, averageLabel: "Miles per Day", icon: Icon.smoke_white)
+        //The equivalent is 950 miles
+        super.init(name: "Emissions", xLabel: "Month", yLabel: "Miles", base: 950, averageLabel: "Miles per Day", icon: Icon.smoke_white)
         
         self.calculateEP = {
             base, point in
-            let diff = base - self.co2Emissions(point, self.data["Average MPG"]!)
+            let diff = self.co2Emissions(base, self.data["Average MPG"]!) - self.co2Emissions(point, self.data["Average MPG"]!)
             if diff < 0 {
                 return Int(-1*pow(-5 * diff, 1.0/3.0))
             } else {
@@ -412,8 +416,47 @@ class EmissionsData: GreenData {
             dictArr.append(carData[key]!)
         }
         
-        var keys:[String] = []
+        var dataDict:[[Date:Int]] = []
+        //Stops excessive conversions between string and date
+        var dateEquiv:[Date:String] = [:]
+        //Splits the data so non-consecutive months are split into consecutive ones
         for dict in dictArr {
+            var keys:[Date] = []
+            for key in dict.keys {
+                let newDate = Date.monthFormat(string: key)
+                keys.append(newDate)
+                dateEquiv[newDate] = key
+            }
+            
+            keys.sort(by: {
+                (date1, date2) in
+                return date1.compare(date2) == ComparisonResult.orderedAscending
+            })
+            
+            var data:[Date:Int] = [:]
+            for index in 0..<keys.count-1 {
+                let firstKey = keys[index]
+                let nextKey = keys[index+1]
+                
+                let difference = dict[dateEquiv[nextKey]!]!-dict[dateEquiv[firstKey]!]!
+                
+                let monthDiff =  nextKey.months(from: firstKey)
+                let bucketNum = difference/monthDiff
+            
+                data[firstKey] = bucketNum
+            
+                var nextMonth = firstKey.nextMonth()
+            
+                while nextKey.compare(nextMonth) != ComparisonResult.orderedSame {
+                    data[nextMonth] = bucketNum
+                    nextMonth = nextMonth.nextMonth()
+                }
+            }
+            dataDict.append(data)
+        }
+        
+        var keys:[Date] = []
+        for dict in dataDict {
             for key in dict.keys {
                 if !keys.contains(key) {
                     keys.append(key)
@@ -422,16 +465,13 @@ class EmissionsData: GreenData {
         }
         keys.sort(by: {
             (date1, date2) in
-            let d1 = Date.monthFormat(string: date1)
-            let d2 = Date.monthFormat(string: date2)
-            return d1.compare(d2) == ComparisonResult.orderedAscending
+            return date1.compare(date2) == ComparisonResult.orderedAscending
         })
         
-        var sums:[String:Int] = [:]
-        for i in 0..<keys.count {
-            let key = keys[i]
+        var sums:[Date:Int] = [:]
+        for key in keys {
             var sum = 0
-            for dict in dictArr {
+            for dict in dataDict {
                 if let val = dict[key] {
                     sum += val
                 }
@@ -439,18 +479,7 @@ class EmissionsData: GreenData {
             sums[key] = sum
         }
         
-        var differences:[String:Int] = [:]
-        if keys.count-1 < 0 {
-            return
-        }
-        for i in 0..<keys.count-1 {
-            let firstKey = keys[i]
-            let nextKey = keys[i+1]
-            differences[firstKey] = sums[nextKey]!-sums[firstKey]!
-        }
-        
-        for (key, value) in differences {
-            let date = Date.monthFormat(string: key)
+        for (date, value) in sums {
             let miles = Double(value)
             if let _ = getGraphData()[date] {
                 editDataPoint(month: date, y: miles)

@@ -392,4 +392,13 @@ extension Date {
         formatter.dateFormat = "MM/yy"
         return formatter.string(from: date)
     }
+    
+    //Returns the number of months from one date to another
+    func months(from date: Date) -> Int {
+        return Calendar.current.dateComponents([.month], from: date, to: self).month ?? 0
+    }
+    
+    func nextMonth() -> Date {
+        return Calendar.current.date(byAdding: .month, value: 1, to: self, wrappingComponents: false) ?? self
+    }
 }
