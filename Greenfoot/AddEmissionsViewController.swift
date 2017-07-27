@@ -70,10 +70,6 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         }
     }
     
-    func updateAttribute(key: String, value: Int) {
-        assertionFailure("Method not implemented because it is not necessary")
-    }
-    
     func addSection() {
         self.tableView.backgroundView = nil
         let newSectionNum = self.cars.count

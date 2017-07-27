@@ -9,29 +9,136 @@
 import UIKit
 import Material
 
-class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class BulkDataViewController: UITableViewController, DataUpdater {
     var data: GreenData!
-    
-    @IBOutlet var tableView: UITableView!
-    
-    @IBOutlet var monthField:TextField!
-    @IBOutlet var pointField:TextField!
-    @IBOutlet weak var stepper: UIStepper!
-    
-    @IBOutlet weak var iconImageView: UIImageView!
-    @IBOutlet weak var dataDescription: UILabel!
-    
-    
-    var datePicker: UIDatePicker!
-    var addedMonths: [Date]!
-    var addedPoints: [Double]!
-    
-    var monthToolbarField: UITextField!
-    var pointToolbarField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
+        
+        let editNib = UINib(nibName: "EditDataCell", bundle: nil)
+        tableView.register(editNib, forCellReuseIdentifier: "EditCell")
+        
+        let logo = UIImageView(image: UIImage(named: "Plant"))
+        navigationItem.centerViews = [logo]
+        logo.contentMode = .scaleAspectFit
+        
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.barTintColor = Colors.green
+        
+        navigationItem.backButton.title = "Save"
+        navigationItem.backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
+        navigationItem.backButton.titleColor = UIColor.white
+        navigationItem.backButton.tintColor = UIColor.white
+        
+        let header = Bundle.main.loadNibNamed("AddDataHeader", owner: nil, options: nil)![0] as? AddDataHeaderView
+        header?.owner = self
+        header?.setInfo(data: self.data)
+        self.tableView.tableHeaderView = header
+        
+        let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
+        editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
+        navigationItem.rightViews = [editButton]
+    }
+    
+    func beginEdit() {
+        self.tableView.setEditing(true, animated: true)
+        
+        let doneButton = IconButton(image: Icon.check, tintColor: UIColor.white)
+        doneButton.addTarget(self, action: #selector(endEdit), for: .touchUpInside)
+        navigationItem.rightViews = [doneButton]
+    }
+    
+    func endEdit() {
+        self.tableView.setEditing(false, animated: true)
+        
+        let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
+        editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
+        navigationItem.rightViews = [editButton]
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
+                _ in
+                var keys = Array(self.data.getGraphData().keys)
+                keys = keys.sorted(by: {
+                    (d1, d2) -> Bool in
+                    return d1.compare(d2) == ComparisonResult.orderedAscending
+                })
+                self.data.removeDataPoint(month: keys[indexPath.row])
+                self.tableView.deleteRows(at: [indexPath], with: .right)
+            }))
+            
+            alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: nil)
+        }
+    }
+    
+    func setDataType(dataObj: GreenData) {
+        data = dataObj
+    }
+    
+    func updateData(month: String, point: Double, path: IndexPath?) {
+        let date = Date.monthFormat(string: month)
+        self.data.editDataPoint(month: date, y:point)
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.getGraphData().keys.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EditCell", for: indexPath) as! EditTableViewCell
+        cell.owner = self
+        cell.indexPath = indexPath
+        
+        let graphData = data.getGraphData()
+        var keys = Array(graphData.keys)
+        keys = keys.sorted(by: {
+            (d1, d2) -> Bool in
+            return d1.compare(d2) == ComparisonResult.orderedAscending
+        })
+        
+        let date = keys[indexPath.row]
+        let value = graphData[date]!
+        cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value))
+        return cell
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+}
+
+class AddDataHeaderView: UIView, UITextFieldDelegate {
+    @IBOutlet var monthField:TextField!
+    @IBOutlet var pointField:TextField!
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var dataDescription: UILabel!
+    @IBOutlet weak var addButton: IconButton!
+    
+    var datePicker: UIDatePicker!
+    var monthToolbarField: UITextField!
+    var pointToolbarField: UITextField!
+    
+    var data:GreenData!
+    var owner: UITableViewController!
+    
+    override func awakeFromNib() {
+        addButton.cornerRadius = addButton.frame.height/2
+        addButton.backgroundColor = Colors.green
+        addButton.image = Icon.add
+        addButton.tintColor = UIColor.white
+        
         monthField.delegate = self
         pointField.delegate = self
         
@@ -48,10 +155,6 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         pointField.tintColor = Colors.green
         
         pointField.addTarget(self, action: #selector(textFieldDidChange(textfield:)), for: .editingChanged)
-        
-        addedMonths = []
-        addedPoints = []
-        
         
         //Create the DatePicker to be the input for the month field
         datePicker = UIDatePicker()
@@ -78,9 +181,9 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         doneToolbar.rightButton?.action = #selector(addDataPoint(sender:))
         pointToolbarField = doneToolbar.centerField
         pointField.inputAccessoryView = doneToolbar
-        
-        let exitGesture = UITapGestureRecognizer(target: self, action: #selector(resignFirstResponder))
-        view.addGestureRecognizer(exitGesture)
+    }
+    func setInfo(data: GreenData) {
+        self.data = data
         
         iconImageView.image = data.icon
         switch data.dataName {
@@ -100,156 +203,6 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
             dataDescription.text = "Enter how many Kilowatts-Hours of electriicty you have used each month"
             break
         }
-        
-        let logo = UIImageView(image: UIImage(named: "Plant"))
-        navigationItem.centerViews = [logo]
-        logo.contentMode = .scaleAspectFit
-        
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = Colors.green
-        
-        navigationItem.backButton.title = "Save"
-        navigationItem.backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
-        navigationItem.backButton.titleColor = UIColor.white
-        navigationItem.backButton.tintColor = UIColor.white
-        
-        self.tableView.isHidden = true
-    }
-    
-    func setDataType(dataObj: GreenData) {
-        data = dataObj
-    }
-    
-    @IBAction func addDataPoint(sender: AnyObject?) {
-        if monthField.text == "" || pointField.text == "" {
-            return
-        }
-        
-        let date = Date.monthFormat(string: monthField.text!)
-        
-        if let _ = data.getGraphData()[date] {
-            let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
-            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            self.present(alertView, animated: true, completion: nil)
-            
-            pointField.resignFirstResponder()
-            return
-        }
-        
-        guard let point = Double(pointField.text!) else {
-            let alertView = UIAlertController(title: "Error", message: "Please enter a valid number", preferredStyle: .alert)
-            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            self.present(alertView, animated: true, completion: nil)
-            return
-        }
-        
-        addedMonths.append(date)
-        addedPoints.append(point)
-    
-        self.tableView.isHidden = false
-        
-        monthField.text = ""
-        pointField.text = ""
-        monthToolbarField.text = ""
-        pointToolbarField.text = ""
-        
-        pointField.resignFirstResponder()
-        
-        //update the table view
-        tableView.reloadData()
-        tableView.scrollToRow(at: IndexPath(row: addedMonths.count-1, section:0), at: .bottom, animated: true)
-    }
-    
-    override func viewWillDisappear(_ animated:Bool) {
-        super.viewWillDisappear(true)
-        var conversionFactor = 1.0
-        if data.dataName == "Gas" {
-            /*
-             let unitConversion:(Double) -> Double = {
-             given in
-             
-             if given < 10 {
-             return given*1000
-             } else {
-             return given
-             }
-             } */
-            
-            for (_, value) in data.getGraphData() {
-                if value > 10 {
-                    conversionFactor = 1.0
-                    break
-                } else {
-                    conversionFactor = 1000.0
-                }
-            }
-            
-            for point in addedPoints {
-                if point > 10 && conversionFactor == 1000.0 {
-                    conversionFactor = 1.0
-                    break
-                } else if conversionFactor != 1.0 {
-                    conversionFactor = 1000.0
-                }
-            }
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        for i in 0..<addedMonths.count {
-            if data.dataName == "Emissions" {
-                let point = 8.887*addedPoints[i]/Double(data.data["Average MPG"]!)
-                data.addDataPoint(month: addedMonths[i], y: point, save: true)
-            } else if data.dataName == "Gas" {
-                data.addDataPoint(month: addedMonths[i], y: conversionFactor * addedPoints[i], save:true)
-            } else {
-                data.addDataPoint(month: addedMonths[i], y: addedPoints[i], save: true)
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addedMonths.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DataCell")!
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        let date = formatter.string(from: addedMonths[indexPath.row])
-        
-        cell.textLabel!.text = date
-        cell.detailTextLabel!.text = "\(addedPoints[indexPath.row])"
-        
-        return cell
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    @IBAction func incrementValue(_ sender: Any) {
-        pointField.text = "\(stepper.value)"
-    }
-    
-    func monthChosen() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        let date = formatter.string(from: datePicker.date)
-        monthField.text! = date
-        monthToolbarField.text = date
-    }
-    
-    override func resignFirstResponder() -> Bool {
-        monthField.resignFirstResponder()
-        pointField.resignFirstResponder()
-        
-        if let point = Double(pointField.text!) {
-            stepper.value = point
-        }
-        
-        return super.resignFirstResponder()
     }
     
     func textFieldDidChange(textfield: UITextField) {
@@ -264,4 +217,75 @@ class BulkDataViewController:UIViewController, UITableViewDelegate, UITableViewD
         }
         return true
     }
+    
+    func monthChosen() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        let date = formatter.string(from: datePicker.date)
+        monthField.text! = date
+        monthToolbarField.text = date
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        monthField.resignFirstResponder()
+        pointField.resignFirstResponder()
+        
+        
+        return super.resignFirstResponder()
+    }
+    
+    @IBAction func addDataPoint(sender: AnyObject?) {
+        if monthField.text == "" || pointField.text == "" {
+            return
+        }
+        
+        let date = Date.monthFormat(string: monthField.text!)
+        
+        
+        if let _ = data.getGraphData()[date] {
+            let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            owner.present(alertView, animated: true, completion: nil)
+            
+            pointField.resignFirstResponder()
+            return
+        }
+        
+        guard let point = Double(pointField.text!) else {
+            let alertView = UIAlertController(title: "Error", message: "Please enter a valid number", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            owner.present(alertView, animated: true, completion: nil)
+            return
+        }
+        
+        var conversionFactor = 1.0
+        if data.dataName == "Gas" {
+            for (_, value) in data.getGraphData() {
+                if value > 10 {
+                    conversionFactor = 1.0
+                    break
+                } else {
+                    conversionFactor = 1000.0
+                }
+            }
+            
+            if point > 10 && conversionFactor == 1000.0 {
+                conversionFactor = 1.0
+            } else if conversionFactor != 1.0 {
+                conversionFactor = 1000.0
+            }
+        }
+        
+        data.addDataPoint(month: date, y: conversionFactor * point, save:true)
+        
+        monthField.text = ""
+        pointField.text = ""
+        monthToolbarField.text = ""
+        pointToolbarField.text = ""
+        
+        pointField.resignFirstResponder()
+        
+        owner.tableView.reloadData()
+    }
+
 }

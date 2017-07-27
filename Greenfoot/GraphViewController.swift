@@ -163,7 +163,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let aevc = AddEmissionsViewController(style: .grouped)
             navigationController?.pushViewController(aevc, animated: true)
         } else {
-            let bvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "BulkDataViewController") as! BulkDataViewController
+            let bvc = BulkDataViewController()
             bvc.setDataType(dataObj: data)
             navigationController?.pushViewController(bvc, animated: true)
         }

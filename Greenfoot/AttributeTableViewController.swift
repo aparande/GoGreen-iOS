@@ -14,6 +14,17 @@ protocol DataUpdater {
     func updateData(month:String, point:Double, path: IndexPath?)
 }
 
+//Provides defaults to effectually make these methods optional
+extension DataUpdater {
+    func updateAttribute(key:String, value:Int) {
+        assertionFailure("Method not implemented")
+    }
+    
+    func updateData(month:String, point:Double, path: IndexPath?) {
+        assertionFailure("Method not implemented")
+    }
+}
+
 class AttributeTableViewController: UITableViewController, DataUpdater {
     var data: GreenData
     var dataKeys:[String]
