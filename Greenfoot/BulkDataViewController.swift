@@ -290,7 +290,14 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         
         pointField.resignFirstResponder()
         
-        owner.tableView.reloadData()
+        var keys = Array(data.getGraphData().keys)
+        keys = keys.sorted(by: {
+            (d1, d2) in
+            return d1.compare(d2) == ComparisonResult.orderedAscending
+        })
+        
+        let path = IndexPath(row: keys.index(of: date)!, section: 0)
+        owner.tableView.insertRows(at: [path], with: .automatic)
     }
 
 }
