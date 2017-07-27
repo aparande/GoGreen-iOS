@@ -129,15 +129,15 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fabButton.backgroundColor = Colors.green
         
         let addFabItem = FABMenuItem()
-        addFabItem.title = "Add"
+        addFabItem.title = "Add/Edit"
         addFabItem.fabButton.image = Icon.cm.add
         addFabItem.fabButton.tintColor = .white
         addFabItem.fabButton.backgroundColor = Colors.green
         addFabItem.fabButton.addTarget(self, action: #selector(bulkAdd), for: .touchUpInside)
         
         let attributeFabItem = FABMenuItem()
-        attributeFabItem.title = "Edit"
-        attributeFabItem.fabButton.image = Icon.cm.edit
+        attributeFabItem.title = "Attributes"
+        attributeFabItem.fabButton.image = Icon.cm.star
         attributeFabItem.fabButton.tintColor = .white
         attributeFabItem.fabButton.backgroundColor = Colors.green
         attributeFabItem.fabButton.addTarget(self, action: #selector(attributeAdd), for: .touchUpInside)
@@ -163,8 +163,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let aevc = AddEmissionsViewController(style: .grouped)
             navigationController?.pushViewController(aevc, animated: true)
         } else {
-            let bvc = BulkDataViewController()
-            bvc.setDataType(dataObj: data)
+            let bvc = BulkDataViewController(withData: data)
             navigationController?.pushViewController(bvc, animated: true)
         }
     }

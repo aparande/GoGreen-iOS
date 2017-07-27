@@ -12,6 +12,15 @@ import Material
 class BulkDataViewController: UITableViewController, DataUpdater {
     var data: GreenData!
     
+    init(withData x:GreenData) {
+        data = x
+        super.init(style: .plain)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -81,10 +90,6 @@ class BulkDataViewController: UITableViewController, DataUpdater {
             alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alertView, animated: true, completion: nil)
         }
-    }
-    
-    func setDataType(dataObj: GreenData) {
-        data = dataObj
     }
     
     func updateData(month: String, point: Double, path: IndexPath?) {
