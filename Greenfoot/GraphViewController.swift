@@ -160,7 +160,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fabMenu.fabButton?.motion(.rotationAngle(0))
         
         if data.dataName == "Emissions" {
-            let aevc = AddEmissionsViewController(style: .grouped)
+            let aevc = AddEmissionsViewController(withData: data as! EmissionsData)
             navigationController?.pushViewController(aevc, animated: true)
         } else {
             let bvc = BulkDataViewController(withData: data)

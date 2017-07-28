@@ -10,36 +10,33 @@ import UIKit
 import Material
 import CoreData
 
-class AddEmissionsViewController: UITableViewController, DataUpdater {
-    let data = GreenfootModal.sharedInstance.data["Emissions"] as! EmissionsData
-    var cars:[String] = []
-    var sectionHeaders: [Int:EmissionHeaderView] = [:]
+class AddEmissionsViewController: BulkDataViewController {
+    let emissionsData: EmissionsData
+    var cars:[String]
+    var sectionHeaders: [Int:EmissionHeaderView]
+    
+    init(withData x:EmissionsData) {
+        emissionsData = x
+        cars = []
+        
+        for key in emissionsData.carData.keys {
+            cars.append(key)
+        }
+        
+        sectionHeaders = [:]
+        super.init(withData: x)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let editNib = UINib(nibName: "EditDataCell", bundle: nil)
-        tableView.register(editNib, forCellReuseIdentifier: "EditCell")
-        
-        let logo = UIImageView(image: UIImage(named: "Plant"))
-        navigationItem.centerViews = [logo]
-        logo.contentMode = .scaleAspectFit
-        
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = Colors.green
-        
-        navigationItem.backButton.title = "Save"
-        navigationItem.backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
-        navigationItem.backButton.titleColor = UIColor.white
-        navigationItem.backButton.tintColor = UIColor.white
-        
         let addButton = IconButton(image: Icon.add, tintColor: UIColor.white)
         addButton.addTarget(self, action: #selector(addSection), for: .touchUpInside)
         navigationItem.rightViews = [addButton]
-        
-        for key in data.carData.keys {
-            cars.append(key)
-        }
         
         if cars.count == 0 {
             let noDataLabel = UILabel(frame: CGRect(x: 0, y: tableView.bounds.height/2, width: tableView.bounds.width, height: tableView.bounds.height))
@@ -59,14 +56,15 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        data.compileToGraph()
+        emissionsData.compileToGraph()
     }
     
-    func updateData(month: String, point: Double, path: IndexPath?) {
+    override func updateData(month: String, point: Double, path: IndexPath?) {
         if let _ = path {
             let carName = cars[path!.section]
-            data.carData[carName]?[month] = Int(point)
-            self.data.updateCoreDataForCar(car: carName, month: month, amount: Int16(point))
+            let date = Date.monthFormat(string: month)
+            emissionsData.carData[carName]?[date] = point
+            self.emissionsData.updateCoreDataForCar(car: carName, month: date, amount: point)
         }
     }
     
@@ -76,26 +74,6 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         cars.append("Car \(newSectionNum)")
         
         self.tableView.insertSections([newSectionNum], with: .bottom)
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EditCell", for: indexPath) as! EditTableViewCell
-        cell.owner = self
-        cell.indexPath = indexPath
-        
-        let sectionData = data.carData[cars[indexPath.section]]!
-        var keys = Array(sectionData.keys)
-        keys = keys.sorted(by: {
-            (key1, key2) -> Bool in
-            let d1 = Date.monthFormat(string: key1)
-            let d2 = Date.monthFormat(string: key2)
-            return d1.compare(d2) == ComparisonResult.orderedAscending
-        })
-        
-        let date = keys[indexPath.row]
-        let value = sectionData[date]!
-        cell.setInfo(attribute: date, data: Double(value))
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -114,35 +92,22 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         return cars.count
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        if let rowData = data.carData[cars[section]] {
-            return rowData.count
-        } else {
-            return 0
-        }
-    }
-    
-    func beginEdit() {
-        self.tableView.setEditing(true, animated: true)
+    override func beginEdit() {
+        super.beginEdit()
         
         for (_, view) in sectionHeaders {
             view.beginEdit()
         }
-        
-        let doneButton = IconButton(image: Icon.check, tintColor: UIColor.white)
-        doneButton.addTarget(self, action: #selector(endEdit), for: .touchUpInside)
-        navigationItem.rightViews = [doneButton]
     }
     
-    func endEdit() {
+    override func endEdit() {
         self.tableView.setEditing(false, animated: true)
         
         for (_, view) in sectionHeaders {
             view.endEdit()
         }
         
-        data.compileToGraph()
+        emissionsData.compileToGraph()
         
         let addButton = IconButton(image: Icon.add, tintColor: UIColor.white)
         addButton.addTarget(self, action: #selector(addSection), for: .touchUpInside)
@@ -164,14 +129,6 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
         }
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.delete
-    }
-    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
@@ -179,9 +136,12 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
                 _ in
                 let carName = self.cars[indexPath.section]
                 let cell = tableView.cellForRow(at: indexPath) as! EditTableViewCell
-                self.data.carData[carName]?.removeValue(forKey: cell.attributeLabel.text!)
-                self.data.deletePointForCar(carName, month: cell.attributeLabel.text!)
-                self.data.compileToGraph()
+                
+                let date = Date.monthFormat(string: cell.attributeLabel.text!)
+                
+                self.emissionsData.carData[carName]?.removeValue(forKey: date)
+                self.emissionsData.deletePointForCar(carName, month: date)
+                self.emissionsData.compileToGraph()
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
             
@@ -189,6 +149,10 @@ class AddEmissionsViewController: UITableViewController, DataUpdater {
             self.present(alertView, animated: true, completion: nil)
             
         }
+    }
+    
+    override func dataForSection(_ section: Int) -> [Date : Double]? {
+        return emissionsData.carData[cars[section]]
     }
 }
 
@@ -267,7 +231,7 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
         let mileage = Int(mileageField.text!)!
         
         owner.cars[sectionNum] = carName
-        owner.data.carMileage[carName] = mileage
+        owner.emissionsData.carMileage[carName] = mileage
         
         if nameField.isUserInteractionEnabled && mileageField.isUserInteractionEnabled {
             nameField.isUserInteractionEnabled = false
@@ -279,19 +243,18 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
             mileageField.setNeedsDisplay()
             nameField.setNeedsDisplay()
             
-            UserDefaults.standard.set(owner.data.carMileage, forKey: "MilesData")
+            UserDefaults.standard.set(owner.emissionsData.carMileage, forKey: "MilesData")
         }
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        let date = formatter.string(from: Date())
+        let dateString = Date.monthFormat(date: Date())
+        let date = Date.monthFormat(string: dateString)
         
-        guard let sectionData = owner.data.carData[carName] else {
+        guard let sectionData = owner.emissionsData.carData[carName] else {
             //This is the first row in the section
-            owner.data.carData[carName] = [date:1000]
-            owner.data.addPointToCoreData(car: carName, month: date, point: 1000)
+            owner.emissionsData.carData[carName] = [date:1000]
+            owner.emissionsData.addPointToCoreData(car: carName, month: date, point: 1000)
             
-            let row = owner.data.carData[carName]!.count-1
+            let row = owner.emissionsData.carData[carName]!.count-1
             let path = IndexPath(row: row, section: sectionNum)
             
             owner.tableView.insertRows(at: [path], with: .automatic)
@@ -301,29 +264,27 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
         var keys = Array(sectionData.keys)
         keys = keys.sorted(by: {
             (key1, key2) -> Bool in
-            let d1 = Date.monthFormat(string: key1)
-            let d2 = Date.monthFormat(string: key2)
-            return d1.compare(d2) == ComparisonResult.orderedDescending
+            return key1.compare(key2) == ComparisonResult.orderedDescending
         })
         
-        let lastVal = owner.data.carData[carName]![keys[0]]!
+        let lastVal = owner.emissionsData.carData[carName]![keys[0]]!
         
-        if let _ = owner.data.carData[carName] {
-            if let _ = owner.data.carData[carName]![date] {
+        if let _ = owner.emissionsData.carData[carName] {
+            if let _ = owner.emissionsData.carData[carName]![date] {
                 let alertView = UIAlertController(title: "Error", message: "You can only enter one odometer reader per car each month. Record the next reading next month.", preferredStyle: .alert)
                 alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
                 owner.present(alertView, animated: true, completion: nil)
                 return
             } else {
-                owner.data.carData[carName]![date] = lastVal
+                owner.emissionsData.carData[carName]![date] = lastVal
             }
         } else {
-            owner.data.carData[carName] = [date:lastVal]
+            owner.emissionsData.carData[carName] = [date:lastVal]
         }
         
-        owner.data.addPointToCoreData(car: carName, month: date, point: Int16(lastVal))
+        owner.emissionsData.addPointToCoreData(car: carName, month: date, point: lastVal)
         
-        let row = owner.data.carData[carName]!.count-1
+        let row = owner.emissionsData.carData[carName]!.count-1
         let path = IndexPath(row: row, section: sectionNum)
         
         owner.tableView.insertRows(at: [path], with: .automatic)
@@ -335,10 +296,10 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
             _ in
             //Remove the mileage data, the car data, and the odometer data
             let carName = self.owner.cars.remove(at: self.sectionNum)
-            self.owner.data.carMileage.removeValue(forKey: carName)
-            self.owner.data.carData.removeValue(forKey: carName)
+            self.owner.emissionsData.carMileage.removeValue(forKey: carName)
+            self.owner.emissionsData.carData.removeValue(forKey: carName)
             self.owner.sectionHeaders.removeValue(forKey: self.sectionNum)
-            self.owner.data.deleteCar(carName)
+            self.owner.emissionsData.deleteCar(carName)
             self.owner.tableView.deleteSections([self.sectionNum], with: .automatic)
         }))
         
@@ -352,7 +313,7 @@ class EmissionHeaderView: UIView, UITextFieldDelegate {
         
         if owner.cars[section] != "Car \(section)" {
             nameField.text = owner.cars[section]
-            mileageField.text = String(describing: owner.data.carMileage[nameField.text!]!)
+            mileageField.text = String(describing: owner.emissionsData.carMileage[nameField.text!]!)
             
             nameField.isUserInteractionEnabled = false
             mileageField.isUserInteractionEnabled = false

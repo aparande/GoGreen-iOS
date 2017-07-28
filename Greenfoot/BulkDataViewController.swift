@@ -10,11 +10,11 @@ import UIKit
 import Material
 
 class BulkDataViewController: UITableViewController, DataUpdater {
-    var data: GreenData!
+    let data: GreenData
     
     init(withData x:GreenData) {
         data = x
-        super.init(style: .plain)
+        super.init(style: .grouped)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,14 +39,16 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         navigationItem.backButton.titleColor = UIColor.white
         navigationItem.backButton.tintColor = UIColor.white
         
-        let header = Bundle.main.loadNibNamed("AddDataHeader", owner: nil, options: nil)![0] as? AddDataHeaderView
-        header?.owner = self
-        header?.setInfo(data: self.data)
-        self.tableView.tableHeaderView = header
-        
-        let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
-        editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
-        navigationItem.rightViews = [editButton]
+        if data.dataName != "Emissions" {
+            let header = Bundle.main.loadNibNamed("AddDataHeader", owner: nil, options: nil)![0] as? AddDataHeaderView
+            header?.owner = self
+            header?.setInfo(data: self.data)
+            self.tableView.tableHeaderView = header
+            
+            let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
+            editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
+            navigationItem.rightViews = [editButton]
+        }
     }
     
     func beginEdit() {
@@ -98,7 +100,11 @@ class BulkDataViewController: UITableViewController, DataUpdater {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.getGraphData().keys.count
+        if let rowData = dataForSection(section) {
+            return rowData.count
+        } else {
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,21 +112,26 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         cell.owner = self
         cell.indexPath = indexPath
         
-        let graphData = data.getGraphData()
-        var keys = Array(graphData.keys)
+        let sectionData = dataForSection(indexPath.section)!
+        var keys = Array(sectionData.keys)
         keys = keys.sorted(by: {
             (d1, d2) -> Bool in
             return d1.compare(d2) == ComparisonResult.orderedAscending
         })
         
         let date = keys[indexPath.row]
-        let value = graphData[date]!
+        let value = sectionData[date]!
         cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value))
         return cell
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    //This method can be overriden in the subclass so multiple sections can be supported
+    func dataForSection(_ section: Int) -> [Date:Double]? {
+        return data.getGraphData()
     }
 }
 

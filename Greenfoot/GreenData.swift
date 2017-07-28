@@ -335,7 +335,7 @@ class GreenData {
 }
 
 class EmissionsData: GreenData {
-    var carData:[String:[String:Int]]
+    var carData:[String:[Date:Double]]
     var carMileage:[String:Int]
     
     let co2Emissions:(Double, Int) -> Double = {
@@ -354,12 +354,10 @@ class EmissionsData: GreenData {
             do {
                 let managedObjects = try managedContext.fetch(fetchRequest)
                 
-                let formatter = DateFormatter()
-                formatter.dateFormat = "MM/yy"
                 for managedObj in managedObjects {
                     let name = managedObj.value(forKeyPath: "name") as! String
-                    let amount = managedObj.value(forKeyPath: "amount") as! Int
-                    let month = managedObj.value(forKeyPath: "month") as! String
+                    let amount = managedObj.value(forKeyPath: "amount") as! Double
+                    let month = managedObj.value(forKeyPath: "month") as! Date
                     
                     if let _ = carData[name] {
                         carData[name]![month] = amount
@@ -411,21 +409,17 @@ class EmissionsData: GreenData {
         self.data["Average MPG"] = totalMPG/carMileage.count
         self.data["Number of Cars"] = carMileage.count
         
-        var dictArr:[[String:Int]] = []
+        var dictArr:[[Date:Double]] = []
         for key in carData.keys {
             dictArr.append(carData[key]!)
         }
         
         var dataDict:[[Date:Int]] = []
-        //Stops excessive conversions between string and date
-        var dateEquiv:[Date:String] = [:]
         //Splits the data so non-consecutive months are split into consecutive ones
         for dict in dictArr {
             var keys:[Date] = []
             for key in dict.keys {
-                let newDate = Date.monthFormat(string: key)
-                keys.append(newDate)
-                dateEquiv[newDate] = key
+                keys.append(key)
             }
             
             keys.sort(by: {
@@ -438,10 +432,10 @@ class EmissionsData: GreenData {
                 let firstKey = keys[index]
                 let nextKey = keys[index+1]
                 
-                let difference = dict[dateEquiv[nextKey]!]!-dict[dateEquiv[firstKey]!]!
+                let difference = dict[nextKey]!-dict[firstKey]!
                 
                 let monthDiff =  nextKey.months(from: firstKey)
-                let bucketNum = difference/monthDiff
+                let bucketNum = Int(difference)/monthDiff
             
                 data[firstKey] = bucketNum
             
@@ -534,7 +528,7 @@ class EmissionsData: GreenData {
         }
     }
     
-    func addPointToCoreData(car:String, month: String, point: Int16) {
+    func addPointToCoreData(car:String, month: Date, point: Double) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let managedContext = appDelegate.persistentContainer.viewContext
             
@@ -578,7 +572,7 @@ class EmissionsData: GreenData {
         }
     }
     
-    func deletePointForCar(_ car:String, month:String) {
+    func deletePointForCar(_ car:String, month:Date) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let predicate = NSPredicate(format: "name == %@ and month == %@", argumentArray: [car, month])
             
@@ -602,7 +596,7 @@ class EmissionsData: GreenData {
         }
     }
     
-    func updateCoreDataForCar(car: String, month: String, amount: Int16) {
+    func updateCoreDataForCar(car: String, month: Date, amount: Double) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let predicate = NSPredicate(format: "name == %@ AND month == %@", argumentArray: [car, month])
             
