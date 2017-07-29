@@ -70,9 +70,9 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             data = GreenfootModal.sharedInstance.data["Water"]!
             break
         case 2:
-            image = Icon.smoke_white
+            image = Icon.road_white
             unit = "mi"
-            data = GreenfootModal.sharedInstance.data["Emissions"]!
+            data = GreenfootModal.sharedInstance.data["Driving"]!
             break
         case 3:
             image = Icon.fire_white
@@ -132,8 +132,8 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             data["Water"] = Double(water)
         }
         
-        if let emissions = modal.data["Emissions"]!.getEPData()[date] {
-            data["Emissions"] = Double(emissions)
+        if let driving = modal.data["Driving"]!.getEPData()[date] {
+            data["Driving"] = Double(driving)
         }
         
         if let gas = modal.data["Gas"]!.getEPData()[date] {

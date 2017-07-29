@@ -115,10 +115,10 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
             
             let electricVc = getGraphController(named: "Electric", andTag: 2)
             let waterVc = getGraphController(named: "Water", andTag: 3)
-            let emissionVc = getGraphController(named: "Emissions", andTag: 4)
+            let drivingVc = getGraphController(named: "Driving", andTag: 4)
             let gasVc = getGraphController(named: "Gas", andTag: 5)
             
-            tvc.viewControllers = [sNVC, electricVc, waterVc, emissionVc, gasVc]
+            tvc.viewControllers = [sNVC, electricVc, waterVc, drivingVc, gasVc]
             
             tvc.tabBar.tintColor = Colors.green
             
@@ -146,7 +146,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         case "Water":
             icon = Icon.water_white
             break
-        case "Emissions":
+        case "Driving":
             icon = Icon.smoke_white
             break
         case "Gas":

@@ -43,13 +43,13 @@ class DrawerTableViewController: UITableViewController {
         navigationDrawerController?.closeLeftView()
     }
     
-    private func emissions() {
-        let co2VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
-        let co2Data = GreenfootModal.sharedInstance.data["Emissions"]!
+    private func driving() {
+        let drivingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
+        let drivingData = GreenfootModal.sharedInstance.data["Driving"]!
         
-        co2VC.setDataType(data: co2Data)
+        drivingVC.setDataType(data: drivingData)
         
-        let nvc = NavigationController(rootViewController: co2VC)
+        let nvc = NavigationController(rootViewController: drivingVC)
         navigationDrawerController?.transition(to: nvc)
         navigationDrawerController?.closeLeftView()
     }
@@ -76,7 +76,7 @@ class DrawerTableViewController: UITableViewController {
         case 2:
             water()
         case 3:
-            emissions()
+            driving()
             break
         case 4:
             gas()

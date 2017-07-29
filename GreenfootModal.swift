@@ -67,7 +67,7 @@ class GreenfootModal {
         
         prepElectric()
         prepWater()
-        prepCO2()
+        prepDriving()
         prepGas()
     }
     
@@ -272,64 +272,64 @@ class GreenfootModal {
         data["Water"] = waterData
     }
     
-    private func prepCO2() {
-        let co2Data = EmissionsData()
+    private func prepDriving() {
+        let drivingData = DrivingData()
         
         //https://www.reference.com/world-view/many-cars-average-american-family-own-f0e6dffd882f2857
         
         //Miles per gallon for the car and number of cars
-        co2Data.baselines["Number of Cars"] = 2
-        co2Data.baselines["Average MPG"] = 22
+        drivingData.baselines["Number of Cars"] = 2
+        drivingData.baselines["Average MPG"] = 22
         //http://www.businessinsider.com/heres-how-much-the-average-american-walks-every-day-2015-7 (5900 steps - 3 miles, so at 5 mph, about 30 minutes)
-        co2Data.baselines["Walking/Biking"] = 30
+        drivingData.baselines["Walking/Biking"] = 30
         
-        co2Data.bonus = {
+        drivingData.bonus = {
             base, attr in
             
-            if co2Data.data["Average MPG"] == 0 || attr == 0 {
+            if drivingData.data["Average MPG"] == 0 || attr == 0 {
                 return 0
             }
             
             let additiveMiles = 5.0 * Double(attr)*30/60.0
             print("Eco-Miles: \(additiveMiles)")
-            let additive = co2Data.co2Emissions(additiveMiles, co2Data.data["Average MPG"]!)
+            let additive = drivingData.co2Emissions(additiveMiles, drivingData.data["Average MPG"]!)
             print("Eco-Emission: \(additive)")
             
             return Int(additive)
         }
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: "Emissions:bonus") {
-            co2Data.bonusDict = bonusDict as! [String:Int]
+        if let bonusDict = defaults.dictionary(forKey: "Driving:bonus") {
+            drivingData.bonusDict = bonusDict as! [String:Int]
         } else {
-            co2Data.bonusDict["Walking/Biking"] = 0
+            drivingData.bonusDict["Walking/Biking"] = 0
         }
         
-        if let data = defaults.dictionary(forKey: "Emissions:data") {
-            co2Data.data = data as! [String:Int]
+        if let data = defaults.dictionary(forKey: "Driving:data") {
+            drivingData.data = data as! [String:Int]
         } else {
-            co2Data.data["Number of Cars"] = 0
+            drivingData.data["Number of Cars"] = 0
             //If they have two cars, its the sum of their mpgs/number of cars
-            co2Data.data["Average MPG"] = 0
+            drivingData.data["Average MPG"] = 0
         }
         
-        CoreDataHelper.fetch(data: co2Data)
+        CoreDataHelper.fetch(data: drivingData)
         
-        co2Data.attributes.append("General")
-        co2Data.descriptions.append("We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg")
+        drivingData.attributes.append("General")
+        drivingData.descriptions.append("We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg")
         
-        co2Data.attributes.append("Average MPG")
-        co2Data.descriptions.append("The average number of miles per gallon of a car is 22 mpg. Cars with higher mileage ratings emit less carbon dioxide over the same amount of distance. Your average MPG is calculated by adding up the mpg of each vehicle you own and dividing by the numer of vehicles you own.")
+        drivingData.attributes.append("Average MPG")
+        drivingData.descriptions.append("The average number of miles per gallon of a car is 22 mpg. Cars with higher mileage ratings emit less carbon dioxide over the same amount of distance. Your average MPG is calculated by adding up the mpg of each vehicle you own and dividing by the numer of vehicles you own.")
         
-        co2Data.attributes.append("Number of Cars")
-        co2Data.descriptions.append("The average American owns two cars. Recording data for each car you own (excluding electric vehicles) will lead to a more accurate picture of your carbon footprint")
+        drivingData.attributes.append("Number of Cars")
+        drivingData.descriptions.append("The average American owns two cars. Recording data for each car you own (excluding electric vehicles) will lead to a more accurate picture of your carbon footprint")
         
-        co2Data.attributes.append("Walking/Biking")
-        co2Data.descriptions.append("The more you can walk or bike to places, the less your carbon footprint will be. The average American should be walking 30 minutes each day.")
+        drivingData.attributes.append("Walking/Biking")
+        drivingData.descriptions.append("The more you can walk or bike to places, the less your carbon footprint will be. The average American should be walking 30 minutes each day.")
         
-        co2Data.recalculateEP()
+        drivingData.recalculateEP()
         
-        data["Emissions"] = co2Data
+        data["Driving"] = drivingData
     }
     
     private func prepGas() {
@@ -372,12 +372,9 @@ extension Icon {
     static let smoke_white = UIImage(named: "Smoke")!
     static let info_white = UIImage(named: "Information-256")
     static let fire_white = UIImage(named: "Fire")!
+    static let road_white = UIImage(named: "Road")!
     
     static let chart_green = UIImage(named: "Chart_Green")!
-    static let fire_green = UIImage(named: "Fire_Green")!
-    static let home_green = UIImage(named: "Home_Green")!
-    static let electric_green = UIImage(named: "Lighning_Bolt_Green")!
-    static let water_green = UIImage(named: "Water-Drop_Green")!
 }
 
 extension Date {

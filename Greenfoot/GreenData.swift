@@ -332,7 +332,7 @@ class GreenData {
     }
 }
 
-class EmissionsData: GreenData {
+class DrivingData: GreenData {
     var carData:[String:[Date:Double]]
     var carMileage:[String:Int]
     
@@ -377,7 +377,7 @@ class EmissionsData: GreenData {
         //https://www.epa.gov/sites/production/files/2016-02/documents/420f14040a.pdf
         //4.7 metric tons/12 = 390 kg
         //The equivalent is 950 miles
-        super.init(name: "Emissions", xLabel: "Month", yLabel: "Miles", base: 950, averageLabel: "Miles per Day", icon: Icon.smoke_white)
+        super.init(name: "Driving", xLabel: "Month", yLabel: "Miles", base: 950, averageLabel: "Miles per Day", icon: Icon.road_white)
         
         self.calculateEP = {
             base, point in

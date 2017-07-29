@@ -142,9 +142,9 @@ class DataPointViewController: UITableViewController {
             cell.textLabel?.text = "Water Consumption"
             cell.detailTextLabel?.text = "\(Int(values["Water"]!)) EP"
             break
-        case "Emissions":
-            cell.textLabel?.text = "CO2 Emissions"
-            cell.detailTextLabel?.text = "\(Int(values["Emissions"]!)) EP"
+        case "Driving":
+            cell.textLabel?.text = "Driving"
+            cell.detailTextLabel?.text = "\(Int(values["Driving"]!)) EP"
             break
         case "Gas":
             cell.textLabel?.text = "Natural Gas"

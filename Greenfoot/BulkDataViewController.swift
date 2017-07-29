@@ -39,7 +39,7 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         navigationItem.backButton.titleColor = UIColor.white
         navigationItem.backButton.tintColor = UIColor.white
         
-        if data.dataName != "Emissions" {
+        if data.dataName != "Driving" {
             let header = Bundle.main.loadNibNamed("AddDataHeader", owner: nil, options: nil)![0] as? AddDataHeaderView
             header?.owner = self
             header?.setInfo(data: self.data)
@@ -209,7 +209,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         case "Water":
             dataDescription.text = "Enter how many gallons of water you have used each month"
             break
-        case "Emissions":
+        case "Driving":
             dataDescription.text = "Enter how many miles you have driven each month"
             break
         case "Gas":

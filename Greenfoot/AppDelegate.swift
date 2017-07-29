@@ -49,10 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             let electricVc = getGraphController(named: "Electric", andTag: 2)
             let waterVc = getGraphController(named: "Water", andTag: 3)
-            let emissionVc = getGraphController(named: "Emissions", andTag: 4)
+            let drivingVc = getGraphController(named: "Driving", andTag: 4)
             let gasVc = getGraphController(named: "Gas", andTag: 5)
             
-            tvc.viewControllers = [sNVC, electricVc, waterVc, emissionVc, gasVc]
+            tvc.viewControllers = [sNVC, electricVc, waterVc, drivingVc, gasVc]
             
             tvc.tabBar.tintColor = Colors.green
         
@@ -86,8 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         case "Water":
             icon = Icon.water_white
             break
-        case "Emissions":
-            icon = Icon.smoke_white
+        case "Driving":
+            icon = Icon.road_white
             break
         case "Gas":
             icon = Icon.fire_white
@@ -175,8 +175,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             defaults.set(bonusAttrs, forKey: key+":bonus")
             
             /*
-            if let emissions = value as? EmissionsData {
-                defaults.set(emissions.carMileage, forKey: "MilesData")
+            if let driving = value as? DrivingData {
+                defaults.set(driving, forKey: "MilesData")
             }*/
 
         }
