@@ -62,27 +62,27 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         case 0:
             image = Icon.electric_white
             unit = "kWh"
-            data = GreenfootModal.sharedInstance.data["Electric"]!
+            data = GreenfootModal.sharedInstance.data[GreenDataType.electric]!
             break
         case 1:
             image = Icon.water_white
             unit = "gal"
-            data = GreenfootModal.sharedInstance.data["Water"]!
+            data = GreenfootModal.sharedInstance.data[GreenDataType.water]!
             break
         case 2:
             image = Icon.road_white
             unit = "mi"
-            data = GreenfootModal.sharedInstance.data["Driving"]!
+            data = GreenfootModal.sharedInstance.data[GreenDataType.driving]!
             break
         case 3:
             image = Icon.fire_white
             unit = "therms"
-            data = GreenfootModal.sharedInstance.data["Gas"]!
+            data = GreenfootModal.sharedInstance.data[GreenDataType.gas]!
             break
         default:
             image = Icon.logo_white
             unit = "Null"
-            data = GreenfootModal.sharedInstance.data["Electric"]!
+            data = GreenfootModal.sharedInstance.data[GreenDataType.electric]!
             break
         }
         
@@ -124,20 +124,20 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         let date = keys[Int(entry.x)]
         let modal = GreenfootModal.sharedInstance
         var data:[String: Double] = [:]
-        if let electric = modal.data["Electric"]!.getEPData()[date] {
-            data["Electric"] = Double(electric)
+        if let electric = modal.data[GreenDataType.electric]!.getEPData()[date] {
+            data[GreenDataType.electric.rawValue] = Double(electric)
         }
         
-        if let water = modal.data["Water"]!.getEPData()[date] {
-            data["Water"] = Double(water)
+        if let water = modal.data[GreenDataType.water]!.getEPData()[date] {
+            data[GreenDataType.water.rawValue] = Double(water)
         }
         
-        if let driving = modal.data["Driving"]!.getEPData()[date] {
-            data["Driving"] = Double(driving)
+        if let driving = modal.data[GreenDataType.driving]!.getEPData()[date] {
+            data[GreenDataType.driving.rawValue] = Double(driving)
         }
         
-        if let gas = modal.data["Gas"]!.getEPData()[date] {
-            data["Gas"] = Double(gas)
+        if let gas = modal.data[GreenDataType.gas]!.getEPData()[date] {
+            data[GreenDataType.gas.rawValue] = Double(gas)
         }
         
         let dpvc = DataPointViewController(timestamp: Date.monthFormat(date: date), values: data)

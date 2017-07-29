@@ -202,14 +202,13 @@ class GreenData {
         }
     }
     
-    private func recalculateCarbon() {
+    fileprivate func recalculateCarbon() {
         totalCarbon = 0
         for (key, value) in graphData {
             let carbon = calculateCO2(value)
             
             totalCarbon += Int(carbon)
             co2Equivalent[key] = carbon
-            
         }
     }
     
@@ -567,6 +566,18 @@ class DrivingData: GreenData {
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
+        }
+        
+        if carData.keys.count == 0 {
+            graphData = [:]
+            epData = [:]
+            co2Equivalent = [:]
+            energyPoints = 0
+            totalCarbon = 0
+        } else {
+            compileToGraph()
+            recalculateEP()
+            recalculateCarbon()
         }
     }
     

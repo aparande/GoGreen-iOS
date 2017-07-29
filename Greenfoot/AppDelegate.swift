@@ -47,10 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
             svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
             
-            let electricVc = getGraphController(named: "Electric", andTag: 2)
-            let waterVc = getGraphController(named: "Water", andTag: 3)
-            let drivingVc = getGraphController(named: "Driving", andTag: 4)
-            let gasVc = getGraphController(named: "Gas", andTag: 5)
+            let electricVc = getGraphController(forDataType: GreenDataType.electric, andTag: 2)
+            let waterVc = getGraphController(forDataType: GreenDataType.water, andTag: 3)
+            let drivingVc = getGraphController(forDataType: GreenDataType.driving, andTag: 4)
+            let gasVc = getGraphController(forDataType: GreenDataType.gas, andTag: 5)
             
             tvc.viewControllers = [sNVC, electricVc, waterVc, drivingVc, gasVc]
             
@@ -74,29 +74,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         return true
     }
     
-    private func getGraphController(named name:String, andTag tag:Int) -> NavigationController {
+    private func getGraphController(forDataType type:GreenDataType, andTag tag:Int) -> NavigationController {
         let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
-        graphVC.setDataType(data:GreenfootModal.sharedInstance.data[name]!)
+        graphVC.setDataType(data:GreenfootModal.sharedInstance.data[type]!)
         
         var icon: UIImage!
-        switch name {
-        case "Electric":
+        switch type {
+        case .electric:
             icon = Icon.electric_white
             break
-        case "Water":
+        case .water:
             icon = Icon.water_white
             break
-        case "Driving":
+        case .driving:
             icon = Icon.road_white
             break
-        case "Gas":
+        case .gas:
             icon = Icon.fire_white
             break
-        default:
-            icon = Icon.electric_white
         }
         icon = icon.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
-        graphVC.tabBarItem = UITabBarItem(title: name, image: icon, tag: tag)
+        graphVC.tabBarItem = UITabBarItem(title: type.rawValue, image: icon, tag: tag)
         
         return NavigationController(rootViewController: graphVC)
     }
@@ -143,7 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     }
                 }
                 
-                if key == "Electric" {
+                if key == .electric {
                     value.fetchEGrid()
                     value.fetchConsumption()
                 }
@@ -154,7 +152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             return
         }
         
-        GreenfootModal.sharedInstance.data["Electric"]!.fetchConsumption()
+        GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -171,8 +169,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             let data = value.data
             let bonusAttrs = value.bonusDict
             
-            defaults.set(data, forKey: key+":data")
-            defaults.set(bonusAttrs, forKey: key+":bonus")
+            defaults.set(data, forKey: key.rawValue+":data")
+            defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
             
             /*
             if let driving = value as? DrivingData {

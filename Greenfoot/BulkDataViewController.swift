@@ -99,6 +99,12 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         self.data.editDataPoint(month: date, y:point)
     }
     
+    func updateError() {
+        let alertView = UIAlertController(title: "Error", message: "Please enter a valid number", preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alertView, animated: true, completion: nil)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let rowData = dataForSection(section) {
             return rowData.count
@@ -121,7 +127,14 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         
         let date = keys[indexPath.row]
         let value = sectionData[date]!
-        cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value))
+        
+        if data.dataName == "Driving" && indexPath.row - 1 >= 0 {
+            let prevDate = keys[indexPath.row - 1]
+            let prevValue = sectionData[prevDate]!
+            cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value), lowerBound: prevValue, upperBound: nil)
+        } else {
+            cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value), lowerBound: nil, upperBound: nil)
+        }
         return cell
     }
     

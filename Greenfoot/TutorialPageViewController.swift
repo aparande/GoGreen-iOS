@@ -28,7 +28,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
     @IBOutlet weak var skipButton: UIButton!
     
     //Normal View Variables
-    var dataType:String!
+    var dataType:GreenDataType!
     var icon:UIImage!
     var slideDescription: String!
     var units:String?
@@ -53,7 +53,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         iconImageView.image  = icon
-        slideTitleLabel.text = dataType
+        slideTitleLabel.text = dataType.rawValue
         slideDescriptionLabel.text = slideDescription
         
         slideTitleLabel.sizeToFit()
@@ -72,7 +72,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
         }
         
         var conversionFactor = 1.0
-        if dataType == "Gas" {
+        if dataType == .gas {
             for (_, point) in addedValues {
                 if point > 10 {
                     conversionFactor = 1.0
@@ -244,7 +244,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
     }
     
     func setValues(title: String, description: String, icon: UIImage, units: String?, isEditable:Bool) {
-        dataType = title
+        dataType = GreenDataType(rawValue: title)
         self.units = units
         slideDescription = description
         self.icon = icon

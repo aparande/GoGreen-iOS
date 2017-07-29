@@ -12,6 +12,7 @@ import Material
 protocol DataUpdater {
     func updateAttribute(key:String, value:Int)
     func updateData(month:String, point:Double, path: IndexPath?)
+    func updateError()
 }
 
 //Provides defaults to effectually make these methods optional
@@ -21,6 +22,10 @@ extension DataUpdater {
     }
     
     func updateData(month:String, point:Double, path: IndexPath?) {
+        assertionFailure("Method not implemented")
+    }
+    
+    func updateError() {
         assertionFailure("Method not implemented")
     }
 }

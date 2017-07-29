@@ -39,6 +39,9 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var dataTextField: UITextField!
     @IBOutlet weak var stepper: UIStepper!
     
+    var lowerBound:Double = 0
+    var upperBound:Double = 100000
+    
     var owner: DataUpdater!
     var indexPath:IndexPath?
     
@@ -67,6 +70,14 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
                 self.dataTextField.text = "\(stepper.value)"
                 return
             }
+            
+            let newVal = Double(text)!
+            if newVal < lowerBound || newVal > upperBound {
+                self.dataTextField.text = "\(stepper.value)"
+                owner.updateError()
+                return
+            }
+            
             stepper.value = Double(text)!
             owner.updateData(month: attributeLabel.text!, point: Double(text)!, path: indexPath)
         }
@@ -74,10 +85,20 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.dataTextField.resignFirstResponder()
     }
     
-    func setInfo(attribute:String, data:Double) {
+    func setInfo(attribute:String, data:Double, lowerBound lb:Double?, upperBound ub:Double?) {
         stepper.value = data
         attributeLabel.text = attribute
         dataTextField.text = "\(data)"
+        
+        if let bound = lb {
+            lowerBound = bound
+            stepper.minimumValue = lowerBound
+        }
+        
+        if let bound = ub {
+            upperBound = bound
+            stepper.maximumValue = upperBound
+        }
     }
     
     @IBAction func updateValue(_ sender: Any) {

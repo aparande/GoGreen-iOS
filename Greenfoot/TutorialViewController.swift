@@ -17,10 +17,10 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     init() {
         let titleSlide:[String: Any] = ["Title":"Welcome!", "Desc":"Welcome to Greenfoot! To start keeping track of your carbon footprint, enter some data. Any data you don't enter now can be entered later.", "Icon":Icon.logo_white]
         
-        let electricSlide:[String: Any] = ["Title":"Electric", "Desc":"One of the largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your Kilowatt-Hour usage. It will be marked clearly near the amount due.", "Icon":Icon.electric_white, "Units":"kWh"]
+        let electricSlide:[String: Any] = ["Title":GreenDataType.electric.rawValue, "Desc":"One of the largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your Kilowatt-Hour usage. It will be marked clearly near the amount due.", "Icon":Icon.electric_white, "Units":"kWh"]
         
-        let waterSlide:[String: Any] = ["Title":"Water", "Desc":"Another large portion of our carbon footprint comes from our water usage. Find your old water bills and enter how many gallons you have used each month. If your provider bills you bimonthly or quarterly, divide your usage evenly for each month you were billed over.", "Icon":Icon.water_white, "Units":"Gallons"]
-        let gasSlide:[String: Any] = ["Title":"Gas", "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, methane is a greenhouse gas itself, and the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month.", "Icon":Icon.fire_white, "Units":"Therms"]
+        let waterSlide:[String: Any] = ["Title":GreenDataType.water.rawValue, "Desc":"Another large portion of our carbon footprint comes from our water usage. Find your old water bills and enter how many gallons you have used each month. If your provider bills you bimonthly or quarterly, divide your usage evenly for each month you were billed over.", "Icon":Icon.water_white, "Units":"Gallons"]
+        let gasSlide:[String: Any] = ["Title":GreenDataType.gas.rawValue, "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, methane is a greenhouse gas itself, and the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month.", "Icon":Icon.fire_white, "Units":"Therms"]
         
         let endSlide:[String: Any] = ["Title":"Ready?", "Desc":"You are now ready to use Greenfoot! Additional information you can enter to alter how many energy points you receive can be found on different pages. Make sure to update the data in the application each time you receive a new bill so we can help you keep track of your carbon footprint the best we can!", "Icon":Icon.logo_white]
         
@@ -84,7 +84,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     
     func indexOf(vc: UIViewController) -> Int {
         if let viewController = vc as? TutorialPageViewController {
-            let title = viewController.dataType
+            let title = viewController.dataType.rawValue
             for i in 0...vcData.count-1 {
                 if vcData[i]["Title"] as? String == title {
                     return i
@@ -113,10 +113,10 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
             let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
             svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
             
-            let electricVc = getGraphController(named: "Electric", andTag: 2)
-            let waterVc = getGraphController(named: "Water", andTag: 3)
-            let drivingVc = getGraphController(named: "Driving", andTag: 4)
-            let gasVc = getGraphController(named: "Gas", andTag: 5)
+            let electricVc = getGraphController(forDataType: GreenDataType.electric, andTag: 2)
+            let waterVc = getGraphController(forDataType: GreenDataType.water, andTag: 3)
+            let drivingVc = getGraphController(forDataType: GreenDataType.driving, andTag: 4)
+            let gasVc = getGraphController(forDataType: GreenDataType.gas, andTag: 5)
             
             tvc.viewControllers = [sNVC, electricVc, waterVc, drivingVc, gasVc]
             
@@ -134,29 +134,27 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         return indexOf(vc: currentViewController)
     }
     
-    private func getGraphController(named name:String, andTag tag:Int) -> NavigationController {
+    private func getGraphController(forDataType type:GreenDataType, andTag tag:Int) -> NavigationController {
         let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
-        graphVC.setDataType(data:GreenfootModal.sharedInstance.data[name]!)
+        graphVC.setDataType(data:GreenfootModal.sharedInstance.data[type]!)
         
         var icon: UIImage!
-        switch name {
-        case "Electric":
+        switch type {
+        case .electric:
             icon = Icon.electric_white
             break
-        case "Water":
+        case .water:
             icon = Icon.water_white
             break
-        case "Driving":
-            icon = Icon.smoke_white
+        case .driving:
+            icon = Icon.road_white
             break
-        case "Gas":
+        case .gas:
             icon = Icon.fire_white
             break
-        default:
-            icon = Icon.electric_white
         }
         icon = icon.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
-        graphVC.tabBarItem = UITabBarItem(title: name, image: icon, tag: tag)
+        graphVC.tabBarItem = UITabBarItem(title: type.rawValue, image: icon, tag: tag)
         
         return NavigationController(rootViewController: graphVC)
     }

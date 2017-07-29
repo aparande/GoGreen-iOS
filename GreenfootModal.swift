@@ -13,7 +13,7 @@ import Material
 class GreenfootModal {
     static let sharedInstance = GreenfootModal()
     
-    var data:[String:GreenData]
+    var data:[GreenDataType:GreenData]
     
     var totalEnergyPoints:Int {
         get {
@@ -174,13 +174,13 @@ class GreenfootModal {
         
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: "Electric:bonus") {
+        if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") {
             electricData.bonusDict = bonusDict as! [String:Int]
         } else {
             electricData.bonusDict["Solar Panels"] = 0;
         }
         
-        if let data = defaults.dictionary(forKey: "Electric:data") {
+        if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") {
             electricData.data = data as! [String:Int]
         }
         
@@ -211,7 +211,7 @@ class GreenfootModal {
         
         
         
-        data["Electric"] = electricData
+        data[GreenDataType.electric] = electricData
     }
     
     private func prepWater() {
@@ -241,7 +241,7 @@ class GreenfootModal {
         waterData.baselines["Bathroom Frequency"] = 10
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: "Water:bonus") {
+        if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") {
             waterData.bonusDict = bonusDict as! [String:Int]
         } else {
             waterData.bonusDict["Shower length"] = 0
@@ -249,7 +249,7 @@ class GreenfootModal {
             waterData.bonusDict["Bathroom Frequency"] = 0
         }
         
-        if let data = defaults.dictionary(forKey: "Water:data") {
+        if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+"data") {
             waterData.data = data as! [String:Int]
         }
         
@@ -269,7 +269,7 @@ class GreenfootModal {
         
         waterData.recalculateEP()
         
-        data["Water"] = waterData
+        data[GreenDataType.water] = waterData
     }
     
     private func prepDriving() {
@@ -299,13 +299,13 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: "Driving:bonus") {
+        if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+"bonus") {
             drivingData.bonusDict = bonusDict as! [String:Int]
         } else {
             drivingData.bonusDict["Walking/Biking"] = 0
         }
         
-        if let data = defaults.dictionary(forKey: "Driving:data") {
+        if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+"data") {
             drivingData.data = data as! [String:Int]
         } else {
             drivingData.data["Number of Cars"] = 0
@@ -329,7 +329,7 @@ class GreenfootModal {
         
         drivingData.recalculateEP()
         
-        data["Driving"] = drivingData
+        data[GreenDataType.driving] = drivingData
     }
     
     private func prepGas() {
@@ -350,7 +350,7 @@ class GreenfootModal {
         
         gasData.recalculateEP()
         
-        data["Gas"] = gasData
+        data[GreenDataType.gas] = gasData
     }
 }
 
@@ -398,4 +398,11 @@ extension Date {
     func nextMonth() -> Date {
         return Calendar.current.date(byAdding: .month, value: 1, to: self, wrappingComponents: false) ?? self
     }
+}
+
+enum GreenDataType:String {
+    case electric = "Electric"
+    case water = "Water"
+    case driving = "Driving"
+    case gas = "Gas"
 }
