@@ -261,7 +261,7 @@ class GreenData {
             if data["status"] as! String == "Success" {
                 let consumption = data["value"] as! Double
                 self.stateConsumption = consumption
-                print(self.stateConsumption!)
+                print("State consumption is \(self.stateConsumption!)")
                 
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: APINotifications.consumption.rawValue), object: nil)
             } else {

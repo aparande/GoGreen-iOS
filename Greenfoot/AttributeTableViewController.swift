@@ -32,9 +32,13 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        /*
         let logo = UIImageView(image: UIImage(named: "Plant"))
         navigationItem.centerViews = [logo]
-        logo.contentMode = .scaleAspectFit
+        logo.contentMode = .scaleAspectFit*/
+        navigationItem.title = "Attributes"
+        navigationItem.titleLabel.textColor = UIColor.white
+        navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
         
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
@@ -44,7 +48,10 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         
         navigationItem.backButton.tintColor = UIColor.white
         
+        self.tableView.tableHeaderView = UIView(frame: CGRect.zero)
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        self.tableView.backgroundColor = UIColor(red: 239/255, green: 239/255, blue: 244/255, alpha: 1.0)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,7 +70,7 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             self.dataKeys.append(key)
         }
         
-        super.init(style: .grouped)
+        super.init(style: .plain)
     }
     
     func updateAttribute(key: String, value: Int) {
