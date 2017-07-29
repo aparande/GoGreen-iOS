@@ -192,7 +192,7 @@ extension HorizontalBarChartView {
         //Adds some padding
         self.extraTopOffset = 10
         self.extraBottomOffset = -10
-        self.extraRightOffset = 5
+        self.extraRightOffset = 15
         
         self.data?.setDrawValues(false)
         self.doubleTapToZoomEnabled = false

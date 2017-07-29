@@ -262,8 +262,6 @@ class GreenData {
                 let consumption = data["value"] as! Double
                 self.stateConsumption = consumption
                 print("State consumption is \(self.stateConsumption!)")
-                
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: APINotifications.consumption.rawValue), object: nil)
             } else {
                 print("Failed to load consumption because: "+(data["message"] as! String))
             }
@@ -340,7 +338,7 @@ class EmissionsData: GreenData {
     
     let co2Emissions:(Double, Int) -> Double = {
         miles, mpg in
-        return 8.887*miles/Double(mpg)
+        return 19.6*miles/Double(mpg)
     }
     
     init() {

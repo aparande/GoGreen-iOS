@@ -79,7 +79,7 @@ class DataPointViewController: UITableViewController {
                 data[(GreenfootModal.sharedInstance.locality?["State"])!] = stateConsumption
             }
             
-            graph.loadData(data, labeled: "Comparison")
+            graph.loadData(data, labeled: unit!)
             
             container.addSubview(graph)
         } else {
@@ -101,26 +101,29 @@ class DataPointViewController: UITableViewController {
     private func setDataCells(indexPath: IndexPath) -> UITableViewCell{
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "ValueCell")
         
+        var detailValue:Double?
         switch indexPath.row {
         case 0:
             cell.textLabel?.text = unit
-            cell.detailTextLabel?.text = "\(values["Usage"]!)"
+            detailValue =  values["Usage"]!
             break
         case 1:
             cell.textLabel?.text = "Energy Points"
-            cell.detailTextLabel?.text = "\(values["EP"]!)"
+            detailValue = values["EP"]!
             break
         case 2:
             cell.textLabel?.text = "Pounds of Carbon"
-            if let value = values["Carbon"] {
-                cell.detailTextLabel?.text = "\(value)"
-            } else {
-                cell.detailTextLabel?.text = "NA"
-            }
+            detailValue = values["Carbon"]
             break
         default:
             cell.textLabel?.text = "null"
             cell.detailTextLabel?.text = "null"
+        }
+        
+        if let value = detailValue {
+            cell.detailTextLabel?.text = "\(Int(value))"
+        } else {
+            cell.detailTextLabel?.text = "NA"
         }
         
         return cell

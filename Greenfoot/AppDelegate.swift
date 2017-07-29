@@ -148,11 +148,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     value.fetchConsumption()
                 }
             }
-            
+    
             GreenfootModal.sharedInstance.logEnergyPoints()
             
             return
         }
+        
+        GreenfootModal.sharedInstance.data["Electric"]!.fetchConsumption()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
