@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,32 +36,28 @@
                         </connections>
                     </stepper>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ma-cR-kCQ">
-                        <rect key="frame" x="166" y="13" width="30" height="18"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="30" id="FWF-QW-9En"/>
-                        </constraints>
+                        <rect key="frame" x="159.5" y="13" width="36.5" height="18"/>
                         <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DOc-gF-jEy">
-                        <rect key="frame" x="15" y="10" width="143" height="25.5"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="143" id="vgt-Hi-xwY"/>
-                        </constraints>
+                        <rect key="frame" x="8" y="8" width="143.5" height="28"/>
                         <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="23"/>
                         <color key="textColor" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="DOc-gF-jEy" firstAttribute="top" secondItem="mjv-0U-qUr" secondAttribute="topMargin" constant="2" id="0qK-OK-Y3B"/>
+                    <constraint firstItem="DOc-gF-jEy" firstAttribute="top" secondItem="mjv-0U-qUr" secondAttribute="topMargin" id="0qK-OK-Y3B"/>
                     <constraint firstItem="3ma-cR-kCQ" firstAttribute="top" secondItem="mjv-0U-qUr" secondAttribute="topMargin" constant="5" id="BCX-NK-efS"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="DOc-gF-jEy" secondAttribute="bottom" constant="-0.5" id="IGF-BD-5pm"/>
                     <constraint firstAttribute="trailingMargin" secondItem="W7Y-OB-I7L" secondAttribute="trailing" id="OpN-6d-xul"/>
+                    <constraint firstItem="DOc-gF-jEy" firstAttribute="width" secondItem="3ma-cR-kCQ" secondAttribute="height" multiplier="145:18" id="fF3-tB-7Oi"/>
                     <constraint firstAttribute="topMargin" secondItem="W7Y-OB-I7L" secondAttribute="top" id="hXa-L5-UcO"/>
                     <constraint firstItem="W7Y-OB-I7L" firstAttribute="leading" secondItem="3ma-cR-kCQ" secondAttribute="trailing" constant="15" id="iDe-87-mPQ"/>
                     <constraint firstItem="3ma-cR-kCQ" firstAttribute="leading" secondItem="DOc-gF-jEy" secondAttribute="trailing" constant="8" id="pJ8-c1-C0b"/>
-                    <constraint firstAttribute="leadingMargin" secondItem="DOc-gF-jEy" secondAttribute="leading" constant="-7" id="pQp-P1-VfH"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="DOc-gF-jEy" secondAttribute="leading" id="sdV-v5-fRQ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -68,7 +65,7 @@
                 <outlet property="dataPointLabel" destination="3ma-cR-kCQ" id="0u1-sA-g6n"/>
                 <outlet property="stepper" destination="W7Y-OB-I7L" id="hfV-Tm-cgS"/>
             </connections>
-            <point key="canvasLocation" x="-39" y="27"/>
+            <point key="canvasLocation" x="-39.5" y="27"/>
         </tableViewCell>
     </objects>
 </document>
