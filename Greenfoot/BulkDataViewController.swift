@@ -39,6 +39,16 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         navigationItem.backButton.titleColor = UIColor.white
         navigationItem.backButton.tintColor = UIColor.white
         
+        if self == self.navigationController?.viewControllers[0] {
+            let backButton = IconButton()
+            backButton.title = "Save"
+            backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
+            backButton.titleColor = UIColor.white
+            backButton.tintColor = UIColor.white
+            backButton.addTarget(self, action: #selector(returnToTutorial), for: .touchUpInside)
+            navigationItem.leftViews = [backButton]
+        }
+        
         if data.dataName != "Driving" {
             let header = Bundle.main.loadNibNamed("AddDataHeader", owner: nil, options: nil)![0] as? AddDataHeaderView
             header?.owner = self
@@ -49,6 +59,10 @@ class BulkDataViewController: UITableViewController, DataUpdater {
             editButton.addTarget(self, action: #selector(beginEdit), for: .touchUpInside)
             navigationItem.rightViews = [editButton]
         }
+    }
+    
+    func returnToTutorial() {
+        self.navigationController?.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     func beginEdit() {

@@ -33,7 +33,7 @@
                             <constraint firstAttribute="width" secondItem="jwx-FD-D68" secondAttribute="height" multiplier="1:1" id="pmL-6v-Wtf"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Smoke" translatesAutoresizingMaskIntoConstraints="NO" id="HQw-Lh-zyP">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Road" translatesAutoresizingMaskIntoConstraints="NO" id="HQw-Lh-zyP">
                         <rect key="frame" x="8" y="8" width="54" height="54"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="yKe-xy-LeC">
@@ -122,6 +122,6 @@
     </objects>
     <resources>
         <image name="Emblem" width="512" height="512"/>
-        <image name="Smoke" width="256" height="256"/>
+        <image name="Road" width="256" height="256"/>
     </resources>
 </document>

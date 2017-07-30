@@ -84,7 +84,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     
     func indexOf(vc: UIViewController) -> Int {
         if let viewController = vc as? TutorialPageViewController {
-            let title = viewController.dataType.rawValue
+            let title = viewController.pageTitle
             for i in 0...vcData.count-1 {
                 if vcData[i]["Title"] as? String == title {
                     return i

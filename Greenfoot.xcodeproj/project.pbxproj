@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F06F95D1EF762000047CEB4 /* SummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F06F95C1EF762000047CEB4 /* SummaryView.xib */; };
 		1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB0FE71E2B3684006463AE /* DroidSans.ttf */; };
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
@@ -34,7 +33,6 @@
 		1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */; };
 		1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */; };
 		1FA737F91F001F4100B721D0 /* APIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA737F81F001F4100B721D0 /* APIInterface.swift */; };
-		1FA917BA1EC547D300C6ABE9 /* AddDataTutorial.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */; };
 		1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */; };
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
 		1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */; };
@@ -47,7 +45,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F06F95C1EF762000047CEB4 /* SummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryView.xib; sourceTree = "<group>"; };
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
 		1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPointViewController.swift; sourceTree = "<group>"; };
@@ -75,7 +72,6 @@
 		1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrivingHeader.xib; sourceTree = "<group>"; };
 		1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCollectionViewController.swift; sourceTree = "<group>"; };
 		1FA737F81F001F4100B721D0 /* APIInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIInterface.swift; sourceTree = "<group>"; };
-		1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataTutorial.xib; sourceTree = "<group>"; };
 		1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
@@ -116,8 +112,6 @@
 				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
 				1F6C73B51EDB593C006A0003 /* EditDataCell.xib */,
 				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
-				1FA917B91EC547D300C6ABE9 /* AddDataTutorial.xib */,
-				1F06F95C1EF762000047CEB4 /* SummaryView.xib */,
 				1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */,
 			);
 			name = Views;
@@ -276,10 +270,8 @@
 				1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */,
 				1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */,
 				1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */,
-				1F06F95D1EF762000047CEB4 /* SummaryView.xib in Resources */,
 				1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */,
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
-				1FA917BA1EC547D300C6ABE9 /* AddDataTutorial.xib in Resources */,
 				1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */,
 				1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */,
 				1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */,
