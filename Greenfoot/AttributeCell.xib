@@ -21,11 +21,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttributeCell" id="OBq-2o-lJ1" customClass="AttributeTableViewCell" customModule="Greenfoot" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="313" height="44"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AttributeCell" rowHeight="125" id="OBq-2o-lJ1" customClass="AttributeTableViewCell" customModule="Greenfoot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="313" height="125"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OBq-2o-lJ1" id="mjv-0U-qUr">
-                <rect key="frame" x="0.0" y="0.0" width="313" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="313" height="124.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="W7Y-OB-I7L">
@@ -36,24 +36,38 @@
                         </connections>
                     </stepper>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ma-cR-kCQ">
-                        <rect key="frame" x="159.5" y="13" width="36.5" height="18"/>
+                        <rect key="frame" x="159" y="13" width="37" height="18"/>
                         <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DOc-gF-jEy">
-                        <rect key="frame" x="8" y="8" width="143.5" height="28"/>
+                        <rect key="frame" x="8" y="8" width="143" height="29"/>
                         <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="23"/>
                         <color key="textColor" red="0.1843137255" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More info about the attribute" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFY-Z7-cyS">
+                        <rect key="frame" x="0.0" y="44" width="313" height="80"/>
+                        <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" priority="999" constant="80" id="4Z0-z9-aiZ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="14"/>
+                        <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="DOc-gF-jEy" firstAttribute="top" secondItem="mjv-0U-qUr" secondAttribute="topMargin" id="0qK-OK-Y3B"/>
                     <constraint firstItem="3ma-cR-kCQ" firstAttribute="top" secondItem="mjv-0U-qUr" secondAttribute="topMargin" constant="5" id="BCX-NK-efS"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="DOc-gF-jEy" secondAttribute="bottom" constant="-0.5" id="IGF-BD-5pm"/>
                     <constraint firstAttribute="trailingMargin" secondItem="W7Y-OB-I7L" secondAttribute="trailing" id="OpN-6d-xul"/>
+                    <constraint firstItem="nFY-Z7-cyS" firstAttribute="leading" secondItem="mjv-0U-qUr" secondAttribute="leadingMargin" constant="-8" id="Pxp-9i-j6y"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="nFY-Z7-cyS" secondAttribute="bottom" constant="-7.5" id="VZW-Aa-EdE"/>
+                    <constraint firstItem="nFY-Z7-cyS" firstAttribute="top" secondItem="DOc-gF-jEy" secondAttribute="bottom" constant="7" id="dlR-WP-8JF"/>
                     <constraint firstItem="DOc-gF-jEy" firstAttribute="width" secondItem="3ma-cR-kCQ" secondAttribute="height" multiplier="145:18" id="fF3-tB-7Oi"/>
+                    <constraint firstItem="DOc-gF-jEy" firstAttribute="bottom" secondItem="W7Y-OB-I7L" secondAttribute="bottom" id="gIQ-E3-fm4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="nFY-Z7-cyS" secondAttribute="trailing" constant="-8" id="gvv-nj-FuB"/>
                     <constraint firstAttribute="topMargin" secondItem="W7Y-OB-I7L" secondAttribute="top" id="hXa-L5-UcO"/>
                     <constraint firstItem="W7Y-OB-I7L" firstAttribute="leading" secondItem="3ma-cR-kCQ" secondAttribute="trailing" constant="15" id="iDe-87-mPQ"/>
                     <constraint firstItem="3ma-cR-kCQ" firstAttribute="leading" secondItem="DOc-gF-jEy" secondAttribute="trailing" constant="8" id="pJ8-c1-C0b"/>
@@ -63,9 +77,11 @@
             <connections>
                 <outlet property="attributeLabel" destination="DOc-gF-jEy" id="sqe-CY-HrF"/>
                 <outlet property="dataPointLabel" destination="3ma-cR-kCQ" id="0u1-sA-g6n"/>
+                <outlet property="infoHeight" destination="4Z0-z9-aiZ" id="gLF-Sp-SXM"/>
+                <outlet property="infoLabel" destination="nFY-Z7-cyS" id="EHp-XS-glZ"/>
                 <outlet property="stepper" destination="W7Y-OB-I7L" id="hfV-Tm-cgS"/>
             </connections>
-            <point key="canvasLocation" x="-39.5" y="27"/>
+            <point key="canvasLocation" x="-39.5" y="67.5"/>
         </tableViewCell>
     </objects>
 </document>

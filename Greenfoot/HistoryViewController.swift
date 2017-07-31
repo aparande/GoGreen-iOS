@@ -14,6 +14,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     @IBOutlet weak var epHistoryChart: BarGraph!
     
     var monthlyBreakdown:[Date:Double]!
+    var totalCarbon: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,8 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
                     monthlyBreakdown[month] = Double(value)
                 }
             }
+            
+            totalCarbon += data.totalCarbon
         }
         
         epHistoryChart.loadData(monthlyBreakdown, labeled: "Energy Points")
@@ -53,28 +56,47 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: "General Cell")
+            
+            let geoSans = UIFont(name: "Raleway", size: 19.0)
+            cell.textLabel?.font = geoSans!
+            cell.textLabel?.textColor = Colors.green
+            
+            let droidSans = UIFont(name: "GeosansLight", size: 20.0)
+            cell.detailTextLabel?.font = droidSans
+            cell.detailTextLabel?.textColor = Colors.green
+            
+            cell.textLabel?.text = "Carbon Dioxide Emitted: "
+            cell.detailTextLabel?.text = "\(totalCarbon) lbs"
+            
+            cell.selectionStyle = .none
+            
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChangeCell", for: indexPath) as! MonthlyChangeTableViewCell
 
         var image:UIImage!
         var unit:String!
         var data:GreenData!
         switch indexPath.row {
-        case 0:
+        case 1:
             image = Icon.electric_white
             unit = "kWh"
             data = GreenfootModal.sharedInstance.data[GreenDataType.electric]!
             break
-        case 1:
+        case 2:
             image = Icon.water_white
             unit = "gal"
             data = GreenfootModal.sharedInstance.data[GreenDataType.water]!
             break
-        case 2:
+        case 3:
             image = Icon.road_white
             unit = "mi"
             data = GreenfootModal.sharedInstance.data[GreenDataType.driving]!
             break
-        case 3:
+        case 4:
             image = Icon.fire_white
             unit = "therms"
             data = GreenfootModal.sharedInstance.data[GreenDataType.gas]!
@@ -149,7 +171,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
 
 }

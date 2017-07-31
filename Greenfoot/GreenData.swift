@@ -17,8 +17,7 @@ class GreenData {
     var baselines:[String:Int]
     var bonusDict:[String:Int]
     
-    var attributes: [String]
-    var descriptions: [String]
+    var descriptions: [String:String]
     
     var averageLabel:String
     var icon:UIImage
@@ -84,8 +83,7 @@ class GreenData {
         baselines = [:]
         bonusDict = [:]
         
-        attributes = []
-        descriptions = []
+        descriptions = [:]
         uploadedData = []
         
         dataName = name

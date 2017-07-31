@@ -31,7 +31,6 @@
 		1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */; };
 		1FA018A01EE394D6005ED9E2 /* AddEmissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */; };
 		1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */; };
-		1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */; };
 		1FA737F91F001F4100B721D0 /* APIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA737F81F001F4100B721D0 /* APIInterface.swift */; };
 		1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */; };
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
@@ -70,7 +69,6 @@
 		1F9BEE8B1E6FB4FB00CD5B46 /* AttributeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewController.swift; sourceTree = "<group>"; };
 		1FA0189F1EE394D6005ED9E2 /* AddEmissionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEmissionsViewController.swift; sourceTree = "<group>"; };
 		1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrivingHeader.xib; sourceTree = "<group>"; };
-		1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCollectionViewController.swift; sourceTree = "<group>"; };
 		1FA737F81F001F4100B721D0 /* APIInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIInterface.swift; sourceTree = "<group>"; };
 		1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 				1F70CCC71E105D0600AD351A /* Info.plist */,
 				1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */,
 				1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */,
-				1FA5D5DB1ED205BA0062474A /* DescriptionCollectionViewController.swift */,
 				1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */,
 			);
 			path = Greenfoot;
@@ -344,7 +341,6 @@
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
 				1FA737F91F001F4100B721D0 /* APIInterface.swift in Sources */,
-				1FA5D5DC1ED205BA0062474A /* DescriptionCollectionViewController.swift in Sources */,
 				1FA018A01EE394D6005ED9E2 /* AddEmissionsViewController.swift in Sources */,
 				1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,

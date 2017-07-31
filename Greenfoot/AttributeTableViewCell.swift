@@ -15,6 +15,20 @@ class AttributeTableViewCell: UITableViewCell {
     @IBOutlet weak var dataPointLabel: UILabel!
     @IBOutlet weak var stepper: UIStepper!
     
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var infoHeight: NSLayoutConstraint!
+    
+    var isExpanded:Bool = false {
+        didSet {
+            if !isExpanded {
+                self.infoHeight.constant = 0.0
+            } else {
+                self.infoHeight.constant = 80.0
+            }
+        }
+    }
+    
+    
     var owner: DataUpdater!
     
     override func awakeFromNib() {
@@ -22,10 +36,12 @@ class AttributeTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func setInfo(attribute:String, data:Int) {
+    func setInfo(attribute:String, data:Int, description:String) {
         stepper.value = Double(data)
         attributeLabel.text = attribute
         dataPointLabel.text = "\(data)"
+        
+        infoLabel.text = description
     }
     
     @IBAction func updateValue(_ sender: Any) {

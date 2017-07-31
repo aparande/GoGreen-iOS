@@ -220,11 +220,4 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 30.0
     }
-    
-    func showInfo() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let dcvc = storyboard.instantiateViewController(withIdentifier: "DescriptionCollectionViewController") as! DescriptionCollectionViewController
-        dcvc.setData(data: self.data)
-        navigationController?.pushViewController(dcvc, animated: true)
-    }
 }

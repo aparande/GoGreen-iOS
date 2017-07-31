@@ -33,14 +33,14 @@ extension DataUpdater {
 class AttributeTableViewController: UITableViewController, DataUpdater {
     var data: GreenData
     var dataKeys:[String]
+    
+    var expandedRows = Set<Int>()
+    
+    var keyToExpand:String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        /*
-        let logo = UIImageView(image: UIImage(named: "Plant"))
-        navigationItem.centerViews = [logo]
-        logo.contentMode = .scaleAspectFit*/
+        
         navigationItem.title = "Attributes"
         navigationItem.titleLabel.textColor = UIColor.white
         navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
@@ -55,6 +55,8 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         
         self.tableView.tableHeaderView = UIView(frame: CGRect.zero)
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         
         self.tableView.backgroundColor = UIColor(red: 239/255, green: 239/255, blue: 244/255, alpha: 1.0)
     }
@@ -118,6 +120,9 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             
             cell.textLabel?.text = key
             cell.detailTextLabel?.text = String(describing: data.data[key]!)
+            
+            cell.selectionStyle = .none
+            
             return cell
             
         } else {
@@ -125,11 +130,47 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             cell.owner = self
             
             if let _ = data.data[key] {
-                cell.setInfo(attribute: key, data: data.data[key]!)
+                cell.setInfo(attribute: key, data: data.data[key]!, description: data.descriptions[key]!)
             } else {
-                cell.setInfo(attribute: key, data: data.bonusDict[key]!)
+                cell.setInfo(attribute: key, data: data.bonusDict[key]!, description: data.descriptions[key]!)
             }
+            
+            cell.isExpanded = self.expandedRows.contains(indexPath.row)
             return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? AttributeTableViewCell else {
+            return
+        }
+        
+        switch cell.isExpanded {
+        case true:
+            self.expandedRows.remove(indexPath.row)
+        case false:
+            self.expandedRows.insert(indexPath.row)
+        }
+        
+        cell.isExpanded = !cell.isExpanded
+        
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? AttributeTableViewCell else {
+            return
+        }
+        
+        self.expandedRows.remove(indexPath.row)
+        
+        cell.isExpanded = false
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80.0
     }
 }

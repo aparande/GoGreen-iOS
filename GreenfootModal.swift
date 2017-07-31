@@ -203,11 +203,9 @@ class GreenfootModal {
         CoreDataHelper.fetch(data: electricData)
         electricData.recalculateEP()
         
-        electricData.attributes.append("General")
-        electricData.descriptions.append("Electric consumption is one of the largest contributers to an individuals carbon footprint. The average American consums 901 Kilowatt-Hours of Energy per month. You can find the Kilowatt-Hour consumption at the bottom of your electricity bill.")
+        electricData.descriptions["General"] = "Electric consumption is one of the largest contributers to an individuals carbon footprint. The average American consums 901 Kilowatt-Hours of Energy per month. You can find the Kilowatt-Hour consumption at the bottom of your electricity bill."
         
-        electricData.attributes.append("Solar Panels")
-        electricData.descriptions.append("One way to make your electric consumption greener is to install solar panels. Just 12 solar panels can power a 2000 square foot home!")
+        electricData.descriptions["Solar Panels"] = "One way to make your electric consumption greener is to install solar panels. Just 12 solar panels can power a 2000 square foot home!"
         
         
         
@@ -234,7 +232,7 @@ class GreenfootModal {
         }
         
         //http://www.home-water-works.org/indoor-use/showers
-        waterData.baselines["Shower length"] = 8
+        waterData.baselines["Shower Length"] = 8
         
         waterData.baselines["Laundry Frequency"] = 3
         //https://www.reference.com/health/many-times-day-should-toilet-ae709668021a63cb
@@ -244,7 +242,7 @@ class GreenfootModal {
         if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") {
             waterData.bonusDict = bonusDict as! [String:Int]
         } else {
-            waterData.bonusDict["Shower length"] = 0
+            waterData.bonusDict["Shower Length"] = 0
             waterData.bonusDict["Laundry Frequency"] = 0
             waterData.bonusDict["Bathroom Frequency"] = 0
         }
@@ -255,17 +253,13 @@ class GreenfootModal {
         
         CoreDataHelper.fetch(data: waterData)
         
-        waterData.attributes.append("General")
-        waterData.descriptions.append("An easy resource to waste is water because we use it so much in our daily lives. The average amount of water the average American uses in a month is 12,000 gallons. Reducing water consumption is another step you can take towards being green.")
+        waterData.descriptions["General"] = "An easy resource to waste is water because we use it so much in our daily lives. The average amount of water the average American uses in a month is 12,000 gallons. Reducing water consumption is another step you can take towards being green."
         
-        waterData.attributes.append("Shower Length")
-        waterData.descriptions.append("The quickest way to cut down your water consumption is to cut down the length of your showers. The average American takens an 8 minute shower, but bringing this down to even just 5 minutes can have a dramatic effect over time.")
+        waterData.descriptions["Shower Length"] = "The quickest way to cut down your water consumption is to cut down the length of your showers. The average American takens an 8 minute shower, but bringing this down to even just 5 minutes can have a dramatic effect over time."
         
-        waterData.attributes.append("Laundry Frequency")
-        waterData.descriptions.append("Another large use of water is in doing the laundry. The number of times an average American does laundry in a week is 3 times.")
+        waterData.descriptions["Laundry Frequency"] = "Another large use of water is in doing the laundry. The number of times an average American does laundry in a week is 3 times."
         
-        waterData.attributes.append("Bathroom Frequency")
-        waterData.descriptions.append("Although it may not seem like it, each time you flush the toilet, a substantial amount of water is used. The average American flushes the toilet 10 times a day.")
+        waterData.descriptions["Bathroom Frequency"] = "Although it may not seem like it, each time you flush the toilet, a substantial amount of water is used. The average American flushes the toilet 10 times a day."
         
         waterData.recalculateEP()
         
@@ -315,17 +309,13 @@ class GreenfootModal {
         
         CoreDataHelper.fetch(data: drivingData)
         
-        drivingData.attributes.append("General")
-        drivingData.descriptions.append("We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg")
+        drivingData.descriptions["General"] = "We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg"
         
-        drivingData.attributes.append("Average MPG")
-        drivingData.descriptions.append("The average number of miles per gallon of a car is 22 mpg. Cars with higher mileage ratings emit less carbon dioxide over the same amount of distance. Your average MPG is calculated by adding up the mpg of each vehicle you own and dividing by the numer of vehicles you own.")
+        drivingData.descriptions["Average MPG"] = "The average number of miles per gallon of a car is 22 mpg. Cars with higher mileage ratings emit less carbon dioxide over the same amount of distance. Your average MPG is calculated by adding up the mpg of each vehicle you own and dividing by the numer of vehicles you own."
         
-        drivingData.attributes.append("Number of Cars")
-        drivingData.descriptions.append("The average American owns two cars. Recording data for each car you own (excluding electric vehicles) will lead to a more accurate picture of your carbon footprint")
+        drivingData.descriptions["Number of Cars"] = "The average American owns two cars. Recording data for each car you own (excluding electric vehicles) will lead to a more accurate picture of your carbon footprint"
         
-        drivingData.attributes.append("Walking/Biking")
-        drivingData.descriptions.append("The more you can walk or bike to places, the less your carbon footprint will be. The average American should be walking 30 minutes each day.")
+        drivingData.descriptions["Walking/Biking"] = "The more you can walk or bike to places, the less your carbon footprint will be. The average American should be walking 30 minutes each day."
         
         drivingData.recalculateEP()
         
@@ -345,8 +335,7 @@ class GreenfootModal {
         
         CoreDataHelper.fetch(data: gasData)
         
-        gasData.attributes.append("General")
-        gasData.descriptions.append("Although it is cleaner burning than gasoline and other fossil fuels, natural gas, or methane, is a strong greenhouse gas. Leakage while mining it, as well as carbon dioxide released while burning it, contribute to the changing climate. The average American uses 0.7 Mcf of natural gas per month, which is the same as 700 Ccf or 700 Therms")
+        gasData.descriptions["General"] = "Although it is cleaner burning than gasoline and other fossil fuels, natural gas, or methane, is a strong greenhouse gas. Leakage while mining it, as well as carbon dioxide released while burning it, contribute to the changing climate. The average American uses 0.7 Mcf of natural gas per month, which is the same as 700 Ccf or 700 Therms"
         
         gasData.recalculateEP()
         

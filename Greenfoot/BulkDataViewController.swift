@@ -12,8 +12,16 @@ import Material
 class BulkDataViewController: UITableViewController, DataUpdater {
     let data: GreenData
     
+    var sortedDataKeys:[Date]
+    
     init(withData x:GreenData) {
         data = x
+        sortedDataKeys = Array(self.data.getGraphData().keys)
+        sortedDataKeys = sortedDataKeys.sorted(by: {
+            (d1, d2) -> Bool in
+            return d1.compare(d2) == ComparisonResult.orderedAscending
+        })
+        
         super.init(style: .grouped)
     }
     
@@ -94,12 +102,8 @@ class BulkDataViewController: UITableViewController, DataUpdater {
             let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
                 _ in
-                var keys = Array(self.data.getGraphData().keys)
-                keys = keys.sorted(by: {
-                    (d1, d2) -> Bool in
-                    return d1.compare(d2) == ComparisonResult.orderedAscending
-                })
-                self.data.removeDataPoint(month: keys[indexPath.row])
+                let key = self.sortedDataKeys.remove(at: indexPath.row)
+                self.data.removeDataPoint(month: key)
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
             
