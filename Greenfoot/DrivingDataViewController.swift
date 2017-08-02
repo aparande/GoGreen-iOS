@@ -255,8 +255,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             
             owner.sectionDataKeys[sectionNum] = [date]
             
-            let row = owner.drivingData.carData[carName]!.count-1
-            let path = IndexPath(row: row, section: sectionNum)
+            let path = IndexPath(row: 0, section: sectionNum)
             
             owner.tableView.insertRows(at: [path], with: .automatic)
             return
@@ -264,7 +263,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         
         let keys = owner.sectionDataKeys[sectionNum]!
         
-        let lastVal = owner.drivingData.carData[carName]![keys[keys.count-1]]!
+        let lastVal = owner.drivingData.carData[carName]![keys[0]]!
         
         if let _ = owner.drivingData.carData[carName] {
             if let _ = owner.drivingData.carData[carName]![date] {
@@ -281,9 +280,8 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         
         owner.drivingData.addPointToCoreData(car: carName, month: date, point: lastVal)
         
-        let row = owner.drivingData.carData[carName]!.count-1
-        owner.sectionDataKeys[sectionNum]!.insert(date, at: row)
-        let path = IndexPath(row: row, section: sectionNum)
+        owner.sectionDataKeys[sectionNum]!.insert(date, at: 0)
+        let path = IndexPath(row: 0, section: sectionNum)
         
         owner.tableView.insertRows(at: [path], with: .automatic)
     }

@@ -62,6 +62,7 @@ class DataPointViewController: UITableViewController {
         
         cell.textLabel?.font = UIFont(name: "DroidSans", size: 17.0)
         cell.textLabel?.textColor = Colors.green
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -132,23 +133,21 @@ class DataPointViewController: UITableViewController {
     private func setUnitCells(indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "ValueCell")
         
+        let key = Array(values.keys)[indexPath.row]
+        cell.detailTextLabel?.text = "\(Int(values[key]!)) EP"
         
-        switch Array(values.keys)[indexPath.row] {
-        case "Electric":
+        switch key {
+        case GreenDataType.electric.rawValue:
             cell.textLabel?.text = "Electricity Consumption"
-            cell.detailTextLabel?.text = "\(Int(values["Electric"]!)) EP"
             break
-        case "Water":
+        case GreenDataType.water.rawValue:
             cell.textLabel?.text = "Water Consumption"
-            cell.detailTextLabel?.text = "\(Int(values["Water"]!)) EP"
             break
-        case "Driving":
+        case GreenDataType.driving.rawValue:
             cell.textLabel?.text = "Driving"
-            cell.detailTextLabel?.text = "\(Int(values["Driving"]!)) EP"
             break
-        case "Gas":
+        case GreenDataType.gas.rawValue:
             cell.textLabel?.text = "Natural Gas"
-            cell.detailTextLabel?.text = "\(Int(values["Gas"]!)) EP"
             break
         default:
             cell.textLabel?.text = "null"

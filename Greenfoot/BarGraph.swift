@@ -91,14 +91,18 @@ class BarGraph: BarChartView {
     private func buildGraphWith(points: [Double], legendLabel:String?, hasNegative: Bool) {
         var dataEntries: [BarChartDataEntry] = []
         for i in 0..<points.count {
-            let dataEntry = BarChartDataEntry(x: Double(i), y: points[i])
+            var point = points[i]
+            if points[i] == 0 {
+                point = 0.15
+            }
+            let dataEntry = BarChartDataEntry(x: Double(i), y: point)
             dataEntries.append(dataEntry)
         }
         
         //You want to show 6 bars on screen, so if there are fewer points than that, add dummy bars
         if points.count < 6 {
             for i in points.count..<6 {
-                let dataEntry = BarChartDataEntry(x: Double(i), y: 0.1)
+                let dataEntry = BarChartDataEntry(x: Double(i), y: 0)
                 dataEntries.append(dataEntry)
             }
         }
@@ -147,6 +151,13 @@ class BarGraph: BarChartView {
         
         if let max = points.max() {
             switch floor(log10(max)) {
+            case 0:
+                if max > 5 {
+                    self.leftAxis.axisMaximum = 10
+                } else {
+                    self.leftAxis.axisMaximum = 5
+                }
+                break
             case 1:
                 self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
                 break
@@ -157,7 +168,11 @@ class BarGraph: BarChartView {
                 self.leftAxis.axisMaximum = 1000 * ceil(max / 1000.0)
                 break
             default:
-                self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
+                if max > 5 {
+                    self.leftAxis.axisMaximum = 10
+                } else {
+                    self.leftAxis.axisMaximum = 5
+                }
                 break
             }
         }
@@ -170,6 +185,10 @@ class BarGraph: BarChartView {
             if let min = points.min() {
                 //print("Minimum on Y axis \(min)")
                 self.leftAxis.axisMinimum = 10 * floor(min/10.0)
+                
+                if floor(log10(abs(min))) == 0 {
+                    self.leftAxis.axisMinimum = -5
+                }
             }
             
             if points.count == 1 {

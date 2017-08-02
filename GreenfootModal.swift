@@ -297,13 +297,14 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+"bonus") {
+        if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") {
             drivingData.bonusDict = bonusDict as! [String:Int]
         } else {
             drivingData.bonusDict["Walking/Biking"] = 0
         }
         
-        if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+"data") {
+        print(GreenDataType.driving.rawValue+":data")
+        if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") {
             drivingData.data = data as! [String:Int]
         } else {
             drivingData.data["Number of Cars"] = 0
@@ -401,7 +402,7 @@ extension Date {
 }
 
 enum GreenDataType:String {
-    case electric = "Electric"
+    case electric = "Electricity"
     case water = "Water"
     case driving = "Driving"
     case gas = "Gas"

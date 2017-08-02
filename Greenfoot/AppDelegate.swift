@@ -169,14 +169,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             let data = value.data
             let bonusAttrs = value.bonusDict
             
+            print(key.rawValue+":data")
             defaults.set(data, forKey: key.rawValue+":data")
             defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
-            
-            /*
-            if let driving = value as? DrivingData {
-                defaults.set(driving, forKey: "MilesData")
-            }*/
-
         }
         
         if let locality = modal.locality {

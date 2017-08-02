@@ -375,7 +375,7 @@ class DrivingData: GreenData {
         
         self.calculateEP = {
             base, point in
-            let diff = self.co2Emissions(base, self.data["Average MPG"]!) - self.co2Emissions(point, self.data["Average MPG"]!)/100
+            let diff = (self.co2Emissions(base, self.data["Average MPG"]!) - self.co2Emissions(point, self.data["Average MPG"]!))/100
 
             return Int(floor(diff))
         }
