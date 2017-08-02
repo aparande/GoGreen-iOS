@@ -99,16 +99,6 @@ class GreenData {
         self.averageLabel = averageLabel
         self.icon = icon
         
-        self.calculateEP = {
-            base, point in
-            let diff = base - point
-            if diff < 0 {
-                return Int(-1*pow(-5 * diff, 1.0/3.0))
-            } else {
-                return Int(pow(5 * diff, 1.0/3.0))
-            }
-        }
-        
         bonus = {
             base, attr in
             return (attr > base) ? 5*(attr-base) : 0
@@ -117,6 +107,13 @@ class GreenData {
         calculateCO2 = {
             point in
             return point
+        }
+        
+        self.calculateEP = {
+            base, point in
+            
+            let diff = (base-point)/100
+            return Int(floor(diff))
         }
     }
     
@@ -378,12 +375,9 @@ class DrivingData: GreenData {
         
         self.calculateEP = {
             base, point in
-            let diff = self.co2Emissions(base, self.data["Average MPG"]!) - self.co2Emissions(point, self.data["Average MPG"]!)
-            if diff < 0 {
-                return Int(-1*pow(-5 * diff, 1.0/3.0))
-            } else {
-                return Int(pow(5 * diff, 1.0/3.0))
-            }
+            let diff = self.co2Emissions(base, self.data["Average MPG"]!) - self.co2Emissions(point, self.data["Average MPG"]!)/100
+
+            return Int(floor(diff))
         }
     }
     

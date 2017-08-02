@@ -134,10 +134,9 @@ class DrivingDataViewController: BulkDataViewController {
             let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
                 _ in
+
                 let carName = self.cars[indexPath.section]
-                let cell = tableView.cellForRow(at: indexPath) as! EditTableViewCell
-                
-                let date = Date.monthFormat(string: cell.attributeLabel.text!)
+                let date = self.sectionDataKeys[indexPath.section]!.remove(at: indexPath.row)
                 
                 self.drivingData.carData[carName]?.removeValue(forKey: date)
                 self.drivingData.deletePointForCar(carName, month: date)
@@ -249,10 +248,12 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         let dateString = Date.monthFormat(date: Date())
         let date = Date.monthFormat(string: dateString)
         
-        guard let sectionData = owner.drivingData.carData[carName] else {
+        if owner.drivingData.carData[carName] == nil {
             //This is the first row in the section
             owner.drivingData.carData[carName] = [date:1000]
             owner.drivingData.addPointToCoreData(car: carName, month: date, point: 1000)
+            
+            owner.sectionDataKeys[sectionNum] = [date]
             
             let row = owner.drivingData.carData[carName]!.count-1
             let path = IndexPath(row: row, section: sectionNum)
@@ -261,13 +262,9 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             return
         }
         
-        var keys = Array(sectionData.keys)
-        keys = keys.sorted(by: {
-            (key1, key2) -> Bool in
-            return key1.compare(key2) == ComparisonResult.orderedDescending
-        })
+        let keys = owner.sectionDataKeys[sectionNum]!
         
-        let lastVal = owner.drivingData.carData[carName]![keys[0]]!
+        let lastVal = owner.drivingData.carData[carName]![keys[keys.count-1]]!
         
         if let _ = owner.drivingData.carData[carName] {
             if let _ = owner.drivingData.carData[carName]![date] {
@@ -285,6 +282,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         owner.drivingData.addPointToCoreData(car: carName, month: date, point: lastVal)
         
         let row = owner.drivingData.carData[carName]!.count-1
+        owner.sectionDataKeys[sectionNum]!.insert(date, at: row)
         let path = IndexPath(row: row, section: sectionNum)
         
         owner.tableView.insertRows(at: [path], with: .automatic)

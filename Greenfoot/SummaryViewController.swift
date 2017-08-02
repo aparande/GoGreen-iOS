@@ -40,6 +40,12 @@ class SummaryViewController: UIViewController {
             cityCountLabel.text = "out of \(rankings["CityCount"]!)"
             stateRankLabel.text = "\(rankings["StateRank"]!)"
             stateCountLabel.text = "out of \(rankings["StateCount"]!)"
+            
+            /*
+             cityRankLabel.text = "8945"
+             cityCountLabel.text = "out of 26,328"
+             stateRankLabel.text = "1,786,554"
+             stateCountLabel.text = "out of 12,800,000"*/
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshRank), name: NSNotification.Name(rawValue: APINotifications.stateRank.rawValue), object: nil)
@@ -68,6 +74,12 @@ class SummaryViewController: UIViewController {
             cityCountLabel.text = "out of \(rankings["CityCount"]!)"
             stateRankLabel.text = "\(rankings["StateRank"]!)"
             stateCountLabel.text = "out of \(rankings["StateCount"]!)"
+            
+            /*
+            cityRankLabel.text = "8945"
+            cityCountLabel.text = "out of 26,328"
+            stateRankLabel.text = "1,786,554"
+            stateCountLabel.text = "out of 12,800,000"*/
             
             rankingView.isHidden = false
         }

@@ -59,7 +59,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         if indexPath.row == 0 {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: "General Cell")
             
-            let geoSans = UIFont(name: "Raleway", size: 19.0)
+            let geoSans = UIFont(name: "Raleway", size: 17.0)
             cell.textLabel?.font = geoSans!
             cell.textLabel?.textColor = Colors.green
             

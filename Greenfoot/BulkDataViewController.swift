@@ -12,16 +12,11 @@ import Material
 class BulkDataViewController: UITableViewController, DataUpdater {
     let data: GreenData
     
-    var sortedDataKeys:[Date]
+    var sectionDataKeys:[Int:[Date]]
     
     init(withData x:GreenData) {
         data = x
-        sortedDataKeys = Array(self.data.getGraphData().keys)
-        sortedDataKeys = sortedDataKeys.sorted(by: {
-            (d1, d2) -> Bool in
-            return d1.compare(d2) == ComparisonResult.orderedAscending
-        })
-        
+        sectionDataKeys = [:]
         super.init(style: .grouped)
     }
     
@@ -102,7 +97,7 @@ class BulkDataViewController: UITableViewController, DataUpdater {
             let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
                 _ in
-                let key = self.sortedDataKeys.remove(at: indexPath.row)
+                let key = self.sectionDataKeys[indexPath.section]!.remove(at: indexPath.row)
                 self.data.removeDataPoint(month: key)
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
@@ -137,11 +132,19 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         cell.indexPath = indexPath
         
         let sectionData = dataForSection(indexPath.section)!
-        var keys = Array(sectionData.keys)
-        keys = keys.sorted(by: {
-            (d1, d2) -> Bool in
-            return d1.compare(d2) == ComparisonResult.orderedAscending
-        })
+        
+        var keys:[Date]!
+        if let keyArr = sectionDataKeys[indexPath.section] {
+            keys = keyArr
+        } else {
+            keys = Array(sectionData.keys)
+            keys = keys.sorted(by: {
+                (d1, d2) -> Bool in
+                return d1.compare(d2) == ComparisonResult.orderedDescending
+            })
+            
+            sectionDataKeys[indexPath.section] = keys
+        }
         
         let date = keys[indexPath.row]
         let value = sectionData[date]!
@@ -178,7 +181,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
     var pointToolbarField: UITextField!
     
     var data:GreenData!
-    var owner: UITableViewController!
+    var owner: BulkDataViewController!
     
     override func awakeFromNib() {
         addButton.cornerRadius = addButton.frame.height/2
@@ -332,13 +335,27 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         
         pointField.resignFirstResponder()
         
-        var keys = Array(data.getGraphData().keys)
-        keys = keys.sorted(by: {
-            (d1, d2) in
-            return d1.compare(d2) == ComparisonResult.orderedAscending
-        })
         
-        let path = IndexPath(row: keys.index(of: date)!, section: 0)
+        var row = 0
+        
+        guard let keys = owner.sectionDataKeys[0] else {
+            owner.sectionDataKeys[0] = [date]
+            let path = IndexPath(row: 0, section: 0)
+            owner.tableView.insertRows(at: [path], with: .automatic)
+            return
+        }
+        
+        while row < keys.count && date.compare(keys[row]) == ComparisonResult.orderedAscending {
+            row += 1
+        }
+        
+        if keys.count == 1 {
+            row = (date.compare(keys[0]) == ComparisonResult.orderedAscending) ? 1:0
+        }
+        
+        owner.sectionDataKeys[0]!.insert(date, at: row)
+        
+        let path = IndexPath(row: row, section: 0)
         owner.tableView.insertRows(at: [path], with: .automatic)
     }
 

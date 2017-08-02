@@ -200,6 +200,13 @@ class GreenfootModal {
             }
         }
         
+        electricData.calculateEP = {
+            base, point in
+            
+            let diff = (electricData.calculateCO2(base)-electricData.calculateCO2(point))/100
+            return Int(floor(diff))
+        }
+        
         CoreDataHelper.fetch(data: electricData)
         electricData.recalculateEP()
         
@@ -215,14 +222,11 @@ class GreenfootModal {
     private func prepWater() {
         //https://www.epa.gov/watersense/how-we-use-water
         let waterData = GreenData(name: "Water", xLabel:"Month", yLabel:"Gallons", base:9000, averageLabel:"Gallons Per Day", icon: Icon.water_white)
+        
         waterData.calculateEP = {
             base, point in
-            let diff = base - point
-            if diff < 0 {
-                return Int(-1*pow(-1 * diff, 1.0/3.0))
-            } else {
-                return Int(pow(diff, 1.0/3.0))
-            }
+            let diff = (base - point)/500
+            return Int(floor(diff))
         }
         
         waterData.calculateCO2 = {
@@ -331,6 +335,13 @@ class GreenfootModal {
             point in
             //See spreadsheet for this conversion factor
             return point*11.7
+        }
+        
+        gasData.calculateEP = {
+            base, point in
+            
+            let diff = (gasData.calculateCO2(base) - gasData.calculateCO2(point))/100
+            return Int(floor(diff))
         }
         
         CoreDataHelper.fetch(data: gasData)

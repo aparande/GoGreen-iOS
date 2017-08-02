@@ -98,7 +98,7 @@ class BarGraph: BarChartView {
         //You want to show 6 bars on screen, so if there are fewer points than that, add dummy bars
         if points.count < 6 {
             for i in points.count..<6 {
-                let dataEntry = BarChartDataEntry(x: Double(i), y: 0)
+                let dataEntry = BarChartDataEntry(x: Double(i), y: 0.1)
                 dataEntries.append(dataEntry)
             }
         }
@@ -126,6 +126,7 @@ class BarGraph: BarChartView {
         chartData.barWidth = fixedToPercentWidth(35, withSpacing: 25, numberOfBars: points.count)
         
         self.xAxis.valueFormatter = IndexAxisValueFormatter(values: labels)
+        
         self.data = chartData
         
         //Design the chart
