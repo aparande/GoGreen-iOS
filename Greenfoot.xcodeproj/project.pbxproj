@@ -39,6 +39,7 @@
 		1FC291D61EF1C235007F7835 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC291D51EF1C235007F7835 /* CoreData.framework */; };
 		1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
 		1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */; };
+		1FC515661F32D0650021DC1D /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FC515651F32D0650021DC1D /* Raleway-Bold.ttf */; };
 		1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */; };
 		28D5E3560046B69D741C08F5 /* Pods_Greenfoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		1FC291D51EF1C235007F7835 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = greenfoot.xcdatamodel; sourceTree = "<group>"; };
 		1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
+		1FC515651F32D0650021DC1D /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		1FCB0FE71E2B3684006463AE /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
 		1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputToolbar.swift; sourceTree = "<group>"; };
 		6AC0A5254D86C03173AE76C5 /* Pods-Greenfoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Greenfoot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot.debug.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 		1FC859BA1E147F4C007F7393 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				1FC515651F32D0650021DC1D /* Raleway-Bold.ttf */,
 				1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */,
 				1FCB0FE71E2B3684006463AE /* DroidSans.ttf */,
 				1F91DDE31E1570A70020371F /* GeosansLight.ttf */,
@@ -268,6 +271,7 @@
 				1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */,
 				1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */,
 				1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */,
+				1FC515661F32D0650021DC1D /* Raleway-Bold.ttf in Resources */,
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
 				1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */,
 				1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */,

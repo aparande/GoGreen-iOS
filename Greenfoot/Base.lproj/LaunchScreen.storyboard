@@ -1,9 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="DroidSans.ttf">
+            <string>DroidSans</string>
+        </array>
+        <array key="Raleway-Bold.ttf">
+            <string>Raleway-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -14,14 +28,74 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© 2017 Anmol Parande" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtT-az-p3P">
+                                <rect key="frame" x="20" y="707" width="374" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="IdS-Go-Y8K"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="17"/>
+                                <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lxc-Ao-vWh">
+                                <rect key="frame" x="56" y="195" width="303" height="346"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plant" translatesAutoresizingMaskIntoConstraints="NO" id="noT-iC-coK">
+                                        <rect key="frame" x="36" y="21" width="231" height="223"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoGreen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="XJV-nG-4km">
+                                        <rect key="frame" x="36" y="252" width="231" height="52"/>
+                                        <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="58"/>
+                                        <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cleaner Energy | Cleaner Air | Cleaner Planet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="3FX-Rf-rSs">
+                                        <rect key="frame" x="36" y="303" width="231" height="21"/>
+                                        <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="11"/>
+                                        <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="3FX-Rf-rSs" firstAttribute="top" secondItem="noT-iC-coK" secondAttribute="bottom" constant="59" id="5wk-np-4XV"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="trailing" secondItem="XJV-nG-4km" secondAttribute="trailing" id="E4r-pb-Od9"/>
+                                    <constraint firstAttribute="width" secondItem="noT-iC-coK" secondAttribute="height" multiplier="34:25" id="ECO-de-Ln2"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="top" secondItem="lxc-Ao-vWh" secondAttribute="top" constant="21" id="JSa-Vv-vYK"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="centerX" secondItem="lxc-Ao-vWh" secondAttribute="centerX" id="QI8-nh-JcQ"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="leading" secondItem="XJV-nG-4km" secondAttribute="leading" id="V0a-Av-TAG"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="leading" secondItem="lxc-Ao-vWh" secondAttribute="leading" constant="36" id="ZTn-yD-wQo"/>
+                                    <constraint firstItem="XJV-nG-4km" firstAttribute="trailing" secondItem="3FX-Rf-rSs" secondAttribute="trailing" id="cik-fP-Fn7"/>
+                                    <constraint firstAttribute="bottom" secondItem="XJV-nG-4km" secondAttribute="bottom" constant="42" id="g41-9W-7NI"/>
+                                    <constraint firstItem="XJV-nG-4km" firstAttribute="leading" secondItem="3FX-Rf-rSs" secondAttribute="leading" id="hhn-EQ-2Fw"/>
+                                    <constraint firstItem="3FX-Rf-rSs" firstAttribute="top" secondItem="XJV-nG-4km" secondAttribute="bottom" constant="-1" id="iqd-O8-fsh"/>
+                                    <constraint firstItem="XJV-nG-4km" firstAttribute="top" secondItem="noT-iC-coK" secondAttribute="bottom" constant="8" id="jTv-nv-yUD"/>
+                                    <constraint firstAttribute="bottom" secondItem="3FX-Rf-rSs" secondAttribute="bottom" constant="22" id="vpR-8Y-MdZ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="7yZ-en-9gR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lxc-Ao-vWh" secondAttribute="trailing" priority="999" constant="35.5" id="Afi-no-TcK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NtT-az-p3P" secondAttribute="trailing" id="BWt-lu-N8c"/>
+                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" priority="999" constant="35.5" id="Dn6-Ae-yyh"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="NtT-az-p3P" secondAttribute="bottom" constant="8" id="bab-GN-27G"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="NtT-az-p3P" secondAttribute="leading" id="qD7-bP-IGv"/>
+                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="xHa-cA-PSe"/>
+                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" priority="999" constant="152" id="zzr-S9-YUl"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="plant" width="256" height="491"/>
+    </resources>
 </document>

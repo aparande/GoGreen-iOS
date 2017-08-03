@@ -30,12 +30,13 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We only collected general location data such as the city you live in to compare the energy use of localities</string>
+	<string>We use your location to compare you with others in your city and your state.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>GeosansLight.ttf</string>
 		<string>DroidSans.tff</string>
 		<string>Raleway-Regular.tff</string>
+		<string>Raleway-Bold.tff</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
