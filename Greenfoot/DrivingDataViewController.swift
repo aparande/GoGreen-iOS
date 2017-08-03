@@ -53,6 +53,18 @@ class DrivingDataViewController: BulkDataViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        let defaults = UserDefaults.standard
+        if !defaults.bool(forKey: "DrivingTutorial") {
+            let alertView = UIAlertController(title: "Entering Driving Data", message: "To calculate your carbon dioxide emissions from driving, add your cars and enter how many miles per gallon each one uses. Then, enter the odometer reading from your cars each month.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Got it", style: .cancel, handler: nil))
+            self.present(alertView, animated: true, completion: {
+                defaults.set(true, forKey: "DrivingTutorial")
+            })
+            return
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         

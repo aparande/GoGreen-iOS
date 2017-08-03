@@ -261,9 +261,9 @@ class GreenfootModal {
         
         CoreDataHelper.fetch(data: waterData)
         
-        waterData.descriptions["General"] = "An easy resource to waste is water because we use it so much in our daily lives. The average amount of water the average American uses in a month is 12,000 gallons. Reducing water consumption is another step you can take towards being green."
+        waterData.descriptions["General"] = "An easy resource to waste is water because we use it so much in our daily lives. The average amount of water the average American uses in a month is 9,000 gallons. Reducing water consumption is another step you can take towards being green."
         
-        waterData.descriptions["Shower Length"] = "The quickest way to cut down your water consumption is to cut down the length of your showers. The average American takens an 8 minute shower, but bringing this down to even just 5 minutes can have a dramatic effect over time."
+        waterData.descriptions["Shower Length"] = "The quickest way to cut down your water consumption is to cut down the length of your showers. The average American takes an 8 minute shower, but bringing this down to just 5 minutes can have a dramatic effect over time."
         
         waterData.descriptions["Laundry Frequency"] = "Another large use of water is in doing the laundry. The number of times an average American does laundry in a week is 3 times."
         
