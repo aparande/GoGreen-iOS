@@ -26,16 +26,16 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <false/>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>http://gogreencarbonapp.herokuapp.com/</key>
 			<dict>
+				<key>NSExceptionAllowsInsecureHTPPLoads</key>
+				<true/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
-                <key>NSExceptionAllowsInsecureHTPPLoads</key>
-                <true/>
 			</dict>
 		</dict>
 	</dict>
