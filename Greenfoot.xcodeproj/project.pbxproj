@@ -233,7 +233,7 @@
 				TargetAttributes = {
 					1F70CCB71E105D0600AD351A = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = YL6HVZ92E4;
+						DevelopmentTeam = CZ787F8MST;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -474,10 +474,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YL6HVZ92E4;
+				DEVELOPMENT_TEAM = CZ787F8MST;
 				INFOPLIST_FILE = Greenfoot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = MultiverSoftware.Greenfoot;
+				PRODUCT_BUNDLE_IDENTIFIER = AParande.GoGreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -490,10 +490,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YL6HVZ92E4;
+				DEVELOPMENT_TEAM = CZ787F8MST;
 				INFOPLIST_FILE = Greenfoot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = MultiverSoftware.Greenfoot;
+				PRODUCT_BUNDLE_IDENTIFIER = AParande.GoGreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

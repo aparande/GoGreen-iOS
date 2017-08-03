@@ -238,7 +238,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         iconImageView.image = data.icon
         switch data.dataName {
         case "Electric":
-            dataDescription.text = "Enter how many Kilowatts-Hours of electriicty you have used each month"
+            dataDescription.text = "Enter how many Kilowatts-Hours of electricty you have used each month"
             break
         case "Water":
             dataDescription.text = "Enter how many gallons of water you have used each month"

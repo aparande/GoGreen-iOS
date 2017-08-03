@@ -62,7 +62,13 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
         let bulkAdder = BulkDataViewController(withData: greenData)
         let nvc = NavigationController(rootViewController: bulkAdder)
         self.present(nvc, animated: true, completion: {
-            self.skipButton.setTitle("Next", for: .normal)
+            self.goButton.setTitle("Next", for: .normal)
+            self.skipButton.setTitle("Edit", for: .normal)
+            
+            self.goButton.removeTarget(self, action: #selector(self.revealDataAdder), for: .touchUpInside)
+            self.goButton.addTarget(self, action: #selector(self.skip(_:)), for: .touchUpInside)
+            self.skipButton.addTarget(self, action: #selector(self.revealDataAdder), for: .touchUpInside)
+            self.skipButton.removeTarget(self, action: #selector(self.skip(_:)), for: .touchUpInside)
         })
         
         return

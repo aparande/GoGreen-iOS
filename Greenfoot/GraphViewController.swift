@@ -176,7 +176,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func share() {
-        let message = "I earned "+energyPointsLabel.text!+" Energy Points on Greenfoot from "+data.dataName+"! How many do you have?"
+        let message = "I earned "+energyPointsLabel.text!+" Energy Points on GoGreen from "+data.dataName+"! How many do you have?"
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
         self.present(activityView, animated: true, completion: nil)

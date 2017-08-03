@@ -202,8 +202,8 @@ class BarGraph: BarChartView {
         self.data?.setDrawValues(false)
         self.doubleTapToZoomEnabled = false
         //self.setScaleMinima(10, scaleY: 1)
-        
         self.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: .linear)
+        self.moveViewToX(Double(points.count))
     }
     
     private func fixedToPercentWidth(_ fixed: Double, withSpacing spacing:Double, numberOfBars barNum: Int) -> Double {

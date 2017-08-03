@@ -168,8 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         for (key, value) in modal.data {
             let data = value.data
             let bonusAttrs = value.bonusDict
-            
-            print(key.rawValue+":data")
+
             defaults.set(data, forKey: key.rawValue+":data")
             defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
         }
