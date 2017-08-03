@@ -13,10 +13,10 @@ class APIInterface: NSObject, URLSessionDelegate {
         completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
     
-    static func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (NSDictionary) -> Void) {
+    func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (NSDictionary) -> Void) {
         //let base = URL(string: "http://192.168.1.78:8000")!
         //let base = URL(string: "http://localhost:8000")!
-        let base = URL(string: "https://gogreencarbonapp.heroku.com/")!
+        let base = URL(string: "https://gogreencarbonapp.herokuapp.com/")!
         let url = URL(string: endpoint, relativeTo: base)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -25,7 +25,8 @@ class APIInterface: NSObject, URLSessionDelegate {
         let bodyData = bodyFromParameters(parameters: parameters)
         request.httpBody = bodyData.data(using: String.Encoding.utf8)
         
-        let session = URLSession.shared
+        //let session = URLSession.shared
+        let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
         let task = session.dataTask(with: request, completionHandler: {
             (data, response, error) in
             
@@ -43,6 +44,7 @@ class APIInterface: NSObject, URLSessionDelegate {
                 let statusCode = HTTPResponse.statusCode
                 if statusCode != 200 {
                     print("Couldn't connect error because status not 200 its \(statusCode)")
+                    return
                 }
             }
             
@@ -57,7 +59,7 @@ class APIInterface: NSObject, URLSessionDelegate {
         task.resume()
     }
 
-    private static func bodyFromParameters(parameters:[String:Any]) -> String {
+    private func bodyFromParameters(parameters:[String:Any]) -> String {
         var bodyData = ""
         for (key, value) in parameters {
             bodyData.append(key+"=\(value)&")

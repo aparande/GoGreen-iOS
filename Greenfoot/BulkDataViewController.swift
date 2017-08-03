@@ -237,20 +237,20 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         
         iconImageView.image = data.icon
         switch data.dataName {
-        case "Electric":
+        case GreenDataType.electric.rawValue:
             dataDescription.text = "Enter how many Kilowatts-Hours of electricty you have used each month"
             break
-        case "Water":
+        case GreenDataType.water.rawValue:
             dataDescription.text = "Enter how many gallons of water you have used each month"
             break
-        case "Driving":
+        case GreenDataType.driving.rawValue:
             dataDescription.text = "Enter how many miles you have driven each month"
             break
-        case "Gas":
+        case GreenDataType.gas.rawValue:
             dataDescription.text = "Enter how much natural gas you have used each month"
             break
         default:
-            dataDescription.text = "Enter how many Kilowatts-Hours of electriicty you have used each month"
+            dataDescription.text = "Enter how many Kilowatts-Hours of electricty you have used each month"
             break
         }
     }
@@ -309,7 +309,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         }
         
         var conversionFactor = 1.0
-        if data.dataName == "Gas" {
+        if data.dataName == GreenDataType.gas.rawValue {
             for (_, value) in data.getGraphData() {
                 if value > 10 {
                     conversionFactor = 1.0

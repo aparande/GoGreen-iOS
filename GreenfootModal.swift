@@ -75,7 +75,8 @@ class GreenfootModal {
         if UserDefaults.standard.bool(forKey: "UpdateEP") {
             //Update the server because you've already uploaded once
             let parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
-            APIInterface.connectToServer(atEndpoint: "/updateEnergyPoints", withParameters: parameters, completion: {
+            let api = APIInterface()
+            api.connectToServer(atEndpoint: "/updateEnergyPoints", withParameters: parameters, completion: {
                 data in
                 
                 if data["status"] as! String == "Success" {
@@ -97,7 +98,9 @@ class GreenfootModal {
             parameters["state"] = locale["State"]
             parameters["country"] = locale["Country"]
             parameters["city"] = locale["City"]
-            APIInterface.connectToServer(atEndpoint: "/logEnergyPoints", withParameters: parameters, completion: {
+            
+            let api = APIInterface()
+            api.connectToServer(atEndpoint: "/logEnergyPoints", withParameters: parameters, completion: {
                 data in
                 
                 if data["status"] as! String == "Success" {
@@ -124,7 +127,8 @@ class GreenfootModal {
         parameters["state"] = locale["State"]
         parameters["country"] = locale["Country"]
         
-        APIInterface.connectToServer(atEndpoint: "/getStateRank", withParameters: parameters, completion: {
+        let api = APIInterface()
+        api.connectToServer(atEndpoint: "/getStateRank", withParameters: parameters, completion: {
             data in
             
             if data["status"] as! String == "Success" {
@@ -145,7 +149,7 @@ class GreenfootModal {
         
         parameters["city"] = locale["City"]
         
-        APIInterface.connectToServer(atEndpoint: "/getCityRank", withParameters: parameters, completion: {
+        api.connectToServer(atEndpoint: "/getCityRank", withParameters: parameters, completion: {
             data in
             
             if data["status"] as! String == "Success" {

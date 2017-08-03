@@ -26,8 +26,18 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>http://gogreencarbonapp.herokuapp.com/</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+                <key>NSExceptionAllowsInsecureHTPPLoads</key>
+                <true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We use your location to compare you with others in your city and your state.</string>

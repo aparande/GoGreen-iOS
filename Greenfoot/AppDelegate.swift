@@ -122,14 +122,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func saveLocationInfo(placemark: CLPlacemark) {
         locationManager.stopUpdatingLocation()
         
-        guard let _ = GreenfootModal.sharedInstance.locality else {
+        guard let locality = GreenfootModal.sharedInstance.locality else {
             var localityData:[String:String] = [:]
             localityData["City"] = placemark.locality
             localityData["State"] = placemark.administrativeArea
             localityData["Country"] = placemark.country
             localityData["Zip"] = placemark.postalCode
             GreenfootModal.sharedInstance.locality = localityData
-            print("Saved locale")
+            print("Saved locale: \(localityData)")
             
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/yy"
@@ -149,8 +149,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
             GreenfootModal.sharedInstance.logEnergyPoints()
             
+            UserDefaults.standard.set(localityData, forKey:"LocalityData")
+            
             return
         }
+        
+        print(locality)
         
         GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
     }
@@ -171,10 +175,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
             defaults.set(data, forKey: key.rawValue+":data")
             defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
-        }
-        
-        if let locality = modal.locality {
-            defaults.set(locality, forKey:"LocalityData")
         }
         
         if modal.rankings.keys.count == 4 {

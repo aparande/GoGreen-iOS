@@ -135,13 +135,23 @@ class DrivingDataViewController: BulkDataViewController {
             alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
                 _ in
 
-                let carName = self.cars[indexPath.section]
-                let date = self.sectionDataKeys[indexPath.section]!.remove(at: indexPath.row)
                 
-                self.drivingData.carData[carName]?.removeValue(forKey: date)
-                self.drivingData.deletePointForCar(carName, month: date)
-                self.drivingData.compileToGraph()
-                self.tableView.deleteRows(at: [indexPath], with: .right)
+                let date = self.sectionDataKeys[indexPath.section]!.remove(at: indexPath.row)
+                if self.sectionDataKeys[indexPath.section]!.count == 0 {
+                    self.sectionDataKeys.removeValue(forKey: indexPath.section)
+                    let carName = self.cars.remove(at: indexPath.section)
+                    self.drivingData.carMileage.removeValue(forKey: carName)
+                    self.drivingData.carData.removeValue(forKey: carName)
+                    self.sectionHeaders.removeValue(forKey: indexPath.section)
+                    self.drivingData.deleteCar(carName)
+                    self.tableView.deleteSections([indexPath.section], with: .automatic)
+                } else {
+                    let carName = self.cars[indexPath.section]
+                    self.drivingData.carData[carName]?.removeValue(forKey: date)
+                    self.drivingData.deletePointForCar(carName, month: date)
+                    self.drivingData.compileToGraph()
+                    self.tableView.deleteRows(at: [indexPath], with: .right)
+                }
             }))
             
             alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -291,6 +301,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
             _ in
             //Remove the mileage data, the car data, and the odometer data
+            self.owner.sectionDataKeys.removeValue(forKey: self.sectionNum)
             let carName = self.owner.cars.remove(at: self.sectionNum)
             self.owner.drivingData.carMileage.removeValue(forKey: carName)
             self.owner.drivingData.carData.removeValue(forKey: carName)

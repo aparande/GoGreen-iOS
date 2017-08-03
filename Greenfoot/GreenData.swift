@@ -208,7 +208,7 @@ class GreenData {
     }
     
     func fetchEGrid() {
-        if dataName != "Electric" {
+        if dataName != GreenDataType.electric.rawValue {
             return
         }
         
@@ -217,7 +217,8 @@ class GreenData {
         }
         
         let parameters:[String:String] = ["zip":locality["Zip"]!]
-        APIInterface.connectToServer(atEndpoint: "getFromEGrid", withParameters: parameters, completion: {
+        let api = APIInterface()
+        api.connectToServer(atEndpoint: "getFromEGrid", withParameters: parameters, completion: {
             data in
             
             if data["status"] as! String == "Success" {
@@ -237,7 +238,7 @@ class GreenData {
     }
     
     func fetchConsumption() {
-        if dataName != "Electric" {
+        if dataName != GreenDataType.electric.rawValue {
             return
         }
         
@@ -246,10 +247,11 @@ class GreenData {
         }
         
         
-        var parameters:[String:String] = ["type":"Electric"]
+        var parameters:[String:String] = ["type":GreenDataType.electric.rawValue]
         parameters["state"] = locality["State"]!
         parameters["country"] = locality["Country"]!
-        APIInterface.connectToServer(atEndpoint: "/getFromConsumption", withParameters: parameters, completion: {
+        let api = APIInterface()
+        api.connectToServer(atEndpoint: "/getFromConsumption", withParameters: parameters, completion: {
             data in
             
             if data["status"] as! String == "Success" {
@@ -276,7 +278,8 @@ class GreenData {
         parameters["state"] = locality["State"]
         parameters["country"] = locality["Country"]
         
-        APIInterface.connectToServer(atEndpoint: "input", withParameters: parameters, completion: {
+        let api = APIInterface()
+        api.connectToServer(atEndpoint: "input", withParameters: parameters, completion: {
             data in
             if data["status"] as! String == "Success" {
                 self.uploadedData.append(month)
@@ -294,8 +297,8 @@ class GreenData {
         var parameters:[String:Any] = ["month":month, "amount":Int(point)]
         parameters["profId"] = GreenfootModal.sharedInstance.profId
         parameters["dataType"] = dataName
-        
-        APIInterface.connectToServer(atEndpoint: "updateDataPoint", withParameters: parameters, completion: {
+        let api = APIInterface()
+        api.connectToServer(atEndpoint: "updateDataPoint", withParameters: parameters, completion: {
             data in
             if data["status"] as! String == "Success" {
                 self.uploadedData.append(month)
@@ -314,7 +317,8 @@ class GreenData {
         parameters["profId"] = GreenfootModal.sharedInstance.profId
         parameters["dataType"] = dataName
 
-        APIInterface.connectToServer(atEndpoint: "deleteDataPoint", withParameters: parameters, completion: {
+        let api = APIInterface()
+        api.connectToServer(atEndpoint: "deleteDataPoint", withParameters: parameters, completion: {
             data in
                 
             if data["status"] as! String == "Success" {
