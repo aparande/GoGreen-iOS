@@ -14,9 +14,9 @@ class APIInterface: NSObject, URLSessionDelegate {
     }
     
     func connectToServer(atEndpoint endpoint:String, withParameters parameters:[String:Any], completion: @escaping (NSDictionary) -> Void) {
-        //let base = URL(string: "http://192.168.1.78:8000")!
+        let base = URL(string: "http://192.168.1.78:8000")!
         //let base = URL(string: "http://localhost:8000")!
-        let base = URL(string: "https://gogreencarbonapp.herokuapp.com/")!
+        //let base = URL(string: "https://gogreencarbonapp.herokuapp.com/")!
         let url = URL(string: endpoint, relativeTo: base)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

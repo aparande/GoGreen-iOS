@@ -54,7 +54,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QwH-3X-Dza" id="2dO-fd-Yo4">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total Emitted Lbs of Carbon Dioxide" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etO-Vz-7dw">
@@ -78,7 +78,7 @@
                                         <rect key="frame" x="0.0" y="70" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jws-n6-LAo" id="aTZ-Kw-dqN">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="9pF-4U-hAb">
@@ -138,7 +138,7 @@
                                         <rect key="frame" x="0.0" y="140" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MdA-K3-NKa" id="9EF-1J-Ez8">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="kzO-Q0-rbs">
@@ -198,7 +198,7 @@
                                         <rect key="frame" x="0.0" y="210" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pNK-DU-cvO" id="5o1-kL-Wu3">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="52U-jd-hjs">
@@ -258,7 +258,7 @@
                                         <rect key="frame" x="0.0" y="280" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xLN-Lp-fYO" id="fnZ-DI-Ha1">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="Uym-Oa-2ep">
@@ -650,35 +650,42 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSN-ia-Vp2">
-                                <rect key="frame" x="34" y="248" width="314" height="35"/>
+                                <rect key="frame" x="45" y="226" width="294" height="35.5"/>
                                 <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="30"/>
                                 <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="50"/>
+                                </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mmY-qe-mT0">
-                                <rect key="frame" x="34" y="305" width="314" height="80"/>
+                                <rect key="frame" x="36" y="283.5" width="312" height="80"/>
                                 <string key="text">This will be a multiline description of the slide. For example, for electricity, it would tell people to enter their power usage given by their electric bill</string>
                                 <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="17"/>
                                 <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="20"/>
+                                </variation>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="dwH-xq-e09">
-                                <rect key="frame" x="122" y="95" width="131" height="131"/>
+                                <rect key="frame" x="133" y="95" width="109" height="109"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="dwH-xq-e09" secondAttribute="height" multiplier="1:1" id="7ou-OV-R8B"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="162" id="s9P-Qg-F8L"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plant" translatesAutoresizingMaskIntoConstraints="NO" id="3v1-d6-M2U">
-                                <rect key="frame" x="131" y="104" width="113" height="113"/>
+                                <rect key="frame" x="142" y="104" width="91" height="91"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="3v1-d6-M2U" secondAttribute="height" multiplier="1:1" id="kdm-hF-tyw"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AdP-Gc-h0g" customClass="RaisedButton" customModule="Material">
-                                <rect key="frame" x="109" y="576" width="160" height="43"/>
+                                <rect key="frame" x="109" y="574" width="160" height="43"/>
                                 <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="db3-1w-0Am"/>
+                                    <constraint firstAttribute="width" secondItem="AdP-Gc-h0g" secondAttribute="height" multiplier="160:43" priority="999" id="WE1-pY-LMx"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="43" id="rPA-KZ-FZC"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="26"/>
@@ -690,15 +697,18 @@
                                         <color key="value" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="45"/>
+                                </variation>
                                 <connections>
                                     <action selector="revealDataAdder" destination="ujf-xL-G4K" eventType="touchUpInside" id="KKr-f0-u8V"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-uT-J5s" customClass="RaisedButton" customModule="Material">
-                                <rect key="frame" x="109" y="627" width="160" height="30"/>
+                                <rect key="frame" x="103.5" y="625" width="171" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="TvL-MB-2EG"/>
-                                    <constraint firstAttribute="width" constant="160" id="X7G-og-hSQ"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="TvL-MB-2EG"/>
+                                    <constraint firstAttribute="width" secondItem="XIJ-uT-J5s" secondAttribute="height" multiplier="16:3" id="jJV-kC-Nj7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="17"/>
                                 <state key="normal" title="Skip">
@@ -712,6 +722,9 @@
                                         <color key="value" red="0.13570744184831426" green="0.58882854065685275" blue="0.33134264274491498" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="25"/>
+                                </variation>
                                 <connections>
                                     <action selector="skip:" destination="ujf-xL-G4K" eventType="touchUpInside" id="Tgv-Oy-Ul8"/>
                                 </connections>
@@ -720,23 +733,33 @@
                         <color key="backgroundColor" red="0.18121626973152161" green="0.79812026023864746" blue="0.44165042042732239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="mmY-qe-mT0" firstAttribute="leading" secondItem="WJL-Et-TZ2" secondAttribute="leadingMargin" constant="18" id="2jW-HT-CeI"/>
+                            <constraint firstItem="mmY-qe-mT0" firstAttribute="leading" secondItem="WJL-Et-TZ2" secondAttribute="leadingMargin" constant="20" id="2jW-HT-CeI">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                             <constraint firstItem="PSN-ia-Vp2" firstAttribute="top" secondItem="3v1-d6-M2U" secondAttribute="bottom" constant="31" id="9k9-px-hKu"/>
                             <constraint firstItem="PSN-ia-Vp2" firstAttribute="centerX" secondItem="mmY-qe-mT0" secondAttribute="centerX" id="BfR-cE-8ie"/>
-                            <constraint firstItem="dwH-xq-e09" firstAttribute="top" secondItem="hpg-t1-FPb" secondAttribute="bottom" constant="75" id="BzM-CT-oLC"/>
+                            <constraint firstItem="dwH-xq-e09" firstAttribute="top" secondItem="hpg-t1-FPb" secondAttribute="bottom" constant="75" id="BzM-CT-oLC">
+                                <variation key="heightClass=regular-widthClass=regular" constant="300"/>
+                            </constraint>
                             <constraint firstItem="3v1-d6-M2U" firstAttribute="centerX" secondItem="dwH-xq-e09" secondAttribute="centerX" id="DkN-Ob-f1t"/>
                             <constraint firstItem="dwH-xq-e09" firstAttribute="centerX" secondItem="WJL-Et-TZ2" secondAttribute="centerX" id="Dll-Rj-PcL"/>
                             <constraint firstItem="XIJ-uT-J5s" firstAttribute="top" secondItem="AdP-Gc-h0g" secondAttribute="bottom" constant="8" id="EXi-eK-9X9"/>
                             <constraint firstItem="3v1-d6-M2U" firstAttribute="centerY" secondItem="dwH-xq-e09" secondAttribute="centerY" id="I6C-jd-0aB"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="PSN-ia-Vp2" secondAttribute="trailing" constant="11" id="KKp-Qr-RYO"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="mmY-qe-mT0" secondAttribute="trailing" constant="11" id="Y7Q-S9-JU5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PSN-ia-Vp2" secondAttribute="trailing" constant="20" id="KKp-Qr-RYO">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
+                            <constraint firstAttribute="trailingMargin" secondItem="mmY-qe-mT0" secondAttribute="trailing" constant="11" id="Y7Q-S9-JU5">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                             <constraint firstItem="AdP-Gc-h0g" firstAttribute="centerX" secondItem="WJL-Et-TZ2" secondAttribute="centerX" constant="1.5" id="Z2q-3k-fH8"/>
-                            <constraint firstItem="wWn-h9-ixG" firstAttribute="top" secondItem="XIJ-uT-J5s" secondAttribute="bottom" constant="10" id="cKU-cX-6Go"/>
+                            <constraint firstItem="wWn-h9-ixG" firstAttribute="top" secondItem="XIJ-uT-J5s" secondAttribute="bottom" priority="999" constant="10" id="cKU-cX-6Go"/>
+                            <constraint firstItem="AdP-Gc-h0g" firstAttribute="top" relation="lessThanOrEqual" secondItem="mmY-qe-mT0" secondAttribute="bottom" constant="230" id="iXp-bz-KA3"/>
                             <constraint firstItem="PSN-ia-Vp2" firstAttribute="top" secondItem="dwH-xq-e09" secondAttribute="bottom" constant="22" id="jb5-no-VEV"/>
                             <constraint firstItem="XIJ-uT-J5s" firstAttribute="centerX" secondItem="WJL-Et-TZ2" secondAttribute="centerX" constant="1.5" id="kZa-0P-3k8"/>
                             <constraint firstItem="AdP-Gc-h0g" firstAttribute="top" relation="greaterThanOrEqual" secondItem="mmY-qe-mT0" secondAttribute="bottom" constant="10" id="qQr-6F-YGi"/>
+                            <constraint firstItem="AdP-Gc-h0g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="WJL-Et-TZ2" secondAttribute="leadingMargin" constant="72.666666666666686" id="tcK-5X-y7b"/>
                             <constraint firstItem="mmY-qe-mT0" firstAttribute="top" secondItem="PSN-ia-Vp2" secondAttribute="bottom" constant="22" id="wEE-vf-42a"/>
-                            <constraint firstItem="dwH-xq-e09" firstAttribute="leading" secondItem="PSN-ia-Vp2" secondAttribute="leading" constant="88" id="zTT-na-egL"/>
+                            <constraint firstItem="dwH-xq-e09" firstAttribute="leading" secondItem="PSN-ia-Vp2" secondAttribute="leading" priority="999" constant="88" id="zTT-na-egL"/>
                         </constraints>
                     </view>
                     <connections>
@@ -749,7 +772,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8lI-Vh-fnd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1001" y="824"/>
+            <point key="canvasLocation" x="1000.0000000000001" y="823.36956521739137"/>
         </scene>
     </scenes>
     <resources>
