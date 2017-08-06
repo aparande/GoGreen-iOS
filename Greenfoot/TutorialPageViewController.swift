@@ -67,8 +67,8 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
             
             self.goButton.removeTarget(self, action: #selector(self.revealDataAdder), for: .touchUpInside)
             self.goButton.addTarget(self, action: #selector(self.skip(_:)), for: .touchUpInside)
-            self.skipButton.addTarget(self, action: #selector(self.revealDataAdder), for: .touchUpInside)
             self.skipButton.removeTarget(self, action: #selector(self.skip(_:)), for: .touchUpInside)
+            self.skipButton.addTarget(self, action: #selector(self.revealDataAdder), for: .touchUpInside)
         })
         
         return
