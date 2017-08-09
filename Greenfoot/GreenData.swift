@@ -216,7 +216,11 @@ class GreenData {
             return
         }
         
-        let parameters:[String:String] = ["zip":locality["Zip"]!]
+        guard let zip = locality["Zip"] else {
+            return
+        }
+        
+        let parameters:[String:String] = ["zip":zip]
         let api = APIInterface()
         api.connectToServer(atEndpoint: "getFromEGrid", withParameters: parameters, completion: {
             data in

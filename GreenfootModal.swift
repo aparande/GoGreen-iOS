@@ -246,6 +246,11 @@ class GreenfootModal {
         //https://www.reference.com/health/many-times-day-should-toilet-ae709668021a63cb
         waterData.baselines["Bathroom Frequency"] = 10
         
+        waterData.bonus = {
+            base, attr in
+            return (attr != 0 && attr < base) ? 5*(base-attr) : 0
+        }
+        
         let defaults = UserDefaults.standard
         if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") {
             waterData.bonusDict = bonusDict as! [String:Int]
@@ -401,6 +406,14 @@ extension Date {
     
     func nextMonth() -> Date {
         return Calendar.current.date(byAdding: .month, value: 1, to: self, wrappingComponents: false) ?? self
+    }
+}
+
+extension String {
+    func removeSpecialChars() -> String {
+        let okayChars : Set<Character> =
+            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890".characters)
+        return String(self.characters.filter {okayChars.contains($0) })
     }
 }
 

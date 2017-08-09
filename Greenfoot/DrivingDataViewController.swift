@@ -157,6 +157,7 @@ class DrivingDataViewController: BulkDataViewController {
                     self.sectionHeaders.removeValue(forKey: indexPath.section)
                     self.drivingData.deleteCar(carName)
                     self.tableView.deleteSections([indexPath.section], with: .automatic)
+                    self.updateHeaders()
                 } else {
                     let carName = self.cars[indexPath.section]
                     self.drivingData.carData[carName]?.removeValue(forKey: date)
@@ -175,6 +176,26 @@ class DrivingDataViewController: BulkDataViewController {
     override func dataForSection(_ section: Int) -> [Date : Double]? {
         return drivingData.carData[cars[section]]
     }
+    
+    func updateHeaders() {
+        var head:[Int:DrivingHeaderView] = [:]
+        var data:[Int:[Date]] = [:]
+        for i in 0..<cars.count {
+            let car = cars[i]
+            
+            for (_, header) in sectionHeaders {
+                if header.car! == car {
+                    let dates = sectionDataKeys[header.sectionNum]!
+                    head[i] = header
+                    data[i] = dates
+                    header.sectionNum = i
+                    break
+                }
+            }
+        }
+        sectionDataKeys = data
+        sectionHeaders = head
+    }
 }
 
 class DrivingHeaderView: UIView, UITextFieldDelegate {
@@ -184,6 +205,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
     
     var owner: DrivingDataViewController!
     var sectionNum:Int!
+    var car:String?
     
     override func awakeFromNib() {
         addButton.cornerRadius = addButton.frame.height/2
@@ -241,14 +263,23 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
     }
     
     @IBAction func add(_ sender: Any) {
-        if nameField.text == "" || mileageField.text == "" {
+        if nameField.text?.removeSpecialChars() == "" || mileageField.text?.removeSpecialChars() == "" {
             let alertView = UIAlertController(title: "Error", message: "Before recording your odometer data, please enter in the name of your car and how many miles per gallon it runs", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             owner.present(alertView, animated: true, completion: nil)
             return
         }
         
-        let carName = nameField.text!
+        let carName = nameField.text!.removeSpecialChars()
+        
+        if let _ = owner.drivingData.carMileage[carName] {
+            let alertView = UIAlertController(title: "Error", message: "You already have a car named \(carName). Please enter a different name.", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            owner.present(alertView, animated: true, completion: {
+                self.nameField.text = ""
+            })
+            return
+        }
         let mileage = Int(mileageField.text!)!
         
         owner.cars[sectionNum] = carName
@@ -265,6 +296,8 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             nameField.setNeedsDisplay()
             
             UserDefaults.standard.set(owner.drivingData.carMileage, forKey: "MilesData")
+            
+            car = carName
         }
         
         let dateString = Date.monthFormat(date: Date())
@@ -320,6 +353,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             self.owner.sectionHeaders.removeValue(forKey: self.sectionNum)
             self.owner.drivingData.deleteCar(carName)
             self.owner.tableView.deleteSections([self.sectionNum], with: .automatic)
+            self.owner.updateHeaders()
         }))
         
         alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -331,7 +365,9 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         self.sectionNum = section
         
         if owner.cars[section] != "Car \(section)" {
-            nameField.text = owner.cars[section]
+            car = owner.cars[section]
+            nameField.text = car
+            
             mileageField.text = String(describing: owner.drivingData.carMileage[nameField.text!]!)
             
             nameField.isUserInteractionEnabled = false
