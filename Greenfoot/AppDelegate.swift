@@ -122,7 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func saveLocationInfo(placemark: CLPlacemark) {
         locationManager.stopUpdatingLocation()
         
-        guard let locality = GreenfootModal.sharedInstance.locality else {
+        guard let _ = GreenfootModal.sharedInstance.locality else {
             var localityData:[String:String] = [:]
             localityData["City"] = placemark.locality
             localityData["State"] = placemark.administrativeArea
@@ -153,8 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             return
         }
-        
-        print(locality)
         
         GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
     }

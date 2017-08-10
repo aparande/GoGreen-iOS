@@ -221,23 +221,19 @@ class GreenData {
         }
         
         let parameters:[String:String] = ["zip":zip]
-        let api = APIInterface()
-        api.connectToServer(atEndpoint: "getFromEGrid", withParameters: parameters, completion: {
+        let id = [APIRequestType.get.rawValue, "EGRID"].joined(separator: ":")
+        APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/getFromEGrid", withParameters: parameters, andSuccessFunction: {
             data in
             
-            if data["status"] as! String == "Success" {
-                let e_factor = data["e_factor"] as! Double
-                UserDefaults.standard.set(e_factor, forKey: "e_factor")
-                
-                self.calculateCO2 = {
-                    point in
-                    return point * e_factor/1000
-                }
-                
-                self.recalculateCarbon()
-            } else {
-                print("Failed to load electric grid because: "+(data["message"] as! String))
+            let e_factor = data["e_factor"] as! Double
+            UserDefaults.standard.set(e_factor, forKey: "e_factor")
+            
+            self.calculateCO2 = {
+                point in
+                return point * e_factor/1000
             }
+            
+            self.recalculateCarbon()
         })
     }
     
@@ -254,17 +250,14 @@ class GreenData {
         var parameters:[String:String] = ["type":GreenDataType.electric.rawValue]
         parameters["state"] = locality["State"]!
         parameters["country"] = locality["Country"]!
-        let api = APIInterface()
-        api.connectToServer(atEndpoint: "/getFromConsumption", withParameters: parameters, completion: {
+        
+        let id=[APIRequestType.get.rawValue, "CONSUMPTION", dataName].joined(separator: ":")
+        APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/getFromConsumption", withParameters: parameters, andSuccessFunction: {
             data in
             
-            if data["status"] as! String == "Success" {
-                let consumption = data["value"] as! Double
-                self.stateConsumption = consumption
-                print("State consumption is \(self.stateConsumption!)")
-            } else {
-                print("Failed to load consumption because: "+(data["message"] as! String))
-            }
+            let consumption = data["value"] as! Double
+            self.stateConsumption = consumption
+            print("State consumption is \(self.stateConsumption!)")
         })
     }
     
@@ -282,13 +275,12 @@ class GreenData {
         parameters["state"] = locality["State"]
         parameters["country"] = locality["Country"]
         
-        let api = APIInterface()
-        api.connectToServer(atEndpoint: "input", withParameters: parameters, completion: {
+        let id=[APIRequestType.add.rawValue, dataName, month].joined(separator: ":")
+        APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/input", withParameters: parameters, andSuccessFunction: {
             data in
-            if data["status"] as! String == "Success" {
-                self.uploadedData.append(month)
-                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
-            }
+            
+            self.uploadedData.append(month)
+            CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
         })
     }
     
@@ -301,13 +293,13 @@ class GreenData {
         var parameters:[String:Any] = ["month":month, "amount":Int(point)]
         parameters["profId"] = GreenfootModal.sharedInstance.profId
         parameters["dataType"] = dataName
-        let api = APIInterface()
-        api.connectToServer(atEndpoint: "updateDataPoint", withParameters: parameters, completion: {
+        
+        let id=[APIRequestType.update.rawValue, dataName, month].joined(separator: ":")
+        APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/updateDataPoint", withParameters: parameters, andSuccessFunction: {
             data in
-            if data["status"] as! String == "Success" {
-                self.uploadedData.append(month)
-                CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
-            }
+            
+            self.uploadedData.append(month)
+            CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
         })
     }
     
@@ -321,16 +313,8 @@ class GreenData {
         parameters["profId"] = GreenfootModal.sharedInstance.profId
         parameters["dataType"] = dataName
 
-        let api = APIInterface()
-        api.connectToServer(atEndpoint: "deleteDataPoint", withParameters: parameters, completion: {
-            data in
-                
-            if data["status"] as! String == "Success" {
-                print("Successfully deleted from server")
-            } else {
-                print("Couldn't delete from server")
-            }
-        })
+        let id=[APIRequestType.delete.rawValue, dataName, month].joined(separator: ":")
+        APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/deleteDataPoint", withParameters: parameters, andSuccessFunction: nil)
     }
 }
 

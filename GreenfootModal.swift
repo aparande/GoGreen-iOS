@@ -75,17 +75,12 @@ class GreenfootModal {
         if UserDefaults.standard.bool(forKey: "UpdateEP") {
             //Update the server because you've already uploaded once
             let parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
-            let api = APIInterface()
-            api.connectToServer(atEndpoint: "/updateEnergyPoints", withParameters: parameters, completion: {
+            
+            let id = [APIRequestType.update.rawValue, "EP"].joined(separator: ":")
+            APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/updateEnergyPoints", withParameters: parameters, andSuccessFunction: {
                 data in
-                
-                if data["status"] as! String == "Success" {
-                    print("Sucessfully updated Energy Points")
-                    if !self.rankingFetchInProgress {
-                        self.fetchRankings()
-                    }
-                } else {
-                    print(data["message"] as! String)
+                if !self.rankingFetchInProgress {
+                    self.fetchRankings()
                 }
             })
         } else {
@@ -99,18 +94,14 @@ class GreenfootModal {
             parameters["country"] = locale["Country"]
             parameters["city"] = locale["City"]
             
-            let api = APIInterface()
-            api.connectToServer(atEndpoint: "/logEnergyPoints", withParameters: parameters, completion: {
+            let id = [APIRequestType.add.rawValue, "EP"].joined(separator: ":")
+            APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/logEnergyPoints", withParameters: parameters, andSuccessFunction: {
                 data in
                 
-                if data["status"] as! String == "Success" {
-                    UserDefaults.standard.set(true, forKey: "UpdateEP")
+                UserDefaults.standard.set(true, forKey: "UpdateEP")
                     
-                    if !self.rankingFetchInProgress {
-                        self.fetchRankings()
-                    }
-                } else {
-                    print(data["message"] as! String)
+                if !self.rankingFetchInProgress {
+                    self.fetchRankings()
                 }
             })
         }
@@ -127,44 +118,37 @@ class GreenfootModal {
         parameters["state"] = locale["State"]
         parameters["country"] = locale["Country"]
         
-        let api = APIInterface()
-        api.connectToServer(atEndpoint: "/getStateRank", withParameters: parameters, completion: {
+        let stateId = [APIRequestType.get.rawValue, "STATE_RANK"].joined(separator: ":")
+        APIInterface.sharedInstance.queueAPICall(identifiedBy: stateId, atEndpoint: "/getStateRank", withParameters: parameters, andSuccessFunction: {
             data in
             
-            if data["status"] as! String == "Success" {
-                self.rankings["StateRank"] = data["Rank"] as? Int
-                self.rankings["StateCount"] = data["Count"] as? Int
-                
-                if self.rankings.keys.count == 4 {
-                    self.rankingFetchInProgress = false
-                }
-                
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.stateRank.rawValue), object: nil)
-                }
-            } else {
-                print(data["message"] as! String)
+            self.rankings["StateRank"] = data["Rank"] as? Int
+            self.rankings["StateCount"] = data["Count"] as? Int
+            
+            if self.rankings.keys.count == 4 {
+                self.rankingFetchInProgress = false
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.stateRank.rawValue), object: nil)
             }
         })
         
         parameters["city"] = locale["City"]
         
-        api.connectToServer(atEndpoint: "/getCityRank", withParameters: parameters, completion: {
+        let cityId = [APIRequestType.get.rawValue, "CITY_RANK"].joined(separator: ":")
+        APIInterface.sharedInstance.queueAPICall(identifiedBy: cityId, atEndpoint: "/getCityRank", withParameters: parameters, andSuccessFunction: {
             data in
             
-            if data["status"] as! String == "Success" {
-                self.rankings["CityRank"] = data["Rank"] as? Int
-                self.rankings["CityCount"] = data["Count"] as? Int
-                
-                if self.rankings.keys.count == 4 {
-                    self.rankingFetchInProgress = false
-                }
-                
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.cityRank.rawValue), object: nil)
-                }
-            } else {
-                print(data["message"] as! String)
+            self.rankings["CityRank"] = data["Rank"] as? Int
+            self.rankings["CityCount"] = data["Count"] as? Int
+            
+            if self.rankings.keys.count == 4 {
+                self.rankingFetchInProgress = false
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.cityRank.rawValue), object: nil)
             }
         })
     }
