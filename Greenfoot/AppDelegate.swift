@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 print(error)
             }
         })
+        
+        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         return container
     }()
 

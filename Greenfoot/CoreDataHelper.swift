@@ -69,7 +69,6 @@ class CoreDataHelper {
             
             do {
                 try managedContext.save()
-                //You should likely do the adding here
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }

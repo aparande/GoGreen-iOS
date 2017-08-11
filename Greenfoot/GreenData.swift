@@ -160,16 +160,16 @@ class GreenData {
         co2Equivalent[month] = carbon
         totalCarbon = totalCarbon - Int(carbonPrev) + Int(carbon)
         
-        //Mark the point as unuploaded in the database always
-        CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
         //If the data is uploaded, update it, else, upload it
         let date = Date.monthFormat(date: month)
         if let index = uploadedData.index(of: date) {
+            CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
             uploadedData.remove(at: index)
             updateOnServer(month: date, point: y)
         } else {
             let reqId = [APIRequestType.update.rawValue, dataName, date].joined(separator: ":")
             if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
+                CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
                 addToServer(month: date, point: y)
             } else {
                 print("Did not add data because a request was present")
