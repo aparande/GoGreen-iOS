@@ -77,7 +77,7 @@ class GreenfootModal {
             let parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
             
             let id = [APIRequestType.update.rawValue, "EP"].joined(separator: ":")
-            APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/updateEnergyPoints", withParameters: parameters, andSuccessFunction: {
+            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/updateEnergyPoints", withParameters: parameters, andSuccessFunction: {
                 data in
                 if !self.rankingFetchInProgress {
                     self.fetchRankings()
@@ -95,7 +95,7 @@ class GreenfootModal {
             parameters["city"] = locale["City"]
             
             let id = [APIRequestType.add.rawValue, "EP"].joined(separator: ":")
-            APIInterface.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/logEnergyPoints", withParameters: parameters, andSuccessFunction: {
+            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/logEnergyPoints", withParameters: parameters, andSuccessFunction: {
                 data in
                 
                 UserDefaults.standard.set(true, forKey: "UpdateEP")
@@ -119,7 +119,7 @@ class GreenfootModal {
         parameters["country"] = locale["Country"]
         
         let stateId = [APIRequestType.get.rawValue, "STATE_RANK"].joined(separator: ":")
-        APIInterface.sharedInstance.queueAPICall(identifiedBy: stateId, atEndpoint: "/getStateRank", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: stateId, atEndpoint: "/getStateRank", withParameters: parameters, andSuccessFunction: {
             data in
             
             self.rankings["StateRank"] = data["Rank"] as? Int
@@ -137,7 +137,7 @@ class GreenfootModal {
         parameters["city"] = locale["City"]
         
         let cityId = [APIRequestType.get.rawValue, "CITY_RANK"].joined(separator: ":")
-        APIInterface.sharedInstance.queueAPICall(identifiedBy: cityId, atEndpoint: "/getCityRank", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: cityId, atEndpoint: "/getCityRank", withParameters: parameters, andSuccessFunction: {
             data in
             
             self.rankings["CityRank"] = data["Rank"] as? Int
