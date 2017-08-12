@@ -10,6 +10,7 @@
 		1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB0FE71E2B3684006463AE /* DroidSans.ttf */; };
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
+		1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D878F1F3E70B000ED894A /* AboutViewController.swift */; };
 		1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */; };
 		1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F15D0901F27101400DFA60B /* AddDataHeader.xib */; };
 		1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */; };
@@ -48,6 +49,7 @@
 /* Begin PBXFileReference section */
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
+		1F0D878F1F3E70B000ED894A /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPointViewController.swift; sourceTree = "<group>"; };
 		1F15D0901F27101400DFA60B /* AddDataHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataHeader.xib; sourceTree = "<group>"; };
 		1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICall.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				1FC291DB1EF1CDB6007F7835 /* Modal */,
 				1F14FADF1EF71498005E9F33 /* Views */,
 				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
+				1F0D878F1F3E70B000ED894A /* AboutViewController.swift */,
 				1FA0189F1EE394D6005ED9E2 /* DrivingDataViewController.swift */,
 				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
 				1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */,
@@ -347,6 +350,7 @@
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
+				1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
 				1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */,
 				1FA018A01EE394D6005ED9E2 /* DrivingDataViewController.swift in Sources */,

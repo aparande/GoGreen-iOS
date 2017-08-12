@@ -32,6 +32,10 @@ class SummaryViewController: UIViewController {
         shareButton.addTarget(self, action: #selector(share), for: .touchUpInside)
         navigationItem.rightViews = [shareButton]
         
+        let infoButton = IconButton(image: Icon.info_white.resize(toWidth: 20)!.resize(toHeight: 20)!, tintColor: UIColor.white)
+        infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
+        navigationItem.leftViews = [infoButton]
+        
         let rankings = GreenfootModal.sharedInstance.rankings
         if rankings.keys.count != 4 {
             rankingView.isHidden = true
@@ -87,6 +91,11 @@ class SummaryViewController: UIViewController {
     @IBAction func showHistory(_ sender: Any) {
         let hvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "History") as! HistoryViewController
         self.navigationController?.pushViewController(hvc, animated: true)
+    }
+    
+    func showInfo() {
+        let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutViewController")
+        self.navigationController?.pushViewController(cvc, animated: true)
     }
 }
 

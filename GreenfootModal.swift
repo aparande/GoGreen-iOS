@@ -363,7 +363,7 @@ extension Icon {
     static let electric_white = UIImage(named: "Lightning_Bolt_White")!
     static let water_white = UIImage(named: "Water-Drop")!
     static let smoke_white = UIImage(named: "Smoke")!
-    static let info_white = UIImage(named: "Information-256")
+    static let info_white = UIImage(named: "Information-256")!
     static let fire_white = UIImage(named: "Fire")!
     static let road_white = UIImage(named: "Road")!
     
