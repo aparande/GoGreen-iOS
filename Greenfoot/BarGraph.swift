@@ -150,30 +150,18 @@ class BarGraph: BarChartView {
         self.leftAxis.axisLineColor = UIColor.clear
         
         if let max = points.max() {
-            switch floor(log10(max)) {
+            let power = floor(log10(max))
+            switch power {
             case 0:
                 if max > 5 {
                     self.leftAxis.axisMaximum = 10
                 } else {
                     self.leftAxis.axisMaximum = 5
                 }
-                break
-            case 1:
-                self.leftAxis.axisMaximum = 10 * ceil(max / 10.0)
-                break
-            case 2:
-                self.leftAxis.axisMaximum = 100 * ceil(max / 100.0)
-                break
-            case 3:
-                self.leftAxis.axisMaximum = 1000 * ceil(max / 1000.0)
-                break
             default:
-                if max > 5 {
-                    self.leftAxis.axisMaximum = 10
-                } else {
-                    self.leftAxis.axisMaximum = 5
-                }
-                break
+                let power = floor(log10(max))
+                let multiplier = pow(10, power)
+                self.leftAxis.axisMaximum = multiplier * ceil(max / multiplier)
             }
         }
         

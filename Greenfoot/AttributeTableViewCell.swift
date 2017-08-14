@@ -87,7 +87,12 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
                 return
             }
             
-            let newVal = Double(text)!
+            guard let newVal = Double(text) else {
+                self.dataTextField.text = "\(stepper.value)"
+                owner.updateError()
+                return
+            }
+
             if newVal < lowerBound || newVal > upperBound {
                 self.dataTextField.text = "\(stepper.value)"
                 owner.updateError()

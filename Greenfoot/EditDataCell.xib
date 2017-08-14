@@ -32,7 +32,7 @@
                         </connections>
                     </stepper>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DOc-gF-jEy">
-                        <rect key="frame" x="8" y="10.5" width="90" height="25.5"/>
+                        <rect key="frame" x="8" y="10" width="90" height="25.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="90" id="94Y-kA-gFW"/>
                         </constraints>

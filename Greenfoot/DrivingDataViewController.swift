@@ -80,6 +80,12 @@ class DrivingDataViewController: BulkDataViewController {
         }
     }
     
+    override func updateError() {
+        let alertView = UIAlertController(title: "Error", message: "Please enter a valid number", preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alertView, animated: true, completion: nil)
+    }
+    
     func addSection() {
         self.tableView.backgroundView = nil
         let newSectionNum = self.cars.count
@@ -280,7 +286,15 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             })
             return
         }
-        let mileage = Int(mileageField.text!)!
+        
+        guard let mileage = Int(mileageField.text!) else {
+            let alertView = UIAlertController(title: "Error", message: "Please enter a valid mileage", preferredStyle: .alert)
+            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+            owner.present(alertView, animated: true, completion: {
+                self.nameField.text = ""
+            })
+            return
+        }
         
         owner.cars[sectionNum] = carName
         owner.drivingData.carMileage[carName] = mileage

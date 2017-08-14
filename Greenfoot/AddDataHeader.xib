@@ -55,7 +55,7 @@
                     <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
+                    <textInputTraits key="textInputTraits" keyboardType="decimalPad" enablesReturnKeyAutomatically="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Value"/>
                         <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
