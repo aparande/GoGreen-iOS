@@ -27,18 +27,10 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Do any additional setup after loading the view.
         prepSegmentedToolbar(segmentAction: #selector(changeGraph(sender:)))
         
-        if data.dataName == "Water" {
+        if data.dataName == GreenDataType.water.rawValue {
             let segmentedView = self.navigationItem.centerViews[0].subviews[0] as? UISegmentedControl
             segmentedView?.removeSegment(at: 2, animated: false)
         }
-        
-        /*var infoImage = Icon.info_white
-        infoImage = infoImage!.resize(toHeight: 20)
-        infoImage = infoImage!.resize(toWidth: 20)
-        let infoButton = IconButton(image: infoImage)
-        infoButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
-        infoButton.imageView?.contentMode = .scaleAspectFit
-        navigationItem.rightViews = [infoButton]*/
         
         graph.loadData(data.getGraphData(), labeled: data.yLabel)
         graph.delegate = self
@@ -135,12 +127,15 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         addFabItem.fabButton.backgroundColor = Colors.green
         addFabItem.fabButton.addTarget(self, action: #selector(bulkAdd), for: .touchUpInside)
         
-        let attributeFabItem = FABMenuItem()
-        attributeFabItem.title = "Attributes"
-        attributeFabItem.fabButton.image = Icon.cm.star
-        attributeFabItem.fabButton.tintColor = .white
-        attributeFabItem.fabButton.backgroundColor = Colors.green
-        attributeFabItem.fabButton.addTarget(self, action: #selector(attributeAdd), for: .touchUpInside)
+        var attributeFabItem:FABMenuItem?
+        if data.data.keys.count != 0 || data.bonusDict.keys.count != 0 {
+            attributeFabItem = FABMenuItem()
+            attributeFabItem!.title = "Attributes"
+            attributeFabItem!.fabButton.image = Icon.cm.star
+            attributeFabItem!.fabButton.tintColor = .white
+            attributeFabItem!.fabButton.backgroundColor = Colors.green
+            attributeFabItem!.fabButton.addTarget(self, action: #selector(attributeAdd), for: .touchUpInside)
+        }
         
         let shareFabItem = FABMenuItem()
         shareFabItem.title = "Share"
@@ -150,7 +145,13 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         shareFabItem.fabButton.addTarget(self, action: #selector(share), for: .touchUpInside)
         
         fabMenu.fabButton = fabButton
-        fabMenu.fabMenuItems = [addFabItem, attributeFabItem, shareFabItem]
+        
+        if let attributeButton = attributeFabItem {
+            fabMenu.fabMenuItems = [addFabItem, attributeButton, shareFabItem]
+        } else {
+            fabMenu.fabMenuItems = [addFabItem, shareFabItem]
+        }
+        
         
         self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(75).right(25)
     }

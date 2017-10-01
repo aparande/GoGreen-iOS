@@ -40,7 +40,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We use your location to compare you with others in your city and your state.</string>
+	<string>We use your location to compare you with others in your city and your state. For more details, see our privacy policy.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>GeosansLight.ttf</string>
