@@ -41,58 +41,58 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lxc-Ao-vWh">
-                                <rect key="frame" x="56" y="195" width="303" height="346"/>
+                                <rect key="frame" x="20" y="195" width="374" height="346"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plant" translatesAutoresizingMaskIntoConstraints="NO" id="noT-iC-coK">
-                                        <rect key="frame" x="36" y="21" width="231" height="223"/>
-                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoGreen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="XJV-nG-4km">
-                                        <rect key="frame" x="36" y="252" width="231" height="52"/>
-                                        <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="58"/>
+                                        <rect key="frame" x="75" y="213" width="224" height="64"/>
+                                        <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="65"/>
                                         <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cleaner Energy | Cleaner Air | Cleaner Planet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="3FX-Rf-rSs">
-                                        <rect key="frame" x="36" y="303" width="231" height="21"/>
-                                        <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="11"/>
+                                        <rect key="frame" x="75" y="277" width="224" height="34"/>
+                                        <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="16"/>
                                         <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plant" translatesAutoresizingMaskIntoConstraints="NO" id="noT-iC-coK">
+                                        <rect key="frame" x="75" y="8" width="224" height="197"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="3FX-Rf-rSs" firstAttribute="top" secondItem="noT-iC-coK" secondAttribute="bottom" constant="59" id="5wk-np-4XV"/>
+                                    <constraint firstItem="3FX-Rf-rSs" firstAttribute="top" secondItem="noT-iC-coK" secondAttribute="bottom" constant="72" id="5wk-np-4XV"/>
                                     <constraint firstItem="noT-iC-coK" firstAttribute="trailing" secondItem="XJV-nG-4km" secondAttribute="trailing" id="E4r-pb-Od9"/>
-                                    <constraint firstAttribute="width" secondItem="noT-iC-coK" secondAttribute="height" multiplier="34:25" id="ECO-de-Ln2"/>
-                                    <constraint firstItem="noT-iC-coK" firstAttribute="top" secondItem="lxc-Ao-vWh" secondAttribute="top" constant="21" id="JSa-Vv-vYK"/>
-                                    <constraint firstItem="noT-iC-coK" firstAttribute="centerX" secondItem="lxc-Ao-vWh" secondAttribute="centerX" id="QI8-nh-JcQ"/>
+                                    <constraint firstAttribute="width" secondItem="noT-iC-coK" secondAttribute="height" multiplier="34:25" constant="106.07999999999998" id="ECO-de-Ln2"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="top" secondItem="lxc-Ao-vWh" secondAttribute="top" constant="8" id="JSa-Vv-vYK"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="centerX" secondItem="lxc-Ao-vWh" secondAttribute="centerX" constant="0.5" id="QI8-nh-JcQ"/>
                                     <constraint firstItem="noT-iC-coK" firstAttribute="leading" secondItem="XJV-nG-4km" secondAttribute="leading" id="V0a-Av-TAG"/>
-                                    <constraint firstItem="noT-iC-coK" firstAttribute="leading" secondItem="lxc-Ao-vWh" secondAttribute="leading" constant="36" id="ZTn-yD-wQo"/>
+                                    <constraint firstItem="noT-iC-coK" firstAttribute="leading" secondItem="lxc-Ao-vWh" secondAttribute="leading" constant="75" id="ZTn-yD-wQo"/>
                                     <constraint firstItem="XJV-nG-4km" firstAttribute="trailing" secondItem="3FX-Rf-rSs" secondAttribute="trailing" id="cik-fP-Fn7"/>
-                                    <constraint firstAttribute="bottom" secondItem="XJV-nG-4km" secondAttribute="bottom" constant="42" id="g41-9W-7NI"/>
+                                    <constraint firstAttribute="bottom" secondItem="XJV-nG-4km" secondAttribute="bottom" constant="69" id="g41-9W-7NI"/>
                                     <constraint firstItem="XJV-nG-4km" firstAttribute="leading" secondItem="3FX-Rf-rSs" secondAttribute="leading" id="hhn-EQ-2Fw"/>
-                                    <constraint firstItem="3FX-Rf-rSs" firstAttribute="top" secondItem="XJV-nG-4km" secondAttribute="bottom" constant="-1" id="iqd-O8-fsh"/>
+                                    <constraint firstItem="3FX-Rf-rSs" firstAttribute="top" secondItem="XJV-nG-4km" secondAttribute="bottom" id="iqd-O8-fsh"/>
                                     <constraint firstItem="XJV-nG-4km" firstAttribute="top" secondItem="noT-iC-coK" secondAttribute="bottom" constant="8" id="jTv-nv-yUD"/>
-                                    <constraint firstAttribute="bottom" secondItem="3FX-Rf-rSs" secondAttribute="bottom" constant="22" id="vpR-8Y-MdZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="3FX-Rf-rSs" secondAttribute="bottom" constant="35" id="vpR-8Y-MdZ"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="lxc-Ao-vWh" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="7yZ-en-9gR"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="lxc-Ao-vWh" secondAttribute="trailing" priority="999" constant="35.5" id="Afi-no-TcK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lxc-Ao-vWh" secondAttribute="trailing" priority="999" id="Afi-no-TcK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NtT-az-p3P" secondAttribute="trailing" id="BWt-lu-N8c"/>
-                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" priority="999" constant="35.5" id="Dn6-Ae-yyh"/>
+                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" priority="999" id="Dn6-Ae-yyh"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="NtT-az-p3P" secondAttribute="bottom" constant="8" id="bab-GN-27G"/>
                             <constraint firstAttribute="leadingMargin" secondItem="NtT-az-p3P" secondAttribute="leading" id="qD7-bP-IGv"/>
                             <constraint firstItem="lxc-Ao-vWh" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="xHa-cA-PSe"/>
-                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" priority="999" constant="152" id="zzr-S9-YUl"/>
+                            <constraint firstItem="lxc-Ao-vWh" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" priority="999" constant="175" id="zzr-S9-YUl"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+            <point key="canvasLocation" x="50.724637681159422" y="374.18478260869568"/>
         </scene>
     </scenes>
     <resources>

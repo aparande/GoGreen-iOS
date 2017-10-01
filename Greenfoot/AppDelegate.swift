@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         window = UIWindow(frame: Screen.bounds)
         
         //You wont use this, but initialize it so the tutorial view controller isn't laggy
+        
         let _ = GreenfootModal.sharedInstance
         
         if UserDefaults.standard.bool(forKey: "CompletedTutorial") {

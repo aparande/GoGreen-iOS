@@ -467,6 +467,12 @@ class DrivingData: GreenData {
                 addDataPoint(month: date, y: miles, save:true)
             }
         }
+        
+        for date in getGraphData().keys {
+            if !keys.contains(date) {
+                removeDataPoint(month: date)
+            }
+        }
     }
     
     override func addDataPoint(month:Date, y:Double, save: Bool) {

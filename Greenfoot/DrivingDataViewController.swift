@@ -278,15 +278,6 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         
         let carName = nameField.text!.removeSpecialChars()
         
-        if let _ = owner.drivingData.carMileage[carName] {
-            let alertView = UIAlertController(title: "Error", message: "You already have a car named \(carName). Please enter a different name.", preferredStyle: .alert)
-            alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-            owner.present(alertView, animated: true, completion: {
-                self.nameField.text = ""
-            })
-            return
-        }
-        
         guard let mileage = Int(mileageField.text!) else {
             let alertView = UIAlertController(title: "Error", message: "Please enter a valid mileage", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))

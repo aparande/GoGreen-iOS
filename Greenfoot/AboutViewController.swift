@@ -79,6 +79,7 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
             //3
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "AboutFooter", for: indexPath) as! AboutFooter
             footer.licenceButton.addTarget(self, action: #selector(showLicense(_:)), for: .touchUpInside)
+            footer.privacyButton.addTarget(self, action: #selector(showPrivacy(_:)), for: .touchUpInside)
             return footer
         default:
             //4
@@ -88,6 +89,12 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
     
     func showLicense(_ sender: AnyObject) {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "licenseController")
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showPrivacy(_ sender: AnyObject) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "privacyController") as! ScrollingController
+        vc.scrollHeight = 5000
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -132,11 +139,14 @@ class AboutCell: UICollectionViewCell {
 
 class AboutFooter: UICollectionReusableView {
     @IBOutlet weak var licenceButton: UIButton!
+    @IBOutlet weak var privacyButton: UIButton!
 }
 
-class LicenseController: UIViewController {
+class ScrollingController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var licenseLabel: UILabel!
+    @IBOutlet weak var scrollingLabel: UILabel!
+    
+    var scrollHeight:CGFloat = 2000
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,11 +156,11 @@ class LicenseController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         
-        let size = CGSize(width: UIScreen.main.bounds.width, height: 2000)
+        let size = CGSize(width: UIScreen.main.bounds.width, height: scrollHeight)
         scrollView.contentSize = size
         
-        licenseLabel.frame = CGRect(x: 10, y: 0, width: size.width-20, height: size.height)
-        licenseLabel.sizeToFit()
+        scrollingLabel.frame = CGRect(x: 10, y: 0, width: size.width-20, height: size.height)
+        scrollingLabel.sizeToFit()
         
         scrollView.layoutIfNeeded()
     }

@@ -99,9 +99,9 @@ class BarGraph: BarChartView {
             dataEntries.append(dataEntry)
         }
         
-        //You want to show 6 bars on screen, so if there are fewer points than that, add dummy bars
-        if points.count < 6 {
-            for i in points.count..<6 {
+        //You want to show 6 bars on screen. If there are less than 7 points, then add at least 1 dummy bar to prevent strange label issues.
+        if points.count < 7 {
+            for i in points.count..<7 {
                 let dataEntry = BarChartDataEntry(x: Double(i), y: 0)
                 dataEntries.append(dataEntry)
             }
@@ -150,18 +150,22 @@ class BarGraph: BarChartView {
         self.leftAxis.axisLineColor = UIColor.clear
         
         if let max = points.max() {
-            let power = floor(log10(max))
-            switch power {
-            case 0:
-                if max > 5 {
-                    self.leftAxis.axisMaximum = 10
-                } else {
-                    self.leftAxis.axisMaximum = 5
-                }
-            default:
+            if max == 0 {
+                self.leftAxis.axisMaximum = 5
+            } else {
                 let power = floor(log10(max))
-                let multiplier = pow(10, power)
-                self.leftAxis.axisMaximum = multiplier * ceil(max / multiplier)
+                switch power {
+                case 0:
+                    if max > 5 {
+                        self.leftAxis.axisMaximum = 10
+                    } else {
+                        self.leftAxis.axisMaximum = 5
+                    }
+                default:
+                    let power = floor(log10(max))
+                    let multiplier = pow(10, power)
+                    self.leftAxis.axisMaximum = multiplier * ceil(max / multiplier)
+                }
             }
         }
         

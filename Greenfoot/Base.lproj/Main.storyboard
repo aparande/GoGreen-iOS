@@ -693,14 +693,14 @@
         <scene sceneID="IaN-vL-7An">
             <objects>
                 <collectionViewController storyboardIdentifier="AboutViewController" id="ZYn-9G-Vva" customClass="AboutViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" prefetchingEnabled="NO" id="8sp-UL-CXS">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" prefetchingEnabled="NO" id="8sp-UL-CXS">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3q5-7P-Btl">
                             <size key="itemSize" width="281" height="180"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="50" height="50"/>
+                            <size key="footerReferenceSize" width="50" height="53"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
@@ -745,27 +745,40 @@
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AboutFooter" id="Wip-Bn-gc8" customClass="AboutFooter" customModule="Greenfoot" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="180" width="375" height="50"/>
+                            <rect key="frame" x="0.0" y="180" width="375" height="53"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdF-di-h0k">
-                                    <rect key="frame" x="144" y="10" width="87" height="30"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KqW-jL-Uaw">
+                                    <rect key="frame" x="108" y="12" width="158" height="28"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdF-di-h0k">
+                                            <rect key="frame" x="0.0" y="0.0" width="74" height="28"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
+                                            <state key="normal" title="See License">
+                                                <color key="titleColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B2h-nI-5Iz">
+                                            <rect key="frame" x="84" y="0.0" width="74" height="28"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
+                                            <state key="normal" title="Privacy Policy">
+                                                <color key="titleColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="87" id="8Lv-f1-oxg"/>
-                                        <constraint firstAttribute="height" constant="30" id="ueR-xP-9kY"/>
+                                        <constraint firstItem="xdF-di-h0k" firstAttribute="width" secondItem="B2h-nI-5Iz" secondAttribute="width" id="2Kq-jy-ITQ"/>
+                                        <constraint firstItem="xdF-di-h0k" firstAttribute="height" secondItem="B2h-nI-5Iz" secondAttribute="height" id="4ZI-Qw-8vv"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
-                                    <state key="normal" title="See License">
-                                        <color key="titleColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </state>
-                                </button>
+                                </stackView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="xdF-di-h0k" firstAttribute="centerY" secondItem="Wip-Bn-gc8" secondAttribute="centerY" id="4UV-0a-O03"/>
-                                <constraint firstItem="xdF-di-h0k" firstAttribute="centerX" secondItem="Wip-Bn-gc8" secondAttribute="centerX" id="JvO-c1-J4m"/>
+                                <constraint firstItem="KqW-jL-Uaw" firstAttribute="centerY" secondItem="Wip-Bn-gc8" secondAttribute="centerY" id="6eO-dq-ILu"/>
+                                <constraint firstItem="KqW-jL-Uaw" firstAttribute="centerX" secondItem="Wip-Bn-gc8" secondAttribute="centerX" id="gi2-W8-WUt"/>
                             </constraints>
                             <connections>
-                                <outlet property="licenceButton" destination="xdF-di-h0k" id="u9b-m8-huX"/>
+                                <outlet property="licenceButton" destination="xdF-di-h0k" id="jwT-1c-yJI"/>
+                                <outlet property="privacyButton" destination="B2h-nI-5Iz" id="NDc-fp-c6t"/>
                             </connections>
                         </collectionReusableView>
                         <connections>
@@ -781,12 +794,12 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ph5-aD-mDB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1710" y="171.12676056338029"/>
+            <point key="canvasLocation" x="1887" y="171"/>
         </scene>
-        <!--License Controller-->
+        <!--Scrolling Controller-->
         <scene sceneID="FJa-SX-x7o">
             <objects>
-                <viewController storyboardIdentifier="licenseController" id="dyg-XK-duf" customClass="LicenseController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="licenseController" id="dyg-XK-duf" customClass="ScrollingController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0kZ-q7-Dzd"/>
                         <viewControllerLayoutGuide type="bottom" id="uth-ih-OFP"/>
@@ -853,13 +866,58 @@ Copyright 2016 Daniel Cohen Gindi &amp; Philipp Jahoda
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="licenseLabel" destination="p8b-2V-m4c" id="p9y-3P-w1p"/>
                         <outlet property="scrollView" destination="B2q-Ws-ruV" id="Qpj-Pk-BiK"/>
+                        <outlet property="scrollingLabel" destination="p8b-2V-m4c" id="OFC-Oe-5V7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qQF-mC-Cjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2512.8000000000002" y="170.46476761619192"/>
+            <point key="canvasLocation" x="2636" y="170"/>
+        </scene>
+        <!--Scrolling Controller-->
+        <scene sceneID="h7P-Va-Ncd">
+            <objects>
+                <viewController storyboardIdentifier="privacyController" id="WeS-J3-QLZ" customClass="ScrollingController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WPB-I7-nGB"/>
+                        <viewControllerLayoutGuide type="bottom" id="505-Ke-2gS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2Oz-L7-xn6">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dhK-bV-q4H">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xbn-f7-JFR">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IoG-ru-8R8">
+                                                <rect key="frame" x="8" y="8" width="359" height="1603"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <mutableString key="text">PRIVACY POLICY FOR GOGREEN This privacy policy governs your use of the software application GoGreen for mobile devices that was created by Anmol Parande. The Application is a tool to track an individual's carbon footprint. It relies on user data from electricity, natural gas, and water bills. The Application shows trends in energy consumption and compares users to others in their area.  What information does the Application obtain and how is it used? User Provided Information The Application obtains the information you provide when you download the Application. This may include your name and email address. Other personal information such as address, age, and credit card information are not collected. We may also use the information you provided us to contact your from time to time to provide you with important information, required notices and marketing promotions.If you consent to giving the application access to your current location, we will collect information about your energy consumption. This information will associated with your device and not with any personal information.If you do not want us to collect information about your energy consumption, you should turn off the location services for the mobile application located in your account settings or in your mobile phone settings and/or within the mobile application.  Automatically Collected Information In addition, the Application may collect certain information automatically, including, but not limited to, the type of mobile device you use, your mobile devices unique device ID, the IP address of your mobile device, your mobile operating system, and information about the way you use the Application.  Does the Application collect precise real time location information of the device?When you visit the mobile application, we may use GPS technology (or other similar technology) to determine your current location in order to determine the city and state you are located within. This information is only used to enhance the capabilities of the application. We will not share your current location with other users or partners.If you do not want us to use your location for the purposes set forth above, you should turn off the location services for the mobile application located in your account settings or in your mobile phone settings and/or within the mobile application.  Do third parties see and/or have access to information obtained by the Application? Yes. We will share your information with third parties only in the ways that are described in this privacy statement.We may disclose User Provided and Automatically Collected Information:•	as required by law, such as to comply with a subpoena, or similar legal process;•	when we believe in good faith that disclosure is necessary to protect our rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;•	with our trusted services providers who work on our behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.•	if Anmol Parande is involved in a merger, acquisition, or sale of all or a portion of its assets, you will be notified via email and/or a prominent notice on our Web site of any change in ownership or uses of this information, as well as any choices you may have regarding this information.  What are my opt-out rights? You can stop all collection of information by the Application easily by uninstalling the Application. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network. You can also request to opt-out via email, at gogreenappinfo@gmail.com. Data Retention Policy, Managing Your InformationWe will retain User Provided data for as long as you use the Application and thereafter. We will retain Automatically Collected information for up to 24 months and thereafter may store it in aggregate. If you’d like us to delete User Provided Data that you have provided via the Application, please contact us at gogreenappinfo@gmail.comand we will respond in a reasonable time. Please note that some or all of the User Provided Data may be required in order for the Application to function properly. Children We do not use the Application to knowingly solicit data from or market to children under the age of 13. If a parent or guardian becomes aware that his or her child has provided us with information without their consent, he or she should contact us at gogreenappinfo@gmail.com. We will delete such information from our files within a reasonable time. Security We are concerned about safeguarding the confidentiality of your information. We provide physical, electronic, and procedural safeguards to protect information we process and maintain. For example, we limit access to this information to authorized employees and contractors who need to know that information in order to operate, develop or improve our Application. Please be aware that, although we endeavor to provide reasonable security for information we process and maintain, no security system can prevent all potential security breaches. ChangesThis Privacy Policy may be updated from time to time for any reason. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes. Your ConsentBy using the Application, you are consenting to our processing of your information as set forth in this Privacy Policy now and as amended by us. "Processing,” means using cookies on a computer/hand held device or using or touching information in any way, including, but not limited to, collecting, storing, deleting, using, combining and disclosing information, all of which activities will take place in the United States. If you reside outside the United States your information will be transferred, processed and stored there under United States privacy standards.  Contact usIf you have any questions regarding privacy while using the Application, or have questions about our practices, please contact us via email at gogreenappinfo@gmail.com.</mutableString>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="scrollView" destination="dhK-bV-q4H" id="DX9-ML-8qg"/>
+                        <outlet property="scrollingLabel" destination="IoG-ru-8R8" id="IGI-bv-pUb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z8g-Bo-9h7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3423" y="171"/>
         </scene>
         <!--Tutorial Page View Controller-->
         <scene sceneID="IlV-So-Twq">
