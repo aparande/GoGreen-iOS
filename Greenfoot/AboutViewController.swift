@@ -18,7 +18,7 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         navigationItem.backButton.tintColor = UIColor.white
-        navigationItem.title = "FAQ"
+        navigationItem.titleLabel.text = "FAQ"
         navigationItem.titleLabel.textColor = UIColor.white
     }
 
@@ -85,6 +85,7 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
             //4
             assert(false, "Unexpected element kind")
         }
+        return UICollectionReusableView()
     }
     
     func showLicense(_ sender: AnyObject) {

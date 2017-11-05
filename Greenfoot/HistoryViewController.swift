@@ -19,7 +19,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Breakdown"
+        navigationItem.titleLabel.text = "Breakdown"
         self.navigationItem.titleLabel.textColor = UIColor.white
         self.navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
     

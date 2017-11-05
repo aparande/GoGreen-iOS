@@ -41,7 +41,7 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Attributes"
+        navigationItem.titleLabel.text = "Attributes"
         navigationItem.titleLabel.textColor = UIColor.white
         navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
         

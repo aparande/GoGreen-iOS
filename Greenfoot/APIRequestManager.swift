@@ -30,7 +30,6 @@ enum APIRequestType: String {
 
 class APIRequestManager: NSObject, URLSessionDelegate {
     static let sharedInstance = APIRequestManager()
-    
     private var runningRequests:[String: APICall] = [:]
     private var queuedRequests:[String: APICall] = [:]
     
