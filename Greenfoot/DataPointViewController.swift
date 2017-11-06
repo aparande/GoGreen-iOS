@@ -68,10 +68,10 @@ class DataPointViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.width, height: 200))
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 200))
         
         if isData {
-            let graph = HorizontalBarChartView(frame: CGRect(x: 10, y: 10, width: self.tableView.width-20, height: 180))
+            let graph = HorizontalBarChartView(frame: CGRect(x: 10, y: 10, width: self.tableView.frame.width-20, height: 180))
             
             graph.isUserInteractionEnabled = false
             
@@ -84,7 +84,7 @@ class DataPointViewController: UITableViewController {
             
             container.addSubview(graph)
         } else {
-            let graph = BarGraph(frame: CGRect(x: 10, y: 10, width: self.tableView.width-20, height: 180))
+            let graph = BarGraph(frame: CGRect(x: 10, y: 10, width: self.tableView.frame.width-20, height: 180))
             graph.isUserInteractionEnabled = false
             let data:[String:Double] = values
             

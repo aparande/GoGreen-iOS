@@ -86,7 +86,7 @@ class DrivingDataViewController: BulkDataViewController {
         self.present(alertView, animated: true, completion: nil)
     }
     
-    func addSection() {
+    @objc func addSection() {
         self.tableView.backgroundView = nil
         let newSectionNum = self.cars.count
         cars.append("Car \(newSectionNum)")
@@ -110,7 +110,7 @@ class DrivingDataViewController: BulkDataViewController {
         return cars.count
     }
     
-    override func beginEdit() {
+    @objc override func beginEdit() {
         super.beginEdit()
         
         for (_, view) in sectionHeaders {
@@ -118,7 +118,7 @@ class DrivingDataViewController: BulkDataViewController {
         }
     }
     
-    override func endEdit() {
+    @objc override func endEdit() {
         self.tableView.setEditing(false, animated: true)
         
         for (_, view) in sectionHeaders {
@@ -214,7 +214,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
     var car:String?
     
     override func awakeFromNib() {
-        addButton.cornerRadius = addButton.frame.height/2
+        addButton.layer.cornerRadius = addButton.frame.height/2
         addButton.backgroundColor = Colors.green
         addButton.image = Icon.add
         addButton.tintColor = UIColor.white
@@ -346,7 +346,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         owner.tableView.insertRows(at: [path], with: .automatic)
     }
     
-    func remove() {
+    @objc func remove() {
         let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete all data for this car?", preferredStyle: .alert)
         alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
             _ in

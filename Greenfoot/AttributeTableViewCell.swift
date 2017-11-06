@@ -80,7 +80,7 @@ class EditTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.dataTextField.inputAccessoryView = doneToolbar
     }
     
-    func save() {
+    @objc func save() {
         if let text = self.dataTextField.text {
             if text == "" {
                 self.dataTextField.text = "\(stepper.value)"

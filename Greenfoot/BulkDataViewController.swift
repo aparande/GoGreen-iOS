@@ -64,11 +64,11 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         }
     }
     
-    func returnToTutorial() {
+    @objc func returnToTutorial() {
         self.navigationController?.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    func beginEdit() {
+    @objc func beginEdit() {
         self.tableView.setEditing(true, animated: true)
         
         let doneButton = IconButton(image: Icon.check, tintColor: UIColor.white)
@@ -76,7 +76,7 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         navigationItem.rightViews = [doneButton]
     }
     
-    func endEdit() {
+    @objc func endEdit() {
         self.tableView.setEditing(false, animated: true)
         
         let editButton = IconButton(image: Icon.edit, tintColor: UIColor.white)
@@ -184,7 +184,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
     var owner: BulkDataViewController!
     
     override func awakeFromNib() {
-        addButton.cornerRadius = addButton.frame.height/2
+        addButton.layer.cornerRadius = addButton.frame.height/2
         addButton.backgroundColor = Colors.green
         addButton.image = Icon.add
         addButton.tintColor = UIColor.white
@@ -255,7 +255,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         }
     }
     
-    func textFieldDidChange(textfield: UITextField) {
+    @objc func textFieldDidChange(textfield: UITextField) {
         if textfield == pointField {
             pointToolbarField.text = pointField.text
         }
@@ -268,7 +268,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         return true
     }
     
-    func monthChosen() {
+    @objc func monthChosen() {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         let date = formatter.string(from: datePicker.date)

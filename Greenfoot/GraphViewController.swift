@@ -63,7 +63,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         changeGraph(sender: segmentedView)
     }
     
-    func changeGraph(sender: UISegmentedControl) {
+    @objc func changeGraph(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             self.dailyAverageLabel.text = "\(data.averageValue) " + data.averageLabel
@@ -156,9 +156,9 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(75).right(25)
     }
     
-    func bulkAdd() {
+    @objc func bulkAdd() {
         fabMenu.close()
-        fabMenu.fabButton?.motion(.rotationAngle(0))
+        fabMenu.fabButton?.animate(.rotate(0))
         
         if data.dataName == "Driving" {
             let aevc = DrivingDataViewController(withData: data as! DrivingData)
@@ -169,14 +169,14 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func attributeAdd() {
+    @objc func attributeAdd() {
         fabMenu.close()
-        fabMenu.fabButton?.motion(.rotationAngle(0))
+        fabMenu.fabButton?.animate(.rotate(0))
         let advc = AttributeTableViewController(data: data)
         navigationController?.pushViewController(advc, animated: true)
     }
     
-    func share() {
+    @objc func share() {
         let message = "I earned "+energyPointsLabel.text!+" Energy Points on GoGreen from "+data.dataName+"! How many do you have?"
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]

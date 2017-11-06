@@ -200,7 +200,7 @@ class BarGraph: BarChartView {
     
     private func fixedToPercentWidth(_ fixed: Double, withSpacing spacing:Double, numberOfBars barNum: Int) -> Double {
         //print("Trying to size \(barNum) bars of width \(fixed) and spacing \(spacing)")
-        let viewportWidth = self.width
+        let viewportWidth = self.frame.width
         //print("Viewport: \(viewportWidth)")
         
         let totalSpace = fixed * Double(barNum) + spacing * Double(barNum - 1)

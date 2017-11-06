@@ -88,12 +88,12 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
         return UICollectionReusableView()
     }
     
-    func showLicense(_ sender: AnyObject) {
+    @objc func showLicense(_ sender: AnyObject) {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "licenseController")
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showPrivacy(_ sender: AnyObject) {
+    @objc func showPrivacy(_ sender: AnyObject) {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "privacyController") as! ScrollingController
         vc.scrollHeight = 5000
         self.navigationController?.pushViewController(vc, animated: true)
@@ -134,7 +134,7 @@ class AboutCell: UICollectionViewCell {
         super.awakeFromNib()
         
         self.backgroundColor = Colors.green
-        self.cornerRadius = 10
+        self.layer.cornerRadius = 10
     }
 }
 

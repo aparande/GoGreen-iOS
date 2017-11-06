@@ -23,8 +23,8 @@ class SummaryViewController: UIViewController {
     @IBOutlet weak var rankingView: UIView!
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         prepToolbar()
         
@@ -62,14 +62,14 @@ class SummaryViewController: UIViewController {
         GreenfootModal.sharedInstance.logEnergyPoints()
     }
     
-    func share() {
+    @objc func share() {
         let message = "I earned "+pointLabel.text!+" Energy Points on Greenfoot! How many do you have?"
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
         self.present(activityView, animated: true, completion: nil)
     }
     
-    func refreshRank() {
+    @objc func refreshRank() {
         let rankings = GreenfootModal.sharedInstance.rankings
         if rankings.keys.count != 4 {
             rankingView.isHidden = true
@@ -93,7 +93,7 @@ class SummaryViewController: UIViewController {
         self.navigationController?.pushViewController(hvc, animated: true)
     }
     
-    func showInfo() {
+    @objc func showInfo() {
         let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutViewController")
         self.navigationController?.pushViewController(cvc, animated: true)
     }
