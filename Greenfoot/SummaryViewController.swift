@@ -121,15 +121,7 @@ extension UIViewController {
         segmentedView.layer.cornerRadius = 5.0
         segmentedView.tintColor = UIColor.white
         
-        let containerView = UIView()
-        containerView.addSubview(segmentedView)
-        
-        navigationItem.centerViews = [containerView]
-        
-        //Centers the segmented control in the view
-        let segmentedX = (containerView.bounds.width - segmentedView.bounds.width)/2
-        let segmentedY = (containerView.bounds.height - segmentedView.bounds.height)/2
-        segmentedView.frame.origin = CGPoint(x: segmentedX, y: segmentedY)
+        navigationItem.centerViews = [segmentedView]
         
         segmentedView.addTarget(self, action: segmentAction, for: .valueChanged)
     }
