@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina5_5" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -30,15 +30,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="History" id="jc3-a1-b0T" customClass="HistoryViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="0Pf-Gg-DWv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="911"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="syO-du-bVn">
-                            <rect key="frame" x="0.0" y="350" width="414" height="220"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="syO-du-bVn">
+                            <rect key="frame" x="0.0" y="350" width="768" height="220"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CYm-9M-m9P" customClass="BarGraph" customModule="Greenfoot" customModuleProvider="target">
-                                    <rect key="frame" x="8" y="8" width="398" height="204"/>
+                                    <rect key="frame" x="8" y="8" width="752" height="91"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                             </subviews>
@@ -54,10 +54,10 @@
                             <tableViewSection headerTitle="" id="IRQ-fW-ViH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="QwH-3X-Dza">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QwH-3X-Dza" id="2dO-fd-Yo4">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total Emitted Lbs of Carbon Dioxide" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etO-Vz-7dw">
@@ -78,10 +78,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="jws-n6-LAo">
-                                        <rect key="frame" x="0.0" y="70" width="414" height="70"/>
+                                        <rect key="frame" x="0.0" y="70" width="768" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jws-n6-LAo" id="aTZ-Kw-dqN">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="9pF-4U-hAb">
@@ -138,10 +138,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="MdA-K3-NKa">
-                                        <rect key="frame" x="0.0" y="140" width="414" height="70"/>
+                                        <rect key="frame" x="0.0" y="140" width="768" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MdA-K3-NKa" id="9EF-1J-Ez8">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="kzO-Q0-rbs">
@@ -198,10 +198,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="pNK-DU-cvO">
-                                        <rect key="frame" x="0.0" y="210" width="414" height="70"/>
+                                        <rect key="frame" x="0.0" y="210" width="768" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pNK-DU-cvO" id="5o1-kL-Wu3">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="52U-jd-hjs">
@@ -258,10 +258,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="70" id="xLN-Lp-fYO">
-                                        <rect key="frame" x="0.0" y="280" width="414" height="70"/>
+                                        <rect key="frame" x="0.0" y="280" width="768" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xLN-Lp-fYO" id="fnZ-DI-Ha1">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="Uym-Oa-2ep">
@@ -344,20 +344,20 @@
                         <viewControllerLayoutGuide type="bottom" id="V3C-vz-rMD"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8cL-3r-QcF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="911"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xan-0g-X5x">
-                                <rect key="frame" x="4" y="0.0" width="406" height="84"/>
+                                <rect key="frame" x="4" y="0.0" width="760" height="135"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pix-br-rPD">
-                                        <rect key="frame" x="15" y="0.0" width="78" height="84"/>
+                                        <rect key="frame" x="15" y="0.0" width="104" height="135"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="YbR-7e-9L1">
-                                                <rect key="frame" x="0.0" y="0.0" width="78" height="63.666666666666664"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="104" height="105"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City Rank" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzk-ck-DN0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="78" height="20"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="104" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="Dao-8h-AL3">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="40"/>
@@ -371,7 +371,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aYd-q1-g6F">
-                                                        <rect key="frame" x="0.0" y="24.999999999999996" width="78" height="38.666666666666657"/>
+                                                        <rect key="frame" x="0.0" y="45" width="104" height="60"/>
                                                         <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="43"/>
                                                         <color key="textColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -382,7 +382,7 @@
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="out of 200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hd3-Vq-uR4">
-                                                <rect key="frame" x="0.0" y="63.666666666666679" width="78" height="20.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="105" width="104" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20.329999999999998" id="SK2-Ps-8Z2">
                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -401,13 +401,13 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="no8-Z5-ieL">
-                                        <rect key="frame" x="310.33333333333331" y="0.0" width="80.666666666666686" height="84"/>
+                                        <rect key="frame" x="626.5" y="0.0" width="118.5" height="135"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DNC-AZ-oJL">
-                                                <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="118.5" height="105"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State Rank" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zuK-AY-Qt0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="80.666666666666671" height="20.333333333333332"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="118.5" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20.333333333333332" id="hf1-oL-m9Q">
                                                                 <variation key="heightClass=regular-widthClass=regular" constant="40"/>
@@ -421,7 +421,7 @@
                                                         </variation>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="199" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCu-cp-qha">
-                                                        <rect key="frame" x="0.0" y="25.333333333333325" width="80.666666666666671" height="38.666666666666657"/>
+                                                        <rect key="frame" x="0.0" y="45" width="118.5" height="60"/>
                                                         <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="35"/>
                                                         <color key="textColor" red="0.90588235289999997" green="0.29803921570000003" blue="0.23529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -432,7 +432,7 @@
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="out of 200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ikO-rc-Kgr">
-                                                <rect key="frame" x="0.0" y="64" width="80.666666666666671" height="20"/>
+                                                <rect key="frame" x="0.0" y="105" width="118.5" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="uyc-aM-VP0">
                                                         <variation key="heightClass=regular-widthClass=regular" constant="30"/>
@@ -469,7 +469,7 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="ZWP-Nx-0hF">
-                                <rect key="frame" x="40" y="144.66666666666663" width="334" height="334"/>
+                                <rect key="frame" x="120" y="235" width="528" height="528"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZWP-Nx-0hF" secondAttribute="height" multiplier="1:1" id="0H0-Wi-0fR"/>
@@ -479,10 +479,10 @@
                                 </connections>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Dfl-Wh-OYV">
-                                <rect key="frame" x="90" y="174.66666666666663" width="234" height="259"/>
+                                <rect key="frame" x="170" y="265" width="428" height="468"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="67" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wX0-Vy-g7q">
-                                        <rect key="frame" x="0.0" y="0.0" width="234" height="216"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="267"/>
                                         <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="125"/>
                                         <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -491,7 +491,7 @@
                                         </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Energy Points" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="19" translatesAutoresizingMaskIntoConstraints="NO" id="gZ2-RG-1lZ">
-                                        <rect key="frame" x="0.0" y="217.00000000000003" width="234" height="41.999999999999972"/>
+                                        <rect key="frame" x="0.0" y="268" width="428" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="EzD-mS-Rwg">
                                                 <variation key="heightClass=regular-widthClass=regular" constant="200"/>
@@ -566,23 +566,23 @@
                         <viewControllerLayoutGuide type="bottom" id="QzH-B0-9de"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MdO-Vb-qKr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="911"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="2oW-NU-5WK">
-                                <rect key="frame" x="20" y="71" width="55" height="55"/>
+                                <rect key="frame" x="20" y="125" width="109" height="105"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Lightning_Bolt_White" translatesAutoresizingMaskIntoConstraints="NO" id="rhC-sZ-QVN">
-                                <rect key="frame" x="20" y="71" width="54" height="54"/>
+                                <rect key="frame" x="20" y="125" width="108" height="104"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="N32-kX-Vtt">
-                                <rect key="frame" x="19" y="8" width="55" height="55"/>
+                                <rect key="frame" x="19" y="8" width="109" height="109"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="N32-kX-Vtt" secondAttribute="height" multiplier="1:1" id="EN2-K4-rhn"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plant" translatesAutoresizingMaskIntoConstraints="NO" id="4YB-45-9nI">
-                                <rect key="frame" x="20" y="14" width="54" height="43"/>
+                                <rect key="frame" x="20" y="14" width="108" height="97"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="54" id="vJb-A3-tSR">
                                         <variation key="heightClass=regular-widthClass=regular" constant="108"/>
@@ -590,28 +590,28 @@
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="20" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tjY-35-rZ9">
-                                <rect key="frame" x="20" y="381" width="371" height="112"/>
+                                <rect key="frame" x="20" y="574" width="725" height="112"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="112" id="VVR-Dz-Jse"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AttributeCell" textLabel="kQM-u8-CiP" detailTextLabel="2pj-mR-EUW" style="IBUITableViewCellStyleValue1" id="wp7-SU-ObZ">
-                                        <rect key="frame" x="0.0" y="28" width="371" height="20"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AttributeCell" textLabel="kQM-u8-CiP" detailTextLabel="2pj-mR-EUW" style="IBUITableViewCellStyleValue1" id="wp7-SU-ObZ">
+                                        <rect key="frame" x="0.0" y="28" width="725" height="20"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wp7-SU-ObZ" id="bb0-Nr-sGh">
-                                            <rect key="frame" x="0.0" y="0.0" width="371" height="19.666666666666668"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="725" height="19.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kQM-u8-CiP">
-                                                    <rect key="frame" x="15.000000000000002" y="2.9999999999999991" width="26.666666666666668" height="15.666666666666666"/>
+                                                    <rect key="frame" x="15" y="2" width="26.5" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2pj-mR-EUW">
-                                                    <rect key="frame" x="321" y="2.9999999999999991" width="35" height="15.666666666666666"/>
+                                                    <rect key="frame" x="675" y="2" width="35" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
@@ -628,7 +628,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NFk-Pi-SJU" customClass="BarGraph" customModule="Greenfoot" customModuleProvider="target">
-                                <rect key="frame" x="19" y="134" width="372" height="239"/>
+                                <rect key="frame" x="19" y="238" width="726" height="328"/>
                                 <color key="backgroundColor" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="295" id="URB-xx-N5t">
@@ -637,7 +637,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="__ Energy Points" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3W-KQ-vV2">
-                                <rect key="frame" x="94" y="8" width="300" height="55"/>
+                                <rect key="frame" x="148" y="8" width="600" height="109"/>
                                 <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="17"/>
                                 <color key="textColor" red="0.17413058349999999" green="0.74924308910000004" blue="0.47892460460000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -646,7 +646,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Average Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z3z-lR-IN1">
-                                <rect key="frame" x="94" y="71" width="300" height="55"/>
+                                <rect key="frame" x="148" y="125" width="600" height="105"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="55" id="C7G-OP-P9R">
                                         <variation key="heightClass=regular-widthClass=regular" constant="105"/>
@@ -719,7 +719,7 @@
             <objects>
                 <collectionViewController storyboardIdentifier="AboutViewController" id="ZYn-9G-Vva" customClass="AboutViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" prefetchingEnabled="NO" id="8sp-UL-CXS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3q5-7P-Btl">
@@ -730,31 +730,35 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="AboutCell" id="WuA-Er-LIL" customClass="AboutCell" customModule="Greenfoot" customModuleProvider="target">
-                                <rect key="frame" x="67" y="0.0" width="280" height="180"/>
+                                <rect key="frame" x="0.0" y="0.0" width="280" height="180"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="280" height="180"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0z-LY-ZzQ">
-                                            <rect key="frame" x="20" y="20" width="241" height="28"/>
+                                            <rect key="frame" x="20" y="20" width="241" height="53"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="GjF-W6-pEM"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="21"/>
                                             <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="40"/>
+                                            </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a multiline description of what the information is" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n21-w8-Go6">
-                                            <rect key="frame" x="20" y="53" width="241" height="110"/>
+                                            <rect key="frame" x="20" y="78" width="241" height="110"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="110" id="amC-hh-ZgL">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="110"/>
-                                                </constraint>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="110" id="amC-hh-ZgL"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="12"/>
                                             <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="25"/>
+                                            </variation>
                                         </label>
                                     </subviews>
                                 </view>
@@ -774,25 +778,31 @@
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="AboutFooter" id="Wip-Bn-gc8" customClass="AboutFooter" customModule="Greenfoot" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="180" width="414" height="53"/>
+                            <rect key="frame" x="0.0" y="180" width="768" height="53"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KqW-jL-Uaw">
-                                    <rect key="frame" x="128" y="12" width="158" height="28.333333333333332"/>
+                                    <rect key="frame" x="231" y="4" width="306" height="44"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdF-di-h0k">
-                                            <rect key="frame" x="0.0" y="0.0" width="74" height="28.333333333333332"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="148" height="44"/>
                                             <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                             <state key="normal" title="See License">
                                                 <color key="titleColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="24"/>
+                                            </variation>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B2h-nI-5Iz">
-                                            <rect key="frame" x="83.999999999999986" y="0.0" width="74.000000000000014" height="28.333333333333332"/>
+                                            <rect key="frame" x="158" y="0.0" width="148" height="44"/>
                                             <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                             <state key="normal" title="Privacy Policy">
                                                 <color key="titleColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
+                                            <variation key="heightClass=regular-widthClass=regular">
+                                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="24"/>
+                                            </variation>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -825,178 +835,6 @@
             </objects>
             <point key="canvasLocation" x="1885.5999999999999" y="170.46476761619192"/>
         </scene>
-        <!--Scrolling Controller-->
-        <scene sceneID="FJa-SX-x7o">
-            <objects>
-                <viewController storyboardIdentifier="licenseController" id="dyg-XK-duf" customClass="ScrollingController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="0kZ-q7-Dzd"/>
-                        <viewControllerLayoutGuide type="bottom" id="uth-ih-OFP"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="J1r-IL-eyM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B2q-Ws-ruV">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RQ7-e1-8QG">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p8b-2V-m4c">
-                                                <rect key="frame" x="8" y="8" width="359" height="1603"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <string key="text">© 2017 GoGreen
-
-This app uses the following open-source libraries:
-
-Material https://github.com/CosmicMind/Material
-
-Copyright (C) 2015 - 2017, Daniel Dahan and CosmicMind, Inc. http://cosmicmind.com. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-Redistributions of source code must retain the above copyright notice, this
-list of conditions and the following disclaimer.
-
-Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-Neither the name of CosmicMind nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Charts https://github.com/danielgindi/Charts
-
-Copyright 2016 Daniel Cohen Gindi &amp; Philipp Jahoda
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.</string>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="scrollView" destination="B2q-Ws-ruV" id="Qpj-Pk-BiK"/>
-                        <outlet property="scrollingLabel" destination="p8b-2V-m4c" id="OFC-Oe-5V7"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qQF-mC-Cjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2636" y="170"/>
-        </scene>
-        <!--Scrolling Controller-->
-        <scene sceneID="h7P-Va-Ncd">
-            <objects>
-                <viewController storyboardIdentifier="privacyController" id="WeS-J3-QLZ" customClass="ScrollingController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="WPB-I7-nGB"/>
-                        <viewControllerLayoutGuide type="bottom" id="505-Ke-2gS"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2Oz-L7-xn6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dhK-bV-q4H">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xbn-f7-JFR">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IoG-ru-8R8">
-                                                <rect key="frame" x="8" y="8" width="359" height="1603"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <string key="text">PRIVACY POLICY FOR GOGREEN
- 
-This privacy policy governs your use of the software application GoGreen for mobile devices that was created by Anmol Parande. The Application is a tool to track an individual's carbon footprint. It relies on user data from electricity, natural gas, and water bills. The Application shows trends in energy consumption and compares users to others in their area. 
- 
-What information does the Application obtain and how is it used?
- 
-User Provided Information 
-The Application obtains the information you provide when you download the Application. This may include your name and email address. Other personal information such as address, age, and credit card information are not collected. We may also use the information you provided us to contact your from time to time to provide you with important information, required notices and marketing promotions.
-If you consent to giving the application access to your current location, we will collect information about your energy consumption. This information will associated with your device and not with any personal information.
-If you do not want us to collect information about your energy consumption, you should turn off the location services for the mobile application located in your account settings or in your mobile phone settings and/or within the mobile application. 
- 
-Automatically Collected Information 
-In addition, the Application may collect certain information automatically, including, but not limited to, the type of mobile device you use, your mobile devices unique device ID, the IP address of your mobile device, your mobile operating system, and information about the way you use the Application. 
- 
-Does the Application collect precise real time location information of the device?
-When you visit the mobile application, we may use GPS technology (or other similar technology) to determine your current location in order to determine the city and state you are located within. This information is only used to enhance the capabilities of the application. We will not share your current location with other users or partners.
-If you do not want us to use your location for the purposes set forth above, you should turn off the location services for the mobile application located in your account settings or in your mobile phone settings and/or within the mobile application. 
- 
-Do third parties see and/or have access to information obtained by the Application?
- 
-Yes. We will share your information with third parties only in the ways that are described in this privacy statement.
-We may disclose User Provided and Automatically Collected Information:
-•	as required by law, such as to comply with a subpoena, or similar legal process;
-•	when we believe in good faith that disclosure is necessary to protect our rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;
-•	with our trusted services providers who work on our behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.
-•	if Anmol Parande is involved in a merger, acquisition, or sale of all or a portion of its assets, you will be notified via email and/or a prominent notice on our Web site of any change in ownership or uses of this information, as well as any choices you may have regarding this information.
- 
- 
-What are my opt-out rights?
- 
-You can stop all collection of information by the Application easily by uninstalling the Application. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network. You can also request to opt-out via email, at gogreenappinfo@gmail.com.
- 
-Data Retention Policy, Managing Your Information
-We will retain User Provided data for as long as you use the Application and thereafter. We will retain Automatically Collected information for up to 24 months and thereafter may store it in aggregate. If you’d like us to delete User Provided Data that you have provided via the Application, please contact us at gogreenappinfo@gmail.comand we will respond in a reasonable time. Please note that some or all of the User Provided Data may be required in order for the Application to function properly.
- 
-Children 
-We do not use the Application to knowingly solicit data from or market to children under the age of 13. If a parent or guardian becomes aware that his or her child has provided us with information without their consent, he or she should contact us at gogreenappinfo@gmail.com. We will delete such information from our files within a reasonable time.
- 
-Security 
-We are concerned about safeguarding the confidentiality of your information. We provide physical, electronic, and procedural safeguards to protect information we process and maintain. For example, we limit access to this information to authorized employees and contractors who need to know that information in order to operate, develop or improve our Application. Please be aware that, although we endeavor to provide reasonable security for information we process and maintain, no security system can prevent all potential security breaches.
- 
-Changes
-This Privacy Policy may be updated from time to time for any reason. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.
- 
-Your Consent
-By using the Application, you are consenting to our processing of your information as set forth in this Privacy Policy now and as amended by us. "Processing,” means using cookies on a computer/hand held device or using or touching information in any way, including, but not limited to, collecting, storing, deleting, using, combining and disclosing information, all of which activities will take place in the United States. If you reside outside the United States your information will be transferred, processed and stored there under United States privacy standards. 
- 
-Contact us
-If you have any questions regarding privacy while using the Application, or have questions about our practices, please contact us via email at gogreenappinfo@gmail.com.
-</string>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="scrollView" destination="dhK-bV-q4H" id="DX9-ML-8qg"/>
-                        <outlet property="scrollingLabel" destination="IoG-ru-8R8" id="IGI-bv-pUb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="z8g-Bo-9h7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3423" y="171"/>
-        </scene>
         <!--Tutorial Page View Controller-->
         <scene sceneID="IlV-So-Twq">
             <objects>
@@ -1006,11 +844,11 @@ If you have any questions regarding privacy while using the Application, or have
                         <viewControllerLayoutGuide type="bottom" id="wWn-h9-ixG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="WJL-Et-TZ2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSN-ia-Vp2">
-                                <rect key="frame" x="40" y="279" width="343" height="35.333333333333314"/>
+                                <rect key="frame" x="120" y="504" width="528" height="59"/>
                                 <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="30"/>
                                 <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1019,7 +857,7 @@ If you have any questions regarding privacy while using the Application, or have
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mmY-qe-mT0">
-                                <rect key="frame" x="40" y="336.33333333333331" width="343" height="79.666666666666686"/>
+                                <rect key="frame" x="120" y="585" width="528" height="70.5"/>
                                 <string key="text">This will be a multiline description of the slide. For example, for electricity, it would tell people to enter their power usage given by their electric bill</string>
                                 <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="17"/>
                                 <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1029,20 +867,20 @@ If you have any questions regarding privacy while using the Application, or have
                                 </variation>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="dwH-xq-e09">
-                                <rect key="frame" x="126" y="95" width="162" height="162"/>
+                                <rect key="frame" x="303" y="320" width="162" height="162"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="dwH-xq-e09" secondAttribute="height" multiplier="1:1" id="7ou-OV-R8B"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="162" id="s9P-Qg-F8L"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plant" translatesAutoresizingMaskIntoConstraints="NO" id="3v1-d6-M2U">
-                                <rect key="frame" x="135" y="104" width="144" height="144"/>
+                                <rect key="frame" x="312" y="329" width="144" height="144"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="3v1-d6-M2U" secondAttribute="height" multiplier="1:1" id="kdm-hF-tyw"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AdP-Gc-h0g" customClass="RaisedButton" customModule="Material">
-                                <rect key="frame" x="128.66666666666669" y="643" width="159.66666666666669" height="43"/>
+                                <rect key="frame" x="239.5" y="885.5" width="292" height="78.5"/>
                                 <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="AdP-Gc-h0g" secondAttribute="height" multiplier="160:43" priority="999" id="WE1-pY-LMx"/>
@@ -1065,7 +903,7 @@ If you have any questions regarding privacy while using the Application, or have
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-uT-J5s" customClass="RaisedButton" customModule="Material">
-                                <rect key="frame" x="123.33333333333333" y="694" width="170.66666666666669" height="32"/>
+                                <rect key="frame" x="273.5" y="972" width="224" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="TvL-MB-2EG"/>
                                     <constraint firstAttribute="width" secondItem="XIJ-uT-J5s" secondAttribute="height" multiplier="16:3" id="jJV-kC-Nj7"/>
@@ -1133,7 +971,7 @@ If you have any questions regarding privacy while using the Application, or have
         </scene>
     </scenes>
     <resources>
-        <image name="Emblem" width="341" height="341"/>
+        <image name="Emblem" width="512" height="512"/>
         <image name="Fire" width="512" height="512"/>
         <image name="Lightning_Bolt_White" width="512" height="512"/>
         <image name="Road" width="256" height="256"/>

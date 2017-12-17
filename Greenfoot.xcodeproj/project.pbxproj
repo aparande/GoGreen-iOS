@@ -11,6 +11,8 @@
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
 		1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D878F1F3E70B000ED894A /* AboutViewController.swift */; };
+		1F123F831FE5A92600FEAC84 /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F123F811FE5A92500FEAC84 /* privacy.txt */; };
+		1F123F841FE5A92600FEAC84 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F123F821FE5A92500FEAC84 /* license.txt */; };
 		1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */; };
 		1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F15D0901F27101400DFA60B /* AddDataHeader.xib */; };
 		1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */; };
@@ -49,6 +51,8 @@
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
 		1F0D878F1F3E70B000ED894A /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		1F123F811FE5A92500FEAC84 /* privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
+		1F123F821FE5A92500FEAC84 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPointViewController.swift; sourceTree = "<group>"; };
 		1F15D0901F27101400DFA60B /* AddDataHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataHeader.xib; sourceTree = "<group>"; };
 		1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICall.swift; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 		1F70CCBA1E105D0600AD351A /* Greenfoot */ = {
 			isa = PBXGroup;
 			children = (
+				1F123F821FE5A92500FEAC84 /* license.txt */,
+				1F123F811FE5A92500FEAC84 /* privacy.txt */,
 				1FC859BA1E147F4C007F7393 /* Fonts */,
 				1FC291DB1EF1CDB6007F7835 /* Modal */,
 				1F14FADF1EF71498005E9F33 /* Views */,
@@ -268,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */,
+				1F123F831FE5A92600FEAC84 /* privacy.txt in Resources */,
 				1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */,
 				1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */,
 				1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */,
@@ -276,6 +283,7 @@
 				1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */,
 				1FC515661F32D0650021DC1D /* Raleway-Bold.ttf in Resources */,
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
+				1F123F841FE5A92600FEAC84 /* license.txt in Resources */,
 				1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */,
 				1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */,
 				1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */,
