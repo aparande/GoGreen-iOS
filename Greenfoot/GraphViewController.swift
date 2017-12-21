@@ -27,10 +27,10 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Do any additional setup after loading the view.
         prepSegmentedToolbar(segmentAction: #selector(changeGraph(sender:)))
         
-       /* if data.dataName == GreenDataType.water.rawValue {
-            let segmentedView = self.navigationItem.centerViews[0].subviews[0] as? UISegmentedControl
+        if data.dataName == GreenDataType.water.rawValue {
+            let segmentedView = self.navigationItem.centerViews[0] as? UISegmentedControl
             segmentedView?.removeSegment(at: 2, animated: false)
-        } */
+        }
         
         graph.loadData(data.getGraphData(), labeled: data.yLabel)
         graph.delegate = self
