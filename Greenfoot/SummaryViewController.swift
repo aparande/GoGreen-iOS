@@ -57,6 +57,8 @@ class SummaryViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         pointLabel.text = "\(GreenfootModal.sharedInstance.totalEnergyPoints)"
         
         GreenfootModal.sharedInstance.logEnergyPoints()
