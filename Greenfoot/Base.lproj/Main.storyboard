@@ -590,10 +590,12 @@
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="20" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tjY-35-rZ9">
-                                <rect key="frame" x="20" y="574" width="725" height="112"/>
+                                <rect key="frame" x="20" y="556" width="725" height="175"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="112" id="VVR-Dz-Jse"/>
+                                    <constraint firstAttribute="height" constant="112" id="VVR-Dz-Jse">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="175"/>
+                                    </constraint>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AttributeCell" textLabel="kQM-u8-CiP" detailTextLabel="2pj-mR-EUW" style="IBUITableViewCellStyleValue1" id="wp7-SU-ObZ">
@@ -628,7 +630,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NFk-Pi-SJU" customClass="BarGraph" customModule="Greenfoot" customModuleProvider="target">
-                                <rect key="frame" x="19" y="238" width="726" height="328"/>
+                                <rect key="frame" x="19" y="238" width="726" height="310"/>
                                 <color key="backgroundColor" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="295" id="URB-xx-N5t">
@@ -684,7 +686,7 @@
                             <constraint firstItem="N32-kX-Vtt" firstAttribute="top" secondItem="oiy-pY-aht" secondAttribute="bottom" constant="8" symbolic="YES" id="eJn-ae-0t5"/>
                             <constraint firstItem="NFk-Pi-SJU" firstAttribute="trailing" secondItem="tjY-35-rZ9" secondAttribute="trailing" id="ffI-uI-dt0"/>
                             <constraint firstItem="QzH-B0-9de" firstAttribute="top" secondItem="tjY-35-rZ9" secondAttribute="bottom" constant="130" id="gE0-Gr-Ryx">
-                                <variation key="heightClass=regular-widthClass=regular" constant="225"/>
+                                <variation key="heightClass=regular-widthClass=regular" constant="180"/>
                             </constraint>
                             <constraint firstItem="4YB-45-9nI" firstAttribute="leading" secondItem="rhC-sZ-QVN" secondAttribute="leading" id="grx-2v-nMA"/>
                             <constraint firstItem="2oW-NU-5WK" firstAttribute="top" secondItem="rhC-sZ-QVN" secondAttribute="top" id="iOQ-yB-urm"/>

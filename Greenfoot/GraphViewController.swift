@@ -202,8 +202,9 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell!.detailTextLabel?.text = "\(data.bonusDict[key]!)"
         }
         
-        cell!.textLabel?.font = UIFont(name: "GeosansLight", size: 18)
-        cell!.detailTextLabel?.font = UIFont(name: "GeosansLight", size: 18)
+        let geosans = (UIDevice.current.userInterfaceIdiom == .phone) ? UIFont(name: "GeosansLight", size: 18) : UIFont(name: "GeosansLight", size: 30)
+        cell!.textLabel?.font = geosans
+        cell!.detailTextLabel?.font = geosans
         
         cell!.textLabel?.textColor = UIColor(red: 47/255, green: 204/255, blue: 113/255, alpha: 1)
         cell!.detailTextLabel?.textColor = UIColor(red: 47/255, green: 204/255, blue: 113/255, alpha: 1)
@@ -220,6 +221,6 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30.0
+        return (UIDevice.current.userInterfaceIdiom == .phone) ? 30 : 60
     }
 }
