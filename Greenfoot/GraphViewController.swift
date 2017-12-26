@@ -35,7 +35,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         graph.loadData(data.getGraphData(), labeled: data.yLabel)
         graph.delegate = self
         
-        iconImageView.image = data.icon
+        //iconImageView.image = data.icon
         
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         dailyAverageLabel.text  = "\(data.averageValue) " + data.averageLabel
