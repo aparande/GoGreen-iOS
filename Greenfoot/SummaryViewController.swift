@@ -91,7 +91,8 @@ class SummaryViewController: UIViewController {
         }
     }
     @IBAction func showHistory(_ sender: Any) {
-        let hvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "History") as! HistoryViewController
+        //let hvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "History") as! HistoryViewController
+        let hvc = HistoryViewController()
         self.navigationController?.pushViewController(hvc, animated: true)
     }
     

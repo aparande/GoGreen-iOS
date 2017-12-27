@@ -15,7 +15,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     
     var monthlyBreakdown:[Date:Double]!
     var totalCarbon: Int = 0
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,16 +43,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             totalCarbon += data.totalCarbon
         }
         
-        epHistoryChart.loadData(monthlyBreakdown, labeled: "Energy Points")
-        epHistoryChart.legend.enabled = true
-        epHistoryChart.legend.textColor = UIColor.white
-        epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
-        epHistoryChart.delegate = self
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        epHistoryChart.highlightValues(nil)
+        setFooterView()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,27 +73,27 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         var data:GreenData!
         switch indexPath.row {
         case 1:
-            image = Icon.electric_white
+            image = Icon.electric_emblem
             unit = "kWh"
             data = GreenfootModal.sharedInstance.data[GreenDataType.electric]!
             break
         case 2:
-            image = Icon.water_white
+            image = Icon.water_emblem
             unit = "gal"
             data = GreenfootModal.sharedInstance.data[GreenDataType.water]!
             break
         case 3:
-            image = Icon.road_white
+            image = Icon.road_emblem
             unit = "mi"
             data = GreenfootModal.sharedInstance.data[GreenDataType.driving]!
             break
         case 4:
-            image = Icon.fire_white
+            image = Icon.fire_emblem
             unit = "therms"
             data = GreenfootModal.sharedInstance.data[GreenDataType.gas]!
             break
         default:
-            image = Icon.logo_white
+            image = Icon.leaf_emblem
             unit = "Null"
             data = GreenfootModal.sharedInstance.data[GreenDataType.electric]!
             break
@@ -172,6 +163,28 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func setFooterView() {
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 200))
+        
+        let graphWidth = self.tableView.frame.width-20
+        
+        let graph = BarGraph(frame: CGRect(x: 10, y: 10, width: graphWidth, height: graphWidth * 0.5))
+        graph.loadData(monthlyBreakdown, labeled: "Energy Points")
+        graph.legend.enabled = true
+        graph.legend.textColor = UIColor.white
+        graph.legend.font = UIFont.boldSystemFont(ofSize: 8)
+        graph.delegate = self
+        container.addSubview(graph)
+        
+        graph.highlightValues(nil)
+        
+        self.tableView.tableFooterView = container
     }
 
 }
