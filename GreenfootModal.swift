@@ -155,7 +155,7 @@ class GreenfootModal {
     
     private func prepElectric() {
         //https://www.eia.gov/tools/faqs/faq.cfm?id=97&t=3
-        let  electricData = GreenData(name: GreenDataType.electric.rawValue, xLabel:"Month", yLabel: "kWh", base: 901, averageLabel:"kWh per Day", icon:Icon.electric_white)
+        let  electricData = GreenData(name: GreenDataType.electric.rawValue, xLabel:"Month", yLabel: "kWh", base: 901, averageLabel:"kWh per Day", icon:Icon.electric_emblem)
         
         //http://solarexpert.com/2013/11/07/how-many-solar-panels-are-needed-for-a-2000-square-foot-home/
         electricData.baselines["Solar Panels"] = 12
@@ -209,7 +209,7 @@ class GreenfootModal {
     
     private func prepWater() {
         //https://www.epa.gov/watersense/how-we-use-water
-        let waterData = GreenData(name: GreenDataType.water.rawValue, xLabel:"Month", yLabel:"Gallons", base:9000, averageLabel:"Gallons Per Day", icon: Icon.water_white)
+        let waterData = GreenData(name: GreenDataType.water.rawValue, xLabel:"Month", yLabel:"Gallons", base:9000, averageLabel:"Gallons Per Day", icon: Icon.water_emblem)
         
         waterData.calculateEP = {
             base, point in
@@ -322,7 +322,7 @@ class GreenfootModal {
     private func prepGas() {
         //https://www.eia.gov/pub/oil_gas/natural_gas/feature_articles/2010/ngtrendsresidcon/ngtrendsresidcon.pdf
         //http://www.nationmaster.com/country-info/stats/Energy/Natural-gas/Consumption-per-capita
-        let gasData = GreenData(name: GreenDataType.gas.rawValue, xLabel: "Month", yLabel: "Therms", base: 61, averageLabel: "Therms per Day", icon: Icon.fire_white)
+        let gasData = GreenData(name: GreenDataType.gas.rawValue, xLabel: "Month", yLabel: "Therms", base: 61, averageLabel: "Therms per Day", icon: Icon.fire_emblem)
         
         gasData.calculateCO2 = {
             point in
@@ -368,6 +368,12 @@ extension Icon {
     static let road_white = UIImage(named: "Road")!
     
     static let chart_green = UIImage(named: "Chart_Green")!
+    
+    static let electric_emblem = UIImage(named:"electric_emblem")!
+    static let water_emblem = UIImage(named:"water_emblem")!
+    static let leaf_emblem = UIImage(named:"Leaf_Emblem")!
+    static let fire_emblem = UIImage(named:"fire_emblem")!
+    static let road_emblem = UIImage(named:"road_emblem")!
 }
 
 extension Date {
