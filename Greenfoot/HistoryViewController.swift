@@ -43,8 +43,40 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             totalCarbon += data.totalCarbon
         }
         
-        setFooterView()
+        let footerView = UINib(nibName: "HistoryFooterView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as? UIView
+        let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
+        footerView?.frame = footerFrame
+        self.tableView.tableFooterView = footerView
+        
+        epHistoryChart.loadData(monthlyBreakdown, labeled: "Energy Points")
+        epHistoryChart.legend.enabled = true
+        epHistoryChart.legend.textColor = UIColor.white
+        epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
+        epHistoryChart.delegate = self
     }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        if let footerView = self.tableView.tableFooterView {
+            if footerView.frame.height != 0.5 * self.tableView.frame.width {
+                print("Bloop")
+                let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
+                footerView.frame = footerFrame
+                self.tableView.tableFooterView = footerView
+            }
+        }
+    }
+    
+    /*
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if let footerView = self.tableView.tableFooterView {
+            let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
+            print("New Size: \(footerFrame)")
+            footerView.frame = footerFrame
+            self.tableView.tableFooterView = footerView
+        }
+    } */
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
@@ -169,8 +201,12 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         return 70
     }
     
-    func setFooterView() {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 200))
+    /*
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        print("Bugger")
+        
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 200))
+        container.backgroundColor = UIColor.black
         
         let graphWidth = self.tableView.frame.width-20
         
@@ -184,7 +220,6 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         
         graph.highlightValues(nil)
         
-        self.tableView.tableFooterView = container
-    }
-
+        return container
+    } */
 }

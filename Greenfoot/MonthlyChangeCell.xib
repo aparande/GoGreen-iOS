@@ -26,7 +26,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="CTu-Kk-hrs">
-                        <rect key="frame" x="74" y="9.5" width="380" height="50.5"/>
+                        <rect key="frame" x="74" y="10" width="380" height="50.5"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="afD-M0-ILH">
                                 <rect key="frame" x="0.0" y="0.0" width="120" height="50.5"/>
