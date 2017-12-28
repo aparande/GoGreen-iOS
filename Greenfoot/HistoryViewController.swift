@@ -53,6 +53,8 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         epHistoryChart.legend.textColor = UIColor.white
         epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
         epHistoryChart.delegate = self
+        
+        tableView.cellLayoutMarginsFollowReadableWidth = false
     }
     
     override func viewWillLayoutSubviews() {
@@ -67,16 +69,6 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             }
         }
     }
-    
-    /*
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if let footerView = self.tableView.tableFooterView {
-            let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
-            print("New Size: \(footerFrame)")
-            footerView.frame = footerFrame
-            self.tableView.tableFooterView = footerView
-        }
-    } */
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
@@ -201,25 +193,8 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         return 70
     }
     
-    /*
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        print("Bugger")
-        
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 200))
-        container.backgroundColor = UIColor.black
-        
-        let graphWidth = self.tableView.frame.width-20
-        
-        let graph = BarGraph(frame: CGRect(x: 10, y: 10, width: graphWidth, height: graphWidth * 0.5))
-        graph.loadData(monthlyBreakdown, labeled: "Energy Points")
-        graph.legend.enabled = true
-        graph.legend.textColor = UIColor.white
-        graph.legend.font = UIFont.boldSystemFont(ofSize: 8)
-        graph.delegate = self
-        container.addSubview(graph)
-        
-        graph.highlightValues(nil)
-        
-        return container
-    } */
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        epHistoryChart.highlightValues(nil)
+    }
 }
