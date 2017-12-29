@@ -98,6 +98,14 @@ class DrivingDataViewController: BulkDataViewController {
         let view = Bundle.main.loadNibNamed("DrivingHeader", owner: nil, options: nil)![0] as? DrivingHeaderView
         view?.setOwner(owner: self, section: section)
         sectionHeaders[section] = view
+        
+        if let _ = view {
+            var size = view!.frame.size
+            size.height = (UIDevice.current.userInterfaceIdiom == .phone) ? 175 : 200
+            view!.frame = CGRect(center: view!.frame.center, size: size)
+        }
+        
+        
         return view
     }
     

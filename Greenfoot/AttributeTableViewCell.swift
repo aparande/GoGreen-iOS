@@ -23,7 +23,7 @@ class AttributeTableViewCell: UITableViewCell {
             if !isExpanded {
                 self.infoHeight.constant = 0.0
             } else {
-                self.infoHeight.constant = 80.0
+                self.infoHeight.constant = (UIDevice.current.userInterfaceIdiom == .phone) ? 80.0 : 160.0
             }
         }
     }

@@ -64,6 +64,18 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let headerView = self.tableView.tableHeaderView {
+            if headerView.frame.height != 150 {
+                let headerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 150))
+                headerView.frame = headerFrame
+                self.tableView.tableHeaderView = headerView
+            }
+        }
+    }
+    
     @objc func returnToTutorial() {
         self.navigationController?.presentingViewController?.dismiss(animated: true, completion: nil)
     }
@@ -232,6 +244,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         pointToolbarField = doneToolbar.centerField
         pointField.inputAccessoryView = doneToolbar
     }
+    
     func setInfo(data: GreenData) {
         self.data = data
         
