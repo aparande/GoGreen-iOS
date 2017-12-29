@@ -47,6 +47,21 @@ class DataPointViewController: UITableViewController {
         self.navigationItem.titleLabel.text = date
         self.navigationItem.titleLabel.textColor = UIColor.white
         self.navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
+        
+        setFooter()
+        tableView.cellLayoutMarginsFollowReadableWidth = false
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        if let footerView = self.tableView.tableFooterView {
+            if footerView.frame.height != 0.5 * self.tableView.frame.width {
+                let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
+                footerView.frame = footerFrame
+                self.tableView.tableFooterView = footerView
+            }
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -67,36 +82,39 @@ class DataPointViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 200))
-        
+    func setFooter() {
         if isData {
-            let graph = HorizontalBarChartView(frame: CGRect(x: 10, y: 10, width: self.tableView.frame.width-20, height: 180))
-            
-            graph.isUserInteractionEnabled = false
-            
-            var data:[String:Double] = ["You":values["Usage"]!, "U.S":self.data!.baseline]
-            if let stateConsumption = self.data!.stateConsumption {
-                data[(GreenfootModal.sharedInstance.locality?["State"])!] = stateConsumption
+            if let footerView = UINib(nibName: "BarGraphFooter", bundle: nil).instantiate(withOwner: nil, options: nil)[1] as? BarGraphFooter {
+                print("Floop")
+                let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
+                footerView.frame = footerFrame
+                self.tableView.tableFooterView = footerView
+                
+                footerView.barGraph.isUserInteractionEnabled = false
+                
+                var data:[String:Double] = ["You":values["Usage"]!, "U.S":self.data!.baseline]
+                if let stateConsumption = self.data!.stateConsumption {
+                    data[(GreenfootModal.sharedInstance.locality?["State"])!] = stateConsumption
+                }
+                
+                if let graph = footerView.barGraph as? HorizontalBarChartView {
+                    graph.loadData(data, labeled: unit!)
+                }
             }
-            
-            graph.loadData(data, labeled: unit!)
-            
-            container.addSubview(graph)
         } else {
-            let graph = BarGraph(frame: CGRect(x: 10, y: 10, width: self.tableView.frame.width-20, height: 180))
-            graph.isUserInteractionEnabled = false
-            let data:[String:Double] = values
-            
-            graph.loadData(data)
-            container.addSubview(graph)
+            if let footerView = UINib(nibName: "BarGraphFooter", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? BarGraphFooter {
+                let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
+                footerView.frame = footerFrame
+                self.tableView.tableFooterView = footerView
+                
+                footerView.barGraph.isUserInteractionEnabled = false
+                let data:[String:Double] = values
+                
+                if let graph = footerView.barGraph as? BarGraph {
+                    graph.loadData(data)
+                }
+            }
         }
-        
-        return container
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 200
     }
     
     private func setDataCells(indexPath: IndexPath) -> UITableViewCell{

@@ -10,8 +10,12 @@ import UIKit
 import Material
 import Charts
 
+class BarGraphFooter: UIView {
+    @IBOutlet weak var barGraph: BarChartView!
+}
+
 class HistoryViewController: UITableViewController, ChartViewDelegate {
-    @IBOutlet weak var epHistoryChart: BarGraph!
+    var epHistoryChart: BarGraph!
     
     var monthlyBreakdown:[Date:Double]!
     var totalCarbon: Int = 0
@@ -43,16 +47,19 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             totalCarbon += data.totalCarbon
         }
         
-        let footerView = UINib(nibName: "HistoryFooterView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as? UIView
-        let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
-        footerView?.frame = footerFrame
-        self.tableView.tableFooterView = footerView
-        
-        epHistoryChart.loadData(monthlyBreakdown, labeled: "Energy Points")
-        epHistoryChart.legend.enabled = true
-        epHistoryChart.legend.textColor = UIColor.white
-        epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
-        epHistoryChart.delegate = self
+        if let footerView = UINib(nibName: "BarGraphFooter", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? BarGraphFooter {
+            let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
+            footerView.frame = footerFrame
+            self.tableView.tableFooterView = footerView
+            
+            epHistoryChart = footerView.barGraph as! BarGraph
+            
+            epHistoryChart.loadData(monthlyBreakdown, labeled: "Energy Points")
+            epHistoryChart.legend.enabled = true
+            epHistoryChart.legend.textColor = UIColor.white
+            epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
+            epHistoryChart.delegate = self
+        }
         
         tableView.cellLayoutMarginsFollowReadableWidth = false
     }
