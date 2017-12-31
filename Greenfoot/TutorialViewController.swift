@@ -141,16 +141,16 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         var icon: UIImage!
         switch type {
         case .electric:
-            icon = Icon.electric_emblem
+            icon = Icon.electric_white
             break
         case .water:
-            icon = Icon.water_emblem
+            icon = Icon.water_white
             break
         case .driving:
-            icon = Icon.road_emblem
+            icon = Icon.road_white
             break
         case .gas:
-            icon = Icon.fire_emblem
+            icon = Icon.fire_white
             break
         }
         icon = icon.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
