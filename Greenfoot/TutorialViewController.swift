@@ -15,14 +15,14 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     var currentViewController: TutorialPageViewController!
     
     init() {
-        let titleSlide:[String: Any] = ["Title":"Welcome!", "Desc":"Welcome to GoGreen! To start monitoring your carbon footprint, you will have to enter some data. Any data you don't enter now can be entered later.", "Icon":Icon.logo_white]
+        let titleSlide:[String: Any] = ["Title":"Welcome!", "Desc":"Welcome to GoGreen! To start monitoring your carbon footprint, you will have to enter some data. Any data you don't enter now can be entered later.", "Icon":Icon.leaf_emblem]
         
-        let electricSlide:[String: Any] = ["Title":GreenDataType.electric.rawValue, "Desc":"One of the largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your monthly Kilowatt-Hour usage. It will be marked clearly near the amount due.", "Icon":Icon.electric_white, "Units":"kWh"]
+        let electricSlide:[String: Any] = ["Title":GreenDataType.electric.rawValue, "Desc":"One of the largest contributions to climate change is due to our electricity usage. Find old electricity bills and enter your monthly Kilowatt-Hour usage. It will be marked clearly near the amount due.", "Icon":Icon.electric_emblem, "Units":"kWh"]
         
-        let waterSlide:[String: Any] = ["Title":GreenDataType.water.rawValue, "Desc":"Although it does not contribute to your carbon footprint directly, reducing water usage is an important part of going green. Find your old water bills and enter how many gallons you have used each month. If your provider bills you bimonthly or quarterly, divide your usage evenly for each month you were billed over.", "Icon":Icon.water_white, "Units":"Gallons"]
-        let gasSlide:[String: Any] = ["Title":GreenDataType.gas.rawValue, "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month.", "Icon":Icon.fire_white, "Units":"Therms"]
+        let waterSlide:[String: Any] = ["Title":GreenDataType.water.rawValue, "Desc":"Although it does not contribute to your carbon footprint directly, reducing water usage is an important part of going green. Find your old water bills and enter how many gallons you have used each month. If your provider bills you bimonthly or quarterly, divide your usage evenly for each month you were billed over.", "Icon":Icon.water_emblem, "Units":"Gallons"]
+        let gasSlide:[String: Any] = ["Title":GreenDataType.gas.rawValue, "Desc":"Natural gas is a fossil fuel that we use directly. Although it is cleaner burning than coal and oil, the combustion nevertheless produces carbon dioxide. Find your old gas bills and enter how much you have used each month.", "Icon":Icon.fire_emblem, "Units":"Therms"]
         
-        let endSlide:[String: Any] = ["Title":"Ready?", "Desc":"You are now ready to use GoGreen! For each piece of data you entered, GoGreen will give you Energy Points. Energy Points tell you how much above or below the national average you are using. Make sure to update the data in the application each time you receive a new bill so we can help you monitor your carbon footprint the best we can!", "Icon":Icon.logo_white]
+        let endSlide:[String: Any] = ["Title":"Ready?", "Desc":"You are now ready to use GoGreen! For each piece of data you entered, GoGreen will give you Energy Points. Energy Points tell you how much above or below the national average you are using. Make sure to update the data in the application each time you receive a new bill so we can help you monitor your carbon footprint the best we can!", "Icon":Icon.leaf_emblem]
         
         vcData = [titleSlide, electricSlide, waterSlide, gasSlide, endSlide]
         
@@ -141,16 +141,16 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         var icon: UIImage!
         switch type {
         case .electric:
-            icon = Icon.electric_white
+            icon = Icon.electric_emblem
             break
         case .water:
-            icon = Icon.water_white
+            icon = Icon.water_emblem
             break
         case .driving:
-            icon = Icon.road_white
+            icon = Icon.road_emblem
             break
         case .gas:
-            icon = Icon.fire_white
+            icon = Icon.fire_emblem
             break
         }
         icon = icon.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
