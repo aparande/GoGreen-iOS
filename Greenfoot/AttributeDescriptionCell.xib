@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="DroidSans.ttf">
+            <string>DroidSans</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttributeDescription" rowHeight="160" id="IdO-Mn-vlZ" customClass="AttributeDescriptionTableViewCell" customModule="Greenfoot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="115"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IdO-Mn-vlZ" id="Xmd-xD-kJZ">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="114.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DsP-p3-9FN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="115"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6V6-JN-NTk">
+                                <rect key="frame" x="8" y="8" width="359" height="99"/>
+                                <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="17"/>
+                                <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="6V6-JN-NTk" secondAttribute="trailing" constant="8" id="QYr-4v-1p4"/>
+                            <constraint firstItem="6V6-JN-NTk" firstAttribute="top" secondItem="DsP-p3-9FN" secondAttribute="top" constant="8" id="heU-uT-2dz"/>
+                            <constraint firstAttribute="bottom" secondItem="6V6-JN-NTk" secondAttribute="bottom" constant="8" id="tXH-rD-vSn"/>
+                            <constraint firstItem="6V6-JN-NTk" firstAttribute="leading" secondItem="DsP-p3-9FN" secondAttribute="leading" constant="8" id="w6w-fM-0Gl"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="DsP-p3-9FN" secondAttribute="bottom" constant="-0.5" id="5px-vO-Jb0"/>
+                    <constraint firstItem="DsP-p3-9FN" firstAttribute="leading" secondItem="Xmd-xD-kJZ" secondAttribute="leading" id="Bym-eX-Kr1"/>
+                    <constraint firstAttribute="trailing" secondItem="DsP-p3-9FN" secondAttribute="trailing" id="TtS-Tl-Wok"/>
+                    <constraint firstItem="DsP-p3-9FN" firstAttribute="top" secondItem="Xmd-xD-kJZ" secondAttribute="top" id="qpX-EM-ZdP"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="descriptionLabel" destination="6V6-JN-NTk" id="YLM-ND-5he"/>
+            </connections>
+            <point key="canvasLocation" x="-102.5" y="28.5"/>
+        </tableViewCell>
+    </objects>
+</document>

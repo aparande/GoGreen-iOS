@@ -9,27 +9,6 @@
 import UIKit
 import Material
 
-protocol DataUpdater {
-    func updateAttribute(key:String, value:Int)
-    func updateData(month:String, point:Double, path: IndexPath?)
-    func updateError()
-}
-
-//Provides defaults to effectually make these methods optional
-extension DataUpdater {
-    func updateAttribute(key:String, value:Int) {
-        assertionFailure("Method not implemented")
-    }
-    
-    func updateData(month:String, point:Double, path: IndexPath?) {
-        assertionFailure("Method not implemented")
-    }
-    
-    func updateError() {
-        assertionFailure("Method not implemented")
-    }
-}
-
 class AttributeTableViewController: UITableViewController, DataUpdater {
     var data: GreenData
     var dataKeys:[String]
@@ -51,16 +30,30 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         let attrNib = UINib(nibName: "AttributeCell", bundle: nil)
         tableView.register(attrNib, forCellReuseIdentifier: "AttributeCell")
         
+        let descNib = UINib(nibName: "AttributeDescriptionCell", bundle: nil)
+        tableView.register(descNib, forCellReuseIdentifier: "AttributeDescription")
+        
         navigationItem.backButton.tintColor = UIColor.white
         
-        self.tableView.tableHeaderView = UIView(frame: CGRect.zero)
+        //Table View Header/Footer Setup
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            self.tableView.tableHeaderView = createHeader()
+        } else {
+            self.tableView.tableHeaderView = UIView(frame: CGRect.zero)
+        }
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
+        //Table View Function Customization
+        self.tableView.isScrollEnabled = false
+        self.tableView.allowsMultipleSelection = true
+        
+        
+        //Table View Looks Customization
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        
         self.tableView.backgroundColor = UIColor(red: 239/255, green: 239/255, blue: 244/255, alpha: 1.0)
-        
         self.tableView.cellLayoutMarginsFollowReadableWidth = false
+        self.tableView.showsHorizontalScrollIndicator = false
+        self.tableView.showsVerticalScrollIndicator = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -128,51 +121,108 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             return cell
             
         } else {
+            if self.expandedRows.contains(indexPath.row-1) {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AttributeDescription", for: indexPath) as! AttributeDescriptionTableViewCell
+                cell.descriptionLabel.text = dataKeys[indexPath.row]
+                return cell
+            }
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "AttributeCell", for: indexPath) as! AttributeTableViewCell
             cell.owner = self
             
             if let _ = data.data[key] {
-                cell.setInfo(attribute: key, data: data.data[key]!, description: data.descriptions[key]!)
+                cell.setInfo(attribute: key, data: data.data[key]!)
             } else {
-                cell.setInfo(attribute: key, data: data.bonusDict[key]!, description: data.descriptions[key]!)
+                cell.setInfo(attribute: key, data: data.bonusDict[key]!)
             }
             
-            cell.isExpanded = self.expandedRows.contains(indexPath.row)
             return cell
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? AttributeTableViewCell else {
-            return
-        }
-        
-        switch cell.isExpanded {
-        case true:
-            self.expandedRows.remove(indexPath.row)
-        case false:
-            self.expandedRows.insert(indexPath.row)
-        }
-        
-        cell.isExpanded = !cell.isExpanded
-        
         self.tableView.beginUpdates()
+        
+        let key = dataKeys[indexPath.row]
+        
+        switch self.expandedRows.contains(indexPath.row) {
+        case true:
+            dataKeys.remove(at: indexPath.row + 1)
+            self.expandedRows.remove(indexPath.row)
+            let oldPath = IndexPath(row: indexPath.row+1, section: indexPath.section)
+            self.tableView.deleteRows(at: [oldPath], with: .top)
+        case false:
+            dataKeys.insert(data.descriptions[key]!, at: indexPath.row + 1)
+            self.expandedRows.insert(indexPath.row)
+            let newPath = IndexPath(row: indexPath.row+1, section: indexPath.section)
+            self.tableView.insertRows(at: [newPath], with: .top)
+        }
+        
         self.tableView.endUpdates()
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? AttributeTableViewCell else {
-            return
-        }
-        
-        self.expandedRows.remove(indexPath.row)
-        
-        cell.isExpanded = false
         self.tableView.beginUpdates()
+        
+        dataKeys.remove(at: indexPath.row + 1)
+        self.expandedRows.remove(indexPath.row)
+        let oldPath = IndexPath(row: indexPath.row+1, section: indexPath.section)
+        self.tableView.deleteRows(at: [oldPath], with: .top)
+        
         self.tableView.endUpdates()
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80.0
+        if self.expandedRows.contains(indexPath.row-1) {
+            return 160
+        } else {
+            return 40
+        }
+    }
+    
+    private func createHeader() -> NavigationBar {
+        let navBar = NavigationBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.bounds.width, height: 75)))
+        
+        navBar.tintColor = UIColor.white
+        navBar.barTintColor = Colors.green
+        
+        let closeButton = IconButton.init(image: Icon.close, tintColor: .white)
+        closeButton.addTarget(self, action: #selector(closeForm), for: .touchUpInside)
+        
+        let navigationItem = UINavigationItem(title: "Attributes")
+        navigationItem.titleLabel.text = "Attributes"
+        navigationItem.titleLabel.textColor = UIColor.white
+        navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 20)
+        
+        navigationItem.leftViews = [closeButton]
+        
+        navBar.setItems([navigationItem], animated: false)
+        
+        return navBar
+    }
+    
+    @objc private func closeForm() {
+        presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+}
+
+protocol DataUpdater {
+    func updateAttribute(key:String, value:Int)
+    func updateData(month:String, point:Double, path: IndexPath?)
+    func updateError()
+}
+
+//Provides defaults to effectually make these methods optional
+extension DataUpdater {
+    func updateAttribute(key:String, value:Int) {
+        assertionFailure("Method not implemented")
+    }
+    
+    func updateData(month:String, point:Double, path: IndexPath?) {
+        assertionFailure("Method not implemented")
+    }
+    
+    func updateError() {
+        assertionFailure("Method not implemented")
     }
 }

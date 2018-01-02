@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Material
 
 class AboutViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     

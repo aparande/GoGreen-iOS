@@ -174,7 +174,12 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fabMenu.close()
         fabMenu.fabButton?.animate(.rotate(0))
         let advc = AttributeTableViewController(data: data)
-        navigationController?.pushViewController(advc, animated: true)
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            advc.modalPresentationStyle = .formSheet
+            self.present(advc, animated: true, completion: nil)
+        } else {
+            navigationController?.pushViewController(advc, animated: true)
+        }
     }
     
     @objc func share() {
