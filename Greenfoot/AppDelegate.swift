@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         //You wont use this, but initialize it so the tutorial view controller isn't laggy
         
-        let _ = GreenfootModal.sharedInstance
+        let model = GreenfootModal.sharedInstance
         
         if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -71,6 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        model.setNotificationCategories()
         
         window!.makeKeyAndVisible()
         
@@ -176,11 +178,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
             defaults.set(data, forKey: key.rawValue+":data")
             defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
+            
+            if modal.canNotify {
+                defaults.set(value.timeToNotification, forKey: key.rawValue+":notificationTime")
+            }
         }
         
         if modal.rankings.keys.count == 4 {
             defaults.set(modal.rankings, forKey:"Rankings")
         }
+        
+        defaults.set(modal.canNotify, forKey:"NotificationSetting")
         
         defaults.synchronize()
     }

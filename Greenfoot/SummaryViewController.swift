@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import Charts
+import UserNotifications
 
 class SummaryViewController: UIViewController {
     
@@ -64,6 +65,12 @@ class SummaryViewController: UIViewController {
         GreenfootModal.sharedInstance.logEnergyPoints()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        GreenfootModal.sharedInstance.requestNotificationPermissions()
+    }
+    
     @objc func share() {
         let message = "I earned "+pointLabel.text!+" Energy Points on Greenfoot! How many do you have?"
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
@@ -91,7 +98,6 @@ class SummaryViewController: UIViewController {
         }
     }
     @IBAction func showHistory(_ sender: Any) {
-        //let hvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "History") as! HistoryViewController
         let hvc = HistoryViewController()
         self.navigationController?.pushViewController(hvc, animated: true)
     }
@@ -104,15 +110,11 @@ class SummaryViewController: UIViewController {
 
 extension UIViewController {
     func prepToolbar() {
-        //let menuButton = IconButton(image: Icon.cm.menu)
-        //menuButton.addTarget(navigationDrawerController, action: #selector(NavigationDrawerController.openLeftView(velocity:)), for: .touchUpInside)
-        //navigationItem.leftViews = [menuButton]
         
         let logo = UIImageView(image: Icon.logo_white)
         navigationItem.centerViews = [logo]
         logo.contentMode = .scaleAspectFit
         
-        //menuButton.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
     }
     

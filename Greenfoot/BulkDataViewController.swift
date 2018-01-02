@@ -370,6 +370,8 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         
         let path = IndexPath(row: row, section: 0)
         owner.tableView.insertRows(at: [path], with: .automatic)
+        
+        GreenfootModal.sharedInstance.queueReminder(dataType: GreenDataType(rawValue: data.dataName)!)
     }
 
 }

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Material
+import UserNotifications
 
 class GreenfootModal {
     static let sharedInstance = GreenfootModal()
@@ -39,6 +40,7 @@ class GreenfootModal {
     var locality:[String:String]?
     let profId:String
     var rankings:[String:Int]
+    var canNotify:Bool
     
     private var rankingFetchInProgress: Bool
     
@@ -64,6 +66,7 @@ class GreenfootModal {
         }
         
         rankingFetchInProgress = false
+        self.canNotify = defaults.bool(forKey: "NotificationSetting")
         
         prepElectric()
         prepWater()
@@ -153,6 +156,52 @@ class GreenfootModal {
         })
     }
     
+    func setNotificationCategories() {
+        let generalCategory = UNNotificationCategory(identifier: "GENERAL",
+                                                     actions: [],
+                                                     intentIdentifiers: [],
+                                                     options: .customDismissAction)
+        UNUserNotificationCenter.current().setNotificationCategories([generalCategory])
+    }
+    
+    func requestNotificationPermissions() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: {
+            (granted, error) in
+            if (error != nil) {
+                print(error.debugDescription)
+            }
+            
+            self.canNotify = granted
+            
+            if granted {
+                for (_, value) in GreenfootModal.sharedInstance.data {
+                    value.timeToNotification = 30
+                }
+            }
+        })
+    }
+    
+    func queueReminder(dataType: GreenDataType) {
+        if let timeInterval = data[dataType]?.timeToNotification {
+            print("Queuing \(dataType.rawValue) Reminder")
+            let content = UNMutableNotificationContent()
+            content.title = NSString.localizedUserNotificationString(forKey:
+                "Reminder: Add to your \(dataType.rawValue) data", arguments: nil)
+            content.body = NSString.localizedUserNotificationString(forKey:
+                "It's that time of month again! Don't forget to add data to \(dataType.rawValue) in GoGreen", arguments: nil)
+            
+            // Deliver the notification in five seconds.
+            content.sound = UNNotificationSound.default()
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval,
+                                                            repeats: false)
+            
+            // Schedule the notification.
+            let request = UNNotificationRequest(identifier: "Reminder \(dataType.rawValue)", content: content, trigger: trigger)
+            let center = UNUserNotificationCenter.current()
+            center.add(request, withCompletionHandler: nil)
+        }
+    }
+    
     private func prepElectric() {
         //https://www.eia.gov/tools/faqs/faq.cfm?id=97&t=3
         let  electricData = GreenData(name: GreenDataType.electric.rawValue, xLabel:"Month", yLabel: "kWh", base: 901, averageLabel:"kWh per Day", icon:Icon.electric_emblem)
@@ -171,6 +220,8 @@ class GreenfootModal {
         if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") {
             electricData.data = data as! [String:Int]
         }
+        
+        electricData.timeToNotification = defaults.double(forKey: GreenDataType.electric.rawValue+":notificationTime")
         
         //If you were to try and load the e_factor from the web here, under the current code, an endless loop would be created
         if defaults.object(forKey: "e_factor") != nil {
@@ -248,6 +299,8 @@ class GreenfootModal {
             waterData.data = data as! [String:Int]
         }
         
+        waterData.timeToNotification = defaults.double(forKey: GreenDataType.water.rawValue+":notificationTime")
+        
         CoreDataHelper.fetch(data: waterData)
         
         waterData.descriptions["General"] = "An easy resource to waste is water because we use it so much in our daily lives. The average amount of water the average American uses in a month is 9,000 gallons. Reducing water consumption is another step you can take towards being green."
@@ -304,6 +357,8 @@ class GreenfootModal {
             drivingData.data["Average MPG"] = 0
         }
         
+        drivingData.timeToNotification = defaults.double(forKey: GreenDataType.driving.rawValue+":notificationTime")
+        
         CoreDataHelper.fetch(data: drivingData)
         
         drivingData.descriptions["General"] = "We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg"
@@ -336,6 +391,8 @@ class GreenfootModal {
             let diff = (gasData.calculateCO2(base) - gasData.calculateCO2(point))/100
             return Int(floor(diff))
         }
+        
+        gasData.timeToNotification = UserDefaults.standard.double(forKey: GreenDataType.gas.rawValue+":notificationTime")
         
         CoreDataHelper.fetch(data: gasData)
         
