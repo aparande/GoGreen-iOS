@@ -155,9 +155,38 @@ class GreenfootModal {
     }
     
     func queueReminder(dataType: GreenDataType) {
-        /*
-        if let timeInterval = data[dataType]?.timeToNotification {
-            print("Queuing \(dataType.rawValue) Reminder")
+        if SettingsManager.sharedInstance.canNotify {
+            print("App Can Notify")
+            guard let reminderSettings = SettingsManager.sharedInstance.reminderTimings else {
+                print("Could not queue reminder because reminder settings is null")
+                return
+            }
+            
+            let setting = reminderSettings[dataType]!
+            if setting == .None {
+                return
+            }
+            
+            print("Queuing Notification")
+            
+            let calendar = NSCalendar.current
+            let today = Date()
+            
+            var nextDate:Date!
+            switch setting {
+            case .FirstOfMonth:
+                var components = DateComponents()
+                components.day = 1
+                nextDate = calendar.nextDate(after: today, matching: components, matchingPolicy: .nextTime)
+            case .OneMonth:
+                nextDate = calendar.date(byAdding: .month, value: 1, to: today)
+            case .None:
+                return
+            }
+            
+            print("Scheduling Reminder for \(nextDate)")
+            
+            let timeInterval = nextDate.timeIntervalSince(today)
             let content = UNMutableNotificationContent()
             content.title = NSString.localizedUserNotificationString(forKey:
                 "Reminder: Add to your \(dataType.rawValue) data", arguments: nil)
@@ -173,7 +202,7 @@ class GreenfootModal {
             let request = UNNotificationRequest(identifier: "Reminder \(dataType.rawValue)", content: content, trigger: trigger)
             let center = UNUserNotificationCenter.current()
             center.add(request, withCompletionHandler: nil)
-        } */
+        }
     }
     
     private func prepElectric() {
