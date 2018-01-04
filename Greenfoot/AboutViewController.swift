@@ -18,9 +18,8 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        navigationItem.backButton.tintColor = UIColor.white
-        navigationItem.titleLabel.text = "FAQ"
-        navigationItem.titleLabel.textColor = UIColor.white
+        
+        prepNavigationBar(titled: "FAQ")
     }
 
     // MARK: UICollectionViewDataSource
@@ -74,6 +73,7 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
         return sectionInsets.left
     }
     
+    /*
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         //1
         switch kind {
@@ -89,7 +89,7 @@ class AboutViewController: UICollectionViewController, UICollectionViewDelegateF
             assert(false, "Unexpected element kind")
         }
         return UICollectionReusableView()
-    }
+    } */
     
     @objc func showLicense(_ sender: AnyObject) {
         let contentHeight:CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 1000 : 2000

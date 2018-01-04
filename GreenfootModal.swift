@@ -40,7 +40,6 @@ class GreenfootModal {
     var locality:[String:String]?
     let profId:String
     var rankings:[String:Int]
-    var canNotify:Bool
     
     private var rankingFetchInProgress: Bool
     
@@ -66,7 +65,6 @@ class GreenfootModal {
         }
         
         rankingFetchInProgress = false
-        self.canNotify = defaults.bool(forKey: "NotificationSetting")
         
         prepElectric()
         prepWater()
@@ -152,31 +150,6 @@ class GreenfootModal {
             
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.cityRank.rawValue), object: nil)
-            }
-        })
-    }
-    
-    func setNotificationCategories() {
-        let generalCategory = UNNotificationCategory(identifier: "GENERAL",
-                                                     actions: [],
-                                                     intentIdentifiers: [],
-                                                     options: .customDismissAction)
-        UNUserNotificationCenter.current().setNotificationCategories([generalCategory])
-    }
-    
-    func requestNotificationPermissions() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: {
-            (granted, error) in
-            if (error != nil) {
-                print(error.debugDescription)
-            }
-            
-            self.canNotify = granted
-            
-            if granted {
-                for (_, value) in GreenfootModal.sharedInstance.data {
-                    value.timeToNotification = 30
-                }
             }
         })
     }

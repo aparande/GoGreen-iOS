@@ -20,20 +20,13 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.titleLabel.text = "Attributes"
-        navigationItem.titleLabel.textColor = UIColor.white
-        navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
-        
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = Colors.green
+        prepNavigationBar(titled: "Attributes")
         
         let attrNib = UINib(nibName: "AttributeCell", bundle: nil)
         tableView.register(attrNib, forCellReuseIdentifier: "AttributeCell")
         
         let descNib = UINib(nibName: "AttributeDescriptionCell", bundle: nil)
         tableView.register(descNib, forCellReuseIdentifier: "AttributeDescription")
-        
-        navigationItem.backButton.tintColor = UIColor.white
         
         //Table View Header/Footer Setup
         if (UIDevice.current.userInterfaceIdiom == .pad) {

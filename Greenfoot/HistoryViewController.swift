@@ -23,12 +23,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.titleLabel.text = "Breakdown"
-        self.navigationItem.titleLabel.textColor = UIColor.white
-        self.navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
-    
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationItem.backButton.tintColor = UIColor.white
+        prepNavigationBar(titled: "Breakdown")
 
         let cellNib = UINib(nibName: "MonthlyChangeCell", bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: "ChangeCell")

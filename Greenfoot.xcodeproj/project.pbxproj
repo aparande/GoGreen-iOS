@@ -17,6 +17,8 @@
 		1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F15D0901F27101400DFA60B /* AddDataHeader.xib */; };
 		1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */; };
 		1F2544F31FFBF04A0031C9F8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2544F21FFBF04A0031C9F8 /* UserNotifications.framework */; };
+		1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */; };
+		1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */; };
 		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
@@ -62,6 +64,8 @@
 		1F2544EF1FFBEE4E0031C9F8 /* Greenfoot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Greenfoot.entitlements; sourceTree = "<group>"; };
 		1F2544F01FFBEF150031C9F8 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		1F2544F21FFBF04A0031C9F8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenfootModal.swift; sourceTree = SOURCE_ROOT; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +179,7 @@
 				1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */,
 				1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */,
 				1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */,
+				1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -182,6 +187,7 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
+				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
 				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
 				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
 				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
@@ -373,6 +379,7 @@
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,
 				1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */,
 				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,
+				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
@@ -380,6 +387,7 @@
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
 				1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */,
 				1FA018A01EE394D6005ED9E2 /* DrivingDataViewController.swift in Sources */,
+				1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */,
 				1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,

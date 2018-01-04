@@ -68,7 +68,7 @@ class SummaryViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        GreenfootModal.sharedInstance.requestNotificationPermissions()
+        SettingsManager.sharedInstance.requestNotificationPermissions(completion: nil)
     }
     
     @objc func share() {
@@ -103,14 +103,15 @@ class SummaryViewController: UIViewController {
     }
     
     @objc func showInfo() {
-        let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutViewController")
-        self.navigationController?.pushViewController(cvc, animated: true)
+        //let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutViewController")
+        //self.navigationController?.pushViewController(cvc, animated: true)
+        let svc = SettingsTableViewController()
+        self.navigationController?.pushViewController(svc, animated: true)
     }
 }
 
 extension UIViewController {
     func prepToolbar() {
-        
         let logo = UIImageView(image: Icon.logo_white)
         navigationItem.centerViews = [logo]
         logo.contentMode = .scaleAspectFit
@@ -129,6 +130,18 @@ extension UIViewController {
         navigationItem.centerViews = [segmentedView]
         
         segmentedView.addTarget(self, action: segmentAction, for: .valueChanged)
+    }
+    
+    func prepNavigationBar(titled title:String?) {
+        if let text = title {
+            navigationItem.titleLabel.text = text
+            navigationItem.titleLabel.textColor = UIColor.white
+            navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
+        }
+        
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.barTintColor = Colors.green
+        navigationItem.backButton.tintColor = UIColor.white
     }
 }
 

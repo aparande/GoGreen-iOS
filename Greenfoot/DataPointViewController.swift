@@ -44,9 +44,7 @@ class DataPointViewController: UITableViewController {
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationItem.backButton.tintColor = UIColor.white
         
-        self.navigationItem.titleLabel.text = date
-        self.navigationItem.titleLabel.textColor = UIColor.white
-        self.navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
+        prepNavigationBar(titled: date)
         
         setFooter()
         tableView.cellLayoutMarginsFollowReadableWidth = false

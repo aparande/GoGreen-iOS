@@ -8,14 +8,11 @@
 
 import UIKit
 import Material
-import CoreLocation
 import CoreData
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    let locationManager = CLLocationManager()
     
     // CORE-DATA
     lazy var persistentContainer: NSPersistentContainer = {
@@ -38,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         //You wont use this, but initialize it so the tutorial view controller isn't laggy
         
-        let model = GreenfootModal.sharedInstance
+        let _ = GreenfootModal.sharedInstance
         
         if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -67,12 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             window!.rootViewController = pager
         }
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        SettingsManager.sharedInstance.loadLocation()
         
-        model.setNotificationCategories()
+        SettingsManager.sharedInstance.setNotificationCategories()
         
         window!.makeKeyAndVisible()
         
@@ -103,64 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         return NavigationController(rootViewController: graphVC)
     }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error while updating location " + error.localizedDescription)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        CLGeocoder().reverseGeocodeLocation(manager.location!, completionHandler: {
-            (placemarks, error) in
-            if error != nil {
-                print("Reverse geocoder failed with error "+error!.localizedDescription)
-                return
-            }
-            if placemarks?.count != 0 {
-                let pm = placemarks![0] as CLPlacemark
-                self.saveLocationInfo(placemark: pm)
-            } else {
-                print("Problem with the data received")
-            }
-        })
-    }
-    
-    func saveLocationInfo(placemark: CLPlacemark) {
-        locationManager.stopUpdatingLocation()
-        
-        guard let _ = GreenfootModal.sharedInstance.locality else {
-            var localityData:[String:String] = [:]
-            localityData["City"] = placemark.locality
-            localityData["State"] = placemark.administrativeArea
-            localityData["Country"] = placemark.country
-            localityData["Zip"] = placemark.postalCode
-            GreenfootModal.sharedInstance.locality = localityData
-            print("Saved locale: \(localityData)")
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/yy"
-            for (key, value) in GreenfootModal.sharedInstance.data {
-                for (month, amount) in value.getGraphData() {
-                    let date = formatter.string(from: month)
-                    if !value.uploadedData.contains(date) {
-                        value.addToServer(month: date, point: amount)
-                    }
-                }
-                
-                if key == .electric {
-                    value.fetchEGrid()
-                    value.fetchConsumption()
-                }
-            }
-    
-            GreenfootModal.sharedInstance.logEnergyPoints()
-            
-            UserDefaults.standard.set(localityData, forKey:"LocalityData")
-            
-            return
-        }
-        
-        GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
-    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -179,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             defaults.set(data, forKey: key.rawValue+":data")
             defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
             
-            if modal.canNotify {
+            if SettingsManager.sharedInstance.canNotify {
                 defaults.set(value.timeToNotification, forKey: key.rawValue+":notificationTime")
             }
         }
@@ -188,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             defaults.set(modal.rankings, forKey:"Rankings")
         }
         
-        defaults.set(modal.canNotify, forKey:"NotificationSetting")
+        defaults.set(SettingsManager.sharedInstance.canNotify, forKey:"NotificationSetting")
         
         defaults.synchronize()
     }
