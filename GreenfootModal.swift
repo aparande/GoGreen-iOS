@@ -155,6 +155,7 @@ class GreenfootModal {
     }
     
     func queueReminder(dataType: GreenDataType) {
+        /*
         if let timeInterval = data[dataType]?.timeToNotification {
             print("Queuing \(dataType.rawValue) Reminder")
             let content = UNMutableNotificationContent()
@@ -172,7 +173,7 @@ class GreenfootModal {
             let request = UNNotificationRequest(identifier: "Reminder \(dataType.rawValue)", content: content, trigger: trigger)
             let center = UNUserNotificationCenter.current()
             center.add(request, withCompletionHandler: nil)
-        }
+        } */
     }
     
     private func prepElectric() {
@@ -193,8 +194,6 @@ class GreenfootModal {
         if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") {
             electricData.data = data as! [String:Int]
         }
-        
-        electricData.timeToNotification = defaults.double(forKey: GreenDataType.electric.rawValue+":notificationTime")
         
         //If you were to try and load the e_factor from the web here, under the current code, an endless loop would be created
         if defaults.object(forKey: "e_factor") != nil {
@@ -272,8 +271,6 @@ class GreenfootModal {
             waterData.data = data as! [String:Int]
         }
         
-        waterData.timeToNotification = defaults.double(forKey: GreenDataType.water.rawValue+":notificationTime")
-        
         CoreDataHelper.fetch(data: waterData)
         
         waterData.descriptions["General"] = "An easy resource to waste is water because we use it so much in our daily lives. The average amount of water the average American uses in a month is 9,000 gallons. Reducing water consumption is another step you can take towards being green."
@@ -330,8 +327,6 @@ class GreenfootModal {
             drivingData.data["Average MPG"] = 0
         }
         
-        drivingData.timeToNotification = defaults.double(forKey: GreenDataType.driving.rawValue+":notificationTime")
-        
         CoreDataHelper.fetch(data: drivingData)
         
         drivingData.descriptions["General"] = "We directly contribute to the carbon dioxide in our atmosphere when we drive our cars. On average, each American emits 390 kilograms of Carbon Dioxide into the air each month. This number is calculated by the following equation: 8.887 * miles/mpg"
@@ -364,8 +359,6 @@ class GreenfootModal {
             let diff = (gasData.calculateCO2(base) - gasData.calculateCO2(point))/100
             return Int(floor(diff))
         }
-        
-        gasData.timeToNotification = UserDefaults.standard.double(forKey: GreenDataType.gas.rawValue+":notificationTime")
         
         CoreDataHelper.fetch(data: gasData)
         
@@ -442,4 +435,6 @@ enum GreenDataType:String {
     case water = "Water"
     case driving = "Driving"
     case gas = "Gas"
+    
+    static let allValues = [electric, water, driving, gas]
 }

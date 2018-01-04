@@ -114,14 +114,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             defaults.set(data, forKey: key.rawValue+":data")
             defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
-            
-            if SettingsManager.sharedInstance.canNotify {
-                defaults.set(value.timeToNotification, forKey: key.rawValue+":notificationTime")
-            }
         }
         
         if modal.rankings.keys.count == 4 {
             defaults.set(modal.rankings, forKey:"Rankings")
+        }
+        
+        
+        if let reminderSettings = SettingsManager.sharedInstance.reminderTimings {
+            var reminder: [String:String] = [:]
+            for (key, value) in reminderSettings {
+                reminder[key.rawValue] = value.rawValue
+            }
+            defaults.set(reminder, forKey: "ReminderSettings")
         }
         
         defaults.set(SettingsManager.sharedInstance.canNotify, forKey:"NotificationSetting")

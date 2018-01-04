@@ -17,12 +17,20 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     var locality:[String:String]?
     
     var canNotify:Bool
+    var reminderTimings:[GreenDataType:ReminderSettings]?
     
     let locationFailedNotification = NSNotification.Name.init(rawValue: "LocateFailed")
     let locationUpdatedNotification = NSNotification.Name.init(rawValue: "LocationUpdated")
     
     override init() {
         self.canNotify = UserDefaults.standard.bool(forKey: "NotificationSetting")
+        
+        if let reminders = UserDefaults.standard.object(forKey: "ReminderSettings") as? [String:String] {
+            self.reminderTimings = [:]
+            for (key, value) in reminders {
+                self.reminderTimings![GreenDataType(rawValue: key)!] = ReminderSettings(rawValue: value)!
+            }
+        }
         
         if let locale_data = UserDefaults.standard.dictionary(forKey: "Setting_Locale") as? [String:String] {
             locality = locale_data
@@ -128,8 +136,12 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             self.canNotify = granted
             
             if granted {
-                for (_, value) in GreenfootModal.sharedInstance.data {
-                    value.timeToNotification = 30
+                guard let _ = self.reminderTimings else {
+                    self.reminderTimings = [:]
+                    for key in GreenDataType.allValues {
+                        self.reminderTimings![key] = .FirstOfMonth
+                    }
+                    return
                 }
             }
             
@@ -138,4 +150,14 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         })
     }
+}
+
+enum Settings {
+    case LocationAllowed, NotificationAllowed
+}
+
+enum ReminderSettings: String {
+    case FirstOfMonth = "First of Each Month", OneMonth = "One Month from Last Point", None = "Never"
+    
+    static let allValues = [FirstOfMonth, OneMonth, None]
 }

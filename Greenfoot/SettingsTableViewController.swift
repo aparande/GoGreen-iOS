@@ -10,7 +10,7 @@ import UIKit
 import Material
 
 
-class SettingsTableViewController: UITableViewController {
+class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     var locationSwitch: Switch!
     var notificationSwitch: Switch!
     
@@ -97,6 +97,10 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 && indexPath.row != 0 {
+            tableView.cellForRow(at: indexPath)?.accessoryView?.becomeFirstResponder()
+        }
+        
         if indexPath.section != 2 {
             return
         }
@@ -139,25 +143,25 @@ class SettingsTableViewController: UITableViewController {
     private func notificationCellForPath(_ indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "NotificationCell")
         
-        var dataType: GreenDataType!
-        switch indexPath.row {
-        case 1:
-            dataType = GreenDataType.electric
-        case 2:
-            dataType = GreenDataType.water
-        case 3:
-            dataType = GreenDataType.driving
-        case 4:
-            dataType = GreenDataType.gas
-        default:
-            dataType = GreenDataType.electric
-        }
+        let dataType = GreenDataType.allValues[indexPath.row-1]
         
         let title = dataType.rawValue
-        let value = GreenfootModal.sharedInstance.data[dataType]?.timeToNotification
+        let value = SettingsManager.sharedInstance.reminderTimings?[dataType]?.rawValue
         
         cell.textLabel?.text = title
         cell.detailTextLabel?.text = "\(value!)"
+        
+        let textField = UITextField(frame: CGRect.zero)
+        
+        let picker = TableViewCellPicker()
+        picker.tableViewCell = cell
+        picker.delegate = self
+        picker.dataSource = self
+        picker.textField = textField
+        picker.indexPath = indexPath
+        
+        textField.inputView = picker
+        cell.accessoryView = textField
         
         return cell
     }
@@ -334,8 +338,53 @@ class SettingsTableViewController: UITableViewController {
         self.locationSwitch.setSwitchState(state: .on)
         print("Location Updated in Settings")
     }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return ReminderSettings.allValues[row].rawValue
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        guard let tablePicker = pickerView as? TableViewCellPicker else {
+            print("This is not a Table View Cell Picker")
+            return
+        }
+        
+        guard let cell = tablePicker.tableViewCell else {
+            print("Forgot to assign table view cell to picker")
+            return
+        }
+        
+        guard let field = tablePicker.textField else {
+            print("Forgot to assign text field to picker")
+            return
+        }
+        
+        guard let indexPath = tablePicker.indexPath else {
+            print("Forgot to assign index path to picker")
+            return
+        }
+        
+        let dataType = GreenDataType.allValues[indexPath.row-1]
+        SettingsManager.sharedInstance.reminderTimings![dataType] = ReminderSettings.allValues[row]
+        
+        cell.detailTextLabel?.text = ReminderSettings.allValues[row].rawValue
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        field.resignFirstResponder()
+    }
 }
 
-enum Settings {
-    case LocationAllowed, NotificationAllowed
+class TableViewCellPicker: UIPickerView {
+    var tableViewCell: UITableViewCell?
+    var textField: UITextField?
+    var indexPath: IndexPath?
 }

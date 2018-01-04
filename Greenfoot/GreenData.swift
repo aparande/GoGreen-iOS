@@ -32,8 +32,6 @@ class GreenData {
     
     var uploadedData:[String]
     
-    var timeToNotification: TimeInterval?
-    
     //Returns the average daily usage. Displays on each data tab
     var averageValue:Double {
         get {
