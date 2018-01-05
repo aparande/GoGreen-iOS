@@ -245,6 +245,8 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             self.tableView.beginUpdates()
             self.tableView.reloadSections([1], with: .automatic)
             self.tableView.endUpdates()
+            
+            SettingsManager.sharedInstance.cancelAllNotifications()
         }
     }
     
@@ -376,6 +378,10 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         SettingsManager.sharedInstance.reminderTimings![dataType] = ReminderSettings.allValues[row]
         
         cell.detailTextLabel?.text = ReminderSettings.allValues[row].rawValue
+        
+        if ReminderSettings.allValues[row] == .None {
+            SettingsManager.sharedInstance.cancelNotificationforDataType(dataType)
+        }
         
         tableView.deselectRow(at: indexPath, animated: true)
         

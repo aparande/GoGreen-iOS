@@ -18,11 +18,19 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     
     var canNotify:Bool
     var reminderTimings:[GreenDataType:ReminderSettings]?
+    var scheduledReminders:[GreenDataType:String]
     
     let locationFailedNotification = NSNotification.Name.init(rawValue: "LocateFailed")
     let locationUpdatedNotification = NSNotification.Name.init(rawValue: "LocationUpdated")
     
     override init() {
+        scheduledReminders = [:]
+        if let reminderQueue = UserDefaults.standard.object(forKey: "ScheduledReminders") as? [String:String] {
+            for (key, value) in reminderQueue{
+                self.scheduledReminders[GreenDataType(rawValue: key)!] = value
+            }
+        }
+        
         self.canNotify = UserDefaults.standard.bool(forKey: "NotificationSetting")
         
         if let reminders = UserDefaults.standard.object(forKey: "ReminderSettings") as? [String:String] {
@@ -149,6 +157,24 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 closure(granted)
             }
         })
+    }
+    
+    func cancelNotificationforDataType(_ dataType: GreenDataType) {
+        if let id = scheduledReminders[dataType] {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+            scheduledReminders.removeValue(forKey: dataType)
+        }
+    }
+    
+    func cancelAllNotifications() {
+        var scheduledIds:[String] = []
+        for dataType in GreenDataType.allValues {
+            if let id = scheduledReminders[dataType] {
+                scheduledIds.append(id)
+                scheduledReminders.removeValue(forKey: dataType)
+            }
+        }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: scheduledIds)
     }
 }
 

@@ -131,6 +131,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         defaults.set(SettingsManager.sharedInstance.canNotify, forKey:"NotificationSetting")
         
+        var scheduledReminders: [String:String] = [:]
+        for (key, value) in SettingsManager.sharedInstance.scheduledReminders {
+            scheduledReminders[key.rawValue] = value
+        }
+        defaults.set(scheduledReminders, forKey: "ScheduledReminders")
+        
         defaults.synchronize()
     }
 

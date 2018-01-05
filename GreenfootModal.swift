@@ -167,6 +167,11 @@ class GreenfootModal {
                 return
             }
             
+            if let _ = SettingsManager.sharedInstance.scheduledReminders[dataType] {
+                print("Not scheduling reminder because one is already queued")
+                return
+            }
+            
             print("Queuing Notification")
             
             let calendar = NSCalendar.current
@@ -184,8 +189,6 @@ class GreenfootModal {
                 return
             }
             
-            print("Scheduling Reminder for \(nextDate)")
-            
             let timeInterval = nextDate.timeIntervalSince(today)
             let content = UNMutableNotificationContent()
             content.title = NSString.localizedUserNotificationString(forKey:
@@ -199,9 +202,16 @@ class GreenfootModal {
                                                             repeats: false)
             
             // Schedule the notification.
-            let request = UNNotificationRequest(identifier: "Reminder \(dataType.rawValue)", content: content, trigger: trigger)
+            let identifier = "REM:\(dataType.rawValue):\(nextDate)"
+            print("Scheduling Reminder for \(identifier)")
+            
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
             let center = UNUserNotificationCenter.current()
-            center.add(request, withCompletionHandler: nil)
+            center.add(request, withCompletionHandler: {
+                _ in
+                
+                SettingsManager.sharedInstance.scheduledReminders[dataType] = identifier
+            })
         }
     }
     
