@@ -103,8 +103,6 @@ class SummaryViewController: UIViewController {
     }
     
     @objc func showInfo() {
-        //let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutViewController")
-        //self.navigationController?.pushViewController(cvc, animated: true)
         let svc = SettingsTableViewController()
         self.navigationController?.pushViewController(svc, animated: true)
     }

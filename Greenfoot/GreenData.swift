@@ -227,7 +227,7 @@ class GreenData {
         
         let parameters:[String:String] = ["zip":zip]
         let id = [APIRequestType.get.rawValue, "EGRID"].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/getFromEGrid", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "getFromEGrid", withParameters: parameters, andSuccessFunction: {
             data in
             
             let e_factor = data["e_factor"] as! Double
@@ -257,10 +257,10 @@ class GreenData {
         parameters["country"] = locality["Country"]!
         
         let id=[APIRequestType.get.rawValue, "CONSUMPTION", dataName].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/getFromConsumption", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "getFromConsumption", withParameters: parameters, andSuccessFunction: {
             data in
             
-            let consumption = data["value"] as! Double
+            let consumption = data["Consumption"] as! Double
             self.stateConsumption = consumption
             print("State consumption is \(self.stateConsumption!)")
         })
@@ -281,7 +281,7 @@ class GreenData {
         parameters["country"] = locality["Country"]
         
         let id=[APIRequestType.add.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/input", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: {
             data in
             
             self.uploadedData.append(month)
@@ -300,7 +300,7 @@ class GreenData {
         parameters["dataType"] = dataName
         
         let id=[APIRequestType.update.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/updateDataPoint", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: {
             data in
             
             self.uploadedData.append(month)
@@ -319,7 +319,7 @@ class GreenData {
         parameters["dataType"] = dataName
 
         let id=[APIRequestType.delete.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/deleteDataPoint", withParameters: parameters, andSuccessFunction: nil)
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil)
     }
 }
 

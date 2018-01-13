@@ -81,7 +81,7 @@ class APICall {
             do  {
                 let retVal = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                 
-                if retVal!["status"]! as! String == "Success" {
+                if retVal!["Success"]! as! Bool == true {
                     self.delegate.apiCall(self, sucessfullyReturnedData: retVal!)
                 } else {
                     self.delegate.apiCall(self, finishedWithError: .serverFailure, andMessage: retVal!["message"] as? String)

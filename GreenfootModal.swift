@@ -73,39 +73,26 @@ class GreenfootModal {
     }
     
     func logEnergyPoints() {
-        if UserDefaults.standard.bool(forKey: "UpdateEP") {
-            //Update the server because you've already uploaded once
-            let parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
-            
-            let id = [APIRequestType.update.rawValue, "EP"].joined(separator: ":")
-            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/updateEnergyPoints", withParameters: parameters, andSuccessFunction: {
-                data in
-                if !self.rankingFetchInProgress {
-                    self.fetchRankings()
-                }
-            })
-        } else {
-            //Insert into the server because this is the first upload
-            guard let locale = locality else {
-                return
-            }
-            
-            var parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
-            parameters["state"] = locale["State"]
-            parameters["country"] = locale["Country"]
-            parameters["city"] = locale["City"]
-            
-            let id = [APIRequestType.add.rawValue, "EP"].joined(separator: ":")
-            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "/logEnergyPoints", withParameters: parameters, andSuccessFunction: {
-                data in
-                
-                UserDefaults.standard.set(true, forKey: "UpdateEP")
-                    
-                if !self.rankingFetchInProgress {
-                    self.fetchRankings()
-                }
-            })
+        //Insert into the server because this is the first upload
+        guard let locale = locality else {
+            return
         }
+        
+        var parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
+        parameters["state"] = locale["State"]
+        parameters["country"] = locale["Country"]
+        parameters["city"] = locale["City"]
+        
+        let id = [APIRequestType.add.rawValue, "EP"].joined(separator: ":")
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logEnergyPoints", withParameters: parameters, andSuccessFunction: {
+            data in
+            
+            UserDefaults.standard.set(true, forKey: "UpdateEP")
+            
+            if !self.rankingFetchInProgress {
+                self.fetchRankings()
+            }
+        })
     }
     
     func fetchRankings() {
@@ -120,7 +107,7 @@ class GreenfootModal {
         parameters["country"] = locale["Country"]
         
         let stateId = [APIRequestType.get.rawValue, "STATE_RANK"].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: stateId, atEndpoint: "/getStateRank", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: stateId, atEndpoint: "getStateRank", withParameters: parameters, andSuccessFunction: {
             data in
             
             self.rankings["StateRank"] = data["Rank"] as? Int
@@ -138,7 +125,7 @@ class GreenfootModal {
         parameters["city"] = locale["City"]
         
         let cityId = [APIRequestType.get.rawValue, "CITY_RANK"].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: cityId, atEndpoint: "/getCityRank", withParameters: parameters, andSuccessFunction: {
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: cityId, atEndpoint: "getCityRank", withParameters: parameters, andSuccessFunction: {
             data in
             
             self.rankings["CityRank"] = data["Rank"] as? Int
