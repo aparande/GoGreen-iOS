@@ -62,6 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let pager = TutorialViewController()
             
             window!.rootViewController = pager
+            
+            //TEST THAT THIS WORKS
+            SettingsManager.sharedInstance.shouldUseLocation = true
         }
         
         SettingsManager.sharedInstance.loadLocation()
@@ -130,6 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         defaults.set(SettingsManager.sharedInstance.canNotify, forKey:"NotificationSetting")
+        defaults.set(SettingsManager.sharedInstance.shouldUseLocation, forKey:"LocationSetting")
         
         var scheduledReminders: [String:String] = [:]
         for (key, value) in SettingsManager.sharedInstance.scheduledReminders {

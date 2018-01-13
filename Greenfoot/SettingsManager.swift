@@ -13,7 +13,7 @@ import UserNotifications
 class SettingsManager: NSObject, CLLocationManagerDelegate {
     static let sharedInstance = SettingsManager()
     
-    var shouldUseLocation = true
+    var shouldUseLocation:Bool
     var locality:[String:String]?
     
     var canNotify:Bool
@@ -32,6 +32,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         }
         
         self.canNotify = UserDefaults.standard.bool(forKey: "NotificationSetting")
+        self.shouldUseLocation = UserDefaults.standard.bool(forKey: "LocationSetting")
         
         if let reminders = UserDefaults.standard.object(forKey: "ReminderSettings") as? [String:String] {
             self.reminderTimings = [:]
@@ -91,15 +92,8 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             self.locality = localityData
             print("Saved locale: \(localityData)")
             
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/yy"
             for (key, value) in GreenfootModal.sharedInstance.data {
-                for (month, amount) in value.getGraphData() {
-                    let date = formatter.string(from: month)
-                    if !value.uploadedData.contains(date) {
-                        value.addToServer(month: date, point: amount)
-                    }
-                }
+                value.reachConsensus()
                 
                 if key == .electric {
                     value.fetchEGrid()

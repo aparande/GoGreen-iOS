@@ -289,6 +289,19 @@ class GreenData {
         })
     }
     
+    func reachConsensus() {
+        print("Attepting to reach consensus")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        for (month, amount) in graphData {
+            let date = formatter.string(from: month)
+            if !uploadedData.contains(date) {
+                print("Found unuploaded point")
+                addToServer(month: date, point: amount)
+            }
+        }
+    }
+    
     fileprivate func updateOnServer(month:String, point: Double) {
         //This is the check to see if the user wants to share their data
         guard let _ = GreenfootModal.sharedInstance.locality else {

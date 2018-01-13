@@ -178,9 +178,6 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             cell.textLabel?.text = "Location"
             locationSwitch = switchView
             switchView.setSwitchState(state: (SettingsManager.sharedInstance.shouldUseLocation) ? .on : .off)
-            if let _ = GreenfootModal.sharedInstance.locality {
-                switchView.setSwitchState(state: .on)
-            }
         case .NotificationAllowed:
             cell.textLabel?.text = "Reminders"
             notificationSwitch = switchView
