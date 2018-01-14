@@ -84,7 +84,7 @@ class APICall {
                 if retVal!["Success"]! as! Bool == true {
                     self.delegate.apiCall(self, sucessfullyReturnedData: retVal!)
                 } else {
-                    self.delegate.apiCall(self, finishedWithError: .serverFailure, andMessage: retVal!["message"] as? String)
+                    self.delegate.apiCall(self, finishedWithError: .serverFailure, andMessage: retVal!["Message"] as? String)
                 }
             } catch _ {
                 self.delegate.apiCall(self, finishedWithError: .jsonFailure, andMessage: nil)

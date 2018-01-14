@@ -293,12 +293,50 @@ class GreenData {
         print("Attepting to reach consensus")
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
+        
+        let id = [APIRequestType.consensus.rawValue, dataName].joined(separator: ":")
+        let parameters:[String:Any] = ["id":GreenfootModal.sharedInstance.profId, "dataType": dataName]
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
+            data in
+            
+            guard let serverData = data["Data"] as? NSArray else {
+                return
+            }
+            
+            for point in serverData {
+                let month = (point as! NSDictionary)["Month"]! as! String
+                let amount = (point as! NSDictionary)["Amount"]! as! Double
+                
+                let date = formatter.date(from: month)!
+                
+                let contains = self.containsPoint(month: date, amount: amount)
+                if  contains && self.graphData[date] != amount {
+                    //Triggers if the device has the point saved but is an outdated value
+                    print("Editing data point")
+                    self.editDataPoint(month: date, y: amount)
+                } else if !contains {
+                    //Triggers if the device doesn't have the point
+                    print("Adding data point")
+                    self.addDataPoint(month: date, y: amount, save: false)
+                }
+            }
+        })
+        
         for (month, amount) in graphData {
             let date = formatter.string(from: month)
             if !uploadedData.contains(date) {
                 print("Found unuploaded point")
                 addToServer(month: date, point: amount)
             }
+        }
+    }
+    
+    fileprivate func containsPoint(month:Date, amount:Double) -> Bool {
+        if let _ = graphData[month] {
+            return true
+        } else {
+            return false
         }
     }
     

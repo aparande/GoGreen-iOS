@@ -26,6 +26,7 @@ enum APIRequestType: String {
     case get = "GET"
     case update = "UPDATE"
     case delete = "DELETE"
+    case consensus = "CONSENSUS"
 }
 
 class APIRequestManager: NSObject, URLSessionDelegate {
@@ -78,13 +79,13 @@ class APIRequestManager: NSObject, URLSessionDelegate {
     func apiCall(_ call: APICall, finishedWithError error: APIError, andMessage message: String?) {
         switch error {
         case .connectionFailure:
-            print(call.uniqId + " finished with connection error. Message: " + message!)
+            print(call.uniqId + " finished with connection error. Message: \(String(describing: message))")
         case .jsonFailure:
             print(call.uniqId + " finished with JSON Decode error")
         case .serverFailure:
-            print (call.uniqId + " finished with server failure. Message: " + message!)
+            print (call.uniqId + " finished with server failure. Message: \(String(describing: message))")
         case .special:
-            print (call.uniqId + " finished with special error. Message: " + message!)
+            print (call.uniqId + " finished with special error. Message: \(String(describing: message))")
         case .unknown:
             print (call.uniqId + " finished with unknown error.")
         }
