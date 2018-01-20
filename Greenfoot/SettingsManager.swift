@@ -197,10 +197,20 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             (data) in
             print(data)
             
-            self.profile["profId"] = data["UserId"] as? String
+            if let newProfile = data["UserId"] as? String{
+                if self.profile["profId"] as! String != newProfile  {
+                    let deleteId = APIRequestType.delete.rawValue + ":EP"
+                    APIRequestManager.sharedInstance.queueAPICall(identifiedBy: deleteId, atEndpoint:"deleteProfData", withParameters: ["id": self.profile["profId"]!], andSuccessFunction: nil, andFailureFunction: nil)
+                }
+                
+                self.profile["profId"] = newProfile
+            }
+            
             self.profile["email"] = email
             self.profile["password"] = password
             self.profile["linked"] = true
+            UserDefaults.standard.set(self.profile, forKey: "Profile")
+            
             for (_, data) in GreenfootModal.sharedInstance.data {
                 data.reachConsensus()
             }
