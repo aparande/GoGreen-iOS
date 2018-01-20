@@ -151,9 +151,9 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
                 (success) in
                 DispatchQueue.main.async {
                     if success {
+                        self.tableView.reloadSections([2], with: .none)
                         scAlert.hideView()
                     } else {
-                        self.tableView.reloadSections([2], with: .none)
                         scAlert.showTitle("Link Device",
                                           subTitle: "Error: Email/Password incorrect",
                                           style: .info,

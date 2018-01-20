@@ -8,17 +8,19 @@
 
 import UIKit
 import Material
-import Charts
+import SCLAlertView
 
 protocol TutorialPageDelegate {
     func skipPage()
+    func tutorialComplete()
 }
 
-class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartViewDelegate  {
+class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
 
     var delegate:TutorialPageDelegate!
     var hasAttributes:Bool!
     var isFinal: Bool!
+    var isLogin: Bool = false
     
     //Normal View Outlets
     @IBOutlet weak var iconImageView: UIImageView!
@@ -50,6 +52,14 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
             goButton.addTarget(self, action: #selector(skip(_:)), for: .touchUpInside)
             goButton.setTitle("Next", for: .normal)
         }
+        
+        if isLogin {
+            skipButton.isHidden = false
+            goButton.removeTarget(self, action: #selector(skip(_:)), for: .touchUpInside)
+            goButton.addTarget(self, action: #selector(showLogin), for: .touchUpInside)
+            goButton.setTitle("Sign In", for: .normal)
+            skipButton.setTitle("Next", for: .normal)
+        }
     }
     
     @IBAction func revealDataAdder() {
@@ -72,6 +82,59 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate, ChartVi
         })
         
         return
+    }
+    
+    @objc func showLogin() {
+        let appearance = SCLAlertView.SCLAppearance(
+            kTitleFont: UIFont(name: "DroidSans", size:17)!,
+            kTextFont: UIFont(name: "DroidSans", size:14)!,
+            kButtonFont: UIFont(name: "DroidSans", size:17)!,
+            shouldAutoDismiss: false,
+            hideWhenBackgroundViewIsTapped: true)
+        
+        let scAlert = SCLAlertView(appearance: appearance)
+        
+        let emailField = scAlert.addTextField("Email")
+        emailField.delegate = scAlert
+        emailField.autocapitalizationType = .none
+        
+        let passField = scAlert.addTextField("Password")
+        passField.isSecureTextEntry = true
+        passField.autocapitalizationType = .none
+        passField.delegate = scAlert
+        
+        scAlert.addButton("Login", action: {
+            SettingsManager.sharedInstance.login(email: emailField.text!, password: passField.text!, completion: {
+                (success) in
+                DispatchQueue.main.async {
+                    if success {
+                        scAlert.hideView()
+                        self.delegate.tutorialComplete()
+                    } else {
+                        scAlert.showTitle("Link Device",
+                                          subTitle: "Error: Email/Password incorrect",
+                                          style: .info,
+                                          closeButtonTitle: "Cancel",
+                                          colorStyle: 0x2ecc71,
+                                          colorTextButton: 0xffffff,
+                                          circleIconImage: Icon.logo_white,
+                                          animationStyle: .noAnimation)
+                    }
+                }
+            })
+        })
+        scAlert.addButton("Sign Up", action: {
+            print("Sign Up")
+        })
+        
+        scAlert.showTitle("Link Device",
+                          subTitle: "If you already have an account, login. If you do not have an account, create one",
+                          style: .info,
+                          closeButtonTitle: "Cancel",
+                          colorStyle: 0x2ecc71,
+                          colorTextButton: 0xffffff,
+                          circleIconImage: Icon.logo_white,
+                          animationStyle: .bottomToTop)
     }
     
     func setValues(title: String, description: String, icon: UIImage, units: String?, isEditable:Bool) {

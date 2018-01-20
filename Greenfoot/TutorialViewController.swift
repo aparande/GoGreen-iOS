@@ -72,6 +72,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     func makeViewController(data: [String: Any]) -> TutorialPageViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TutorialViewController") as! TutorialPageViewController
         if data["Title"] as! String == "Welcome!"  {
+            vc.isLogin = true
             vc.setValues(title: data["Title"] as! String, description: data["Desc"] as! String, icon: data["Icon"] as! UIImage, units: nil, isEditable: false)
         } else if data["Title"] as! String == "Ready?" {
             vc.setValues(title: data["Title"] as! String, description: data["Desc"] as! String, icon: data["Icon"] as! UIImage, units: nil, isEditable: false)
@@ -103,27 +104,31 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
                 completed in
             })
         } else {
-            UserDefaults.standard.set(true, forKey: "CompletedTutorial")
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            let tvc = UITabBarController()
-            
-            let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
-            let sNVC = NavigationController(rootViewController: svc)
-            let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
-            svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
-            
-            let electricVc = getGraphController(forDataType: GreenDataType.electric, andTag: 2)
-            let waterVc = getGraphController(forDataType: GreenDataType.water, andTag: 3)
-            let drivingVc = getGraphController(forDataType: GreenDataType.driving, andTag: 4)
-            let gasVc = getGraphController(forDataType: GreenDataType.gas, andTag: 5)
-            
-            tvc.viewControllers = [sNVC, electricVc, waterVc, drivingVc, gasVc]
-            
-            tvc.tabBar.tintColor = Colors.green
-            
-            self.present(tvc, animated: true, completion: nil)
+            tutorialComplete()
         }
+    }
+    
+    func tutorialComplete() {
+        UserDefaults.standard.set(true, forKey: "CompletedTutorial")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let tvc = UITabBarController()
+        
+        let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
+        let sNVC = NavigationController(rootViewController: svc)
+        let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
+        svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
+        
+        let electricVc = getGraphController(forDataType: GreenDataType.electric, andTag: 2)
+        let waterVc = getGraphController(forDataType: GreenDataType.water, andTag: 3)
+        let drivingVc = getGraphController(forDataType: GreenDataType.driving, andTag: 4)
+        let gasVc = getGraphController(forDataType: GreenDataType.gas, andTag: 5)
+        
+        tvc.viewControllers = [sNVC, electricVc, waterVc, drivingVc, gasVc]
+        
+        tvc.tabBar.tintColor = Colors.green
+        
+        self.present(tvc, animated: true, completion: nil)
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
