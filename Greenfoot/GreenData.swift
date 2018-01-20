@@ -239,7 +239,7 @@ class GreenData {
             }
             
             self.recalculateCarbon()
-        })
+        }, andFailureFunction: nil)
     }
     
     func fetchConsumption() {
@@ -263,7 +263,7 @@ class GreenData {
             let consumption = data["Consumption"] as! Double
             self.stateConsumption = consumption
             print("State consumption is \(self.stateConsumption!)")
-        })
+        }, andFailureFunction: nil)
     }
     
     func addToServer(month:String, point:Double) {
@@ -273,7 +273,7 @@ class GreenData {
         }
         
         var parameters:[String:Any] = ["month":month, "amount":Int(point)]
-        parameters["profId"] = GreenfootModal.sharedInstance.profId
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         parameters["dataType"] = dataName
         
         parameters["city"] = locality["City"]!
@@ -286,7 +286,7 @@ class GreenData {
             
             self.uploadedData.append(month)
             CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
-        })
+        }, andFailureFunction: nil)
     }
     
     func reachConsensus() {
@@ -295,7 +295,7 @@ class GreenData {
         formatter.dateFormat = "MM/yy"
         
         let id = [APIRequestType.consensus.rawValue, dataName].joined(separator: ":")
-        let parameters:[String:Any] = ["id":GreenfootModal.sharedInstance.profId, "dataType": dataName]
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName]
         
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
             data in
@@ -321,7 +321,7 @@ class GreenData {
                     self.addDataPoint(month: date, y: amount, save: false)
                 }
             }
-        })
+        }, andFailureFunction: nil)
         
         for (month, amount) in graphData {
             let date = formatter.string(from: month)
@@ -347,7 +347,7 @@ class GreenData {
         }
         
         var parameters:[String:Any] = ["month":month, "amount":Int(point)]
-        parameters["profId"] = GreenfootModal.sharedInstance.profId
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         parameters["dataType"] = dataName
         
         let id=[APIRequestType.update.rawValue, dataName, month].joined(separator: ":")
@@ -356,7 +356,7 @@ class GreenData {
             
             self.uploadedData.append(month)
             CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
-        })
+        }, andFailureFunction: nil)
     }
     
     fileprivate func deleteFromServer(month: String) {
@@ -366,11 +366,11 @@ class GreenData {
         }
         
         var parameters:[String:Any] = ["month":month]
-        parameters["profId"] = GreenfootModal.sharedInstance.profId
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         parameters["dataType"] = dataName
 
         let id=[APIRequestType.delete.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil)
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
 }
 

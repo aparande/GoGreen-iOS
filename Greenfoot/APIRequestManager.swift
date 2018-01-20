@@ -27,6 +27,7 @@ enum APIRequestType: String {
     case update = "UPDATE"
     case delete = "DELETE"
     case consensus = "CONSENSUS"
+    case login = "LOGIN"
 }
 
 class APIRequestManager: NSObject, URLSessionDelegate {
@@ -34,12 +35,12 @@ class APIRequestManager: NSObject, URLSessionDelegate {
     private var runningRequests:[String: APICall] = [:]
     private var queuedRequests:[String: APICall] = [:]
     
-    func queueAPICall(identifiedBy uId:String, atEndpoint endpoint:String, withParameters parameters:[String:Any], andSuccessFunction function:((NSDictionary) -> Void)?) {
+    func queueAPICall(identifiedBy uId:String, atEndpoint endpoint:String, withParameters parameters:[String:Any], andSuccessFunction success:((NSDictionary) -> Void)?, andFailureFunction failure:((NSDictionary) -> Void)?) {
         //let base = URL(string: "http://192.168.1.78:8000")!
         let base = URL(string: "http://localhost:8000/api/")!
         //let base = URL(string: "https://gogreencarbonapp.herokuapp.com/")!
         
-        let call = APICall(self, atEndpoint: endpoint, onURL:base, withParameters: parameters, identifiedBy:uId, andSuccessFunction: function)
+        let call = APICall(self, atEndpoint: endpoint, onURL:base, withParameters: parameters, identifiedBy:uId, andSuccessFunction: success, andFailureFunction: failure)
         
         if let _ = runningRequests[uId] {
             //If there is a running request with the same id, queue this request. If a request with the id is in the queue, overwrite it
@@ -88,6 +89,10 @@ class APIRequestManager: NSObject, URLSessionDelegate {
             print (call.uniqId + " finished with special error. Message: \(String(describing: message))")
         case .unknown:
             print (call.uniqId + " finished with unknown error.")
+        }
+        
+        if let failure = call.failureFunction {
+            failure(["Error":error, "Message": message ?? "No Message"])
         }
         
         manageQueue(forId: call.uniqId)

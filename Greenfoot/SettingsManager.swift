@@ -23,18 +23,36 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     let locationFailedNotification = NSNotification.Name.init(rawValue: "LocateFailed")
     let locationUpdatedNotification = NSNotification.Name.init(rawValue: "LocationUpdated")
     
+    var profile:[String:Any]
+    
     override init() {
+        let defaults = UserDefaults.standard
+        
+        if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
+            profile = prof
+        } else {
+            profile = ["linked":false]
+            
+            if let uuid = defaults.string(forKey: "ProfId") {
+                profile["profId"] = uuid
+            } else {
+                let uuid = UUID().uuidString
+                profile["profId"] = uuid
+                defaults.set(profile, forKey: "Profile")
+            }
+        }
+        
         scheduledReminders = [:]
-        if let reminderQueue = UserDefaults.standard.object(forKey: "ScheduledReminders") as? [String:String] {
+        if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
             for (key, value) in reminderQueue{
                 self.scheduledReminders[GreenDataType(rawValue: key)!] = value
             }
         }
         
-        self.canNotify = UserDefaults.standard.bool(forKey: "NotificationSetting")
+        self.canNotify = defaults.bool(forKey: "NotificationSetting")
         self.shouldUseLocation = UserDefaults.standard.bool(forKey: "LocationSetting")
         
-        if let reminders = UserDefaults.standard.object(forKey: "ReminderSettings") as? [String:String] {
+        if let reminders = defaults.object(forKey: "ReminderSettings") as? [String:String] {
             self.reminderTimings = [:]
             for (key, value) in reminders {
                 self.reminderTimings![GreenDataType(rawValue: key)!] = ReminderSettings(rawValue: value)!
@@ -169,6 +187,30 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         }
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: scheduledIds)
+    }
+    
+    func login(email: String, password: String, completion: @escaping (Bool) -> Void) {
+        let parameters:[String:Any] = ["email":email, "password":password]
+        
+        let id = APIRequestType.login.rawValue
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "login", withParameters: parameters, andSuccessFunction: {
+            (data) in
+            print(data)
+            
+            self.profile["profId"] = data["UserId"] as? String
+            self.profile["email"] = email
+            self.profile["password"] = password
+            self.profile["linked"] = true
+            for (_, data) in GreenfootModal.sharedInstance.data {
+                data.reachConsensus()
+            }
+            
+            completion(true)
+        }, andFailureFunction: {
+            (err) in
+            print(err["Message"]!)
+            completion(false)
+        })
     }
 }
 

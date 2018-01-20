@@ -38,7 +38,7 @@ class GreenfootModal {
     }
     
     var locality:[String:String]?
-    let profId:String
+    
     var rankings:[String:Int]
     
     private var rankingFetchInProgress: Bool
@@ -48,13 +48,6 @@ class GreenfootModal {
         rankings = [:]
         
         let defaults = UserDefaults.standard
-        
-        if let uuid = defaults.string(forKey: "ProfId") {
-            profId = uuid
-        } else {
-            profId = UUID().uuidString
-            defaults.set(profId, forKey: "ProfId")
-        }
         
         if let locale_data = defaults.dictionary(forKey: "LocalityData") as? [String:String] {
             locality = locale_data
@@ -78,7 +71,7 @@ class GreenfootModal {
             return
         }
         
-        var parameters:[String: Any] = ["id":profId, "points":totalEnergyPoints]
+        var parameters:[String: Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "points":totalEnergyPoints]
         parameters["state"] = locale["State"]
         parameters["country"] = locale["Country"]
         parameters["city"] = locale["City"]
@@ -92,7 +85,7 @@ class GreenfootModal {
             if !self.rankingFetchInProgress {
                 self.fetchRankings()
             }
-        })
+        }, andFailureFunction: nil)
     }
     
     func fetchRankings() {
@@ -102,7 +95,7 @@ class GreenfootModal {
         
         rankingFetchInProgress = true
         
-        var parameters:[String:Any] = ["id":profId]
+        var parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!]
         parameters["state"] = locale["State"]
         parameters["country"] = locale["Country"]
         
@@ -120,7 +113,7 @@ class GreenfootModal {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.stateRank.rawValue), object: nil)
             }
-        })
+        }, andFailureFunction: nil)
         
         parameters["city"] = locale["City"]
         
@@ -138,7 +131,7 @@ class GreenfootModal {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:APINotifications.cityRank.rawValue), object: nil)
             }
-        })
+        }, andFailureFunction: nil)
     }
     
     func queueReminder(dataType: GreenDataType) {

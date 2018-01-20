@@ -12,6 +12,7 @@ class APICall {
     //Parameter variables
     let uniqId: String
     let successFunction: ((NSDictionary) -> Void)?
+    let failureFunction: ((NSDictionary) -> Void)?
     private let endpoint: String
     private let base: URL
     private let parameters: [String:Any]
@@ -20,12 +21,13 @@ class APICall {
     //Computed variables
     private var request:URLRequest
     
-    init(_ delegate:APIRequestManager, atEndpoint endpoint:String, onURL base:URL, withParameters parameters:[String:Any], andSuccessFunction function: ((NSDictionary) -> Void)?) {
+    init(_ delegate:APIRequestManager, atEndpoint endpoint:String, onURL base:URL, withParameters parameters:[String:Any], andSuccessFunction function: ((NSDictionary) -> Void)?, andFailureFunction failure:((NSDictionary) -> Void)?) {
         self.delegate = delegate
         self.endpoint = endpoint
         self.base = base
         self.parameters = parameters
         self.successFunction = function
+        self.failureFunction = failure
         
         let url = URL(string: endpoint, relativeTo: base)!
         request = URLRequest(url: url)
@@ -37,12 +39,13 @@ class APICall {
         request.httpBody = bodyData.data(using: String.Encoding.utf8)
     }
     
-    init(_ delegate:APIRequestManager, atEndpoint endpoint:String, onURL base:URL, withParameters parameters:[String:Any], identifiedBy uID:String, andSuccessFunction function:((NSDictionary) -> Void)?) {
+    init(_ delegate:APIRequestManager, atEndpoint endpoint:String, onURL base:URL, withParameters parameters:[String:Any], identifiedBy uID:String, andSuccessFunction success:((NSDictionary) -> Void)?, andFailureFunction failure:((NSDictionary) -> Void)?) {
         self.delegate = delegate
         self.endpoint = endpoint
         self.base = base
         self.parameters = parameters
-        self.successFunction = function
+        self.successFunction = success
+        self.failureFunction = failure
         
         let url = URL(string: endpoint, relativeTo: base)!
         request = URLRequest(url: url)

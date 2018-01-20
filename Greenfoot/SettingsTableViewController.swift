@@ -8,7 +8,7 @@
 
 import UIKit
 import Material
-
+import SCLAlertView
 
 class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     var locationSwitch: Switch!
@@ -77,7 +77,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         case 1:
             return (SettingsManager.sharedInstance.canNotify) ? 5 : 1
         case 2:
-            return 3
+            return 4
         default:
             return 0
         }
@@ -117,9 +117,67 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             let contentHeight:CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 2500 : 4000
             let vc = FileScrollViewController(fileName: "privacy", contentHeight: contentHeight)
             self.navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            if (!(SettingsManager.sharedInstance.profile["linked"] as! Bool)) {
+                showLogin()
+            }
+            tableView.deselectRow(at: indexPath, animated: false)
         default:
             return
         }
+    }
+    
+    private func showLogin() {
+        let appearance = SCLAlertView.SCLAppearance(
+            kTitleFont: UIFont(name: "DroidSans", size:17)!,
+            kTextFont: UIFont(name: "DroidSans", size:14)!,
+            kButtonFont: UIFont(name: "DroidSans", size:17)!,
+            shouldAutoDismiss: false,
+            hideWhenBackgroundViewIsTapped: true)
+        
+        let scAlert = SCLAlertView(appearance: appearance)
+        
+        let emailField = scAlert.addTextField("Email")
+        emailField.delegate = scAlert
+        emailField.autocapitalizationType = .none
+        
+        let passField = scAlert.addTextField("Password")
+        passField.isSecureTextEntry = true
+        passField.autocapitalizationType = .none
+        passField.delegate = scAlert
+        
+        scAlert.addButton("Login", action: {
+            SettingsManager.sharedInstance.login(email: emailField.text!, password: passField.text!, completion: {
+                (success) in
+                DispatchQueue.main.async {
+                    if success {
+                        scAlert.hideView()
+                    } else {
+                        self.tableView.reloadSections([2], with: .none)
+                        scAlert.showTitle("Link Device",
+                                          subTitle: "Error: Email/Password incorrect",
+                                          style: .info,
+                                          closeButtonTitle: "Cancel",
+                                          colorStyle: 0x2ecc71,
+                                          colorTextButton: 0xffffff,
+                                          circleIconImage: Icon.logo_white,
+                                          animationStyle: .noAnimation)
+                    }
+                }
+            })
+        })
+        scAlert.addButton("Sign Up", action: {
+            print("Sign Up")
+        })
+        
+        scAlert.showTitle("Link Device",
+                          subTitle: "If you already have an account, login. If you do not have an account, create one",
+                          style: .info,
+                          closeButtonTitle: "Cancel",
+                          colorStyle: 0x2ecc71,
+                          colorTextButton: 0xffffff,
+                          circleIconImage: Icon.logo_white,
+                          animationStyle: .bottomToTop)
     }
     
     private func standardCellForPath(_ indexPath:IndexPath) -> UITableViewCell {
@@ -131,6 +189,13 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             cell.textLabel?.text = "See License"
         case 2:
             cell.textLabel?.text = "Privacy Policy"
+        case 3:
+            if (!(SettingsManager.sharedInstance.profile["linked"] as! Bool)) {
+                cell.textLabel?.text = "Link Device"
+            } else {
+                cell.textLabel?.text = "Device Linked"
+            }
+            
         default:
             cell.textLabel?.text = ""
         }
@@ -384,10 +449,22 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         
         field.resignFirstResponder()
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 class TableViewCellPicker: UIPickerView {
     var tableViewCell: UITableViewCell?
     var textField: UITextField?
     var indexPath: IndexPath?
+}
+
+extension SCLAlertView: UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
