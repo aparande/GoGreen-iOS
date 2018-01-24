@@ -57,68 +57,80 @@ class CoreDataHelper {
     //Saves a data point to GreenData
     static func save(data: GreenData, month: Date, amount: Double) {
         if let _ = appDelegate {
-            let managedContext = appDelegate!.persistentContainer.viewContext
-            
-            let entity = NSEntityDescription.entity(forEntityName: "DataPoint", in: managedContext)!
-            
-            let point = NSManagedObject(entity: entity, insertInto: managedContext)
-            
-            point.setValue(month, forKeyPath: "month")
-            point.setValue(amount, forKeyPath: "amount")
-            point.setValue(false, forKey: "uploaded")
-            point.setValue(data.dataName, forKey: "dataType")
-            
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+            let container = appDelegate!.persistentContainer
+            container.performBackgroundTask() {
+                context in
+                
+                let entity = NSEntityDescription.entity(forEntityName: "DataPoint", in: context)!
+                
+                let point = NSManagedObject(entity: entity, insertInto: context)
+                
+                point.setValue(month, forKeyPath: "month")
+                point.setValue(amount, forKeyPath: "amount")
+                point.setValue(false, forKey: "uploaded")
+                point.setValue(data.dataName, forKey: "dataType")
+                
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
             }
         }
     }
     
     static func update(data: GreenData, month:Date, updatedValue: Double, uploaded: Bool) {
         if let _ = appDelegate {
-            let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
-            
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
-            fetchRequest.predicate = predicate
-            
-            let managedContext = appDelegate!.persistentContainer.viewContext
-            do {
-                let fetchedEntities = try managedContext.fetch(fetchRequest)
-                fetchedEntities.first?.setValue(updatedValue, forKeyPath: "amount")
-                fetchedEntities.first?.setValue(uploaded, forKeyPath: "uploaded")
-            } catch let error as NSError {
-                print("Could not update. \(error), \(error.userInfo)")
-            }
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+            let container = appDelegate!.persistentContainer
+            container.performBackgroundTask() {
+                context in
+                
+                let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
+                
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
+                fetchRequest.predicate = predicate
+                
+                do {
+                    let fetchedEntities = try context.fetch(fetchRequest)
+                    fetchedEntities.first?.setValue(updatedValue, forKeyPath: "amount")
+                    fetchedEntities.first?.setValue(uploaded, forKeyPath: "uploaded")
+                } catch let error as NSError {
+                    print("Could not update. \(error), \(error.userInfo)")
+                }
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
             }
         }
     }
     
     static func delete(data: GreenData, month: Date) {
         if let _ = appDelegate {
-            let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
-            
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
-            fetchRequest.predicate = predicate
-            
-            let managedContext = appDelegate!.persistentContainer.viewContext
-            do {
-                let fetchedEntities = try managedContext.fetch(fetchRequest)
-                if let selected = fetchedEntities.first {
-                    managedContext.delete(selected)
+            let container = appDelegate!.persistentContainer
+            container.performBackgroundTask() {
+                context in
+                
+                let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
+                
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
+                fetchRequest.predicate = predicate
+                
+                let managedContext = appDelegate!.persistentContainer.viewContext
+                do {
+                    let fetchedEntities = try managedContext.fetch(fetchRequest)
+                    if let selected = fetchedEntities.first {
+                        managedContext.delete(selected)
+                    }
+                } catch let error as NSError {
+                    print("Could not delete. \(error), \(error.userInfo)")
                 }
-            } catch let error as NSError {
-                print("Could not delete. \(error), \(error.userInfo)")
-            }
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
             }
         }
     }
