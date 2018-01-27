@@ -418,10 +418,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
-class SignupViewController: UIViewController {
+class SignupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var userField: UITextField!
     @IBOutlet var passField: UITextField!
     @IBOutlet var repassField: UITextField!
+    @IBOutlet var firstNameField: UITextField!
+    @IBOutlet var lastNameField: UITextField!
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 class TableViewCellPicker: UIPickerView {
@@ -467,7 +474,7 @@ extension PopupDialog {
             return loginPopup
         } else {
             //Create the signup dialog
-            let svc = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "Signup")
+            let svc = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "Signup") as! SignupViewController
             let signupPopup = PopupDialog(viewController: svc, transitionStyle: .bounceDown)
             
             let backButton = DefaultButton(title: "Back", dismissOnTap: false) {
@@ -478,7 +485,19 @@ extension PopupDialog {
             }
             
             let signupButton = DefaultButton(title: "Signup", dismissOnTap: false) {
-                print("Yay, singuped")
+                SettingsManager.sharedInstance.signup(email: svc.userField.text!, password: svc.passField.text!, retypedPassword: svc.repassField.text!, firstname: svc.firstNameField.text!, lastname: svc.lastNameField.text!, completion: {
+                    (success) in
+                    DispatchQueue.main.async {
+                        if success {
+                            if let tableViewController = viewController as? UITableViewController {
+                                tableViewController.tableView.reloadSections([2], with: .none)
+                            }
+                            signupPopup.dismiss()
+                        } else {
+                            signupPopup.shake()
+                        }
+                    }
+                })
             }
             
             signupPopup.addButtons([signupButton, backButton, cancelButton])

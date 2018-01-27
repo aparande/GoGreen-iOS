@@ -28,6 +28,7 @@ enum APIRequestType: String {
     case delete = "DELETE"
     case consensus = "CONSENSUS"
     case login = "LOGIN"
+    case signup = "SIGNUP"
 }
 
 class APIRequestManager: NSObject, URLSessionDelegate {

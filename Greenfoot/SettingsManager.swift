@@ -222,6 +222,33 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             completion(false)
         })
     }
+    
+    func signup(email: String, password: String, retypedPassword: String, firstname: String, lastname: String, completion: @escaping (Bool) -> Void) {
+        if password != retypedPassword {
+            return completion(false)
+        }
+        
+        var parameters:[String:Any] = ["id": profile["profId"]!, "lastName":lastname, "firstName":firstname, "email":email, "password":password]
+        if let location = locality {
+            parameters["location"] = location
+        }
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: APIRequestType.signup.rawValue, atEndpoint: "createAccount", withParameters: parameters, andSuccessFunction: {
+            (data) in
+            print(data)
+            
+            self.profile["email"] = email
+            self.profile["password"] = password
+            self.profile["linked"] = true
+            UserDefaults.standard.set(self.profile, forKey: "Profile")
+            
+            completion(true)
+        }, andFailureFunction: {
+            (err) in
+            print(err["Message"]!)
+            completion(false)
+        })
+    }
 }
 
 enum Settings {

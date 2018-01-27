@@ -87,40 +87,69 @@
             <objects>
                 <viewController storyboardIdentifier="Signup" modalPresentationStyle="currentContext" id="6ak-kz-Luw" customClass="SignupViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TDC-24-6xq">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="150"/>
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="250"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="exu-7Z-oqp">
-                                <rect key="frame" x="10" y="10" width="330" height="130"/>
+                                <rect key="frame" x="10" y="10" width="330" height="230"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Signup" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLu-5x-jib">
-                                        <rect key="frame" x="0.0" y="0.0" width="330" height="25"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="330" height="30"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Kk-Fe-B0V" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="35" width="330" height="25"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WxR-xm-7pN" customClass="TextField" customModule="Material">
+                                        <rect key="frame" x="0.0" y="40" width="330" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" textContentType="name"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="6ak-kz-Luw" id="ZB5-og-gcL"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ynG-Ca-Pov" customClass="TextField" customModule="Material">
+                                        <rect key="frame" x="0.0" y="80" width="330" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" textContentType="family-name"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="6ak-kz-Luw" id="LGD-f1-Igo"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Kk-Fe-B0V" customClass="TextField" customModule="Material">
+                                        <rect key="frame" x="0.0" y="120" width="330" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" textContentType="email"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="6ak-kz-Luw" id="MPn-3x-ZFq"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="chQ-zy-qTJ" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="70" width="330" height="25"/>
+                                        <rect key="frame" x="0.0" y="160" width="330" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="6ak-kz-Luw" id="qVY-vo-5SV"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Retype Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7yh-j9-JNG" userLabel="Reenter Pass" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="105" width="330" height="25"/>
+                                        <rect key="frame" x="0.0" y="200" width="330" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="6ak-kz-Luw" id="WqG-4N-oFp"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="gLu-5x-jib" firstAttribute="leading" secondItem="exu-7Z-oqp" secondAttribute="leading" id="7P5-3X-JVc"/>
                                     <constraint firstItem="chQ-zy-qTJ" firstAttribute="leading" secondItem="exu-7Z-oqp" secondAttribute="leading" id="CWn-TQ-NKg"/>
+                                    <constraint firstItem="ynG-Ca-Pov" firstAttribute="width" secondItem="WxR-xm-7pN" secondAttribute="width" id="K1l-bj-sxT"/>
+                                    <constraint firstItem="WxR-xm-7pN" firstAttribute="width" secondItem="5Kk-Fe-B0V" secondAttribute="width" id="L9u-7x-oEW"/>
                                     <constraint firstItem="5Kk-Fe-B0V" firstAttribute="leading" secondItem="exu-7Z-oqp" secondAttribute="leading" id="rLP-Q0-B8u"/>
                                     <constraint firstItem="7yh-j9-JNG" firstAttribute="leading" secondItem="exu-7Z-oqp" secondAttribute="leading" id="sTo-7f-Uin"/>
                                 </constraints>
@@ -136,8 +165,10 @@
                         <viewLayoutGuide key="safeArea" id="V7C-SE-iG6"/>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="350" height="150"/>
+                    <size key="freeformSize" width="350" height="250"/>
                     <connections>
+                        <outlet property="firstNameField" destination="WxR-xm-7pN" id="EFi-43-yQl"/>
+                        <outlet property="lastNameField" destination="ynG-Ca-Pov" id="22T-J7-Lkl"/>
                         <outlet property="passField" destination="chQ-zy-qTJ" id="Y25-q2-2Wc"/>
                         <outlet property="repassField" destination="7yh-j9-JNG" id="bl7-zx-wbe"/>
                         <outlet property="userField" destination="5Kk-Fe-B0V" id="A7o-zw-2Kr"/>
