@@ -8,7 +8,7 @@
 
 import UIKit
 import Material
-import SCLAlertView
+import PopupDialog
 
 protocol TutorialPageDelegate {
     func skipPage()
@@ -85,56 +85,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     }
     
     @objc func showLogin() {
-        let appearance = SCLAlertView.SCLAppearance(
-            kTitleFont: UIFont(name: "DroidSans", size:17)!,
-            kTextFont: UIFont(name: "DroidSans", size:14)!,
-            kButtonFont: UIFont(name: "DroidSans", size:17)!,
-            shouldAutoDismiss: false,
-            hideWhenBackgroundViewIsTapped: true)
-        
-        let scAlert = SCLAlertView(appearance: appearance)
-        
-        let emailField = scAlert.addTextField("Email")
-        emailField.delegate = scAlert
-        emailField.autocapitalizationType = .none
-        
-        let passField = scAlert.addTextField("Password")
-        passField.isSecureTextEntry = true
-        passField.autocapitalizationType = .none
-        passField.delegate = scAlert
-        
-        scAlert.addButton("Login", action: {
-            SettingsManager.sharedInstance.login(email: emailField.text!, password: passField.text!, completion: {
-                (success) in
-                DispatchQueue.main.async {
-                    if success {
-                        scAlert.hideView()
-                        self.delegate.tutorialComplete()
-                    } else {
-                        scAlert.showTitle("Link Device",
-                                          subTitle: "Error: Email/Password incorrect",
-                                          style: .info,
-                                          closeButtonTitle: "Cancel",
-                                          colorStyle: 0x2ecc71,
-                                          colorTextButton: 0xffffff,
-                                          circleIconImage: Icon.logo_white,
-                                          animationStyle: .noAnimation)
-                    }
-                }
-            })
-        })
-        scAlert.addButton("Sign Up", action: {
-            print("Sign Up")
-        })
-        
-        scAlert.showTitle("Link Device",
-                          subTitle: "If you already have an account, login. If you do not have an account, create one",
-                          style: .info,
-                          closeButtonTitle: "Cancel",
-                          colorStyle: 0x2ecc71,
-                          colorTextButton: 0xffffff,
-                          circleIconImage: Icon.logo_white,
-                          animationStyle: .bottomToTop)
+        self.present(PopupDialog.getPopupDialog(for: "Login", controlledBy: self), animated: true, completion: nil)
     }
     
     func setValues(title: String, description: String, icon: UIImage, units: String?, isEditable:Bool) {

@@ -8,7 +8,7 @@
 
 import UIKit
 import Material
-import SCLAlertView
+import PopupDialog
 
 class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     var locationSwitch: Switch!
@@ -128,56 +128,8 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
     
     private func showLogin() {
-        let appearance = SCLAlertView.SCLAppearance(
-            kTitleFont: UIFont(name: "DroidSans", size:17)!,
-            kTextFont: UIFont(name: "DroidSans", size:14)!,
-            kButtonFont: UIFont(name: "DroidSans", size:17)!,
-            shouldAutoDismiss: false,
-            hideWhenBackgroundViewIsTapped: true)
-        
-        let scAlert = SCLAlertView(appearance: appearance)
-        
-        let emailField = scAlert.addTextField("Email")
-        emailField.delegate = scAlert
-        emailField.autocapitalizationType = .none
-        
-        let passField = scAlert.addTextField("Password")
-        passField.isSecureTextEntry = true
-        passField.autocapitalizationType = .none
-        passField.delegate = scAlert
-        
-        scAlert.addButton("Login", action: {
-            SettingsManager.sharedInstance.login(email: emailField.text!, password: passField.text!, completion: {
-                (success) in
-                DispatchQueue.main.async {
-                    if success {
-                        self.tableView.reloadSections([2], with: .none)
-                        scAlert.hideView()
-                    } else {
-                        scAlert.showTitle("Link Device",
-                                          subTitle: "Error: Email/Password incorrect",
-                                          style: .info,
-                                          closeButtonTitle: "Cancel",
-                                          colorStyle: 0x2ecc71,
-                                          colorTextButton: 0xffffff,
-                                          circleIconImage: Icon.logo_white,
-                                          animationStyle: .noAnimation)
-                    }
-                }
-            })
-        })
-        scAlert.addButton("Sign Up", action: {
-            print("Sign Up")
-        })
-        
-        scAlert.showTitle("Link Device",
-                          subTitle: "If you already have an account, login. If you do not have an account, create one",
-                          style: .info,
-                          closeButtonTitle: "Cancel",
-                          colorStyle: 0x2ecc71,
-                          colorTextButton: 0xffffff,
-                          circleIconImage: Icon.logo_white,
-                          animationStyle: .bottomToTop)
+        // Present Login
+        self.present(PopupDialog.getPopupDialog(for: "Login", controlledBy: self), animated: true, completion: nil)
     }
     
     private func standardCellForPath(_ indexPath:IndexPath) -> UITableViewCell {
@@ -456,15 +408,81 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
 }
 
+class LoginViewController: UIViewController, UITextFieldDelegate {
+    @IBOutlet var userField: UITextField!
+    @IBOutlet var passField: UITextField!
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+class SignupViewController: UIViewController {
+    @IBOutlet var userField: UITextField!
+    @IBOutlet var passField: UITextField!
+    @IBOutlet var repassField: UITextField!
+}
+
 class TableViewCellPicker: UIPickerView {
     var tableViewCell: UITableViewCell?
     var textField: UITextField?
     var indexPath: IndexPath?
 }
 
-extension SCLAlertView: UITextFieldDelegate {
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+extension PopupDialog {
+    static func getPopupDialog(for type: String, controlledBy viewController: UIViewController) -> PopupDialog {
+        let cancelButton = CancelButton(title: "CANCEL", action: nil)
+        if type == "Login" {
+            // Create the login dialog
+            let lvc = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()! as! LoginViewController
+            let loginPopup = PopupDialog(viewController: lvc)
+            
+            //Create some buttons
+            let loginButton = DefaultButton(title: "Login", dismissOnTap: false) {
+                SettingsManager.sharedInstance.login(email: lvc.userField.text!, password: lvc.passField.text!, completion: {
+                    (success) in
+                    DispatchQueue.main.async {
+                        if success {
+                            if let tableViewController = viewController as? UITableViewController {
+                                tableViewController.tableView.reloadSections([2], with: .none)
+                            }
+                            loginPopup.dismiss()
+                        } else {
+                            loginPopup.shake()
+                        }
+                    }
+                })
+            }
+            
+            let createButton = DefaultButton(title: "Create Account", dismissOnTap: false) {
+                loginPopup.dismiss({
+                    let signupPopup = self.getPopupDialog(for: "Signup", controlledBy: viewController)
+                    viewController.present(signupPopup, animated: true, completion: nil)
+                })
+            }
+            
+            //Add the buttons
+            loginPopup.addButtons([loginButton, createButton, cancelButton])
+            return loginPopup
+        } else {
+            //Create the signup dialog
+            let svc = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "Signup")
+            let signupPopup = PopupDialog(viewController: svc, transitionStyle: .bounceDown)
+            
+            let backButton = DefaultButton(title: "Back", dismissOnTap: false) {
+                signupPopup.dismiss({
+                    let loginPopup = self.getPopupDialog(for: "Login", controlledBy: viewController)
+                    viewController.present(loginPopup, animated: true, completion: nil)
+                })
+            }
+            
+            let signupButton = DefaultButton(title: "Signup", dismissOnTap: false) {
+                print("Yay, singuped")
+            }
+            
+            signupPopup.addButtons([signupButton, backButton, cancelButton])
+            return signupPopup
+        }
     }
 }

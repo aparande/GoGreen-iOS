@@ -41,6 +41,7 @@
 		1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */; };
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
 		1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */; };
+		1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FAFFB02201AE11A0015CF4B /* Account.storyboard */; };
 		1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D31EF19A2A007F7835 /* GreenData.swift */; };
 		1FC291D61EF1C235007F7835 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC291D51EF1C235007F7835 /* CoreData.framework */; };
 		1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
@@ -90,6 +91,7 @@
 		1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		1FAFFB02201AE11A0015CF4B /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		1FC291D31EF19A2A007F7835 /* GreenData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenData.swift; sourceTree = "<group>"; };
 		1FC291D51EF1C235007F7835 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = greenfoot.xcdatamodel; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */,
 				1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */,
 				1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */,
+				1FAFFB02201AE11A0015CF4B /* Account.storyboard */,
 				1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */,
 				1F15D0901F27101400DFA60B /* AddDataHeader.xib */,
 				1F0C23541E6FB644006004CD /* AttributeCell.xib */,
@@ -312,6 +315,7 @@
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
 				1F123F841FE5A92600FEAC84 /* license.txt in Resources */,
 				1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */,
+				1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */,
 				1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */,
 				1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */,
 			);
@@ -341,13 +345,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Greenfoot-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FFEB0A537B8973393DEAC0BF /* [CP] Embed Pods Frameworks */ = {
@@ -356,9 +363,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
+				"${BUILT_PRODUCTS_DIR}/PopupDialog/PopupDialog.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicBlurView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopupDialog.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

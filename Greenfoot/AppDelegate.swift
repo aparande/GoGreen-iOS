@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import CoreData
+import PopupDialog
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -75,7 +76,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window!.makeKeyAndVisible()
         
+        style()
+        
         return true
+    }
+    
+    private func style() {
+        let buttonAppearance = PopupDialogButton.appearance()
+        buttonAppearance.titleFont = UIFont(name: "DroidSans", size: 15)
+        buttonAppearance.titleColor = Colors.green
+        
+        CancelButton.appearance().titleColor = .red
     }
     
     private func getGraphController(forDataType type:GreenDataType, andTag tag:Int) -> NavigationController {
