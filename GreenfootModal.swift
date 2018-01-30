@@ -51,6 +51,7 @@ class GreenfootModal {
         
         if let locale_data = defaults.dictionary(forKey: "LocalityData") as? [String:String] {
             locality = locale_data
+            SettingsManager.sharedInstance.shouldUseLocation = true
         }
         
         if let rankings = defaults.dictionary(forKey: "Rankings") as? [String:Int] {

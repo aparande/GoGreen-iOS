@@ -61,6 +61,12 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         
         if let locale_data = UserDefaults.standard.dictionary(forKey: "Setting_Locale") as? [String:String] {
             locality = locale_data
+        } else {
+            if let locale = GreenfootModal.sharedInstance.locality {
+                self.locality = locale
+                UserDefaults.standard.set(locality, forKey:"Setting_Locale")
+                self.shouldUseLocation = true
+            }
         }
     }
     

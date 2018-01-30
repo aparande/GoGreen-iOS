@@ -31,8 +31,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let segmentedView = self.navigationItem.centerViews[0] as? UISegmentedControl
             segmentedView?.removeSegment(at: 2, animated: false)
         }
-        
-        graph.loadData(data.getGraphData(), labeled: data.yLabel)
+
         graph.delegate = self
         
         iconImageView.image = data.icon

@@ -127,11 +127,16 @@ class BarGraph: BarChartView {
         
         let chartData = BarChartData(dataSet: chartDataSet)
         
-        chartData.barWidth = fixedToPercentWidth(35, withSpacing: 25, numberOfBars: points.count)
-        
-        self.xAxis.valueFormatter = IndexAxisValueFormatter(values: labels)
+        let chartFormatter = BarChartFormatter(labels: labels)
+        let xAxis = XAxis()
+        xAxis.valueFormatter = chartFormatter
+        self.xAxis.valueFormatter = xAxis.valueFormatter
+        self.xAxis.granularityEnabled = true
+        self.xAxis.granularity = 1
         
         self.data = chartData
+        
+        chartData.barWidth = fixedToPercentWidth(35, withSpacing: 25, numberOfBars: points.count)
         
         //Design the chart
         self.chartDescription?.text = ""
@@ -200,7 +205,8 @@ class BarGraph: BarChartView {
     
     private func fixedToPercentWidth(_ fixed: Double, withSpacing spacing:Double, numberOfBars barNum: Int) -> Double {
         //print("Trying to size \(barNum) bars of width \(fixed) and spacing \(spacing)")
-        let viewportWidth = self.frame.width
+        //let viewportWidth = self.frame.width
+        let viewportWidth = UIScreen.main.bounds.width - 2 * 23
         //print("Viewport: \(viewportWidth)")
         
         let totalSpace = fixed * Double(barNum) + spacing * Double(barNum - 1)
@@ -209,5 +215,23 @@ class BarGraph: BarChartView {
         self.setScaleMinima(CGFloat(totalSpace)/viewportWidth, scaleY: 1.0)
         
         return fixed * Double(barNum)/totalSpace
+    }
+    
+    private class BarChartFormatter: NSObject, IAxisValueFormatter {
+        
+        var labels: [String] = []
+        
+        func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+            if Int(value) >= labels.count {
+                return ""
+            } else {
+                return labels[Int(value)]
+            }
+        }
+        
+        init(labels: [String]) {
+            super.init()
+            self.labels = labels
+        }
     }
 }
