@@ -342,13 +342,17 @@ class GreenData {
     
     fileprivate func updateOnServer(month:String, point: Double) {
         //This is the check to see if the user wants to share their data
-        guard let _ = GreenfootModal.sharedInstance.locality else {
+        guard let locality = GreenfootModal.sharedInstance.locality else {
             return
         }
         
         var parameters:[String:Any] = ["month":month, "amount":Int(point)]
         parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         parameters["dataType"] = dataName
+        
+        parameters["city"] = locality["City"]!
+        parameters["state"] = locality["State"]
+        parameters["country"] = locality["Country"]
         
         let id=[APIRequestType.update.rawValue, dataName, month].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: {
