@@ -410,6 +410,8 @@ extension Icon {
     static let road_white = UIImage(named: "Road")!
     
     static let chart_green = UIImage(named: "Chart_Green")!
+    static let lock = UIImage(named: "Lock")!
+    static let person = UIImage(named: "Person")!
     
     static let electric_emblem = UIImage(named:"electric_emblem")!
     static let water_emblem = UIImage(named:"water_emblem")!

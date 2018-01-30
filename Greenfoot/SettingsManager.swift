@@ -189,7 +189,19 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: scheduledIds)
     }
     
-    func login(email: String, password: String, completion: @escaping (Bool) -> Void) {
+    func login(email: String, password: String, completion: @escaping (Bool, String?) -> Void) {
+        guard let _ = email.index(of: "@") else {
+            return completion(false, "Invalid Email Address")
+        }
+        
+        if email == "" {
+            return completion(false, "Please enter your email address")
+        }
+        
+        if password == "" {
+            return completion(false, "Please enter your password")
+        }
+        
         let parameters:[String:Any] = ["email":email, "password":password]
         
         let id = APIRequestType.login.rawValue
@@ -215,17 +227,41 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 data.reachConsensus()
             }
             
-            completion(true)
+            completion(true, nil)
         }, andFailureFunction: {
             (err) in
-            print(err["Message"]!)
-            completion(false)
+            guard let errorType = err["Error"] as? APIError else {
+                return completion(false, nil)
+            }
+            
+            if errorType == .serverFailure {
+                completion(false, "Incorrect Username/Password Combination")
+            } else {
+                completion(false, "Please check your network connection or try again later")
+            }
+            
         })
     }
     
-    func signup(email: String, password: String, retypedPassword: String, firstname: String, lastname: String, completion: @escaping (Bool) -> Void) {
+    func signup(email: String, password: String, retypedPassword: String, firstname: String, lastname: String, completion: @escaping (Bool, String?) -> Void) {
+        if password == "" || email == "" || retypedPassword == "" || firstname == "" || lastname == "" {
+            return completion(false, "Please fill out all fields")
+        }
+        
         if password != retypedPassword {
-            return completion(false)
+            return completion(false, "Passwords do not match")
+        }
+        
+        if email == "" {
+            return completion(false, "Please enter your email address")
+        }
+        
+        if password.count < 8 {
+            return completion(false, "Please your password must be at least 8 characters")
+        }
+        
+        guard let _ = email.index(of: "@") else {
+            return completion(false, "Invalid Email Address")
         }
         
         var parameters:[String:Any] = ["id": profile["profId"]!, "lastName":lastname, "firstName":firstname, "email":email, "password":password]
@@ -242,11 +278,18 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             self.profile["linked"] = true
             UserDefaults.standard.set(self.profile, forKey: "Profile")
             
-            completion(true)
+            completion(true, nil)
         }, andFailureFunction: {
             (err) in
-            print(err["Message"]!)
-            completion(false)
+            guard let errorType = err["Error"] as? APIError else {
+                return completion(false, nil)
+            }
+            
+            if errorType == .serverFailure {
+                completion(false, "Could not create account")
+            } else {
+                completion(false, "Please check your network connection or try again later")
+            }
         })
     }
 }

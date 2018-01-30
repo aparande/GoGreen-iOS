@@ -23,39 +23,56 @@
             <objects>
                 <viewController modalPresentationStyle="currentContext" id="dFL-0S-hDr" customClass="LoginViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="L6J-Br-o7P">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="150"/>
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="CfZ-SH-hki">
-                                <rect key="frame" x="10" y="10" width="330" height="130"/>
+                                <rect key="frame" x="10" y="10" width="330" height="180"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Kv-AY-7f4">
-                                        <rect key="frame" x="0.0" y="0.0" width="330" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="330" height="34.5"/>
                                         <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="20"/>
                                         <color key="textColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your email and password to login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Yi-kd-fgN">
+                                        <rect key="frame" x="0.0" y="48.5" width="330" height="34.5"/>
+                                        <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="14"/>
+                                        <color key="textColor" red="0.49803921568627452" green="0.5490196078431373" blue="0.55294117647058827" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CBn-E0-fAX" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="48" width="330" height="34"/>
+                                        <rect key="frame" x="0.0" y="97" width="330" height="34.5"/>
                                         <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" textContentType="email"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
+                                                <color key="value" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="dFL-0S-hDr" id="34f-am-LIm"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nah-4P-AqC" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="96" width="330" height="34"/>
+                                        <rect key="frame" x="0.0" y="145.5" width="330" height="34.5"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
+                                                <color key="value" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="dFL-0S-hDr" id="Bt0-2N-dhj"/>
                                         </connections>
                                     </textField>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="5Yi-kd-fgN" firstAttribute="width" secondItem="9Kv-AY-7f4" secondAttribute="width" id="Kza-BB-pKp"/>
                                     <constraint firstItem="Nah-4P-AqC" firstAttribute="leading" secondItem="CfZ-SH-hki" secondAttribute="leading" id="fqu-lg-Mkk"/>
                                     <constraint firstItem="CBn-E0-fAX" firstAttribute="leading" secondItem="CfZ-SH-hki" secondAttribute="leading" id="jyZ-Zz-qKR"/>
                                     <constraint firstItem="9Kv-AY-7f4" firstAttribute="leading" secondItem="CfZ-SH-hki" secondAttribute="leading" id="oAD-eO-Un5"/>
@@ -72,8 +89,9 @@
                         <viewLayoutGuide key="safeArea" id="lr1-Xj-uUO"/>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="350" height="150"/>
+                    <size key="freeformSize" width="350" height="200"/>
                     <connections>
+                        <outlet property="messageLabel" destination="5Yi-kd-fgN" id="BYq-lJ-tSY"/>
                         <outlet property="passField" destination="Nah-4P-AqC" id="Rc4-Ei-6jS"/>
                         <outlet property="userField" destination="CBn-E0-fAX" id="giI-pB-2P2"/>
                     </connections>
@@ -87,59 +105,96 @@
             <objects>
                 <viewController storyboardIdentifier="Signup" modalPresentationStyle="currentContext" id="6ak-kz-Luw" customClass="SignupViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TDC-24-6xq">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="250"/>
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="exu-7Z-oqp">
-                                <rect key="frame" x="10" y="10" width="330" height="230"/>
+                                <rect key="frame" x="10" y="10" width="330" height="280"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Signup" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLu-5x-jib">
-                                        <rect key="frame" x="0.0" y="0.0" width="330" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLu-5x-jib">
+                                        <rect key="frame" x="0.0" y="0.0" width="330" height="31.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oYk-iK-LqP">
+                                        <rect key="frame" x="0.0" y="41.5" width="330" height="31.5"/>
+                                        <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="DroidSans" family="Droid Sans" pointSize="14"/>
+                                        <color key="textColor" red="0.49803921569999998" green="0.54901960780000003" blue="0.55294117649999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WxR-xm-7pN" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="40" width="330" height="30"/>
+                                        <rect key="frame" x="0.0" y="83" width="330" height="31.5"/>
+                                        <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="name"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
+                                                <color key="value" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="6ak-kz-Luw" id="ZB5-og-gcL"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ynG-Ca-Pov" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="80" width="330" height="30"/>
+                                        <rect key="frame" x="0.0" y="124.5" width="330" height="31"/>
+                                        <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="family-name"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
+                                                <color key="value" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="6ak-kz-Luw" id="LGD-f1-Igo"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Kk-Fe-B0V" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="120" width="330" height="30"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Kk-Fe-B0V" customClass="TextField" customModule="Material">
+                                        <rect key="frame" x="0.0" y="165.5" width="330" height="31.5"/>
+                                        <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
+                                                <color key="value" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="6ak-kz-Luw" id="MPn-3x-ZFq"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="chQ-zy-qTJ" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="160" width="330" height="30"/>
+                                        <rect key="frame" x="0.0" y="207" width="330" height="31.5"/>
+                                        <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
+                                                <color key="value" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="6ak-kz-Luw" id="qVY-vo-5SV"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Retype Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7yh-j9-JNG" userLabel="Reenter Pass" customClass="TextField" customModule="Material">
-                                        <rect key="frame" x="0.0" y="200" width="330" height="30"/>
+                                        <rect key="frame" x="0.0" y="248.5" width="330" height="31.5"/>
+                                        <color key="tintColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
+                                                <color key="value" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="6ak-kz-Luw" id="WqG-4N-oFp"/>
                                         </connections>
@@ -150,6 +205,7 @@
                                     <constraint firstItem="chQ-zy-qTJ" firstAttribute="leading" secondItem="exu-7Z-oqp" secondAttribute="leading" id="CWn-TQ-NKg"/>
                                     <constraint firstItem="ynG-Ca-Pov" firstAttribute="width" secondItem="WxR-xm-7pN" secondAttribute="width" id="K1l-bj-sxT"/>
                                     <constraint firstItem="WxR-xm-7pN" firstAttribute="width" secondItem="5Kk-Fe-B0V" secondAttribute="width" id="L9u-7x-oEW"/>
+                                    <constraint firstItem="oYk-iK-LqP" firstAttribute="width" secondItem="WxR-xm-7pN" secondAttribute="width" id="eIi-I8-Sl3"/>
                                     <constraint firstItem="5Kk-Fe-B0V" firstAttribute="leading" secondItem="exu-7Z-oqp" secondAttribute="leading" id="rLP-Q0-B8u"/>
                                     <constraint firstItem="7yh-j9-JNG" firstAttribute="leading" secondItem="exu-7Z-oqp" secondAttribute="leading" id="sTo-7f-Uin"/>
                                 </constraints>
@@ -165,10 +221,11 @@
                         <viewLayoutGuide key="safeArea" id="V7C-SE-iG6"/>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="350" height="250"/>
+                    <size key="freeformSize" width="350" height="300"/>
                     <connections>
                         <outlet property="firstNameField" destination="WxR-xm-7pN" id="EFi-43-yQl"/>
                         <outlet property="lastNameField" destination="ynG-Ca-Pov" id="22T-J7-Lkl"/>
+                        <outlet property="messageLabel" destination="oYk-iK-LqP" id="N1t-Em-J2J"/>
                         <outlet property="passField" destination="chQ-zy-qTJ" id="Y25-q2-2Wc"/>
                         <outlet property="repassField" destination="7yh-j9-JNG" id="bl7-zx-wbe"/>
                         <outlet property="userField" destination="5Kk-Fe-B0V" id="A7o-zw-2Kr"/>

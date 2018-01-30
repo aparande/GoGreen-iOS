@@ -8,6 +8,7 @@
 
 import UIKit
 import Material
+import PopupDialog
 
 class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, TutorialPageDelegate {
 
@@ -129,6 +130,22 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         tvc.tabBar.tintColor = Colors.green
         
         self.present(tvc, animated: true, completion: nil)
+    }
+    
+    func signedIn() {
+        if let viewController = pageViewController(self, viewControllerAfter: currentViewController) as? TutorialPageViewController {
+            currentViewController = viewController
+            currentViewController.delegate = self
+            setViewControllers([currentViewController], direction: .forward, animated: true, completion: {
+                completed in
+                
+                let popupDialog = PopupDialog(title: "Thank you", message: "Thank you for creating an account. Please continue with the tutorial")
+                let continueButton = PopupDialogButton(title: "Ok", dismissOnTap: true, action: nil)
+                popupDialog.addButton(continueButton)
+                
+                self.currentViewController.present(popupDialog, animated:true, completion:nil)
+            })
+        }
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {

@@ -409,8 +409,18 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
 }
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
-    @IBOutlet var userField: UITextField!
-    @IBOutlet var passField: UITextField!
+    @IBOutlet var userField: TextField!
+    @IBOutlet var passField: TextField!
+    @IBOutlet var messageLabel: UILabel!
+    
+    override func viewDidLoad() {
+        userField.leftView = UIImageView(image: Icon.email)
+        let lockView = UIImageView(image: Icon.lock.resize(toWidth: Icon.email!.width)?.tint(with: UIColor(red: 158/255, green: 158/255, blue: 158/255, alpha: 1.0)))
+        passField.leftView = lockView
+        
+        userField.dividerActiveColor = Colors.green
+        passField.dividerActiveColor = Colors.green
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -419,15 +429,39 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 }
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
-    @IBOutlet var userField: UITextField!
-    @IBOutlet var passField: UITextField!
-    @IBOutlet var repassField: UITextField!
-    @IBOutlet var firstNameField: UITextField!
-    @IBOutlet var lastNameField: UITextField!
+    @IBOutlet var userField: TextField!
+    @IBOutlet var passField: TextField!
+    @IBOutlet var repassField: TextField!
+    @IBOutlet var firstNameField: TextField!
+    @IBOutlet var lastNameField: TextField!
+    @IBOutlet var messageLabel: UILabel!
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let emailWidth = Icon.email!.width
+        let templateGray = UIColor(red: 158/255, green: 158/255, blue: 158/255, alpha: 1.0)
+        let lockImage = Icon.lock.resize(toWidth: emailWidth)?.tint(with: templateGray)
+        let nameImage = Icon.person.resize(toWidth: emailWidth)?.tint(with: templateGray)
+            
+        userField.leftView = UIImageView(image: Icon.email)
+        
+        passField.leftView = UIImageView(image: lockImage)
+        repassField.leftView = UIImageView(image: lockImage)
+       
+        firstNameField.leftView = UIImageView(image: nameImage)
+        lastNameField.leftView = UIImageView(image: nameImage)
+        
+        userField.dividerActiveColor = Colors.green
+        passField.dividerActiveColor = Colors.green
+        repassField.dividerActiveColor = Colors.green
+        firstNameField.dividerActiveColor = Colors.green
+        lastNameField.dividerActiveColor = Colors.green
     }
 }
 
@@ -448,14 +482,21 @@ extension PopupDialog {
             //Create some buttons
             let loginButton = DefaultButton(title: "Login", dismissOnTap: false) {
                 SettingsManager.sharedInstance.login(email: lvc.userField.text!, password: lvc.passField.text!, completion: {
-                    (success) in
+                    (success, err) in
                     DispatchQueue.main.async {
                         if success {
                             if let tableViewController = viewController as? UITableViewController {
                                 tableViewController.tableView.reloadSections([2], with: .none)
                             }
-                            loginPopup.dismiss()
+                            loginPopup.dismiss() {
+                                if let tutorialViewController = viewController as? TutorialPageViewController {
+                                    tutorialViewController.delegate.tutorialComplete()
+                                }
+                            }
                         } else {
+                            if let _ = err {
+                                lvc.messageLabel.text = err!
+                            }
                             loginPopup.shake()
                         }
                     }
@@ -463,10 +504,10 @@ extension PopupDialog {
             }
             
             let createButton = DefaultButton(title: "Create Account", dismissOnTap: false) {
-                loginPopup.dismiss({
-                    let signupPopup = self.getPopupDialog(for: "Signup", controlledBy: viewController)
+                loginPopup.dismiss() {
+                    let signupPopup = PopupDialog.getPopupDialog(for: "Signup", controlledBy: viewController)
                     viewController.present(signupPopup, animated: true, completion: nil)
-                })
+                }
             }
             
             //Add the buttons
@@ -475,8 +516,8 @@ extension PopupDialog {
         } else {
             //Create the signup dialog
             let svc = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "Signup") as! SignupViewController
-            let signupPopup = PopupDialog(viewController: svc, transitionStyle: .bounceDown)
-            
+            let signupPopup = PopupDialog(viewController: svc)
+    
             let backButton = DefaultButton(title: "Back", dismissOnTap: false) {
                 signupPopup.dismiss({
                     let loginPopup = self.getPopupDialog(for: "Login", controlledBy: viewController)
@@ -485,15 +526,24 @@ extension PopupDialog {
             }
             
             let signupButton = DefaultButton(title: "Signup", dismissOnTap: false) {
+                
                 SettingsManager.sharedInstance.signup(email: svc.userField.text!, password: svc.passField.text!, retypedPassword: svc.repassField.text!, firstname: svc.firstNameField.text!, lastname: svc.lastNameField.text!, completion: {
-                    (success) in
+                    (success, err) in
                     DispatchQueue.main.async {
                         if success {
                             if let tableViewController = viewController as? UITableViewController {
                                 tableViewController.tableView.reloadSections([2], with: .none)
                             }
-                            signupPopup.dismiss()
+                            
+                            signupPopup.dismiss() {
+                                if let tutorialViewController = viewController as? TutorialPageViewController {
+                                    tutorialViewController.delegate.signedIn()
+                                }
+                            }
                         } else {
+                            if let _ = err {
+                                svc.messageLabel.text = err!
+                            }
                             signupPopup.shake()
                         }
                     }

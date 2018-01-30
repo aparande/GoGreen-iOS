@@ -64,7 +64,6 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         
         if let footerView = self.tableView.tableFooterView {
             if footerView.frame.height != 0.5 * self.tableView.frame.width {
-                print("Bloop")
                 let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
                 footerView.frame = footerFrame
                 self.tableView.tableFooterView = footerView

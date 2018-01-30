@@ -13,6 +13,7 @@ import PopupDialog
 protocol TutorialPageDelegate {
     func skipPage()
     func tutorialComplete()
+    func signedIn()
 }
 
 class TutorialPageViewController: UIViewController, UITextFieldDelegate  {

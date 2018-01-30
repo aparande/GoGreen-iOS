@@ -83,7 +83,6 @@ class DataPointViewController: UITableViewController {
     func setFooter() {
         if isData {
             if let footerView = UINib(nibName: "BarGraphFooter", bundle: nil).instantiate(withOwner: nil, options: nil)[1] as? BarGraphFooter {
-                print("Floop")
                 let footerFrame = CGRect(origin: CGPoint.zero, size: CGSize(width: self.tableView.frame.width, height: 0.5 * self.tableView.frame.width))
                 footerView.frame = footerFrame
                 self.tableView.tableFooterView = footerView
