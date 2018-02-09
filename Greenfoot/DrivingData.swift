@@ -242,6 +242,12 @@ class DrivingData: GreenData {
             do {
                 let fetchedEntities = try managedContext.fetch(fetchRequest)
                 for entry in fetchedEntities {
+                    
+                    let name = entry.value(forKeyPath: "name") as! String
+                    let month = entry.value(forKeyPath: "month") as! Date
+                    
+                    deleteOdometerDataFromServer(forCar: name, month: month)
+                    
                     managedContext.delete(entry)
                 }
             } catch let error as NSError {
@@ -253,6 +259,8 @@ class DrivingData: GreenData {
                 print("Could not save. \(error), \(error.userInfo)")
             }
         }
+        
+        deleteCarFromServer(car)
         
         if carData.keys.count == 0 {
             graphData = [:]
@@ -499,7 +507,21 @@ class DrivingData: GreenData {
         parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         parameters["dataType"] = dataName+":Point:"+car
         
-        let id=[APIRequestType.add.rawValue, dataName, car, Date.monthFormat(date: month)].joined(separator: ":")
+        let id=[APIRequestType.delete.rawValue, dataName, car, Date.monthFormat(date: month)].joined(separator: ":")
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
+    }
+    
+    private func deleteCarFromServer(_ car: String) {
+        //This is the check to see if the user wants to share their data
+        guard let _ = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["month":"NA"]
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        parameters["dataType"] = dataName+":Car:"+car
+        
+        let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
     
