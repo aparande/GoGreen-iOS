@@ -31,7 +31,7 @@ class CoreDataHelper {
                     let date = managedObj.value(forKeyPath: "month") as! Date
                     let amount = managedObj.value(forKeyPath: "amount") as! Double
                     let uploaded = managedObj.value(forKeyPath: "uploaded") as! Bool
-                    print("\(data.dataName):\(date):\(amount):\(uploaded)")
+                    //print("\(data.dataName):\(date):\(amount):\(uploaded)")
                     
                     if uploaded {
                         data.uploadedData.append(formatter.string(from: date))

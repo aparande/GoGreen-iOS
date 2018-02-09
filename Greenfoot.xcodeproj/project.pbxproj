@@ -42,6 +42,7 @@
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
 		1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */; };
 		1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FAFFB02201AE11A0015CF4B /* Account.storyboard */; };
+		1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB08D4F202E01FD00D4C20C /* DrivingData.swift */; };
 		1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D31EF19A2A007F7835 /* GreenData.swift */; };
 		1FC291D61EF1C235007F7835 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC291D51EF1C235007F7835 /* CoreData.framework */; };
 		1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
@@ -92,6 +93,7 @@
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		1FAFFB02201AE11A0015CF4B /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		1FB08D4F202E01FD00D4C20C /* DrivingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingData.swift; sourceTree = "<group>"; };
 		1FC291D31EF19A2A007F7835 /* GreenData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenData.swift; sourceTree = "<group>"; };
 		1FC291D51EF1C235007F7835 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = greenfoot.xcdatamodel; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			children = (
 				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
 				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
+				1FB08D4F202E01FD00D4C20C /* DrivingData.swift */,
 				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
 				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
 				1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */,
@@ -399,6 +402,7 @@
 				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,
 				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
+				1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
 				1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */,
