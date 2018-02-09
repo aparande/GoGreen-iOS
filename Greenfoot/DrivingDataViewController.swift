@@ -76,7 +76,7 @@ class DrivingDataViewController: BulkDataViewController {
             let carName = cars[path!.section]
             let date = Date.monthFormat(string: month)
             drivingData.carData[carName]?[date] = point
-            self.drivingData.updateCoreDataForCar(car: carName, month: date, amount: point, uploaded: false)
+            self.drivingData.updateCoreDataForCar(car: carName, month: date, amount: point)
         }
     }
     

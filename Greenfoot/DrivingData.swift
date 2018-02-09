@@ -14,7 +14,6 @@ import UIKit
 class DrivingData: GreenData {
     var carData:[String:[Date:Double]]
     var carMileage:[String:Int]
-    var uploadedCarData:[String]
     
     let co2Emissions:(Double, Int) -> Double = {
         miles, mpg in
@@ -25,7 +24,6 @@ class DrivingData: GreenData {
         let defaults = UserDefaults.standard
         
         carData = [:]
-        uploadedCarData = []
         
         if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:Int] {
             carMileage = mileages
@@ -48,7 +46,6 @@ class DrivingData: GreenData {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let managedContext = appDelegate.persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName:"Car")
-            var unuploaded: [String:[Date:Double]] = [:]
             do {
                 let managedObjects = try managedContext.fetch(fetchRequest)
                 
@@ -56,35 +53,11 @@ class DrivingData: GreenData {
                     let name = managedObj.value(forKeyPath: "name") as! String
                     let amount = managedObj.value(forKeyPath: "amount") as! Double
                     let month = managedObj.value(forKeyPath: "month") as! Date
-                    var uploaded = false
-                    if let isUploaded = managedObj.value(forKeyPath: "uploaded") as? Bool {
-                        uploaded = isUploaded
-                    }
                     
                     if let _ = carData[name] {
                         carData[name]![month] = amount
                     } else {
                         carData[name] = [month:amount]
-                    }
-                    
-                    let id = [name, Date.monthFormat(date: month)].joined(separator: ":")
-                    
-                    if uploaded {
-                        uploadedCarData.append(id)
-                    } else {
-                        if let _ = unuploaded[name] {
-                            unuploaded[name]![month] = amount
-                        } else {
-                            unuploaded[name] = [month:amount]
-                        }
-                    }
-                }
-                
-                DispatchQueue.global(qos: .background).async {
-                    for (car, dataDict) in unuploaded {
-                        for (month, value) in dataDict {
-                            self.addOdometerDataToServer(forCar: car, month: month, amount: value)
-                        }
                     }
                 }
             } catch let error as NSError {
@@ -320,19 +293,10 @@ class DrivingData: GreenData {
             }
         }
         
-        let id = [car, Date.monthFormat(date: month)].joined(separator:":")
-        if let index = uploadedCarData.index(of: id) {
-            uploadedCarData.remove(at: index)
-        }
         deleteOdometerDataFromServer(forCar: car, month: month)
     }
     
-    func updateCoreDataForCar(car: String, month: Date, amount: Double, uploaded: Bool) {
-        let id = [car, Date.monthFormat(date: month)].joined(separator:":")
-        if let index = uploadedCarData.index(of: id) {
-            uploadedCarData.remove(at: index)
-        }
-        
+    func updateCoreDataForCar(car: String, month: Date, amount: Double) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.persistentContainer.performBackgroundTask() {
                 context in
@@ -345,7 +309,6 @@ class DrivingData: GreenData {
                 do {
                     let fetchedEntities = try context.fetch(fetchRequest)
                     fetchedEntities.first?.setValue(amount, forKeyPath: "amount")
-                    fetchedEntities.first?.setValue(false, forKeyPath: "uploaded")
                 } catch let error as NSError {
                     print("Could not update. \(error), \(error.userInfo)")
                 }
@@ -356,62 +319,157 @@ class DrivingData: GreenData {
                 }
             }
         }
-        
-        if (!uploaded) {
-            addOdometerDataToServer(forCar: car, month: month, amount: amount)
-        }
     }
     
     override func reachConsensus() {
         print("Attepting to reach consensus")
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
+        carConsensus()
+    }
+    
+    private func carConsensus() {
+        let id = [APIRequestType.consensus.rawValue, dataName, "Cars"].joined(separator: ":")
+        let dataType = dataName
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataType, "assoc": "Car"]
         
-        for car in carData.keys {
-            let id = [APIRequestType.consensus.rawValue, dataName, car].joined(separator: ":")
-            let dataType = dataName+":"+car
-            let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataType]
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
+            data in
             
-            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
-                data in
-                
-                guard let serverData = data["Data"] as? NSArray else {
+            guard let serverData = data["Data"] as? NSArray else {
+                return
+            }
+            
+            var uploadedCars:[String] = []
+            for point in serverData {
+                guard let pointInfo = point as? NSDictionary else {
                     return
                 }
                 
+                let mileage = pointInfo["Amount"]! as! Int
+                let dataType = pointInfo["DataType"]! as! String
+                let car = dataType.components(separatedBy: ":")[2]
+                
+                uploadedCars.append(car)
+                
+                if let savedMileage = self.carMileage[car] {
+                    if savedMileage != mileage {
+                        print("Editing car mileage")
+                        self.carMileage[car] = mileage
+                    }
+                } else {
+                    self.carMileage[car] = mileage
+                }
+            }
+            
+            for (car, mileage) in self.carMileage {
+                if !uploadedCars.contains(car) {
+                    self.addCarToServer(car, withMileage: mileage)
+                }
+            }
+            
+            self.carpointConsensus()
+        }, andFailureFunction: {
+            errorDict in
+            
+            if errorDict["Error"] as? APIError == .serverFailure {
+                for (car, mileage) in self.carMileage {
+                    self.addCarToServer(car, withMileage: mileage)
+                }
+            }
+            
+            self.carpointConsensus()
+        })
+    }
+    
+    private func carpointConsensus() {
+        
+        let upload:([String]?) -> Void = {
+            uploadedPoints in
+            
+            if let _ = uploadedPoints {
+                for car in self.carData.keys {
+                    for (month, amount) in self.carData[car]! {
+                        let date = Date.monthFormat(date: month)
+                        let id = [car, date].joined(separator:":")
+                        if !uploadedPoints!.contains(id) {
+                            print("Found unuploaded odometer point")
+                            self.addOdometerDataToServer(forCar: car, month: month, amount: amount)
+                        }
+                    }
+                }
+            } else {
+                for car in self.carData.keys {
+                    for (month, amount) in self.carData[car]! {
+                        print("Found unuploaded odometer point")
+                        self.addOdometerDataToServer(forCar: car, month: month, amount: amount)
+                    }
+                }
+            }
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        
+        let id = [APIRequestType.consensus.rawValue, dataName, "carpoints"].joined(separator: ":")
+        let dataType = dataName
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataType, "assoc": "Point"]
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
+            data in
+            
+            guard let serverData = data["Data"] as? NSArray else {
+                return
+            }
+            
+            var uploadedPoints:[String] = []
+            for point in serverData {
+                guard let pointInfo = point as? NSDictionary else {
+                    return
+                }
+                
+                let month = pointInfo["Month"]! as! String
+                let amount = pointInfo["Amount"]! as! Double
+                let dataType = pointInfo["DataType"]! as! String
+                
+                let car = dataType.components(separatedBy: ":")[2]
+                let date = formatter.date(from: month)!
+                
+                uploadedPoints.append(car+":"+month)
+                
                 if let savedPoints = self.carData[car] {
-                    for point in serverData {
-                        let month = (point as! NSDictionary)["Month"]! as! String
-                        let amount = (point as! NSDictionary)["Amount"]! as! Double
-                        
-                        let date = formatter.date(from: month)!
-                        
-                        if let point = savedPoints[date] {
-                            if point != amount {
-                                //Triggers if the device has the point saved but is an outdated value
-                                print("Editing odometer point")
-                                self.carData[car]![date] = amount
-                                self.updateCoreDataForCar(car: car, month: date, amount: amount, uploaded: false)
-                            }
-                        } else {
-                            //Triggers if the device doesn't have the point
-                            print("Adding odometer point point")
+                    
+                    if let point = savedPoints[date] {
+                        if point != amount {
+                            //Triggers if the device has the point saved but is an outdated value
+                            print("Editing odometer point")
+                            self.carData[car]![date] = amount
+                            self.updateCoreDataForCar(car: car, month: date, amount: amount)
+                        }
+                    } else {
+                        //Triggers if the device doesn't have the point
+                        print("Adding odometer point")
+                        DispatchQueue.main.async {
                             self.carData[car]![date] = amount
                             self.addPointToCoreData(car: car, month: date, point: amount)
                         }
                     }
-                }
-            }, andFailureFunction: nil)
-            
-            for (month, amount) in self.carData[car]! {
-                let date = formatter.string(from: month)
-                let id = [car, date].joined(separator:":")
-                if !uploadedCarData.contains(id) {
-                    print("Found unuploaded odometer point")
-                    addOdometerDataToServer(forCar: car, month: month, amount: amount)
+                } else {
+                    //Triggers if the device doesn't have the car
+                    print("Adding car")
+                    DispatchQueue.main.async {
+                        self.carData[car] = [date:amount]
+                        self.addPointToCoreData(car: car, month: date, point: amount)
+                    }
                 }
             }
-        }
+            
+            upload(uploadedPoints)
+        }, andFailureFunction: {
+            errorDict in
+            
+            if errorDict["Error"] as? APIError == .serverFailure {
+                upload(nil)
+            }
+        })
     }
     
     private func addOdometerDataToServer(forCar car: String, month: Date, amount: Double) {
@@ -421,22 +479,14 @@ class DrivingData: GreenData {
         
         var parameters:[String:Any] = ["month":Date.monthFormat(date:month), "amount":Int(amount)]
         parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName+":"+car
+        parameters["dataType"] = dataName+":Point:"+car
         
         parameters["city"] = locality["City"]!
         parameters["state"] = locality["State"]
         parameters["country"] = locality["Country"]
         
         let id=[APIRequestType.add.rawValue, dataName, car, Date.monthFormat(date: month)].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: {
-            data in
-            //Update uploaded values
-            DispatchQueue.main.async {
-                self.updateCoreDataForCar(car: car, month: month, amount: amount, uploaded: true)
-                let id = [car, Date.monthFormat(date: month)].joined(separator:":")
-                self.uploadedCarData.append(id)
-            }
-        }, andFailureFunction: nil)
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
     
     private func deleteOdometerDataFromServer(forCar car: String, month: Date) {
@@ -447,9 +497,27 @@ class DrivingData: GreenData {
         
         var parameters:[String:Any] = ["month":Date.monthFormat(date:month)]
         parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName+":"+car
+        parameters["dataType"] = dataName+":Point:"+car
         
         let id=[APIRequestType.add.rawValue, dataName, car, Date.monthFormat(date: month)].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
+    }
+    
+    private func addCarToServer(_ car: String, withMileage mileage: Int) {
+        //This is the check to see if the user wants to share their data
+        guard let locality = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["month":"NA", "amount":mileage]
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        parameters["dataType"] = [dataName, "Car", car].joined(separator: ":")
+        
+        parameters["city"] = locality["City"]!
+        parameters["state"] = locality["State"]
+        parameters["country"] = locality["Country"]
+        
+        let id=[APIRequestType.add.rawValue, dataName, car].joined(separator: ":")
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
 }
