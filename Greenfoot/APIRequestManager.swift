@@ -24,6 +24,7 @@ enum APINotifications:String {
 enum APIRequestType: String {
     case add = "ADD"
     case get = "GET"
+    case log = "LOG"
     case update = "UPDATE"
     case delete = "DELETE"
     case consensus = "CONSENSUS"

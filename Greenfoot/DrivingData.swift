@@ -330,8 +330,8 @@ class DrivingData: GreenData {
     }
     
     override func reachConsensus() {
-        print("Attepting to reach consensus")
         carConsensus()
+        super.reachConsensus()
     }
     
     private func carConsensus() {
@@ -374,7 +374,7 @@ class DrivingData: GreenData {
                 }
             }
             
-            self.carpointConsensus()
+            self.pointConsensus()
         }, andFailureFunction: {
             errorDict in
             
@@ -384,12 +384,11 @@ class DrivingData: GreenData {
                 }
             }
             
-            self.carpointConsensus()
+            self.pointConsensus()
         })
     }
     
-    private func carpointConsensus() {
-        
+    override func pointConsensus() {
         let upload:([String]?) -> Void = {
             uploadedPoints in
             

@@ -291,6 +291,12 @@ class GreenData {
     
     func reachConsensus() {
         print("Attepting to reach consensus")
+        consensusFor("Bonus")
+        consensusFor("Data")
+        pointConsensus()
+    }
+    
+    func pointConsensus() {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         
@@ -330,6 +336,52 @@ class GreenData {
                 addToServer(month: date, point: amount)
             }
         }
+    }
+    func consensusFor(_ type:String) {
+        var dict = (type == "Bonus") ? bonusDict : data
+        let id = [APIRequestType.consensus.rawValue, dataName, type].joined(separator: ":")
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName, "assoc":type]
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
+            data in
+            
+            guard let serverData = data["Data"] as? NSArray else {
+                return
+            }
+            
+            var uploadedAttrs:[String] = []
+            for point in serverData {
+                guard let pointInfo = point as? NSDictionary else {
+                    return
+                }
+                
+                let value = pointInfo["Amount"]! as! Int
+                let dataType = pointInfo["DataType"]! as! String
+                let attrName = dataType.components(separatedBy: ":")[2]
+                uploadedAttrs.append(attrName)
+                if let amount = dict[attrName] {
+                    if amount != value {
+                        print("Editing Bonus Attr")
+                        dict[attrName] = value
+                    }
+                } else {
+                    dict[attrName] = value
+                }
+            }
+            
+            for (key, value) in dict {
+                if !uploadedAttrs.contains(key) {
+                    self.logAttribute(key, withValue: value, ofType:type)
+                }
+            }
+        }, andFailureFunction: {
+            errorDict in
+            if errorDict["Error"] as? APIError == .serverFailure {
+                for (key, value) in dict {
+                    self.logAttribute(key, withValue: value, ofType:type)
+                }
+            }
+        })
     }
     
     fileprivate func containsPoint(month:Date, amount:Double) -> Bool {
@@ -375,5 +427,22 @@ class GreenData {
 
         let id=[APIRequestType.delete.rawValue, dataName, month].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
+    }
+    
+    func logAttribute(_ attribute:String, withValue value:Int, ofType type:String) {
+        guard let locality = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["month":"NA", "amount":value]
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        parameters["dataType"] = [dataName, type, attribute].joined(separator: ":")
+        
+        parameters["city"] = locality["City"]!
+        parameters["state"] = locality["State"]
+        parameters["country"] = locality["Country"]
+        
+        let id=[APIRequestType.log.rawValue, dataName, attribute].joined(separator: ":")
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
 }

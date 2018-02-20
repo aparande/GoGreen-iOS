@@ -69,11 +69,15 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     }
     
     func updateAttribute(key: String, value: Int) {
+        var type = "Data"
         if let _ = data.data[key] {
             data.data[key] = value
         } else {
+            type = "Bonus"
             data.bonusDict[key] = value
         }
+        
+        self.data.logAttribute(key, withValue: value, ofType: type)
     }
     
     required init?(coder aDecoder: NSCoder) {
