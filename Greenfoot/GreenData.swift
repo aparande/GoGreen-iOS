@@ -30,7 +30,7 @@ class GreenData {
     var epData:[Date: Int]
     var co2Equivalent:[Date: Double]
     
-    var uploadedData:[String]
+    //var uploadedData:[String]
     
     //Returns the average daily usage. Displays on each data tab
     var averageValue:Double {
@@ -84,7 +84,7 @@ class GreenData {
         bonusDict = [:]
         
         descriptions = [:]
-        uploadedData = []
+        //uploadedData = []
         
         dataName = name
         
@@ -117,6 +117,7 @@ class GreenData {
         }
     }
     
+    
     func addDataPoint(month:Date, y:Double, save: Bool) {
         graphData[month] = y
         
@@ -132,21 +133,11 @@ class GreenData {
             CoreDataHelper.save(data: self, month: month, amount: y)
             
             //If save is true, that means its a new data point, so you want to try uploading to the server
-            addToServer(month: Date.monthFormat(date: month), point: y)
+            logToServer(month: Date.monthFormat(date: month), point: y)
         }
     }
     
-    func getGraphData() -> [Date: Double] {
-        return graphData
-    }
-    func getEPData() -> [Date: Int] {
-        return epData
-    }
-    func getCarbonData() -> [Date: Double] {
-        return co2Equivalent
-    }
-    
-    func editDataPoint(month:Date, y:Double) {
+    func updateTotals(afterMonth month:Date, changedTo y: Double) {
         let epPrev = epData[month]!
         let carbonPrev = co2Equivalent[month]!
         
@@ -159,21 +150,20 @@ class GreenData {
         let carbon = calculateCO2(y)
         co2Equivalent[month] = carbon
         totalCarbon = totalCarbon - Int(carbonPrev) + Int(carbon)
+    }
+    
+    func editDataPoint(month:Date, y:Double) {
+        updateTotals(afterMonth: month, changedTo: y)
         
         //If the data is uploaded, update it, else, upload it
         let date = Date.monthFormat(date: month)
-        if let index = uploadedData.index(of: date) {
-            CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
-            uploadedData.remove(at: index)
-            updateOnServer(month: date, point: y)
+        
+        let reqId = [APIRequestType.update.rawValue, dataName, date].joined(separator: ":")
+        if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
+            CoreDataHelper.update(data: self, month: month, updatedValue: y)
+            logToServer(month: date, point: y)
         } else {
-            let reqId = [APIRequestType.update.rawValue, dataName, date].joined(separator: ":")
-            if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
-                CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
-                addToServer(month: date, point: y)
-            } else {
-                print("Did not add data because a request was present")
-            }
+            print("Did not add data because a request was present")
         }
     }
     
@@ -266,7 +256,7 @@ class GreenData {
         }, andFailureFunction: nil)
     }
     
-    func addToServer(month:String, point:Double) {
+    func logToServer(month:String, point:Double) {
         //This is the check to see if the user wants to share their data
         guard let locality = GreenfootModal.sharedInstance.locality else {
             return
@@ -281,12 +271,21 @@ class GreenData {
         parameters["country"] = locality["Country"]
         
         let id=[APIRequestType.add.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: {
-            data in
-            
-            self.uploadedData.append(month)
-            CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
-        }, andFailureFunction: nil)
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
+    }
+    
+    fileprivate func deleteFromServer(month: String) {
+        //This is the check to see if the user wants to share their data
+        guard let _ = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["month":month]
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        parameters["dataType"] = dataName
+        
+        let id=[APIRequestType.delete.rawValue, dataName, month].joined(separator: ":")
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
     
     func reachConsensus() {
@@ -297,6 +296,26 @@ class GreenData {
     }
     
     func pointConsensus() {
+        let upload:([Date]?) -> Void = {
+            uploadedPoints in
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/yy"
+            
+            if let _ = uploadedPoints {
+                for (month, amount) in self.graphData {
+                    if !uploadedPoints!.contains(month) {
+                        print("Found unuploaded point")
+                        self.logToServer(month: formatter.string(from: month), point: amount)
+                    }
+                }
+            } else {
+                for (month, amount) in self.graphData {
+                    self.logToServer(month: formatter.string(from: month), point: amount)
+                }
+            }
+        }
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
         
@@ -310,33 +329,39 @@ class GreenData {
                 return
             }
             
+            var uploadedPoints:[Date] = []
             for point in serverData {
-                let month = (point as! NSDictionary)["Month"]! as! String
-                let amount = (point as! NSDictionary)["Amount"]! as! Double
+                guard let pointInfo = point as? NSDictionary else {
+                    return
+                }
+                
+                let month = pointInfo["Month"]! as! String
+                let amount = pointInfo["Amount"]! as! Double
                 
                 let date = formatter.date(from: month)!
+                uploadedPoints.append(date)
                 
-                let contains = self.containsPoint(month: date, amount: amount)
-                if  contains && self.graphData[date] != amount {
-                    //Triggers if the device has the point saved but is an outdated value
-                    print("Editing data point")
-                    self.editDataPoint(month: date, y: amount)
-                } else if !contains {
-                    //Triggers if the device doesn't have the point
-                    print("Adding data point")
+                if let point = self.graphData[date] {
+                    if point != amount {
+                        //Triggers if the device has the point saved but is an outdated value
+                        print("Editing point")
+                        self.editDataPoint(month: date, y: amount)
+                    }
+                } else {
                     self.addDataPoint(month: date, y: amount, save: false)
                 }
             }
-        }, andFailureFunction: nil)
-        
-        for (month, amount) in graphData {
-            let date = formatter.string(from: month)
-            if !uploadedData.contains(date) {
-                print("Found unuploaded point")
-                addToServer(month: date, point: amount)
+            
+            upload(uploadedPoints)
+        }, andFailureFunction: {
+            errorDict in
+            
+            if errorDict["Error"] as? APIError == .serverFailure {
+                upload(nil)
             }
-        }
+        })
     }
+    
     func consensusFor(_ type:String) {
         var dict = (type == "Bonus") ? bonusDict : data
         let id = [APIRequestType.consensus.rawValue, dataName, type].joined(separator: ":")
@@ -384,51 +409,6 @@ class GreenData {
         })
     }
     
-    fileprivate func containsPoint(month:Date, amount:Double) -> Bool {
-        if let _ = graphData[month] {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func updateOnServer(month:String, point: Double) {
-        //This is the check to see if the user wants to share their data
-        guard let locality = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":month, "amount":Int(point)]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName
-        
-        parameters["city"] = locality["City"]!
-        parameters["state"] = locality["State"]
-        parameters["country"] = locality["Country"]
-        
-        let id=[APIRequestType.update.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: {
-            data in
-            
-            self.uploadedData.append(month)
-            CoreDataHelper.update(data: self, month: Date.monthFormat(string: month), updatedValue: point, uploaded: true)
-        }, andFailureFunction: nil)
-    }
-    
-    fileprivate func deleteFromServer(month: String) {
-        //This is the check to see if the user wants to share their data
-        guard let _ = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":month]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName
-
-        let id=[APIRequestType.delete.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
-    }
-    
     func logAttribute(_ attribute:String, withValue value:Int, ofType type:String) {
         guard let locality = GreenfootModal.sharedInstance.locality else {
             return
@@ -444,5 +424,23 @@ class GreenData {
         
         let id=[APIRequestType.log.rawValue, dataName, attribute].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
+    }
+    
+    fileprivate func containsPoint(month:Date, amount:Double) -> Bool {
+        if let _ = graphData[month] {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func getGraphData() -> [Date: Double] {
+        return graphData
+    }
+    func getEPData() -> [Date: Int] {
+        return epData
+    }
+    func getCarbonData() -> [Date: Double] {
+        return co2Equivalent
     }
 }

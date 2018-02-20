@@ -22,7 +22,6 @@ class CoreDataHelper {
             fetchRequest.predicate = predicate
             
             do {
-                var unuploaded: [Date: Double] = [:]
                 let managedObjects = try managedContext.fetch(fetchRequest)
                 
                 let formatter = DateFormatter()
@@ -30,24 +29,10 @@ class CoreDataHelper {
                 for managedObj in managedObjects {
                     let date = managedObj.value(forKeyPath: "month") as! Date
                     let amount = managedObj.value(forKeyPath: "amount") as! Double
-                    let uploaded = managedObj.value(forKeyPath: "uploaded") as! Bool
-                    //print("\(data.dataName):\(date):\(amount):\(uploaded)")
-                    
-                    if uploaded {
-                        data.uploadedData.append(formatter.string(from: date))
-                    } else {
-                        unuploaded[date] = amount
-                    }
                     
                     data.addDataPoint(month: date, y: amount, save: false)
                 }
                 print("Loaded Data For \(data.dataName)")
-                
-                DispatchQueue.global(qos: .background).async {
-                    for (key, value) in unuploaded {
-                        data.addToServer(month: Date.monthFormat(date: key), point: value)
-                    }
-                }
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
             }
@@ -67,7 +52,6 @@ class CoreDataHelper {
                 
                 point.setValue(month, forKeyPath: "month")
                 point.setValue(amount, forKeyPath: "amount")
-                point.setValue(false, forKey: "uploaded")
                 point.setValue(data.dataName, forKey: "dataType")
                 
                 do {
@@ -79,7 +63,7 @@ class CoreDataHelper {
         }
     }
     
-    static func update(data: GreenData, month:Date, updatedValue: Double, uploaded: Bool) {
+    static func update(data: GreenData, month:Date, updatedValue: Double) {
         if let _ = appDelegate {
             let container = appDelegate!.persistentContainer
             container.performBackgroundTask() {
@@ -93,7 +77,6 @@ class CoreDataHelper {
                 do {
                     let fetchedEntities = try context.fetch(fetchRequest)
                     fetchedEntities.first?.setValue(updatedValue, forKeyPath: "amount")
-                    fetchedEntities.first?.setValue(uploaded, forKeyPath: "uploaded")
                 } catch let error as NSError {
                     print("Could not update. \(error), \(error.userInfo)")
                 }

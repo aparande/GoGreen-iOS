@@ -326,7 +326,7 @@ class GreenfootModal {
             
             let additiveMiles = 5.0 * Double(attr)*30/60.0
             print("Eco-Miles: \(additiveMiles)")
-            let additive = drivingData.co2Emissions(additiveMiles, drivingData.data["Average MPG"]!)
+            let additive = drivingData.calculateCO2(additiveMiles)
             print("Eco-Emission: \(additive)")
             
             return Int(additive)

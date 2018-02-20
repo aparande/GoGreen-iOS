@@ -14,12 +14,7 @@ import UIKit
 class DrivingData: GreenData {
     var carData:[String:[Date:Double]]
     var carMileage:[String:Int]
-    
-    let co2Emissions:(Double, Int) -> Double = {
-        miles, mpg in
-        return 19.6*miles/Double(mpg)
-    }
-    
+
     init() {
         let defaults = UserDefaults.standard
         
@@ -36,9 +31,14 @@ class DrivingData: GreenData {
         //The equivalent is 950 miles
         super.init(name: GreenDataType.driving.rawValue, xLabel: "Month", yLabel: "Miles", base: 950, averageLabel: "Miles per Day", icon: Icon.road_emblem)
         
+        self.calculateCO2 = {
+            miles in
+            return 19.6*miles/Double(self.data["Average MPG"]!)
+        }
+        
         self.calculateEP = {
             base, point in
-            let diff = (self.co2Emissions(base, self.data["Average MPG"]!) - self.co2Emissions(point, self.data["Average MPG"]!))/100
+            let diff = (self.calculateCO2(base) - self.calculateCO2(point))/100
             
             return Int(floor(diff))
         }
@@ -160,51 +160,6 @@ class DrivingData: GreenData {
             if !keys.contains(date) {
                 removeDataPoint(month: date)
             }
-        }
-    }
-    
-    override func addDataPoint(month:Date, y:Double, save: Bool) {
-        graphData[month] = y
-        
-        let ep = calculateEP(baseline, y)
-        epData[month] = ep
-        energyPoints += ep
-        
-        let carbon = co2Emissions(y, self.data["Average MPG"]!)
-        co2Equivalent[month] = carbon
-        totalCarbon += Int(carbon)
-        
-        if save {
-            CoreDataHelper.save(data: self, month: month, amount: y)
-            
-            //If save is true, that means its a new data point, so you want to try uploading to the server
-            addToServer(month: Date.monthFormat(date: month), point: y)
-        }
-    }
-    
-    override func editDataPoint(month:Date, y:Double) {
-        let epPrev = epData[month]!
-        let carbonPrev = co2Equivalent[month]!
-        
-        graphData[month] = y
-        
-        let ep = calculateEP(baseline, y)
-        epData[month] = ep
-        energyPoints = energyPoints - epPrev + ep
-        
-        let carbon = co2Emissions(y, self.data["Average MPG"]!)
-        co2Equivalent[month] = carbon
-        totalCarbon = totalCarbon - Int(carbonPrev) + Int(carbon)
-        
-        //Mark the point as unuploaded in the database always
-        CoreDataHelper.update(data: self, month: month, updatedValue: y, uploaded: false)
-        //If the data is uploaded, update it, else, uploade it
-        let date = Date.monthFormat(date: month)
-        if let index = uploadedData.index(of: date) {
-            uploadedData.remove(at: index)
-            updateOnServer(month: date, point: y)
-        } else {
-            addToServer(month: date, point: y)
         }
     }
     
@@ -496,6 +451,24 @@ class DrivingData: GreenData {
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
     
+    private func addCarToServer(_ car: String, withMileage mileage: Int) {
+        //This is the check to see if the user wants to share their data
+        guard let locality = GreenfootModal.sharedInstance.locality else {
+            return
+        }
+        
+        var parameters:[String:Any] = ["month":"NA", "amount":mileage]
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        parameters["dataType"] = [dataName, "Car", car].joined(separator: ":")
+        
+        parameters["city"] = locality["City"]!
+        parameters["state"] = locality["State"]
+        parameters["country"] = locality["Country"]
+        
+        let id=[APIRequestType.add.rawValue, dataName, car].joined(separator: ":")
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
+    }
+    
     private func deleteOdometerDataFromServer(forCar car: String, month: Date) {
         //This is the check to see if the user wants to share their data
         guard let _ = GreenfootModal.sharedInstance.locality else {
@@ -522,23 +495,5 @@ class DrivingData: GreenData {
         
         let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
-    }
-    
-    private func addCarToServer(_ car: String, withMileage mileage: Int) {
-        //This is the check to see if the user wants to share their data
-        guard let locality = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":"NA", "amount":mileage]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = [dataName, "Car", car].joined(separator: ":")
-        
-        parameters["city"] = locality["City"]!
-        parameters["state"] = locality["State"]
-        parameters["country"] = locality["Country"]
-        
-        let id=[APIRequestType.add.rawValue, dataName, car].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
 }
