@@ -201,7 +201,11 @@ class DrivingData: GreenData {
                     let name = entry.value(forKeyPath: "name") as! String
                     let month = entry.value(forKeyPath: "month") as! Date
                     
-                    deleteOdometerDataFromServer(forCar: name, month: month)
+                    let dateString = Date.monthFormat(date:month)
+                    var parameters:[String:Any] = ["month":dateString]
+                    parameters["dataType"] = dataName+":Point:"+name
+                    let id=[APIRequestType.delete.rawValue, dataName, name, dateString].joined(separator: ":")
+                    self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
                     
                     managedContext.delete(entry)
                 }
@@ -215,7 +219,11 @@ class DrivingData: GreenData {
             }
         }
         
-        deleteCarFromServer(car)
+            var parameters:[String:Any] = ["month":"NA"]
+            parameters["dataType"] = dataName+":Car:"+car
+            let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
+            self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
+        }
         
         if carData.keys.count == 0 {
             graphData = [:]
@@ -256,7 +264,11 @@ class DrivingData: GreenData {
             }
         }
         
-        deleteOdometerDataFromServer(forCar: car, month: month)
+        let dateString = Date.monthFormat(date:month)
+        var parameters:[String:Any] = ["month":dateString]
+        parameters["dataType"] = dataName+":Point:"+car
+        let id=[APIRequestType.delete.rawValue, dataName, car, dateString].joined(separator: ":")
+        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
     }
     
     func updateCoreDataForCar(car: String, month: Date, amount: Double) {
@@ -294,6 +306,14 @@ class DrivingData: GreenData {
         let dataType = dataName
         let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataType, "assoc": "Car"]
         
+        let sendToServer:(String, Int) -> Void = {
+            car, mileage in
+            var parameters:[String:Any] = ["month":"NA", "amount":mileage]
+            parameters["dataType"] = [self.dataName, "Car", car].joined(separator: ":")
+            let id=[APIRequestType.add.rawValue, self.dataName, car].joined(separator: ":")
+            self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+        }
+        
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
             data in
             
@@ -325,7 +345,7 @@ class DrivingData: GreenData {
             
             for (car, mileage) in self.carMileage {
                 if !uploadedCars.contains(car) {
-                    self.addCarToServer(car, withMileage: mileage)
+                    sendToServer(car, mileage)
                 }
             }
             
@@ -335,7 +355,7 @@ class DrivingData: GreenData {
             
             if errorDict["Error"] as? APIError == .serverFailure {
                 for (car, mileage) in self.carMileage {
-                    self.addCarToServer(car, withMileage: mileage)
+                    sendToServer(car, mileage)
                 }
             }
             
@@ -347,6 +367,15 @@ class DrivingData: GreenData {
         let upload:([String]?) -> Void = {
             uploadedPoints in
             
+            let sendToServer:(String, Date, Double) -> Void = {
+                car, month, amount in
+                let dateString = Date.monthFormat(date:month)
+                var parameters:[String:Any] = ["month": dateString, "amount":Int(amount)]
+                parameters["dataType"] = self.dataName+":Point:"+car
+                let id=[APIRequestType.add.rawValue, self.dataName, car, dateString].joined(separator: ":")
+                self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+            }
+            
             if let _ = uploadedPoints {
                 for car in self.carData.keys {
                     for (month, amount) in self.carData[car]! {
@@ -354,7 +383,8 @@ class DrivingData: GreenData {
                         let id = [car, date].joined(separator:":")
                         if !uploadedPoints!.contains(id) {
                             print("Found unuploaded odometer point")
-                            self.addOdometerDataToServer(forCar: car, month: month, amount: amount)
+                            
+                            sendToServer(car, month, amount)
                         }
                     }
                 }
@@ -362,7 +392,7 @@ class DrivingData: GreenData {
                 for car in self.carData.keys {
                     for (month, amount) in self.carData[car]! {
                         print("Found unuploaded odometer point")
-                        self.addOdometerDataToServer(forCar: car, month: month, amount: amount)
+                        sendToServer(car, month, amount)
                     }
                 }
             }
@@ -432,68 +462,5 @@ class DrivingData: GreenData {
                 upload(nil)
             }
         })
-    }
-    
-    private func addOdometerDataToServer(forCar car: String, month: Date, amount: Double) {
-        guard let locality = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":Date.monthFormat(date:month), "amount":Int(amount)]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName+":Point:"+car
-        
-        parameters["city"] = locality["City"]!
-        parameters["state"] = locality["State"]
-        parameters["country"] = locality["Country"]
-        
-        let id=[APIRequestType.add.rawValue, dataName, car, Date.monthFormat(date: month)].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
-    }
-    
-    private func addCarToServer(_ car: String, withMileage mileage: Int) {
-        //This is the check to see if the user wants to share their data
-        guard let locality = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":"NA", "amount":mileage]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = [dataName, "Car", car].joined(separator: ":")
-        
-        parameters["city"] = locality["City"]!
-        parameters["state"] = locality["State"]
-        parameters["country"] = locality["Country"]
-        
-        let id=[APIRequestType.add.rawValue, dataName, car].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
-    }
-    
-    private func deleteOdometerDataFromServer(forCar car: String, month: Date) {
-        //This is the check to see if the user wants to share their data
-        guard let _ = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":Date.monthFormat(date:month)]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName+":Point:"+car
-        
-        let id=[APIRequestType.delete.rawValue, dataName, car, Date.monthFormat(date: month)].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
-    }
-    
-    private func deleteCarFromServer(_ car: String) {
-        //This is the check to see if the user wants to share their data
-        guard let _ = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":"NA"]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName+":Car:"+car
-        
-        let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
 }

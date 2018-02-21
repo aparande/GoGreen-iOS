@@ -133,7 +133,10 @@ class GreenData {
             CoreDataHelper.save(data: self, month: month, amount: y)
             
             //If save is true, that means its a new data point, so you want to try uploading to the server
-            logToServer(month: Date.monthFormat(date: month), point: y)
+            let dateString = Date.monthFormat(date: month)
+            let parameters:[String:Any] = ["month":dateString, "amount":Int(y), "dataType": dataName]
+            let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
+            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         }
     }
     
@@ -161,7 +164,11 @@ class GreenData {
         let reqId = [APIRequestType.update.rawValue, dataName, date].joined(separator: ":")
         if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
             CoreDataHelper.update(data: self, month: month, updatedValue: y)
-            logToServer(month: date, point: y)
+            
+            let dateString = Date.monthFormat(date: month)
+            let parameters:[String:Any] = ["month":dateString, "amount":Int(y), "dataType": dataName]
+            let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
+            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         } else {
             print("Did not add data because a request was present")
         }
@@ -177,7 +184,10 @@ class GreenData {
         
         CoreDataHelper.delete(data: self, month: month)
         
-        deleteFromServer(month: Date.monthFormat(date: month))
+        let dateString = Date.monthFormat(date: month)
+        let parameters:[String:Any] = ["month":dateString, "dataType": dataName]
+        let id = [APIRequestType.delete.rawValue, dataName, dateString].joined(separator: ":")
+        makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
     }
     
     func recalculateEP() {
@@ -256,36 +266,21 @@ class GreenData {
         }, andFailureFunction: nil)
     }
     
-    func logToServer(month:String, point:Double) {
-        //This is the check to see if the user wants to share their data
+    func makeServerCall(withParameters parameters: [String:Any], identifiedBy id: String, atEndpoint endpoint:String, withLocationData sendLocation: Bool) {
         guard let locality = GreenfootModal.sharedInstance.locality else {
             return
         }
         
-        var parameters:[String:Any] = ["month":month, "amount":Int(point)]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName
+        var params = parameters
+        params["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         
-        parameters["city"] = locality["City"]!
-        parameters["state"] = locality["State"]
-        parameters["country"] = locality["Country"]
-        
-        let id=[APIRequestType.add.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
-    }
-    
-    fileprivate func deleteFromServer(month: String) {
-        //This is the check to see if the user wants to share their data
-        guard let _ = GreenfootModal.sharedInstance.locality else {
-            return
+        if sendLocation {
+            params["city"] = locality["City"]!
+            params["state"] = locality["State"]
+            params["country"] = locality["Country"]
         }
         
-        var parameters:[String:Any] = ["month":month]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = dataName
-        
-        let id=[APIRequestType.delete.rawValue, dataName, month].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: endpoint, withParameters: params, andSuccessFunction: nil, andFailureFunction: nil)
     }
     
     func reachConsensus() {
@@ -302,16 +297,24 @@ class GreenData {
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/yy"
             
+            let logToServer:(Date, Double) -> Void = {
+                month, amount in
+                let dateString = Date.monthFormat(date: month)
+                let parameters:[String:Any] = ["month":dateString, "amount":Int(amount), "dataType": self.dataName]
+                let id=[APIRequestType.log.rawValue, self.dataName, dateString].joined(separator: ":")
+                self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+            }
+            
             if let _ = uploadedPoints {
                 for (month, amount) in self.graphData {
                     if !uploadedPoints!.contains(month) {
                         print("Found unuploaded point")
-                        self.logToServer(month: formatter.string(from: month), point: amount)
+                        logToServer(month, amount)
                     }
                 }
             } else {
                 for (month, amount) in self.graphData {
-                    self.logToServer(month: formatter.string(from: month), point: amount)
+                    logToServer(month, amount)
                 }
             }
         }
@@ -367,6 +370,14 @@ class GreenData {
         let id = [APIRequestType.consensus.rawValue, dataName, type].joined(separator: ":")
         let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName, "assoc":type]
         
+        let logToServer:(String, Int) -> Void = {
+            key, value in
+            var parameters:[String:Any] = ["month":"NA", "amount":value]
+            parameters["dataType"] = [self.dataName, type, key].joined(separator: ":")
+            let id=[APIRequestType.log.rawValue, self.dataName, key].joined(separator: ":")
+            self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+        }
+        
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
             data in
             
@@ -396,34 +407,17 @@ class GreenData {
             
             for (key, value) in dict {
                 if !uploadedAttrs.contains(key) {
-                    self.logAttribute(key, withValue: value, ofType:type)
+                    logToServer(key, value)
                 }
             }
         }, andFailureFunction: {
             errorDict in
             if errorDict["Error"] as? APIError == .serverFailure {
                 for (key, value) in dict {
-                    self.logAttribute(key, withValue: value, ofType:type)
+                    logToServer(key, value)
                 }
             }
         })
-    }
-    
-    func logAttribute(_ attribute:String, withValue value:Int, ofType type:String) {
-        guard let locality = GreenfootModal.sharedInstance.locality else {
-            return
-        }
-        
-        var parameters:[String:Any] = ["month":"NA", "amount":value]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
-        parameters["dataType"] = [dataName, type, attribute].joined(separator: ":")
-        
-        parameters["city"] = locality["City"]!
-        parameters["state"] = locality["State"]
-        parameters["country"] = locality["Country"]
-        
-        let id=[APIRequestType.log.rawValue, dataName, attribute].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logData", withParameters: parameters, andSuccessFunction: nil, andFailureFunction: nil)
     }
     
     fileprivate func containsPoint(month:Date, amount:Double) -> Bool {

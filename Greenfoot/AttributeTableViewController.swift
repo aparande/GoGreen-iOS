@@ -77,7 +77,10 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             data.bonusDict[key] = value
         }
         
-        self.data.logAttribute(key, withValue: value, ofType: type)
+        var parameters:[String:Any] = ["month":"NA", "amount":value]
+        parameters["dataType"] = [self.data.dataName, type, key].joined(separator: ":")
+        let id=[APIRequestType.log.rawValue, self.data.dataName, key].joined(separator: ":")
+        data.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
