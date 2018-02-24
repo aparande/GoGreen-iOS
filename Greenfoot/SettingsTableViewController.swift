@@ -189,6 +189,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         
         let switchView = Switch(state: .off, style: .dark, size: .small)
         switchView.addTarget(self, action: #selector(updateSetting(_:)), for: .valueChanged)
+        switchView.buttonOnColor = Colors.green
         
         switch (setting) {
         case .LocationAllowed:
@@ -414,12 +415,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var messageLabel: UILabel!
     
     override func viewDidLoad() {
-        userField.leftView = UIImageView(image: Icon.email)
-        let lockView = UIImageView(image: Icon.lock.resize(toWidth: Icon.email!.width)?.tint(with: UIColor(red: 158/255, green: 158/255, blue: 158/255, alpha: 1.0)))
+        userField.leftView = UIImageView(image: Icon.email?.withRenderingMode(.alwaysTemplate))
+        let lockView = UIImageView(image: Icon.lock.resize(toWidth: Icon.email!.width)?.withRenderingMode(.alwaysTemplate))
         passField.leftView = lockView
         
         userField.dividerActiveColor = Colors.green
         passField.dividerActiveColor = Colors.green
+        
+        userField.leftViewActiveColor = Colors.green
+        passField.leftViewActiveColor = Colors.green
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -445,11 +449,10 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         let emailWidth = Icon.email!.width
-        let templateGray = UIColor(red: 158/255, green: 158/255, blue: 158/255, alpha: 1.0)
-        let lockImage = Icon.lock.resize(toWidth: emailWidth)?.tint(with: templateGray)
-        let nameImage = Icon.person.resize(toWidth: emailWidth)?.tint(with: templateGray)
+        let lockImage = Icon.lock.resize(toWidth: emailWidth)?.withRenderingMode(.alwaysTemplate)
+        let nameImage = Icon.person.resize(toWidth: emailWidth)?.withRenderingMode(.alwaysTemplate)
             
-        userField.leftView = UIImageView(image: Icon.email)
+        userField.leftView = UIImageView(image: Icon.email?.withRenderingMode(.alwaysTemplate))
         
         passField.leftView = UIImageView(image: lockImage)
         repassField.leftView = UIImageView(image: lockImage)
@@ -462,6 +465,12 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         repassField.dividerActiveColor = Colors.green
         firstNameField.dividerActiveColor = Colors.green
         lastNameField.dividerActiveColor = Colors.green
+        
+        userField.leftViewActiveColor = Colors.green
+        passField.leftViewActiveColor = Colors.green
+        repassField.leftViewActiveColor = Colors.green
+        firstNameField.leftViewActiveColor = Colors.green
+        lastNameField.leftViewActiveColor = Colors.green
     }
 }
 

@@ -45,6 +45,9 @@
                         <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
                             <color key="value" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="placeholderVerticalOffset">
+                            <real key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="delegate" destination="iN0-l3-epB" id="4lb-aK-hf1"/>
@@ -60,6 +63,9 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Value"/>
                         <userDefinedRuntimeAttribute type="color" keyPath="dividerColor">
                             <color key="value" red="0.18039215689999999" green="0.80000000000000004" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="placeholderVerticalOffset">
+                            <real key="value" value="15"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>

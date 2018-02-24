@@ -219,11 +219,10 @@ class DrivingData: GreenData {
             }
         }
         
-            var parameters:[String:Any] = ["month":"NA"]
-            parameters["dataType"] = dataName+":Car:"+car
-            let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
-            self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
-        }
+        var parameters:[String:Any] = ["month":"NA"]
+        parameters["dataType"] = dataName+":Car:"+car
+        let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
+        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
         
         if carData.keys.count == 0 {
             graphData = [:]
