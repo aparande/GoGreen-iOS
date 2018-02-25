@@ -148,8 +148,8 @@ class GreenfootModal {
                 return
             }
             
-            if let _ = SettingsManager.sharedInstance.scheduledReminders[dataType] {
-                print("Not scheduling reminder because one is already queued")
+            if let notification = SettingsManager.sharedInstance.scheduledReminders[dataType] {
+                print("Not scheduling reminder because one is already queued: \(notification)")
                 return
             }
             

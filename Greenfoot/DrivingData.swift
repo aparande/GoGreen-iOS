@@ -175,7 +175,6 @@ class DrivingData: GreenData {
                 obj.setValue(car, forKeyPath: "name")
                 obj.setValue(month, forKeyPath: "month")
                 obj.setValue(point, forKeyPath: "amount")
-                obj.setValue(false, forKeyPath: "uploaded")
                 
                 do {
                     try context.save()

@@ -184,6 +184,32 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    func pruneNotifications() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { (pendingRequests) in
+            var pending:[GreenDataType] = []
+            for request in pendingRequests {
+                let reqId = request.identifier
+                for dataType in GreenDataType.allValues {
+                    if let id = self.scheduledReminders[dataType] {
+                        if reqId == id {
+                            pending.append(dataType)
+                            break
+                        }
+                    } else {
+                        pending.append(dataType)
+                    }
+                }
+            }
+            
+            for dataType in GreenDataType.allValues {
+                if !pending.contains(dataType) {
+                    print("Removing notification for \(dataType)")
+                    self.scheduledReminders.removeValue(forKey: dataType)
+                }
+            }
+        })
+    }
+    
     func cancelAllNotifications() {
         var scheduledIds:[String] = []
         for dataType in GreenDataType.allValues {

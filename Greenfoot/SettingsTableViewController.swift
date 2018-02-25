@@ -114,7 +114,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             let vc = FileScrollViewController(fileName: "license", contentHeight: contentHeight)
             self.navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let contentHeight:CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 2500 : 4000
+            let contentHeight:CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 2500 : 4500
             let vc = FileScrollViewController(fileName: "privacy", contentHeight: contentHeight)
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
