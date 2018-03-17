@@ -295,8 +295,14 @@ class DrivingData: GreenData {
     }
     
     override func reachConsensus() {
-        carConsensus()
-        super.reachConsensus()
+        consensusFor("Bonus", completion:nil)
+        consensusFor("Data", completion: {
+            success in
+            
+            if success {
+                self.carConsensus()
+            }
+        })
     }
     
     private func carConsensus() {
@@ -445,7 +451,7 @@ class DrivingData: GreenData {
                 } else {
                     //Triggers if the device doesn't have the car
                     print("Adding car")
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.sync {
                         self.carData[car] = [date:amount]
                         self.addPointToCoreData(car: car, month: date, point: amount)
                     }
@@ -453,6 +459,8 @@ class DrivingData: GreenData {
             }
             
             upload(uploadedPoints)
+            
+            self.compileToGraph()
         }, andFailureFunction: {
             errorDict in
             

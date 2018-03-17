@@ -287,10 +287,10 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         let carName = nameField.text!.removeSpecialChars()
         
         guard let mileage = Int(mileageField.text!) else {
-            let alertView = UIAlertController(title: "Error", message: "Please enter a valid mileage", preferredStyle: .alert)
+            let alertView = UIAlertController(title: "Error", message: "Please round to the nearest whole number", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             owner.present(alertView, animated: true, completion: {
-                self.nameField.text = ""
+                self.mileageField.text = ""
             })
             return
         }

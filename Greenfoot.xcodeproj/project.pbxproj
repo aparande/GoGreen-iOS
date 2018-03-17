@@ -22,6 +22,7 @@
 		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
+		1F66654C205B748200FCD30C /* GreenfootTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66654B205B748200FCD30C /* GreenfootTests.swift */; };
 		1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C73B51EDB593C006A0003 /* EditDataCell.xib */; };
 		1F6EF2881EF07903000EF403 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6EF2871EF07903000EF403 /* CoreLocation.framework */; };
 		1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F70CCBB1E105D0600AD351A /* AppDelegate.swift */; };
@@ -54,6 +55,16 @@
 		28D5E3560046B69D741C08F5 /* Pods_Greenfoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1F66654E205B748200FCD30C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F70CCB01E105D0600AD351A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F70CCB71E105D0600AD351A;
+			remoteInfo = Greenfoot;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
@@ -71,6 +82,9 @@
 		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenfootModal.swift; sourceTree = SOURCE_ROOT; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		1F666549205B748200FCD30C /* GreenfootTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GreenfootTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F66654B205B748200FCD30C /* GreenfootTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenfootTests.swift; sourceTree = "<group>"; };
+		1F66654D205B748200FCD30C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F6C73B51EDB593C006A0003 /* EditDataCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDataCell.xib; sourceTree = "<group>"; };
 		1F6EF2871EF07903000EF403 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1F70CCB81E105D0600AD351A /* Greenfoot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Greenfoot.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +123,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1F666546205B748200FCD30C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F70CCB51E105D0600AD351A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -143,10 +164,20 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		1F66654A205B748200FCD30C /* GreenfootTests */ = {
+			isa = PBXGroup;
+			children = (
+				1F66654B205B748200FCD30C /* GreenfootTests.swift */,
+				1F66654D205B748200FCD30C /* Info.plist */,
+			);
+			path = GreenfootTests;
+			sourceTree = "<group>";
+		};
 		1F70CCAF1E105D0600AD351A = {
 			isa = PBXGroup;
 			children = (
 				1F70CCBA1E105D0600AD351A /* Greenfoot */,
+				1F66654A205B748200FCD30C /* GreenfootTests */,
 				1F70CCB91E105D0600AD351A /* Products */,
 				2476062C8B5184B0A0347710 /* Pods */,
 				E473182E0F49E8B1125128CF /* Frameworks */,
@@ -157,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				1F70CCB81E105D0600AD351A /* Greenfoot.app */,
+				1F666549205B748200FCD30C /* GreenfootTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -239,6 +271,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1F666548205B748200FCD30C /* GreenfootTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F666552205B748200FCD30C /* Build configuration list for PBXNativeTarget "GreenfootTests" */;
+			buildPhases = (
+				1F666545205B748200FCD30C /* Sources */,
+				1F666546205B748200FCD30C /* Frameworks */,
+				1F666547205B748200FCD30C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F66654F205B748200FCD30C /* PBXTargetDependency */,
+			);
+			name = GreenfootTests;
+			productName = GreenfootTests;
+			productReference = 1F666549205B748200FCD30C /* GreenfootTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		1F70CCB71E105D0600AD351A /* Greenfoot */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F70CCCA1E105D0600AD351A /* Build configuration list for PBXNativeTarget "Greenfoot" */;
@@ -265,10 +315,16 @@
 		1F70CCB01E105D0600AD351A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0810;
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Anmol Parande";
 				TargetAttributes = {
+					1F666548205B748200FCD30C = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = CZ787F8MST;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 1F70CCB71E105D0600AD351A;
+					};
 					1F70CCB71E105D0600AD351A = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = CZ787F8MST;
@@ -295,11 +351,19 @@
 			projectRoot = "";
 			targets = (
 				1F70CCB71E105D0600AD351A /* Greenfoot */,
+				1F666548205B748200FCD30C /* GreenfootTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1F666547205B748200FCD30C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F70CCB61E105D0600AD351A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -389,6 +453,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1F666545205B748200FCD30C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F66654C205B748200FCD30C /* GreenfootTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1F70CCB41E105D0600AD351A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -422,6 +494,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		1F66654F205B748200FCD30C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F70CCB71E105D0600AD351A /* Greenfoot */;
+			targetProxy = 1F66654E205B748200FCD30C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		1F70CCBF1E105D0600AD351A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -442,6 +522,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1F666550205B748200FCD30C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CZ787F8MST;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GreenfootTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = AParande.GreenfootTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Greenfoot.app/Greenfoot";
+			};
+			name = Debug;
+		};
+		1F666551205B748200FCD30C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CZ787F8MST;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GreenfootTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = AParande.GreenfootTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Greenfoot.app/Greenfoot";
+			};
+			name = Release;
+		};
 		1F70CCC81E105D0600AD351A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -586,6 +710,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1F666552205B748200FCD30C /* Build configuration list for PBXNativeTarget "GreenfootTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F666550205B748200FCD30C /* Debug */,
+				1F666551205B748200FCD30C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1F70CCB31E105D0600AD351A /* Build configuration list for PBXProject "Greenfoot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

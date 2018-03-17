@@ -140,7 +140,8 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             UserDefaults.standard.set(locale, forKey:"Setting_Locale")
             return
         }
-
+        
+        GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
         GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
     }
     
@@ -255,6 +256,32 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             self.profile["linked"] = true
             UserDefaults.standard.set(self.profile, forKey: "Profile")
             
+            if let downloadedLocation = data["location"] as? NSDictionary {
+                if let _ = self.locality {
+                    
+                } else {
+                    self.locality = [:]
+                }
+                
+                if downloadedLocation.object(forKey: "city") as? String != "null" {
+                    self.locality!["City"] = downloadedLocation.object(forKey: "city") as? String
+                    self.locality!["State"] = downloadedLocation.object(forKey: "state") as? String
+                    self.locality!["Country"] = downloadedLocation.object(forKey: "country") as? String
+                    self.locality!["Zip"] = downloadedLocation.object(forKey: "zip") as? String
+                    
+                    self.shouldUseLocation = true
+                }
+                
+                UserDefaults.standard.set(self.locality, forKey:"Setting_Locale")
+                
+                if self.shouldUseLocation {
+                    GreenfootModal.sharedInstance.locality = self.locality
+                    UserDefaults.standard.set(self.locality, forKey:"LocalityData")
+                }
+                
+                GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
+            }
+            
             for (_, data) in GreenfootModal.sharedInstance.data {
                 data.reachConsensus()
             }
@@ -289,7 +316,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         }
         
         if password.count < 8 {
-            return completion(false, "Please your password must be at least 8 characters")
+            return completion(false, "Your password must be at least 8 characters")
         }
         
         guard let _ = email.index(of: "@") else {

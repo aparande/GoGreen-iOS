@@ -238,6 +238,7 @@ class GreenData {
                 return point * e_factor/1000
             }
             
+            self.recalculateEP()
             self.recalculateCarbon()
         }, andFailureFunction: nil)
     }
@@ -285,8 +286,8 @@ class GreenData {
     
     func reachConsensus() {
         print("Attepting to reach consensus")
-        consensusFor("Bonus")
-        consensusFor("Data")
+        consensusFor("Bonus", completion: nil)
+        consensusFor("Data", completion: nil)
         pointConsensus()
     }
     
@@ -365,7 +366,7 @@ class GreenData {
         })
     }
     
-    func consensusFor(_ type:String) {
+    func consensusFor(_ type:String, completion: ((Bool) -> Void)?) {
         var dict = (type == "Bonus") ? bonusDict : data
         let id = [APIRequestType.consensus.rawValue, dataName, type].joined(separator: ":")
         let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName, "assoc":type]
@@ -410,6 +411,10 @@ class GreenData {
                     logToServer(key, value)
                 }
             }
+            
+            completion?(true)
+            
+            UserDefaults.standard.set(dict, forKey: self.dataName+":\(type.lowercased())")
         }, andFailureFunction: {
             errorDict in
             if errorDict["Error"] as? APIError == .serverFailure {
@@ -417,6 +422,7 @@ class GreenData {
                     logToServer(key, value)
                 }
             }
+            completion?(false)
         })
     }
     
