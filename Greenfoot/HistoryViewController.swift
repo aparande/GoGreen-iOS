@@ -17,7 +17,8 @@ class BarGraphFooter: UIView {
 class HistoryViewController: UITableViewController, ChartViewDelegate {
     var epHistoryChart: BarGraph!
     
-    var monthlyBreakdown:[Date:Double]!
+    //var monthlyBreakdown:[Date:Double]!
+    var monthlyBreakdown: [GreenDataPoint]!
     var totalCarbon: Int = 0
     
     override func viewDidLoad() {
@@ -28,18 +29,30 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         let cellNib = UINib(nibName: "MonthlyChangeCell", bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: "ChangeCell")
         
-        monthlyBreakdown = [:]
+        var breakDownDict: [Date:Double] = [:]
         
         for (_, data) in GreenfootModal.sharedInstance.data {
             for point in data.getEPData() {
-                if let ep = monthlyBreakdown[point.month] {
-                    monthlyBreakdown[point.month] = ep + Double(point.value)
+                if let ep = breakDownDict[point.month] {
+                    breakDownDict[point.month] = ep + point.value
                 } else {
-                    monthlyBreakdown[point.month] = Double(point.value)
+                    breakDownDict[point.month] = point.value
                 }
             }
             
             totalCarbon += data.totalCarbon
+        }
+        
+        monthlyBreakdown = []
+        
+        let keys = breakDownDict.keys.sorted(by: {
+            (date1, date2) in
+            return date1.compare(date2) == ComparisonResult.orderedAscending
+        })
+        
+        for date in keys {
+            let monthlyPoint = GreenDataPoint(month: date, value: breakDownDict[date]!, dataType:"All", pointType: .energy)
+            monthlyBreakdown.append(monthlyPoint)
         }
         
         if let footerView = UINib(nibName: "BarGraphFooter", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? BarGraphFooter {
@@ -49,7 +62,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             
             epHistoryChart = footerView.barGraph as! BarGraph
             
-            epHistoryChart.loadData(monthlyBreakdown, labeled: "Energy Points")
+            epHistoryChart.loadDataFrom(array: monthlyBreakdown, labeled: "Energy Points")
             epHistoryChart.legend.enabled = true
             epHistoryChart.legend.textColor = UIColor.white
             epHistoryChart.legend.font = UIFont.boldSystemFont(ofSize: 8)
@@ -130,8 +143,8 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             let firstMonth = graphData[0].month
             let firstValue = graphData[0].value
             
-            let secondMonth = graphData[0].month
-            let secondValue = graphData[0].value
+            let secondMonth = graphData[1].month
+            let secondValue = graphData[1].value
             info = [firstMonth:firstValue, secondMonth:secondValue]
         } else if graphData.count == 1 {
             let month = graphData[0].month
@@ -146,18 +159,14 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        let keys = monthlyBreakdown.keys.sorted(by: {
-            (date1, date2) in
-            return date1.compare(date2) == ComparisonResult.orderedAscending
-        })
-        
-        if Int(entry.x) >= keys.count {
+        if Int(entry.x) >= monthlyBreakdown.count {
             return
         }
         
-        let date = keys[Int(entry.x)]
+        let index = Int(entry.x)
         let modal = GreenfootModal.sharedInstance
         var data:[String: Double] = [:]
+        let date = monthlyBreakdown[index].month
         if let electric = modal.data[GreenDataType.electric]!.findPointForDate(date, ofType: .energy) {
             data[GreenDataType.electric.rawValue] = Double(electric.value)
         }

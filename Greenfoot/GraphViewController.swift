@@ -57,7 +57,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         graph.highlightValues(nil)
         
         guard let segmentedView = self.navigationItem.centerViews[0].subviews[0] as? UISegmentedControl else {
-            graph.loadData(data.getGraphData(), labeled: data.yLabel)
+            graph.loadDataFrom(array: data.getGraphData(), labeled: data.yLabel)
             return
         }
         changeGraph(sender: segmentedView)
@@ -67,15 +67,15 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         switch sender.selectedSegmentIndex {
         case 0:
             self.dailyAverageLabel.text = "\(data.averageValue) " + data.averageLabel
-            graph.loadData(data.getGraphData(), labeled: data.yLabel)
+            graph.loadDataFrom(array: data.getGraphData(), labeled: data.yLabel)
             break
         case 1:
             self.dailyAverageLabel.text = "\(data.averageValue) " + data.averageLabel
-            graph.loadData(data.getEPData(), labeled: "Energy Points")
+            graph.loadDataFrom(array: data.getEPData(), labeled: "Energy Points")
             break
         case 2:
             self.dailyAverageLabel.text = "\(data.averageCarbon) lbs of Carbon per Day"
-            graph.loadData(data.getCarbonData(), labeled: "Pounds of Carbon")
+            graph.loadDataFrom(array: data.getCarbonData(), labeled: "Pounds of Carbon")
             break
         default:
             break

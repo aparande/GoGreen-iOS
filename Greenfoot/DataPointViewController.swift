@@ -108,7 +108,7 @@ class DataPointViewController: UITableViewController {
                 let data:[String:Double] = values
                 
                 if let graph = footerView.barGraph as? BarGraph {
-                    graph.loadData(data)
+                    graph.loadDataFrom(dictionary: data)
                 }
             }
         }

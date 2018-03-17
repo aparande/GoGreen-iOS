@@ -13,7 +13,7 @@ class BarGraph: BarChartView {
     private var labels: [String] = []
     
     //Assumes data is loaded in ascending order
-    func loadData(_ data:[GreenDataPoint], labeled label:String) {
+    func loadDataFrom(array data:[GreenDataPoint], labeled label:String) {
         basicSetup()
         
         if data.count == 0 {
@@ -43,7 +43,7 @@ class BarGraph: BarChartView {
         buildGraphWith(points: points, legendLabel: label, hasNegative: hasNegative)
     }
     
-    func loadData(_ data:[Date: Double], labeled label:String) {
+    func loadDataFromDictionary(dictionary data:[Date: Double], labeled label:String) {
         basicSetup()
         
         if data.keys.count == 0 {
@@ -78,7 +78,7 @@ class BarGraph: BarChartView {
         buildGraphWith(points: points, legendLabel: label, hasNegative: hasNegative)
     }
     
-    func loadData(_ values:[String: Double]) {
+    func loadDataFrom(dictionary values:[String: Double]) {
         basicSetup()
         
         if values.keys.count == 0 {
