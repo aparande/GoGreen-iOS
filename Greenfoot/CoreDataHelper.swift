@@ -29,8 +29,14 @@ class CoreDataHelper {
                 for managedObj in managedObjects {
                     let date = managedObj.value(forKeyPath: "month") as! Date
                     let amount = managedObj.value(forKeyPath: "amount") as! Double
+                    let dataPoint = GreenDataPoint(month: date, value: amount, dataType: data.dataName)
+                    if let lastUpdated = managedObj.value(forKeyPath: "lastUpdated") as? Date {
+                        dataPoint.lastUpdated = lastUpdated
+                    }
                     
-                    data.addDataPoint(month: date, y: amount, save: false)
+                    
+                    
+                    data.addDataPoint(point: dataPoint, save: false)
                 }
                 print("Loaded Data For \(data.dataName)")
             } catch let error as NSError {
@@ -40,7 +46,7 @@ class CoreDataHelper {
     }
     
     //Saves a data point to GreenData
-    static func save(data: GreenData, month: Date, amount: Double) {
+    static func save(dataPoint: GreenDataPoint) {
         if let _ = appDelegate {
             let container = appDelegate!.persistentContainer
             container.performBackgroundTask() {
@@ -50,9 +56,11 @@ class CoreDataHelper {
                 
                 let point = NSManagedObject(entity: entity, insertInto: context)
                 
-                point.setValue(month, forKeyPath: "month")
-                point.setValue(amount, forKeyPath: "amount")
-                point.setValue(data.dataName, forKey: "dataType")
+                point.setValue(dataPoint.month, forKeyPath: "month")
+                point.setValue(dataPoint.value, forKeyPath: "amount")
+                point.setValue(dataPoint.dataType, forKey: "dataType")
+                //Make sure to update the point before saving it then
+                point.setValue(dataPoint.lastUpdated, forKey: "lastUpdated")
                 
                 do {
                     try context.save()
@@ -63,20 +71,21 @@ class CoreDataHelper {
         }
     }
     
-    static func update(data: GreenData, month:Date, updatedValue: Double) {
+    static func update(point: GreenDataPoint) {
         if let _ = appDelegate {
             let container = appDelegate!.persistentContainer
             container.performBackgroundTask() {
                 context in
                 
-                let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
+                let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [point.dataType, point.month])
                 
                 let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
                 fetchRequest.predicate = predicate
                 
                 do {
                     let fetchedEntities = try context.fetch(fetchRequest)
-                    fetchedEntities.first?.setValue(updatedValue, forKeyPath: "amount")
+                    fetchedEntities.first?.setValue(point.value, forKeyPath: "amount")
+                    fetchedEntities.first?.setValue(point.lastUpdated, forKeyPath: "lastUpdated")
                 } catch let error as NSError {
                     print("Could not update. \(error), \(error.userInfo)")
                 }
@@ -89,13 +98,13 @@ class CoreDataHelper {
         }
     }
     
-    static func delete(data: GreenData, month: Date) {
+    static func delete(point: GreenDataPoint) {
         if let _ = appDelegate {
             let container = appDelegate!.persistentContainer
             container.performBackgroundTask() {
                 context in
                 
-                let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [data.dataName, month])
+                let predicate = NSPredicate(format: "dataType == %@ AND month == %@", argumentArray: [point.dataType, point.month])
                 
                 let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
                 fetchRequest.predicate = predicate

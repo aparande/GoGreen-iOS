@@ -70,12 +70,8 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             graph.loadData(data.getGraphData(), labeled: data.yLabel)
             break
         case 1:
-            var epData:[Date:Double] = [:]
-            for (key, value) in data.getEPData() {
-                epData[key] = Double(value)
-            }
             self.dailyAverageLabel.text = "\(data.averageValue) " + data.averageLabel
-            graph.loadData(epData, labeled: "Energy Points")
+            graph.loadData(data.getEPData(), labeled: "Energy Points")
             break
         case 2:
             self.dailyAverageLabel.text = "\(data.averageCarbon) lbs of Carbon per Day"
@@ -88,24 +84,19 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         //Create the point viewer and push it onto the navigation stack
-        var labels = data.getGraphData().keys.sorted(by: {
-            (date1, date2) in
-            return date1.compare(date2) == ComparisonResult.orderedAscending
-        })
-        
-        if Int(entry.x) >= labels.count {
+        if Int(entry.x) >= data.getGraphData().count {
             return
         }
         
-        let label = labels[Int(entry.x)]
-        let labelString = Date.monthFormat(date: label)
+        let index = Int(entry.x)
+        let date = data.getGraphData()[index].month
         
-        var values:[String: Double] = ["Usage":data.getGraphData()[label]!, "EP":Double(data.getEPData()[label]!)]
-        if let value = data.getCarbonData()[label] {
-            values["Carbon"] = value
+        var values:[String: Double] = ["Usage":data.getGraphData()[index].value, "EP":Double(data.getEPData()[index].value)]
+        if let point = data.findPointForDate(date, ofType: .carbon) {
+            values["Carbon"] = point.value
         }
         
-        let pointVc = DataPointViewController(unit: data.yLabel, timestamp: labelString, values: values, data: self.data)
+        let pointVc = DataPointViewController(unit: data.yLabel, timestamp: Date.monthFormat(date: date), values: values, data: self.data)
         self.navigationController?.pushViewController(pointVc, animated: true)
     }
     

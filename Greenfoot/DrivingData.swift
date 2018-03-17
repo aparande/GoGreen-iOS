@@ -149,16 +149,17 @@ class DrivingData: GreenData {
         
         for (date, value) in sums {
             let miles = Double(value)
-            if let _ = getGraphData()[date] {
+            if let dataPoint = findPointForDate(date, inArray: graphData) {
                 editDataPoint(month: date, y: miles)
             } else {
-                addDataPoint(month: date, y: miles, save:true)
+                let dataPoint = GreenDataPoint(month: date, value: miles, dataType: self.dataName)
+                addDataPoint(point: dataPoint, save:true)
             }
         }
         
-        for date in getGraphData().keys {
-            if !keys.contains(date) {
-                removeDataPoint(month: date)
+        for point in graphData {
+            if !keys.contains(point.month) {
+                removeDataPoint(month: point.month)
             }
         }
     }
@@ -175,6 +176,7 @@ class DrivingData: GreenData {
                 obj.setValue(car, forKeyPath: "name")
                 obj.setValue(month, forKeyPath: "month")
                 obj.setValue(point, forKeyPath: "amount")
+                obj.setValue(Date(), forKeyPath: "lastUpdated")
                 
                 do {
                     try context.save()
@@ -224,9 +226,9 @@ class DrivingData: GreenData {
         self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
         
         if carData.keys.count == 0 {
-            graphData = [:]
-            epData = [:]
-            co2Equivalent = [:]
+            graphData = []
+            epData = []
+            co2Equivalent = []
             energyPoints = 0
             totalCarbon = 0
         } else {
@@ -282,6 +284,7 @@ class DrivingData: GreenData {
                 do {
                     let fetchedEntities = try context.fetch(fetchRequest)
                     fetchedEntities.first?.setValue(amount, forKeyPath: "amount")
+                    fetchedEntities.first?.setValue(amount, forKeyPath: "lastUpdated")
                 } catch let error as NSError {
                     print("Could not update. \(error), \(error.userInfo)")
                 }

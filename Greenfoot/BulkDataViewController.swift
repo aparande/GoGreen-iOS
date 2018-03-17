@@ -177,7 +177,12 @@ class BulkDataViewController: UITableViewController, DataUpdater {
     
     //This method can be overriden in the subclass so multiple sections can be supported
     func dataForSection(_ section: Int) -> [Date:Double]? {
-        return data.getGraphData()
+        var dataArr = data.getGraphData()
+        var dataDict: [Date:Double] = [:]
+        for point in dataArr {
+            dataDict[point.month] = point.value
+        }
+        return dataDict
     }
 }
 
@@ -305,7 +310,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         let date = Date.monthFormat(string: monthField.text!)
         
         
-        if let _ = data.getGraphData()[date] {
+        if let _ = data.findPointForDate(date, ofType: .regular) {
             let alertView = UIAlertController(title: "Error", message: "You have already entered in data with this date. If you would like to edit the data, please use the edit screen.", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             owner.present(alertView, animated: true, completion: nil)
@@ -323,8 +328,8 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         
         var conversionFactor = 1.0
         if data.dataName == GreenDataType.gas.rawValue {
-            for (_, value) in data.getGraphData() {
-                if value > 10 {
+            for dataPoint in data.getGraphData() {
+                if dataPoint.value > 10 {
                     conversionFactor = 1.0
                     break
                 } else {
@@ -339,7 +344,8 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
             }
         }
         
-        data.addDataPoint(month: date, y: conversionFactor * point, save:true)
+        let dataPoint = GreenDataPoint(month: date, value: conversionFactor * point, dataType: data.dataName, lastUpdated: Date())
+        data.addDataPoint(point: dataPoint, save:true)
         
         monthField.text = ""
         pointField.text = ""

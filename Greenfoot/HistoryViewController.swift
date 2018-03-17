@@ -31,11 +31,11 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         monthlyBreakdown = [:]
         
         for (_, data) in GreenfootModal.sharedInstance.data {
-            for (month, value) in data.getEPData() {
-                if let ep = monthlyBreakdown[month] {
-                    monthlyBreakdown[month] = ep + Double(value)
+            for point in data.getEPData() {
+                if let ep = monthlyBreakdown[point.month] {
+                    monthlyBreakdown[point.month] = ep + Double(point.value)
                 } else {
-                    monthlyBreakdown[month] = Double(value)
+                    monthlyBreakdown[point.month] = Double(point.value)
                 }
             }
             
@@ -123,23 +123,19 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             data = GreenfootModal.sharedInstance.data[GreenDataType.electric]!
             break
         }
-        
-        let keys = data.getGraphData().keys.sorted(by: {
-            (date1, date2) in
-            return date1.compare(date2) == ComparisonResult.orderedDescending
-        })
-        
+
         var info:[Date: Double] = [:]
-        if keys.count >= 2 {
-            let firstMonth = keys[0]
-            let firstValue = data.getGraphData()[firstMonth]!
-        
-            let secondMonth = keys[1]
-            let secondValue = data.getGraphData()[secondMonth]!
+        let graphData = data.getGraphData()
+        if graphData.count >= 2 {
+            let firstMonth = graphData[0].month
+            let firstValue = graphData[0].value
+            
+            let secondMonth = graphData[0].month
+            let secondValue = graphData[0].value
             info = [firstMonth:firstValue, secondMonth:secondValue]
-        } else if keys.count == 1 {
-            let month = keys[0]
-            let value = data.getGraphData()[month]!
+        } else if graphData.count == 1 {
+            let month = graphData[0].month
+            let value = graphData[0].value
             info = [month:value]
         }
         
@@ -162,20 +158,20 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         let date = keys[Int(entry.x)]
         let modal = GreenfootModal.sharedInstance
         var data:[String: Double] = [:]
-        if let electric = modal.data[GreenDataType.electric]!.getEPData()[date] {
-            data[GreenDataType.electric.rawValue] = Double(electric)
+        if let electric = modal.data[GreenDataType.electric]!.findPointForDate(date, ofType: .energy) {
+            data[GreenDataType.electric.rawValue] = Double(electric.value)
         }
         
-        if let water = modal.data[GreenDataType.water]!.getEPData()[date] {
-            data[GreenDataType.water.rawValue] = Double(water)
+        if let water = modal.data[GreenDataType.water]!.findPointForDate(date, ofType: .energy) {
+            data[GreenDataType.water.rawValue] = Double(water.value)
         }
         
-        if let driving = modal.data[GreenDataType.driving]!.getEPData()[date] {
-            data[GreenDataType.driving.rawValue] = Double(driving)
+        if let driving = modal.data[GreenDataType.driving]!.findPointForDate(date, ofType: .energy) {
+            data[GreenDataType.driving.rawValue] = Double(driving.value)
         }
         
-        if let gas = modal.data[GreenDataType.gas]!.getEPData()[date] {
-            data[GreenDataType.gas.rawValue] = Double(gas)
+        if let gas = modal.data[GreenDataType.gas]!.findPointForDate(date, ofType: .energy) {
+            data[GreenDataType.gas.rawValue] = Double(gas.value)
         }
         
         let dpvc = DataPointViewController(timestamp: Date.monthFormat(date: date), values: data)

@@ -26,9 +26,9 @@ class GreenData {
     var calculateCO2: (Double) -> Double
     var bonus: (Int, Int) -> Int
     
-    var graphData:[Date: Double]
-    var epData:[Date: Int]
-    var co2Equivalent:[Date: Double]
+    var graphData:[GreenDataPoint]
+    var epData:[GreenDataPoint]
+    var co2Equivalent:[GreenDataPoint]
     
     //var uploadedData:[String]
     
@@ -37,8 +37,8 @@ class GreenData {
         get {
             var sum = 0.0
             var nums = 0.0
-            for (_, value) in graphData {
-                sum += value/31
+            for point in graphData {
+                sum += point.value/31
                 nums += 1
             }
             if nums == 0.0 {
@@ -54,7 +54,8 @@ class GreenData {
     //Returns the average daily carbon emission
     var averageCarbon:Double {
         get{
-            let count = Double(getCarbonData().keys.count) * 31.0
+            //FLAG IS THIS CORRECT?
+            let count = Double(co2Equivalent.count) * 31.0
             
             if count == 0 {
                 return 0
@@ -88,9 +89,9 @@ class GreenData {
         
         dataName = name
         
-        graphData = [:]
-        epData = [:]
-        co2Equivalent = [:]
+        graphData = []
+        epData = []
+        co2Equivalent = []
         
         energyPoints = 0
         totalCarbon = 0
@@ -118,52 +119,70 @@ class GreenData {
     }
     
     
-    func addDataPoint(month:Date, y:Double, save: Bool) {
-        graphData[month] = y
+    func addDataPoint(point: GreenDataPoint, save: Bool) {
+        graphData.append(point)
         
-        let ep = calculateEP(baseline, y)
-        epData[month] = ep
+        let ep = calculateEP(baseline, point.value)
+        let energyPoint = GreenDataPoint(month: point.month, value: Double(ep), dataType: dataName, pointType: .energy)
+        epData.append(energyPoint)
         energyPoints += ep
         
-        let carbon = calculateCO2(y)
-        co2Equivalent[month] = carbon
+        let carbon = calculateCO2(point.value)
+        let carbonPoint = GreenDataPoint(month: point.month, value: carbon, dataType: dataName, pointType: .carbon)
+        co2Equivalent.append(carbonPoint)
         totalCarbon += Int(carbon)
         
         if save {
-            CoreDataHelper.save(data: self, month: month, amount: y)
+            CoreDataHelper.save(dataPoint: point)
+            
+            let sorter: (GreenDataPoint, GreenDataPoint) -> Bool = {
+                (point1, point2) -> Bool in
+                return point1.month.compare(point2.month) == ComparisonResult.orderedAscending
+            }
+            graphData.sort(by: sorter)
+            epData.sort(by: sorter)
+            co2Equivalent.sort(by: sorter)
             
             //If save is true, that means its a new data point, so you want to try uploading to the server
-            let dateString = Date.monthFormat(date: month)
-            let parameters:[String:Any] = ["month":dateString, "amount":Int(y), "dataType": dataName]
+            let dateString = Date.monthFormat(date: point.month)
+            let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName]
             let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         }
     }
     
-    func updateTotals(afterMonth month:Date, changedTo y: Double) {
-        let epPrev = epData[month]!
-        let carbonPrev = co2Equivalent[month]!
+    func updateTotals(afterMonth month:Date, changedTo y: Double) -> GreenDataPoint {
+        let index = indexOfPointForDate(month, ofType: .regular)
+        let dataPoint = graphData[index]
+        let epPoint = epData[index]
+        let carbonPoint = co2Equivalent[index]
         
-        graphData[month] = y
+        let epPrev = epPoint.value
+        let carbonPrev = carbonPoint.value
+        
+        dataPoint.value = y
         
         let ep = calculateEP(baseline, y)
-        epData[month] = ep
-        energyPoints = energyPoints - epPrev + ep
+        epPoint.value = Double(ep)
+        energyPoints = energyPoints - Int(epPrev) + Int(ep)
+        dataPoint.lastUpdated = Date()
         
         let carbon = calculateCO2(y)
-        co2Equivalent[month] = carbon
+        carbonPoint.value = carbon
         totalCarbon = totalCarbon - Int(carbonPrev) + Int(carbon)
+        
+        return dataPoint
     }
     
     func editDataPoint(month:Date, y:Double) {
-        updateTotals(afterMonth: month, changedTo: y)
+        let dataPoint = updateTotals(afterMonth: month, changedTo: y)
         
         //If the data is uploaded, update it, else, upload it
         let date = Date.monthFormat(date: month)
         
         let reqId = [APIRequestType.update.rawValue, dataName, date].joined(separator: ":")
         if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
-            CoreDataHelper.update(data: self, month: month, updatedValue: y)
+            CoreDataHelper.update(point: dataPoint)
             
             let dateString = Date.monthFormat(date: month)
             let parameters:[String:Any] = ["month":dateString, "amount":Int(y), "dataType": dataName]
@@ -175,14 +194,15 @@ class GreenData {
     }
     
     func removeDataPoint(month:Date) {
-        graphData.removeValue(forKey: month)
-        let carbon = co2Equivalent.removeValue(forKey: month)!
-        let ep = epData.removeValue(forKey: month)!
+        let index = indexOfPointForDate(month, ofType: .regular)
+        let dataPoint = graphData.remove(at: index)
+        let carbonPoint = co2Equivalent.remove(at: index)
+        let energyPoint = epData.remove(at: index)
         
-        totalCarbon -= Int(carbon)
-        energyPoints -= ep
+        totalCarbon -= Int(carbonPoint.value)
+        energyPoints -= Int(energyPoint.value)
         
-        CoreDataHelper.delete(data: self, month: month)
+        CoreDataHelper.delete(point: dataPoint)
         
         let dateString = Date.monthFormat(date: month)
         let parameters:[String:Any] = ["month":dateString, "dataType": dataName]
@@ -197,18 +217,22 @@ class GreenData {
             energyPoints += bonus(baselines[key]!, bonusDict[key]!)
         }
         
-        for x in graphData.keys {
-            energyPoints += calculateEP(baseline, graphData[x]!)
+        for i in 0..<graphData.count {
+            let dataPoint = graphData[i]
+            let newEP = calculateEP(baseline, dataPoint.value)
+            epData[i].value = Double(newEP)
+            energyPoints += newEP
         }
     }
     
     func recalculateCarbon() {
         totalCarbon = 0
-        for (key, value) in graphData {
-            let carbon = calculateCO2(value)
+        for i in 0..<graphData.count {
+            let dataPoint = graphData[i]
             
+            let carbon = calculateCO2(dataPoint.value)
+            co2Equivalent[i].value = carbon
             totalCarbon += Int(carbon)
-            co2Equivalent[key] = carbon
         }
     }
     
@@ -292,8 +316,8 @@ class GreenData {
     }
     
     func pointConsensus() {
-        let upload:([Date]?) -> Void = {
-            uploadedPoints in
+        let upload:([GreenDataPoint]?) -> Void = {
+            unUploadedPoints in
             
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/yy"
@@ -306,16 +330,13 @@ class GreenData {
                 self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
             }
             
-            if let _ = uploadedPoints {
-                for (month, amount) in self.graphData {
-                    if !uploadedPoints!.contains(month) {
-                        print("Found unuploaded point")
-                        logToServer(month, amount)
-                    }
+            if let _ = unUploadedPoints {
+                for dataPoint in unUploadedPoints! {
+                    logToServer(dataPoint.month, dataPoint.value)
                 }
             } else {
-                for (month, amount) in self.graphData {
-                    logToServer(month, amount)
+                for dataPoint in self.graphData {
+                    logToServer(dataPoint.month, dataPoint.value)
                 }
             }
         }
@@ -333,7 +354,7 @@ class GreenData {
                 return
             }
             
-            var uploadedPoints:[Date] = []
+            var unUploadedPoints:[GreenDataPoint] = []
             for point in serverData {
                 guard let pointInfo = point as? NSDictionary else {
                     return
@@ -341,22 +362,24 @@ class GreenData {
                 
                 let month = pointInfo["Month"]! as! String
                 let amount = pointInfo["Amount"]! as! Double
+                let lastUpdated = pointInfo["LastUpdated"]! as! Double
                 
                 let date = formatter.date(from: month)!
-                uploadedPoints.append(date)
                 
-                if let point = self.graphData[date] {
-                    if point != amount {
+                if let point = self.findPointForDate(date, ofType: .regular) {
+                    if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
                         //Triggers if the device has the point saved but is an outdated value
                         print("Editing point")
                         self.editDataPoint(month: date, y: amount)
                     }
                 } else {
-                    self.addDataPoint(month: date, y: amount, save: false)
+                    let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                    self.addDataPoint(point: dataPoint, save: false)
+                    unUploadedPoints.append(dataPoint)
                 }
             }
             
-            upload(uploadedPoints)
+            upload(unUploadedPoints)
         }, andFailureFunction: {
             errorDict in
             
@@ -426,21 +449,114 @@ class GreenData {
         })
     }
     
-    fileprivate func containsPoint(month:Date, amount:Double) -> Bool {
-        if let _ = graphData[month] {
-            return true
-        } else {
-            return false
+    func findPointForDate(_ date: Date, inArray arr:[GreenDataPoint]) -> GreenDataPoint? {
+        for point in arr {
+            if (date == point.month) {
+                return point
+            }
         }
+        
+        return nil
+    }
+    func findPointForDate(_ date: Date, ofType type: DataPointType) -> GreenDataPoint? {
+        var dataArr = graphData
+        switch type {
+        case .regular:
+            dataArr = graphData
+            break
+        case .energy:
+            dataArr = epData
+            break
+        case .carbon:
+            dataArr = co2Equivalent
+            break
+        }
+        
+        for point in dataArr {
+            if (date == point.month) {
+                return point
+            }
+        }
+        
+        return nil
     }
     
-    func getGraphData() -> [Date: Double] {
+    func indexOfPointForDate(_ date: Date, ofType type: DataPointType) -> Int {
+        var dataArr = graphData
+        switch type {
+        case .regular:
+            dataArr = graphData
+            break
+        case .energy:
+            dataArr = epData
+            break
+        case .carbon:
+            dataArr = co2Equivalent
+            break
+        }
+        
+        var index = 0
+        for point in dataArr {
+            if (date == point.month) {
+                return index
+            }
+            index += 1
+        }
+        
+        return -1
+    }
+    
+    func getGraphData() -> [GreenDataPoint] {
         return graphData
     }
-    func getEPData() -> [Date: Int] {
+    func getEPData() -> [GreenDataPoint] {
         return epData
     }
-    func getCarbonData() -> [Date: Double] {
+    func getCarbonData() -> [GreenDataPoint] {
         return co2Equivalent
     }
+}
+
+class GreenDataPoint {
+    var value: Double
+    var month: Date
+    var dataType: String
+    var pointType: DataPointType
+    var lastUpdated: Date
+    
+    init(month: Date, value: Double, dataType: String) {
+        self.value = value
+        self.month = month
+        self.dataType = dataType
+        pointType = DataPointType.regular
+        lastUpdated = Date()
+    }
+    
+    init(month: Date, value: Double, dataType: String, pointType: DataPointType) {
+        self.value = value
+        self.month = month
+        self.dataType = dataType
+        self.pointType = pointType
+        lastUpdated = Date()
+    }
+    init(month: Date, value: Double, dataType: String, pointType: DataPointType, lastUpdated: Date) {
+        self.value = value
+        self.month = month
+        self.dataType = dataType
+        self.pointType = pointType
+        self.lastUpdated = lastUpdated
+    }
+    init(month: Date, value: Double, dataType: String, lastUpdated: Date) {
+        self.value = value
+        self.month = month
+        self.dataType = dataType
+        self.pointType = DataPointType.regular
+        self.lastUpdated = lastUpdated
+    }
+}
+
+enum DataPointType:String {
+    case regular = "REGULAR"
+    case energy = "EP"
+    case carbon = "CARBON"
 }
