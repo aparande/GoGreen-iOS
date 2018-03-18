@@ -140,12 +140,11 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
         var info:[Date: Double] = [:]
         let graphData = data.getGraphData()
         if graphData.count >= 2 {
-            let firstMonth = graphData[0].month
-            let firstValue = graphData[0].value
-            
-            let secondMonth = graphData[1].month
-            let secondValue = graphData[1].value
-            info = [firstMonth:firstValue, secondMonth:secondValue]
+            //The array is ordered with increasing dates, so traverse the array backwards
+            let finalIndex = graphData.count-1
+            let firstPoint = graphData[finalIndex-1]
+            let secondPoint = graphData[finalIndex]
+            info = [firstPoint.month:firstPoint.value, secondPoint.month:secondPoint.value]
         } else if graphData.count == 1 {
             let month = graphData[0].month
             let value = graphData[0].value

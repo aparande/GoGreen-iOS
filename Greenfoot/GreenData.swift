@@ -134,13 +134,7 @@ class GreenData {
         if save {
             CoreDataHelper.save(dataPoint: point)
             
-            let sorter: (GreenDataPoint, GreenDataPoint) -> Bool = {
-                (point1, point2) -> Bool in
-                return point1.month.compare(point2.month) == ComparisonResult.orderedAscending
-            }
-            graphData.sort(by: sorter)
-            epData.sort(by: sorter)
-            co2Equivalent.sort(by: sorter)
+            sortData()
             
             //If save is true, that means its a new data point, so you want to try uploading to the server
             let dateString = Date.monthFormat(date: point.month)
@@ -148,6 +142,16 @@ class GreenData {
             let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         }
+    }
+    
+    func sortData() {
+        let sorter: (GreenDataPoint, GreenDataPoint) -> Bool = {
+            (point1, point2) -> Bool in
+            return point1.month.compare(point2.month) == ComparisonResult.orderedAscending
+        }
+        graphData.sort(by: sorter)
+        epData.sort(by: sorter)
+        co2Equivalent.sort(by: sorter)
     }
     
     func updateTotals(afterMonth month:Date, changedTo y: Double) -> GreenDataPoint {

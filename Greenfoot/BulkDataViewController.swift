@@ -12,11 +12,8 @@ import Material
 class BulkDataViewController: UITableViewController, DataUpdater {
     let data: GreenData
     
-    var sectionDataKeys:[Int:[Date]]
-    
     init(withData x:GreenData) {
         data = x
-        sectionDataKeys = [:]
         super.init(style: .grouped)
     }
     
@@ -109,8 +106,10 @@ class BulkDataViewController: UITableViewController, DataUpdater {
             let alertView = UIAlertController(title: "Are You Sure?", message: "Are you sure you would like to delete this data point?", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
                 _ in
-                let key = self.sectionDataKeys[indexPath.section]!.remove(at: indexPath.row)
-                self.data.removeDataPoint(month: key)
+                let sectionData = self.dataForSection(indexPath.section)!
+                let index = sectionData.count - 1 - indexPath.row
+                
+                self.data.removeDataPoint(month: sectionData[index].month)
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
             
@@ -144,12 +143,13 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         cell.indexPath = indexPath
         
         let sectionData = dataForSection(indexPath.section)!
- 
-        let date = sectionData[indexPath.row].month
-        let value = sectionData[indexPath.row].value
+        //The data is ordered with increasing date, so to see most recent dates first, traverse the array backwards
+        let index = sectionData.count - 1 - indexPath.row
+        let date = sectionData[index].month
+        let value = sectionData[index].value
         
-        if data.dataName == "Driving" && indexPath.row - 1 >= 0 {
-            let prevValue = sectionData[indexPath.row-1].value
+        if data.dataName == "Driving" && index - 1 >= 0 {
+            let prevValue = sectionData[index-1].value
             cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value), lowerBound: prevValue, upperBound: nil)
         } else {
             cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value), lowerBound: nil, upperBound: nil)
@@ -335,28 +335,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         
         pointField.resignFirstResponder()
         
-        
-        var row = 0
-        
-        guard let keys = owner.sectionDataKeys[0] else {
-            owner.sectionDataKeys[0] = [date]
-            let path = IndexPath(row: 0, section: 0)
-            owner.tableView.insertRows(at: [path], with: .automatic)
-            return
-        }
-        
-        while row < keys.count && date.compare(keys[row]) == ComparisonResult.orderedAscending {
-            row += 1
-        }
-        
-        if keys.count == 1 {
-            row = (date.compare(keys[0]) == ComparisonResult.orderedAscending) ? 1:0
-        }
-        
-        owner.sectionDataKeys[0]!.insert(date, at: row)
-        
-        let path = IndexPath(row: row, section: 0)
-        owner.tableView.insertRows(at: [path], with: .automatic)
+        owner.tableView.reloadSections([0], with: .fade)
         
         GreenfootModal.sharedInstance.queueReminder(dataType: GreenDataType(rawValue: data.dataName)!)
     }

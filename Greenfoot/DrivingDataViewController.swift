@@ -163,10 +163,11 @@ class DrivingDataViewController: BulkDataViewController {
             alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
                 _ in
 
+                let sectionData = self.dataForSection(indexPath.section)!
+                let index = sectionData.count - 1 - indexPath.row
+                let date = sectionData[index].month
                 
-                let date = self.sectionDataKeys[indexPath.section]!.remove(at: indexPath.row)
-                if self.sectionDataKeys[indexPath.section]!.count == 0 {
-                    self.sectionDataKeys.removeValue(forKey: indexPath.section)
+                if sectionData.count == 0 {
                     let carName = self.cars.remove(at: indexPath.section)
                     self.drivingData.carMileage.removeValue(forKey: carName)
                     self.drivingData.carData.removeValue(forKey: carName)
@@ -196,21 +197,17 @@ class DrivingDataViewController: BulkDataViewController {
     
     func updateHeaders() {
         var head:[Int:DrivingHeaderView] = [:]
-        var data:[Int:[Date]] = [:]
         for i in 0..<cars.count {
             let car = cars[i]
             
             for (_, header) in sectionHeaders {
                 if header.car! == car {
-                    let dates = sectionDataKeys[header.sectionNum]!
                     head[i] = header
-                    data[i] = dates
                     header.sectionNum = i
                     break
                 }
             }
         }
-        sectionDataKeys = data
         sectionHeaders = head
     }
 }
@@ -325,8 +322,6 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             owner.drivingData.carData[carName] = [odometerReading]
             owner.drivingData.addPointToCoreData(car: carName, month: date, point: 1000)
             
-            owner.sectionDataKeys[sectionNum] = [date]
-            
             let path = IndexPath(row: 0, section: sectionNum)
             
             owner.tableView.insertRows(at: [path], with: .automatic)
@@ -352,7 +347,6 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         
         owner.drivingData.addPointToCoreData(car: carName, month: date, point: lastVal)
         
-        owner.sectionDataKeys[sectionNum]!.insert(date, at: 0)
         let path = IndexPath(row: 0, section: sectionNum)
         
         owner.tableView.insertRows(at: [path], with: .automatic)
@@ -363,7 +357,6 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         alertView.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {
             _ in
             //Remove the mileage data, the car data, and the odometer data
-            self.owner.sectionDataKeys.removeValue(forKey: self.sectionNum)
             let carName = self.owner.cars.remove(at: self.sectionNum)
             self.owner.drivingData.carMileage.removeValue(forKey: carName)
             self.owner.drivingData.carData.removeValue(forKey: carName)

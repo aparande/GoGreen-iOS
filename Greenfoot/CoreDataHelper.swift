@@ -36,6 +36,9 @@ class CoreDataHelper {
                     
                     data.addDataPoint(point: dataPoint, save: false)
                 }
+                
+                data.sortData()
+                
                 print("Loaded Data For \(data.dataName)")
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
