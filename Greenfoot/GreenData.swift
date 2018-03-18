@@ -13,9 +13,9 @@ import CoreData
 
 class GreenData {
     var dataName:String
-    var data:[String:Int]
+    var data:[String:GreenAttribute]
     var baselines:[String:Int]
-    var bonusDict:[String:Int]
+    var bonusDict:[String:GreenAttribute]
     
     var descriptions: [String:String]
     
@@ -29,8 +29,6 @@ class GreenData {
     var graphData:[GreenDataPoint]
     var epData:[GreenDataPoint]
     var co2Equivalent:[GreenDataPoint]
-    
-    //var uploadedData:[String]
     
     //Returns the average daily usage. Displays on each data tab
     var averageValue:Double {
@@ -210,7 +208,7 @@ class GreenData {
         energyPoints = 0
         
         for key in bonusDict.keys {
-            energyPoints += bonus(baselines[key]!, bonusDict[key]!)
+            energyPoints += bonus(baselines[key]!, bonusDict[key]!.value)
         }
         
         for i in 0..<graphData.count {
@@ -414,21 +412,22 @@ class GreenData {
                 
                 let value = pointInfo["Amount"]! as! Int
                 let dataType = pointInfo["DataType"]! as! String
+                let lastUpdated = pointInfo["LastUpdated"]! as! Double
                 let attrName = dataType.components(separatedBy: ":")[2]
                 uploadedAttrs.append(attrName)
                 if let amount = dict[attrName] {
-                    if amount != value {
+                    if amount.value != value && amount.lastUpdated.timeIntervalSince1970 < lastUpdated {
                         print("Editing Bonus Attr")
-                        dict[attrName] = value
+                        dict[attrName] = GreenAttribute(value: value, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                     }
                 } else {
-                    dict[attrName] = value
+                    dict[attrName] = GreenAttribute(value: value, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                 }
             }
             
-            for (key, value) in dict {
+            for (key, attr) in dict {
                 if !uploadedAttrs.contains(key) {
-                    logToServer(key, value)
+                    logToServer(key, attr.value)
                 }
             }
             
@@ -438,8 +437,8 @@ class GreenData {
         }, andFailureFunction: {
             errorDict in
             if errorDict["Error"] as? APIError == .serverFailure {
-                for (key, value) in dict {
-                    logToServer(key, value)
+                for (key, attr) in dict {
+                    logToServer(key, attr.value)
                 }
             }
             completion?(false)
@@ -521,60 +520,4 @@ class GreenData {
     func getCarbonData() -> [GreenDataPoint] {
         return co2Equivalent
     }
-}
-
-class GreenDataPoint {
-    var value: Double
-    var month: Date
-    var dataType: String
-    var pointType: DataPointType
-    var lastUpdated: Date
-    
-    init(month: Date, value: Double, dataType: String) {
-        self.value = value
-        self.month = month
-        self.dataType = dataType
-        pointType = DataPointType.regular
-        lastUpdated = Date()
-    }
-    
-    init(month: Date, value: Double, dataType: String, pointType: DataPointType) {
-        self.value = value
-        self.month = month
-        self.dataType = dataType
-        self.pointType = pointType
-        lastUpdated = Date()
-    }
-    init(month: Date, value: Double, dataType: String, pointType: DataPointType, lastUpdated: Date) {
-        self.value = value
-        self.month = month
-        self.dataType = dataType
-        self.pointType = pointType
-        self.lastUpdated = lastUpdated
-    }
-    init(month: Date, value: Double, dataType: String, lastUpdated: Date) {
-        self.value = value
-        self.month = month
-        self.dataType = dataType
-        self.pointType = DataPointType.regular
-        self.lastUpdated = lastUpdated
-    }
-    /**
-     Updates value of the GreenDataPoint and sets lastUpdated to today
-     - parameter newVal: The new value
-     - returns: the old value
-     */
-    func updateValue(to newVal:Double) -> Double {
-        let oldVal = value
-        value = newVal
-        lastUpdated = Date()
-        return oldVal
-    }
-}
-
-enum DataPointType:String {
-    case regular = "REGULAR"
-    case energy = "EP"
-    case carbon = "CARBON"
-    case odometer = "ODOMETER"
 }

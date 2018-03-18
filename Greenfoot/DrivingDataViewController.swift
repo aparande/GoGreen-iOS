@@ -296,7 +296,8 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         }
         
         owner.cars[sectionNum] = carName
-        owner.drivingData.carMileage[carName] = mileage
+        
+        owner.drivingData.carMileage[carName] = GreenAttribute(value: mileage, lastUpdated: Date())
         
         if nameField.isUserInteractionEnabled && mileageField.isUserInteractionEnabled {
             nameField.isUserInteractionEnabled = false

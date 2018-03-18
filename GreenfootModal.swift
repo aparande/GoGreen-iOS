@@ -205,14 +205,27 @@ class GreenfootModal {
         
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") {
-            electricData.bonusDict = bonusDict as! [String:Int]
+        
+        if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:GreenAttribute] {
+            electricData.bonusDict = bonusDict
         } else {
-            electricData.bonusDict["Solar Panels"] = 0;
+            if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:Int] {
+                for (key, value) in bonusDict {
+                    electricData.bonusDict[key] = GreenAttribute(value: value, lastUpdated:Date())
+                }
+            } else {
+                electricData.bonusDict["Solar Panels"] = GreenAttribute(value: 0, lastUpdated: Date());
+            }
         }
         
-        if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") {
-            electricData.data = data as! [String:Int]
+        if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") as? [String:GreenAttribute] {
+            electricData.data = data
+        } else {
+            if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") as? [String:Int] {
+                for (key, value) in data {
+                    electricData.data[key] = GreenAttribute(value: value, lastUpdated:Date())
+                }
+            }
         }
         
         //If you were to try and load the e_factor from the web here, under the current code, an endless loop would be created
@@ -279,16 +292,28 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") {
-            waterData.bonusDict = bonusDict as! [String:Int]
+        if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") as? [String:GreenAttribute] {
+            waterData.bonusDict = bonusDict
         } else {
-            waterData.bonusDict["Shower Length"] = 0
-            waterData.bonusDict["Laundry Frequency"] = 0
-            waterData.bonusDict["Bathroom Frequency"] = 0
+            if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") as? [String:Int] {
+                for (key, value) in bonusDict {
+                    waterData.bonusDict[key] = GreenAttribute(value: value, lastUpdated: Date())
+                }
+            } else {
+                waterData.bonusDict["Shower Length"] = GreenAttribute(value: 0, lastUpdated: Date())
+                waterData.bonusDict["Laundry Frequency"] = GreenAttribute(value: 0, lastUpdated: Date())
+                waterData.bonusDict["Bathroom Frequency"] = GreenAttribute(value: 0, lastUpdated: Date())
+            }
         }
         
-        if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+"data") {
-            waterData.data = data as! [String:Int]
+        if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+":data") as? [String:GreenAttribute] {
+            waterData.data = data
+        } else {
+            if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+":data") as? [String:Int] {
+                for (key, value) in data {
+                    waterData.data[key] = GreenAttribute(value: value, lastUpdated:Date())
+                }
+            }
         }
         
         CoreDataHelper.fetch(data: waterData)
@@ -320,7 +345,7 @@ class GreenfootModal {
         drivingData.bonus = {
             base, attr in
             
-            if drivingData.data["Average MPG"] == 0 || attr == 0 {
+            if drivingData.data["Average MPG"]!.value == 0 || attr == 0 {
                 return 0
             }
             
@@ -333,18 +358,30 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") {
-            drivingData.bonusDict = bonusDict as! [String:Int]
+        if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") as? [String:GreenAttribute] {
+            drivingData.bonusDict = bonusDict
         } else {
-            drivingData.bonusDict["Walking/Biking"] = 0
+            if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") as? [String:Int] {
+                for (key, value) in bonusDict {
+                    drivingData.bonusDict[key] = GreenAttribute(value: value, lastUpdated: Date())
+                }
+            } else {
+                drivingData.bonusDict["Walking/Biking"] = GreenAttribute(value: 0, lastUpdated: Date())
+            }
         }
         
-        if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") {
-            drivingData.data = data as! [String:Int]
+        if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") as? [String:GreenAttribute] {
+            drivingData.data = data
         } else {
-            drivingData.data["Number of Cars"] = 0
-            //If they have two cars, its the sum of their mpgs/number of cars
-            drivingData.data["Average MPG"] = 0
+            if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") as? [String:Int] {
+                for (key, value) in data {
+                    drivingData.data[key] = GreenAttribute(value: value, lastUpdated: Date())
+                }
+            } else {
+                drivingData.data["Number of Cars"] = GreenAttribute(value: 0, lastUpdated: Date())
+                //If they have two cars, its the sum of their mpgs/number of cars
+                drivingData.data["Average MPG"] = GreenAttribute(value: 0, lastUpdated: Date())
+            }
         }
         
         CoreDataHelper.fetch(data: drivingData)

@@ -71,10 +71,10 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     func updateAttribute(key: String, value: Int) {
         var type = "Data"
         if let _ = data.data[key] {
-            data.data[key] = value
+            data.data[key] = GreenAttribute(value: value, lastUpdated: Date())
         } else {
             type = "Bonus"
-            data.bonusDict[key] = value
+            data.bonusDict[key] = GreenAttribute(value: value, lastUpdated: Date())
         }
         
         var parameters:[String:Any] = ["month":"NA", "amount":value]
@@ -131,9 +131,9 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             cell.owner = self
             
             if let _ = data.data[key] {
-                cell.setInfo(attribute: key, data: data.data[key]!)
+                cell.setInfo(attribute: key, data: data.data[key]!.value)
             } else {
-                cell.setInfo(attribute: key, data: data.bonusDict[key]!)
+                cell.setInfo(attribute: key, data: data.bonusDict[key]!.value)
             }
             
             return cell

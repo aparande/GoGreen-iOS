@@ -13,17 +13,22 @@ import UIKit
 
 class DrivingData: GreenData {
     var carData:[String:[GreenDataPoint]]
-    var carMileage:[String:Int]
+    var carMileage:[String:GreenAttribute]
 
     init() {
         let defaults = UserDefaults.standard
         
         carData = [:]
         
-        if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:Int] {
+        if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:GreenAttribute] {
             carMileage = mileages
         } else {
             carMileage = [:]
+            if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:Int] {
+                for (key, value) in mileages {
+                    carMileage[key] = GreenAttribute(value: value, lastUpdated: Date())
+                }
+            }
         }
         
         //https://www.epa.gov/sites/production/files/2016-02/documents/420f14040a.pdf
@@ -33,7 +38,7 @@ class DrivingData: GreenData {
         
         self.calculateCO2 = {
             miles in
-            return 19.6*miles/Double(self.data["Average MPG"]!)
+            return 19.6*miles/Double(self.data["Average MPG"]!.value)
         }
         
         self.calculateEP = {
@@ -73,20 +78,20 @@ class DrivingData: GreenData {
     
     func compileToGraph() {
         var totalMPG = 0
-        for (key, value) in carMileage {
+        for (key, point) in carMileage {
             if carData[key] != nil && carData[key]!.count != 0 {
-                totalMPG += value
+                totalMPG += point.value
             }
         }
         
         if totalMPG == 0 || carMileage.count == 0 {
-            self.data["Average MPG"] = 0
-            self.data["Number of Cars"] = 0
+            self.data["Average MPG"] = GreenAttribute(value: 0, lastUpdated: Date())
+            self.data["Number of Cars"] = GreenAttribute(value: 0, lastUpdated: Date())
             return
         }
         
-        self.data["Average MPG"] = totalMPG/carMileage.count
-        self.data["Number of Cars"] = carMileage.count
+        self.data["Average MPG"] = GreenAttribute(value: totalMPG/carMileage.count, lastUpdated: Date())
+        self.data["Number of Cars"] = GreenAttribute(value: carMileage.count, lastUpdated: Date())
         
         let odometerArr:[[GreenDataPoint]] = Array(carData.values)
         
@@ -328,23 +333,24 @@ class DrivingData: GreenData {
                 
                 let mileage = pointInfo["Amount"]! as! Int
                 let dataType = pointInfo["DataType"]! as! String
+                let lastUpdated = pointInfo["LastUpdated"]! as! Double
                 let car = dataType.components(separatedBy: ":")[2]
                 
                 uploadedCars.append(car)
                 
                 if let savedMileage = self.carMileage[car] {
-                    if savedMileage != mileage {
+                    if savedMileage.value != mileage && savedMileage.lastUpdated.timeIntervalSince1970 < lastUpdated {
                         print("Editing car mileage")
-                        self.carMileage[car] = mileage
+                        self.carMileage[car] = GreenAttribute(value: mileage, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                     }
                 } else {
-                    self.carMileage[car] = mileage
+                    self.carMileage[car] = GreenAttribute(value: mileage, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                 }
             }
             
             for (car, mileage) in self.carMileage {
                 if !uploadedCars.contains(car) {
-                    sendToServer(car, mileage)
+                    sendToServer(car, mileage.value)
                 }
             }
             
@@ -354,7 +360,7 @@ class DrivingData: GreenData {
             
             if errorDict["Error"] as? APIError == .serverFailure {
                 for (car, mileage) in self.carMileage {
-                    sendToServer(car, mileage)
+                    sendToServer(car, mileage.value)
                 }
             }
             
