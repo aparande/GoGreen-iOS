@@ -139,17 +139,19 @@ class DrivingData: GreenData {
         
         for (date, value) in sums {
             let miles = Double(value)
-            if let dataPoint = findPointForDate(date, inArray: graphData) {
-                editDataPoint(month: date, y: miles)
-            } else {
+            
+            let index = indexOfPointForDate(date, inArray: graphData)
+            if index == -1 {
                 let dataPoint = GreenDataPoint(month: date, value: miles, dataType: self.dataName)
                 addDataPoint(point: dataPoint, save:true)
+            } else {
+                editDataPoint(atIndex: index, toValue: miles)
             }
         }
         
-        for point in graphData {
-            if !keys.contains(point.month) {
-                removeDataPoint(month: point.month)
+        for i in 0..<graphData.count {
+            if !keys.contains(graphData[i].month) {
+                removeDataPoint(atIndex: i)
             }
         }
     }

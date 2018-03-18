@@ -109,7 +109,7 @@ class BulkDataViewController: UITableViewController, DataUpdater {
                 let sectionData = self.dataForSection(indexPath.section)!
                 let index = sectionData.count - 1 - indexPath.row
                 
-                self.data.removeDataPoint(month: sectionData[index].month)
+                self.data.removeDataPoint(atIndex: index)
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
             
@@ -119,8 +119,10 @@ class BulkDataViewController: UITableViewController, DataUpdater {
     }
     
     func updateData(month: String, point: Double, path: IndexPath?) {
-        let date = Date.monthFormat(string: month)
-        self.data.editDataPoint(month: date, y:point)
+        if let indexPath = path {
+            let index = self.dataForSection(indexPath.section)!.count - 1 - indexPath.row
+            self.data.editDataPoint(atIndex: index, toValue: point)
+        }
     }
     
     func updateError() {

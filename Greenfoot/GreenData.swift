@@ -154,50 +154,43 @@ class GreenData {
         co2Equivalent.sort(by: sorter)
     }
     
-    func updateTotals(afterMonth month:Date, changedTo y: Double) -> GreenDataPoint {
-        let index = indexOfPointForDate(month, ofType: .regular)
-        let dataPoint = graphData[index]
-        let epPoint = epData[index]
-        let carbonPoint = co2Equivalent[index]
+    /**
+        Update the DataPoint at the given index and update all total values
+        - parameter index: the index to update
+        - parameter newVal: the new value of the datapoint
+    */
+    func updateTotals(atIndex index: Int, changedTo newVal: Double) {
+        let ep = calculateEP(baseline, newVal)
+        let carbon = calculateCO2(newVal)
         
-        let epPrev = epPoint.value
-        let carbonPrev = carbonPoint.value
-        
-        dataPoint.value = y
-        
-        let ep = calculateEP(baseline, y)
-        epPoint.value = Double(ep)
+        let _ = graphData[index].updateValue(to: newVal)
+        let epPrev = epData[index].updateValue(to: Double(ep))
+        let carbonPrev = co2Equivalent[index].updateValue(to: carbon)
+
         energyPoints = energyPoints - Int(epPrev) + Int(ep)
-        dataPoint.lastUpdated = Date()
-        
-        let carbon = calculateCO2(y)
-        carbonPoint.value = carbon
         totalCarbon = totalCarbon - Int(carbonPrev) + Int(carbon)
-        
-        return dataPoint
     }
     
-    func editDataPoint(month:Date, y:Double) {
-        let dataPoint = updateTotals(afterMonth: month, changedTo: y)
+    func editDataPoint(atIndex index: Int, toValue newVal:Double) {
+        updateTotals(atIndex: index, changedTo: newVal)
         
         //If the data is uploaded, update it, else, upload it
-        let date = Date.monthFormat(date: month)
+        let dataPoint = graphData[index]
+        let date = Date.monthFormat(date: dataPoint.month)
         
         let reqId = [APIRequestType.update.rawValue, dataName, date].joined(separator: ":")
         if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
             CoreDataHelper.update(point: dataPoint)
             
-            let dateString = Date.monthFormat(date: month)
-            let parameters:[String:Any] = ["month":dateString, "amount":Int(y), "dataType": dataName]
-            let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
+            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName]
+            let id=[APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         } else {
             print("Did not add data because a request was present")
         }
     }
     
-    func removeDataPoint(month:Date) {
-        let index = indexOfPointForDate(month, ofType: .regular)
+    func removeDataPoint(atIndex index:Int) {
         let dataPoint = graphData.remove(at: index)
         let carbonPoint = co2Equivalent.remove(at: index)
         let energyPoint = epData.remove(at: index)
@@ -207,7 +200,7 @@ class GreenData {
         
         CoreDataHelper.delete(point: dataPoint)
         
-        let dateString = Date.monthFormat(date: month)
+        let dateString = Date.monthFormat(date: dataPoint.month)
         let parameters:[String:Any] = ["month":dateString, "dataType": dataName]
         let id = [APIRequestType.delete.rawValue, dataName, dateString].joined(separator: ":")
         makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
@@ -368,16 +361,18 @@ class GreenData {
                 
                 let date = formatter.date(from: month)!
                 
-                if let point = self.findPointForDate(date, ofType: .regular) {
-                    if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
-                        //Triggers if the device has the point saved but is an outdated value
-                        print("Editing point")
-                        self.editDataPoint(month: date, y: amount)
-                    }
-                } else {
+                let index = self.indexOfPointForDate(date, inArray: self.graphData)
+                if index == -1 {
                     let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                     self.addDataPoint(point: dataPoint, save: false)
                     unUploadedPoints.append(dataPoint)
+                } else {
+                    let point = self.graphData[index]
+                    if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                        //Triggers if the device has the point saved but is an outdated value
+                        print("Editing point")
+                        self.editDataPoint(atIndex: index, toValue: amount)
+                    }
                 }
             }
             
@@ -563,6 +558,17 @@ class GreenDataPoint {
         self.dataType = dataType
         self.pointType = DataPointType.regular
         self.lastUpdated = lastUpdated
+    }
+    /**
+     Updates value of the GreenDataPoint and sets lastUpdated to today
+     - parameter newVal: The new value
+     - returns: the old value
+     */
+    func updateValue(to newVal:Double) -> Double {
+        let oldVal = value
+        value = newVal
+        lastUpdated = Date()
+        return oldVal
     }
 }
 
