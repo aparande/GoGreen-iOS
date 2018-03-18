@@ -34,8 +34,6 @@ class CoreDataHelper {
                         dataPoint.lastUpdated = lastUpdated
                     }
                     
-                    
-                    
                     data.addDataPoint(point: dataPoint, save: false)
                 }
                 print("Loaded Data For \(data.dataName)")

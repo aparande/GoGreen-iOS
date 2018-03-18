@@ -85,7 +85,6 @@ class GreenData {
         bonusDict = [:]
         
         descriptions = [:]
-        //uploadedData = []
         
         dataName = name
         
@@ -276,7 +275,6 @@ class GreenData {
             return
         }
         
-        
         var parameters:[String:String] = ["type":GreenDataType.electric.rawValue]
         parameters["state"] = locality["State"]!
         parameters["country"] = locality["Country"]!
@@ -458,17 +456,17 @@ class GreenData {
         
         return nil
     }
+    
     func findPointForDate(_ date: Date, ofType type: DataPointType) -> GreenDataPoint? {
         var dataArr = graphData
         switch type {
-        case .regular:
-            dataArr = graphData
-            break
         case .energy:
             dataArr = epData
             break
         case .carbon:
             dataArr = co2Equivalent
+            break
+        default:
             break
         }
         
@@ -481,17 +479,26 @@ class GreenData {
         return nil
     }
     
+    func indexOfPointForDate(_ date: Date, inArray arr:[GreenDataPoint]) -> Int {
+        for i in 0..<arr.count {
+            if (date == arr[i].month) {
+                return i
+            }
+        }
+        
+        return -1
+    }
+    
     func indexOfPointForDate(_ date: Date, ofType type: DataPointType) -> Int {
         var dataArr = graphData
         switch type {
-        case .regular:
-            dataArr = graphData
-            break
         case .energy:
             dataArr = epData
             break
         case .carbon:
             dataArr = co2Equivalent
+            break
+        default:
             break
         }
         
@@ -559,4 +566,5 @@ enum DataPointType:String {
     case regular = "REGULAR"
     case energy = "EP"
     case carbon = "CARBON"
+    case odometer = "ODOMETER"
 }

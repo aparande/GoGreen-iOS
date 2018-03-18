@@ -12,7 +12,7 @@ import Material
 import UIKit
 
 class DrivingData: GreenData {
-    var carData:[String:[Date:Double]]
+    var carData:[String:[GreenDataPoint]]
     var carMileage:[String:Int]
 
     init() {
@@ -54,10 +54,15 @@ class DrivingData: GreenData {
                     let amount = managedObj.value(forKeyPath: "amount") as! Double
                     let month = managedObj.value(forKeyPath: "month") as! Date
                     
+                    let dataPoint = GreenDataPoint(month: month, value: amount, dataType: dataName, pointType: .odometer)
+                    if let lastUpdated = managedObj.value(forKeyPath: "lastUpdated") as? Date {
+                        dataPoint.lastUpdated = lastUpdated
+                    }
+                    
                     if let _ = carData[name] {
-                        carData[name]![month] = amount
+                        carData[name]!.append(dataPoint)
                     } else {
-                        carData[name] = [month:amount]
+                        carData[name] = [dataPoint]
                     }
                 }
             } catch let error as NSError {
@@ -83,39 +88,24 @@ class DrivingData: GreenData {
         self.data["Average MPG"] = totalMPG/carMileage.count
         self.data["Number of Cars"] = carMileage.count
         
-        var dictArr:[[Date:Double]] = []
-        for key in carData.keys {
-            dictArr.append(carData[key]!)
-        }
+        let odometerArr:[[GreenDataPoint]] = Array(carData.values)
         
         var dataDict:[[Date:Int]] = []
         //Splits the data so non-consecutive months are split into consecutive ones
-        for dict in dictArr {
-            var keys:[Date] = []
-            for key in dict.keys {
-                keys.append(key)
-            }
-            
-            keys.sort(by: {
-                (date1, date2) in
-                return date1.compare(date2) == ComparisonResult.orderedAscending
-            })
-            
+        for carReadings in odometerArr {
             var data:[Date:Int] = [:]
-            for index in 0..<keys.count-1 {
-                let firstKey = keys[index]
-                let nextKey = keys[index+1]
+            for index in 0..<carReadings.count-1 {
+                let firstMonth = carReadings[index].month
+                let secondMonth = carReadings[index+1].month
                 
-                let difference = dict[nextKey]!-dict[firstKey]!
+                let difference = carReadings[index+1].value - carReadings[index].value
                 
-                let monthDiff =  nextKey.months(from: firstKey)
+                let monthDiff = secondMonth.months(from: firstMonth)
                 let bucketNum = Int(difference)/monthDiff
+                data[firstMonth] = bucketNum
+                var nextMonth = firstMonth.nextMonth()
                 
-                data[firstKey] = bucketNum
-                
-                var nextMonth = firstKey.nextMonth()
-                
-                while nextKey.compare(nextMonth) != ComparisonResult.orderedSame {
+                while secondMonth.compare(nextMonth) != ComparisonResult.orderedSame {
                     data[nextMonth] = bucketNum
                     nextMonth = nextMonth.nextMonth()
                 }
@@ -284,7 +274,7 @@ class DrivingData: GreenData {
                 do {
                     let fetchedEntities = try context.fetch(fetchRequest)
                     fetchedEntities.first?.setValue(amount, forKeyPath: "amount")
-                    fetchedEntities.first?.setValue(amount, forKeyPath: "lastUpdated")
+                    fetchedEntities.first?.setValue(Date(), forKeyPath: "lastUpdated")
                 } catch let error as NSError {
                     print("Could not update. \(error), \(error.userInfo)")
                 }
@@ -385,21 +375,21 @@ class DrivingData: GreenData {
             
             if let _ = uploadedPoints {
                 for car in self.carData.keys {
-                    for (month, amount) in self.carData[car]! {
-                        let date = Date.monthFormat(date: month)
+                    for odometerReading in self.carData[car]! {
+                        let date = Date.monthFormat(date: odometerReading.month)
                         let id = [car, date].joined(separator:":")
                         if !uploadedPoints!.contains(id) {
                             print("Found unuploaded odometer point")
                             
-                            sendToServer(car, month, amount)
+                            sendToServer(car, odometerReading.month, odometerReading.value)
                         }
                     }
                 }
             } else {
                 for car in self.carData.keys {
-                    for (month, amount) in self.carData[car]! {
+                    for odometerReading in self.carData[car]! {
                         print("Found unuploaded odometer point")
-                        sendToServer(car, month, amount)
+                        sendToServer(car, odometerReading.month, odometerReading.value)
                     }
                 }
             }
@@ -428,6 +418,7 @@ class DrivingData: GreenData {
                 let month = pointInfo["Month"]! as! String
                 let amount = pointInfo["Amount"]! as! Double
                 let dataType = pointInfo["DataType"]! as! String
+                let lastUpdated = pointInfo["LastUpdated"]! as! Double
                 
                 let car = dataType.components(separatedBy: ":")[2]
                 let date = formatter.date(from: month)!
@@ -435,27 +426,30 @@ class DrivingData: GreenData {
                 uploadedPoints.append(car+":"+month)
                 
                 if let savedPoints = self.carData[car] {
-                    
-                    if let point = savedPoints[date] {
-                        if point != amount {
+                    var index = self.indexOfPointForDate(date, inArray: savedPoints)
+                    if index != -1 {
+                        let point = savedPoints[index]
+                        if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated  {
                             //Triggers if the device has the point saved but is an outdated value
                             print("Editing odometer point")
-                            self.carData[car]![date] = amount
+                            self.carData[car]![index].value = amount
+                            self.carData[car]![index].lastUpdated = Date(timeIntervalSince1970: lastUpdated)
                             self.updateCoreDataForCar(car: car, month: date, amount: amount)
-                        }
-                    } else {
-                        //Triggers if the device doesn't have the point
-                        print("Adding odometer point")
-                        DispatchQueue.main.async {
-                            self.carData[car]![date] = amount
-                            self.addPointToCoreData(car: car, month: date, point: amount)
+                        } else {
+                            print("Adding odometer point")
+                            let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                            DispatchQueue.main.async {
+                                self.carData[car]!.append(odometerReading)
+                                self.addPointToCoreData(car: car, month: date, point: amount)
+                            }
                         }
                     }
                 } else {
                     //Triggers if the device doesn't have the car
                     print("Adding car")
                     DispatchQueue.main.sync {
-                        self.carData[car] = [date:amount]
+                        let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                        self.carData[car] = [odometerReading]
                         self.addPointToCoreData(car: car, month: date, point: amount)
                     }
                 }

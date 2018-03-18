@@ -144,26 +144,12 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         cell.indexPath = indexPath
         
         let sectionData = dataForSection(indexPath.section)!
-        
-        var keys:[Date]!
-        if let keyArr = sectionDataKeys[indexPath.section] {
-            keys = keyArr
-        } else {
-            keys = Array(sectionData.keys)
-            keys = keys.sorted(by: {
-                (d1, d2) -> Bool in
-                return d1.compare(d2) == ComparisonResult.orderedDescending
-            })
-            
-            sectionDataKeys[indexPath.section] = keys
-        }
-        
-        let date = keys[indexPath.row]
-        let value = sectionData[date]!
+ 
+        let date = sectionData[indexPath.row].month
+        let value = sectionData[indexPath.row].value
         
         if data.dataName == "Driving" && indexPath.row - 1 >= 0 {
-            let prevDate = keys[indexPath.row - 1]
-            let prevValue = sectionData[prevDate]!
+            let prevValue = sectionData[indexPath.row-1].value
             cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value), lowerBound: prevValue, upperBound: nil)
         } else {
             cell.setInfo(attribute: Date.monthFormat(date: date), data: Double(value), lowerBound: nil, upperBound: nil)
@@ -176,13 +162,8 @@ class BulkDataViewController: UITableViewController, DataUpdater {
     }
     
     //This method can be overriden in the subclass so multiple sections can be supported
-    func dataForSection(_ section: Int) -> [Date:Double]? {
-        var dataArr = data.getGraphData()
-        var dataDict: [Date:Double] = [:]
-        for point in dataArr {
-            dataDict[point.month] = point.value
-        }
-        return dataDict
+    func dataForSection(_ section: Int) -> [GreenDataPoint]? {
+        return data.getGraphData()
     }
 }
 

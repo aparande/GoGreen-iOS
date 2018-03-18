@@ -75,7 +75,9 @@ class DrivingDataViewController: BulkDataViewController {
         if let _ = path {
             let carName = cars[path!.section]
             let date = Date.monthFormat(string: month)
-            drivingData.carData[carName]?[date] = point
+            
+            let index = drivingData.indexOfPointForDate(date, inArray: drivingData.carData[carName]!)
+            drivingData.carData[carName]?[index].value = point
             self.drivingData.updateCoreDataForCar(car: carName, month: date, amount: point)
         }
     }
@@ -174,7 +176,8 @@ class DrivingDataViewController: BulkDataViewController {
                     self.updateHeaders()
                 } else {
                     let carName = self.cars[indexPath.section]
-                    self.drivingData.carData[carName]?.removeValue(forKey: date)
+                    let index = self.drivingData.indexOfPointForDate(date, inArray: self.drivingData.carData[carName]!)
+                    self.drivingData.carData[carName]?.remove(at: index)
                     self.drivingData.deletePointForCar(carName, month: date)
                     self.drivingData.compileToGraph()
                     self.tableView.deleteRows(at: [indexPath], with: .right)
@@ -187,7 +190,7 @@ class DrivingDataViewController: BulkDataViewController {
         }
     }
     
-    override func dataForSection(_ section: Int) -> [Date : Double]? {
+    override func dataForSection(_ section: Int) -> [GreenDataPoint]? {
         return drivingData.carData[cars[section]]
     }
     
@@ -318,7 +321,8 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         
         if owner.drivingData.carData[carName] == nil {
             //This is the first row in the section
-            owner.drivingData.carData[carName] = [date:1000]
+            let odometerReading = GreenDataPoint(month: date, value: 1000, dataType: owner.drivingData.dataName, pointType: .odometer)
+            owner.drivingData.carData[carName] = [odometerReading]
             owner.drivingData.addPointToCoreData(car: carName, month: date, point: 1000)
             
             owner.sectionDataKeys[sectionNum] = [date]
@@ -329,21 +333,21 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             return
         }
         
-        let keys = owner.sectionDataKeys[sectionNum]!
-        
-        let lastVal = owner.drivingData.carData[carName]![keys[0]]!
+        let lastVal = owner.drivingData.carData[carName]![0].value
         
         if let _ = owner.drivingData.carData[carName] {
-            if let _ = owner.drivingData.carData[carName]![date] {
+            if let _ = owner.drivingData.findPointForDate(date, inArray: owner.drivingData.carData[carName]!) {
                 let alertView = UIAlertController(title: "Error", message: "You can only enter one odometer reader per car each month. Record the next reading next month.", preferredStyle: .alert)
                 alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
                 owner.present(alertView, animated: true, completion: nil)
                 return
             } else {
-                owner.drivingData.carData[carName]![date] = lastVal
+                let odometerReading = GreenDataPoint(month: date, value: lastVal, dataType: owner.drivingData.dataName, pointType: .odometer)
+                owner.drivingData.carData[carName] = [odometerReading]
             }
         } else {
-            owner.drivingData.carData[carName] = [date:lastVal]
+            let odometerReading = GreenDataPoint(month: date, value: lastVal, dataType: owner.drivingData.dataName, pointType: .odometer)
+            owner.drivingData.carData[carName] = [odometerReading]
         }
         
         owner.drivingData.addPointToCoreData(car: carName, month: date, point: lastVal)
