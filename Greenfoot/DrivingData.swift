@@ -20,8 +20,9 @@ class DrivingData: GreenData {
         
         carData = [:]
         
-        if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:GreenAttribute] {
-            carMileage = mileages
+        if let json = defaults.string(forKey: "MilesData") {
+            let mileages = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+            carMileage = mileages!
         } else {
             carMileage = [:]
             if let mileages = defaults.dictionary(forKey: "MilesData") as? [String:Int] {
@@ -434,7 +435,7 @@ class DrivingData: GreenData {
                 uploadedPoints.append(car+":"+month)
                 
                 if let savedPoints = self.carData[car] {
-                    var index = self.indexOfPointForDate(date, inArray: savedPoints)
+                    let index = self.indexOfPointForDate(date, inArray: savedPoints)
                     if index != -1 {
                         let point = savedPoints[index]
                         if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated  {

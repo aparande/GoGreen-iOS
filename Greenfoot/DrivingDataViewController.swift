@@ -309,7 +309,8 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             mileageField.setNeedsDisplay()
             nameField.setNeedsDisplay()
             
-            UserDefaults.standard.set(owner.drivingData.carMileage, forKey: "MilesData")
+            let encodedData = try? JSONEncoder().encode(owner.drivingData.carMileage)
+            UserDefaults.standard.set(encodedData, forKey: "MilesData")
             
             car = carName
         }

@@ -190,11 +190,11 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row < data.data.keys.count {
             let key = Array(data.data.keys)[indexPath.row]
             cell!.textLabel?.text = key
-            cell!.detailTextLabel?.text = "\(data.data[key]!)"
+            cell!.detailTextLabel?.text = "\(data.data[key]!.value)"
         } else {
             let key = Array(data.bonusDict.keys)[indexPath.row-data.data.keys.count]
             cell!.textLabel?.text = key
-            cell!.detailTextLabel?.text = "\(data.bonusDict[key]!)"
+            cell!.detailTextLabel?.text = "\(data.bonusDict[key]!.value)"
         }
         
         let geosans = (UIDevice.current.userInterfaceIdiom == .phone) ? UIFont(name: "GeosansLight", size: 18) : UIFont(name: "GeosansLight", size: 30)

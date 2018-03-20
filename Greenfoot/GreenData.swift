@@ -433,7 +433,8 @@ class GreenData {
             
             completion?(true)
             
-            UserDefaults.standard.set(dict, forKey: self.dataName+":\(type.lowercased())")
+            let encodedData = try? JSONEncoder().encode(dict)
+            UserDefaults.standard.set(encodedData, forKey: self.dataName+":\(type.lowercased())")
         }, andFailureFunction: {
             errorDict in
             if errorDict["Error"] as? APIError == .serverFailure {

@@ -206,8 +206,9 @@ class GreenfootModal {
         
         let defaults = UserDefaults.standard
         
-        if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:GreenAttribute] {
-            electricData.bonusDict = bonusDict
+        if let json = defaults.string(forKey: GreenDataType.electric.rawValue+":bonus") {
+            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+            electricData.bonusDict = bonusDict!
         } else {
             if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:Int] {
                 for (key, value) in bonusDict {
@@ -218,8 +219,9 @@ class GreenfootModal {
             }
         }
         
-        if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") as? [String:GreenAttribute] {
-            electricData.data = data
+        if let json = defaults.string(forKey: GreenDataType.electric.rawValue+":data") {
+            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+            electricData.data = data!
         } else {
             if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") as? [String:Int] {
                 for (key, value) in data {
@@ -292,8 +294,9 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") as? [String:GreenAttribute] {
-            waterData.bonusDict = bonusDict
+        if let json = defaults.string(forKey: GreenDataType.water.rawValue+"bonus") {
+            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+            waterData.bonusDict = bonusDict!
         } else {
             if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") as? [String:Int] {
                 for (key, value) in bonusDict {
@@ -306,8 +309,9 @@ class GreenfootModal {
             }
         }
         
-        if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+":data") as? [String:GreenAttribute] {
-            waterData.data = data
+        if let json = defaults.string(forKey: GreenDataType.water.rawValue+":data") {
+            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+            waterData.data = data!
         } else {
             if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+":data") as? [String:Int] {
                 for (key, value) in data {
@@ -358,8 +362,9 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") as? [String:GreenAttribute] {
-            drivingData.bonusDict = bonusDict
+        if let json = defaults.string(forKey: GreenDataType.driving.rawValue+":bonus") {
+            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+            drivingData.bonusDict = bonusDict!
         } else {
             if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") as? [String:Int] {
                 for (key, value) in bonusDict {
@@ -370,8 +375,9 @@ class GreenfootModal {
             }
         }
         
-        if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") as? [String:GreenAttribute] {
-            drivingData.data = data
+        if let json = defaults.string(forKey: GreenDataType.driving.rawValue+":data") {
+            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+            drivingData.data = data!
         } else {
             if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") as? [String:Int] {
                 for (key, value) in data {

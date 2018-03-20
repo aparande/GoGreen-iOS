@@ -123,9 +123,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for (key, value) in modal.data {
             let data = value.data
             let bonusAttrs = value.bonusDict
+            
+            //Must encode as JSON because otherwise swift can't store structs in UserDefaults.
+            let encodedData = try? JSONEncoder().encode(data)
+            let encodedBonus = try? JSONEncoder().encode(bonusAttrs)
 
-            defaults.set(data, forKey: key.rawValue+":data")
-            defaults.set(bonusAttrs, forKey: key.rawValue+":bonus")
+            defaults.set(encodedData, forKey: key.rawValue+":data")
+            defaults.set(encodedBonus, forKey: key.rawValue+":bonus")
         }
         
         if modal.rankings.keys.count == 4 {

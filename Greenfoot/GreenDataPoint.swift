@@ -58,7 +58,7 @@ class GreenDataPoint {
     }
 }
 
-struct GreenAttribute {
+struct GreenAttribute: Codable {
     var value: Int
     var lastUpdated: Date
 }

@@ -114,7 +114,7 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             cell.detailTextLabel?.textColor = UIColor.black
             
             cell.textLabel?.text = key
-            cell.detailTextLabel?.text = String(describing: data.data[key]!)
+            cell.detailTextLabel?.text = String(describing: data.data[key]!.value)
             
             cell.selectionStyle = .none
             
