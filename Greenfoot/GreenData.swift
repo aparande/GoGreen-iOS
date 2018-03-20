@@ -309,7 +309,7 @@ class GreenData {
     }
     
     func pointConsensus() {
-        let upload:([GreenDataPoint]?) -> Void = {
+        let upload:([GreenDataPoint?]?) -> Void = {
             unUploadedPoints in
             
             let formatter = DateFormatter()
@@ -325,7 +325,11 @@ class GreenData {
             
             if let _ = unUploadedPoints {
                 for dataPoint in unUploadedPoints! {
-                    logToServer(dataPoint.month, dataPoint.value)
+                    guard let point = dataPoint else {
+                        continue
+                    }
+                    
+                    logToServer(point.month, point.value)
                 }
             } else {
                 for dataPoint in self.graphData {
@@ -347,7 +351,7 @@ class GreenData {
                 return
             }
             
-            var unUploadedPoints:[GreenDataPoint] = []
+            var unUploadedPoints:[GreenDataPoint?] = self.graphData
             for point in serverData {
                 guard let pointInfo = point as? NSDictionary else {
                     return
@@ -363,9 +367,9 @@ class GreenData {
                 if index == -1 {
                     let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                     self.addDataPoint(point: dataPoint, save: false)
-                    unUploadedPoints.append(dataPoint)
                 } else {
                     let point = self.graphData[index]
+                    unUploadedPoints[index] = nil
                     if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
                         //Triggers if the device has the point saved but is an outdated value
                         print("Editing point")
