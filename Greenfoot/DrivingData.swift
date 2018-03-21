@@ -444,13 +444,13 @@ class DrivingData: GreenData {
                             self.carData[car]![index].value = amount
                             self.carData[car]![index].lastUpdated = Date(timeIntervalSince1970: lastUpdated)
                             self.updateCoreDataForCar(car: car, month: date, amount: amount)
-                        } else {
-                            print("Adding odometer point")
-                            let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                            DispatchQueue.main.async {
-                                self.carData[car]!.append(odometerReading)
-                                self.addPointToCoreData(car: car, month: date, point: amount)
-                            }
+                        }
+                    } else {
+                        print("Adding odometer point")
+                        let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                        DispatchQueue.main.async {
+                            self.carData[car]!.append(odometerReading)
+                            self.addPointToCoreData(car: car, month: date, point: amount)
                         }
                     }
                 } else {

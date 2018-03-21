@@ -136,7 +136,7 @@ class GreenData {
             
             //If save is true, that means its a new data point, so you want to try uploading to the server
             let dateString = Date.monthFormat(date: point.month)
-            let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName]
+            let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName, "lastUpdated":Formatter.iso8601.string(from: point.lastUpdated)]
             let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         }
@@ -180,7 +180,7 @@ class GreenData {
         if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
             CoreDataHelper.update(point: dataPoint)
             
-            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName]
+            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":Formatter.iso8601.string(from: Date())]
             let id=[APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         } else {
@@ -315,10 +315,10 @@ class GreenData {
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/yy"
             
-            let logToServer:(Date, Double) -> Void = {
-                month, amount in
+            let logToServer:(Date, Double, Date) -> Void = {
+                month, amount, lastUpdated in
                 let dateString = Date.monthFormat(date: month)
-                let parameters:[String:Any] = ["month":dateString, "amount":Int(amount), "dataType": self.dataName]
+                let parameters:[String:Any] = ["month":dateString, "amount":Int(amount), "dataType": self.dataName, "lastUpdated":Formatter.iso8601.string(from: lastUpdated)]
                 let id=[APIRequestType.log.rawValue, self.dataName, dateString].joined(separator: ":")
                 self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
             }
@@ -329,11 +329,11 @@ class GreenData {
                         continue
                     }
                     
-                    logToServer(point.month, point.value)
+                    logToServer(point.month, point.value, point.lastUpdated)
                 }
             } else {
                 for dataPoint in self.graphData {
-                    logToServer(dataPoint.month, dataPoint.value)
+                    logToServer(dataPoint.month, dataPoint.value, dataPoint.lastUpdated)
                 }
             }
         }
