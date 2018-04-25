@@ -76,7 +76,7 @@ class GreenfootModal {
         parameters["country"] = locale["Country"]
         parameters["city"] = locale["City"]
         
-        let id = [APIRequestType.add.rawValue, "EP"].joined(separator: ":")
+        let id = [APIRequestType.log.rawValue, "EP"].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logEnergyPoints", withParameters: parameters, andSuccessFunction: {
             data in
             
@@ -205,8 +205,8 @@ class GreenfootModal {
         
         let defaults = UserDefaults.standard
         
-        if let json = defaults.string(forKey: GreenDataType.electric.rawValue+":bonus") {
-            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+        if let json = defaults.data(forKey: GreenDataType.electric.rawValue+":bonus") {
+            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
             electricData.bonusDict = bonusDict!
         } else {
             if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:Int] {
@@ -218,8 +218,8 @@ class GreenfootModal {
             }
         }
         
-        if let json = defaults.string(forKey: GreenDataType.electric.rawValue+":data") {
-            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+        if let json = defaults.data(forKey: GreenDataType.electric.rawValue+":data") {
+            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
             electricData.data = data!
         } else {
             if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") as? [String:Int] {
@@ -293,8 +293,8 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let json = defaults.string(forKey: GreenDataType.water.rawValue+"bonus") {
-            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+        if let json = defaults.data(forKey: GreenDataType.water.rawValue+":bonus") {
+            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
             waterData.bonusDict = bonusDict!
         } else {
             if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") as? [String:Int] {
@@ -308,8 +308,8 @@ class GreenfootModal {
             }
         }
         
-        if let json = defaults.string(forKey: GreenDataType.water.rawValue+":data") {
-            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+        if let json = defaults.data(forKey: GreenDataType.water.rawValue+":data") {
+            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
             waterData.data = data!
         } else {
             if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+":data") as? [String:Int] {
@@ -361,8 +361,8 @@ class GreenfootModal {
         }
         
         let defaults = UserDefaults.standard
-        if let json = defaults.string(forKey: GreenDataType.driving.rawValue+":bonus") {
-            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+        if let json = defaults.data(forKey: GreenDataType.driving.rawValue+":bonus") {
+            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
             drivingData.bonusDict = bonusDict!
         } else {
             if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") as? [String:Int] {
@@ -374,8 +374,8 @@ class GreenfootModal {
             }
         }
         
-        if let json = defaults.string(forKey: GreenDataType.driving.rawValue+":data") {
-            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+        if let json = defaults.data(forKey: GreenDataType.driving.rawValue+":data") {
+            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
             drivingData.data = data!
         } else {
             if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") as? [String:Int] {

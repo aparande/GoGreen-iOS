@@ -176,7 +176,7 @@ class GreenData {
         let dataPoint = graphData[index]
         let date = Date.monthFormat(date: dataPoint.month)
         
-        let reqId = [APIRequestType.update.rawValue, dataName, date].joined(separator: ":")
+        let reqId = [APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
         if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
             CoreDataHelper.update(point: dataPoint)
             
@@ -369,9 +369,10 @@ class GreenData {
                     self.addDataPoint(point: dataPoint, save: false)
                 } else {
                     let point = self.graphData[index]
-                    unUploadedPoints[index] = nil
+                    
+                    //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
                     if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
-                        //Triggers if the device has the point saved but is an outdated value
+                        unUploadedPoints[index] = nil
                         print("Editing point")
                         self.editDataPoint(atIndex: index, toValue: amount)
                     }
@@ -393,10 +394,11 @@ class GreenData {
         let id = [APIRequestType.consensus.rawValue, dataName, type].joined(separator: ":")
         let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName, "assoc":type]
         
-        let logToServer:(String, Int) -> Void = {
-            key, value in
+        let logToServer:(String, Int, Date) -> Void = {
+            key, value, lastUpdated in
             var parameters:[String:Any] = ["month":"NA", "amount":value]
             parameters["dataType"] = [self.dataName, type, key].joined(separator: ":")
+            parameters["lastUpdated"] = Formatter.iso8601.string(from: lastUpdated)
             let id=[APIRequestType.log.rawValue, self.dataName, key].joined(separator: ":")
             self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         }
@@ -418,11 +420,11 @@ class GreenData {
                 let dataType = pointInfo["DataType"]! as! String
                 let lastUpdated = pointInfo["LastUpdated"]! as! Double
                 let attrName = dataType.components(separatedBy: ":")[2]
-                uploadedAttrs.append(attrName)
                 if let amount = dict[attrName] {
                     if amount.value != value && amount.lastUpdated.timeIntervalSince1970 < lastUpdated {
                         print("Editing Bonus Attr")
                         dict[attrName] = GreenAttribute(value: value, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                        uploadedAttrs.append(attrName)
                     }
                 } else {
                     dict[attrName] = GreenAttribute(value: value, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
@@ -431,19 +433,24 @@ class GreenData {
             
             for (key, attr) in dict {
                 if !uploadedAttrs.contains(key) {
-                    logToServer(key, attr.value)
+                    logToServer(key, attr.value, attr.lastUpdated)
                 }
             }
             
-            completion?(true)
-            
+            if type == "Bonus" {
+                self.bonusDict = dict
+            } else {
+                self.data = dict
+            }
             let encodedData = try? JSONEncoder().encode(dict)
             UserDefaults.standard.set(encodedData, forKey: self.dataName+":\(type.lowercased())")
+            
+            completion?(true)
         }, andFailureFunction: {
             errorDict in
             if errorDict["Error"] as? APIError == .serverFailure {
                 for (key, attr) in dict {
-                    logToServer(key, attr.value)
+                    logToServer(key, attr.value, attr.lastUpdated)
                 }
             }
             completion?(false)

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ElectricityUploaded</key>
+	<array>
+		<dict>
+			<key>Month</key>
+			<string>01/18</string>
+			<key>Amount</key>
+			<integer>900</integer>
+			<key>LastUpdated</key>
+			<real>1521264600</real>
+		</dict>
+		<dict>
+			<key>Month</key>
+			<string>03/18</string>
+			<key>Amount</key>
+			<integer>568</integer>
+			<key>LastUpdated</key>
+			<integer>1521560390</integer>
+		</dict>
+		<dict>
+			<key>Month</key>
+			<string>02/18</string>
+			<key>Amount</key>
+			<integer>666</integer>
+			<key>LastUpdated</key>
+			<real>1521264600</real>
+		</dict>
+	</array>
+	<key>ElectricityDownloaded</key>
+	<array>
+		<dict>
+			<key>Month</key>
+			<string>01/18</string>
+			<key>Amount</key>
+			<integer>789</integer>
+			<key>LastUpdated</key>
+			<integer>1521560390</integer>
+		</dict>
+		<dict>
+			<key>Month</key>
+			<string>03/18</string>
+			<key>Amount</key>
+			<integer>568</integer>
+			<key>LastUpdated</key>
+			<integer>1521560390</integer>
+		</dict>
+		<dict>
+			<key>Month</key>
+			<string>02/18</string>
+			<key>Amount</key>
+			<integer>456</integer>
+			<key>LastUpdated</key>
+			<integer>1521560390</integer>
+		</dict>
+	</array>
+</dict>
+</plist>

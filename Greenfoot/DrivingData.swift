@@ -20,8 +20,8 @@ class DrivingData: GreenData {
         
         carData = [:]
         
-        if let json = defaults.string(forKey: "MilesData") {
-            let mileages = try? JSONDecoder().decode([String:GreenAttribute].self, from: json.data(using: .utf8)!)
+        if let json = defaults.data(forKey: "MilesData") {
+            let mileages = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
             carMileage = mileages!
         } else {
             carMileage = [:]
@@ -311,11 +311,11 @@ class DrivingData: GreenData {
         let dataType = dataName
         let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataType, "assoc": "Car"]
         
-        let sendToServer:(String, Int) -> Void = {
-            car, mileage in
-            var parameters:[String:Any] = ["month":"NA", "amount":mileage]
+        let sendToServer:(String, Int, Date) -> Void = {
+            car, mileage, lastUpdated in
+            var parameters:[String:Any] = ["month":"NA", "amount":mileage, "lastUpdated": Formatter.iso8601.string(from: lastUpdated)]
             parameters["dataType"] = [self.dataName, "Car", car].joined(separator: ":")
-            let id=[APIRequestType.add.rawValue, self.dataName, car].joined(separator: ":")
+            let id=[APIRequestType.log.rawValue, self.dataName, car].joined(separator: ":")
             self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
         }
         
@@ -340,7 +340,7 @@ class DrivingData: GreenData {
                 uploadedCars.append(car)
                 
                 if let savedMileage = self.carMileage[car] {
-                    if savedMileage.value != mileage && savedMileage.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                    if savedMileage.value != mileage && savedMileage.lastUpdated.timeIntervalSince1970 > lastUpdated {
                         print("Editing car mileage")
                         self.carMileage[car] = GreenAttribute(value: mileage, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                     }
@@ -351,7 +351,7 @@ class DrivingData: GreenData {
             
             for (car, mileage) in self.carMileage {
                 if !uploadedCars.contains(car) {
-                    sendToServer(car, mileage.value)
+                    sendToServer(car, mileage.value, mileage.lastUpdated)
                 }
             }
             
@@ -361,7 +361,7 @@ class DrivingData: GreenData {
             
             if errorDict["Error"] as? APIError == .serverFailure {
                 for (car, mileage) in self.carMileage {
-                    sendToServer(car, mileage.value)
+                    sendToServer(car, mileage.value, mileage.lastUpdated)
                 }
             }
             
@@ -373,12 +373,12 @@ class DrivingData: GreenData {
         let upload:([String]?) -> Void = {
             uploadedPoints in
             
-            let sendToServer:(String, Date, Double) -> Void = {
-                car, month, amount in
+            let sendToServer:(String, Date, Double, Date) -> Void = {
+                car, month, amount, lastUpdated in
                 let dateString = Date.monthFormat(date:month)
-                var parameters:[String:Any] = ["month": dateString, "amount":Int(amount)]
+                var parameters:[String:Any] = ["month": dateString, "amount":Int(amount), "lastUpdated": Formatter.iso8601.string(from: lastUpdated)]
                 parameters["dataType"] = self.dataName+":Point:"+car
-                let id=[APIRequestType.add.rawValue, self.dataName, car, dateString].joined(separator: ":")
+                let id=[APIRequestType.log.rawValue, self.dataName, car, dateString].joined(separator: ":")
                 self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
             }
             
@@ -390,7 +390,7 @@ class DrivingData: GreenData {
                         if !uploadedPoints!.contains(id) {
                             print("Found unuploaded odometer point")
                             
-                            sendToServer(car, odometerReading.month, odometerReading.value)
+                            sendToServer(car, odometerReading.month, odometerReading.value, odometerReading.lastUpdated)
                         }
                     }
                 }
@@ -398,7 +398,7 @@ class DrivingData: GreenData {
                 for car in self.carData.keys {
                     for odometerReading in self.carData[car]! {
                         print("Found unuploaded odometer point")
-                        sendToServer(car, odometerReading.month, odometerReading.value)
+                        sendToServer(car, odometerReading.month, odometerReading.value, odometerReading.lastUpdated)
                     }
                 }
             }
