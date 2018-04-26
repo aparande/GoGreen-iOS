@@ -348,13 +348,16 @@ class GreenfootModal {
         drivingData.bonus = {
             base, attr in
             
-            if drivingData.data["Average MPG"]!.value == 0 || attr == 0 {
+            if drivingData.data["Average MPG"]!.value == 0 || attr <= 30 {
                 return 0
             }
             
-            let additiveMiles = 5.0 * Double(attr)*30/60.0
-            print("Eco-Miles: \(additiveMiles)")
+            //Calculate how many more miles the person walks than average and multiply it by 10 to make it possile to get energy points
+            let additiveMiles = 10 * (5 * (Double(attr) - 30)/60)
+            //Convert that into CO2
             let additive = drivingData.calculateCO2(additiveMiles)
+            
+            print("Eco-Miles: \(additiveMiles)")
             print("Eco-Emission: \(additive)")
             
             return Int(additive)

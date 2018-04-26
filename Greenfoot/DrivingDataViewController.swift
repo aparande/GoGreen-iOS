@@ -380,7 +380,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             car = owner.cars[section]
             nameField.text = car
             
-            mileageField.text = String(describing: owner.drivingData.carMileage[nameField.text!]!)
+            mileageField.text = String(describing: owner.drivingData.carMileage[nameField.text!]!.value)
             
             nameField.isUserInteractionEnabled = false
             mileageField.isUserInteractionEnabled = false
