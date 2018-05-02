@@ -16,6 +16,7 @@ class GreenDataPoint {
     var dataType: String
     var pointType: DataPointType
     var lastUpdated: Date
+    var isDeleted: Bool = false
     
     init(month: Date, value: Double, dataType: String) {
         self.value = value
@@ -56,6 +57,11 @@ class GreenDataPoint {
         value = newVal
         lastUpdated = Date()
         return oldVal
+    }
+    
+    func delete() {
+        isDeleted = true
+        lastUpdated = Date()
     }
 }
 

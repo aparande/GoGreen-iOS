@@ -196,12 +196,7 @@ class GreenData {
         totalCarbon -= Int(carbonPoint.value)
         energyPoints -= Int(energyPoint.value)
         
-        CoreDataHelper.delete(point: dataPoint)
-        
-        let dateString = Date.monthFormat(date: dataPoint.month)
-        let parameters:[String:Any] = ["month":dateString, "dataType": dataName]
-        let id = [APIRequestType.delete.rawValue, dataName, dateString].joined(separator: ":")
-        makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withLocationData: false)
+        deletePointOnServer(dataPoint)
     }
     
     func recalculateEP() {
@@ -235,7 +230,7 @@ class GreenData {
             return
         }
         
-        guard let locality = GreenfootModal.sharedInstance.locality else {
+        guard let locality = SettingsManager.sharedInstance.getLocationData() else {
             return
         }
         
@@ -266,7 +261,7 @@ class GreenData {
             return
         }
         
-        guard let locality = GreenfootModal.sharedInstance.locality else {
+        guard let locality = SettingsManager.sharedInstance.getLocationData() else {
             return
         }
         
@@ -284,8 +279,33 @@ class GreenData {
         }, andFailureFunction: nil)
     }
     
+    func deletePointOnServer(_ dataPoint: GreenDataPoint) {
+        //Prepare for server call
+        guard let _ = SettingsManager.sharedInstance.getLocationData() else {
+            return
+        }
+        //Set server call parameters
+        let dateString = Date.monthFormat(date: dataPoint.month)
+        let id = [APIRequestType.delete.rawValue, dataName, dateString].joined(separator: ":")
+        var parameters:[String:Any] = ["month":dateString, "dataType": dataName]
+        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: {
+            (success) in
+            //If the server sucessfully marks the point as deleted, then there is no reason to keep it saved on the device
+            print("Yay server marked it")
+            CoreDataHelper.delete(point: dataPoint)
+        }, andFailureFunction: {
+            (errorDict) in
+            //If the server does not mark the point as deleted, mark it as deleted on the device
+            print ("Rip no server")
+            dataPoint.delete()
+            CoreDataHelper.update(point: dataPoint)
+        })
+    }
+    
     func makeServerCall(withParameters parameters: [String:Any], identifiedBy id: String, atEndpoint endpoint:String, withLocationData sendLocation: Bool) {
-        guard let locality = GreenfootModal.sharedInstance.locality else {
+        guard let locality = SettingsManager.sharedInstance.getLocationData() else {
             return
         }
         
@@ -360,21 +380,37 @@ class GreenData {
                 let month = pointInfo["Month"]! as! String
                 let amount = pointInfo["Amount"]! as! Double
                 let lastUpdated = pointInfo["LastUpdated"]! as! Double
+                let isDeleted = pointInfo["IsDeleted"]! as! Double
                 
                 let date = formatter.date(from: month)!
                 
                 let index = self.indexOfPointForDate(date, inArray: self.graphData)
                 if index == -1 {
-                    let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                    self.addDataPoint(point: dataPoint, save: false)
+                    //If the point is not deleted, then add it to the device, but check that the device didn't delete it before it is added to the device
+                    if isDeleted == 0 {
+                        CoreDataHelper.hasDeleted(date, inDataNamed: self.dataName, callback: {
+                            deletedPoint in
+                            
+                            if let _ = deletedPoint {
+                                self.deletePointOnServer(deletedPoint!)
+                            } else {
+                                let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                                self.addDataPoint(point: dataPoint, save: false)
+                            }
+                        })
+                    }
                 } else {
-                    let point = self.graphData[index]
-                    
-                    //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
-                    if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
-                        unUploadedPoints[index] = nil
-                        print("Editing point")
-                        self.editDataPoint(atIndex: index, toValue: amount)
+                    if isDeleted == 1 {
+                        self.removeDataPoint(atIndex: index)
+                    } else {
+                        let point = self.graphData[index]
+                        
+                        //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
+                        if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                            unUploadedPoints[index] = nil
+                            print("Editing point")
+                            self.editDataPoint(atIndex: index, toValue: amount)
+                        }
                     }
                 }
             }

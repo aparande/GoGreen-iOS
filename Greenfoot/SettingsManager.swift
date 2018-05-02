@@ -351,6 +351,20 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         })
     }
+    
+    //Location data should be retrived from the Greenfoot modal if location settings are enabled.
+    //If they are not enabled and the user is logged in, then use the location which is stored in settings
+    //To make sure that the server and the device are not out of sync
+    func getLocationData() -> [String:String]? {
+        guard let locality = GreenfootModal.sharedInstance.locality else {
+            if self.profile["linked"] as? Bool == true {
+                return self.locality
+            }
+            return nil
+        }
+        
+        return locality
+    }
 }
 
 enum Settings {

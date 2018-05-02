@@ -65,10 +65,16 @@ class DrivingData: GreenData {
                         dataPoint.lastUpdated = lastUpdated
                     }
                     
-                    if let _ = carData[name] {
-                        carData[name]!.append(dataPoint)
-                    } else {
-                        carData[name] = [dataPoint]
+                    if let isDeleted = managedObj.value(forKeyPath: "hasBeenDeleted") as? Bool {
+                        dataPoint.isDeleted = isDeleted
+                    }
+                    
+                    if !dataPoint.isDeleted {
+                        if let _ = carData[name] {
+                            carData[name]!.append(dataPoint)
+                        } else {
+                            carData[name] = [dataPoint]
+                        }
                     }
                 }
             } catch let error as NSError {
