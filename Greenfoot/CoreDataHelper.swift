@@ -136,7 +136,7 @@ class CoreDataHelper {
             }
         }
     }
-    
+    //Use to find points which the user has deleted
     static func hasDeleted(_ month: Date, inDataNamed dataType: String, callback: @escaping (GreenDataPoint?) -> Void) {
         if let _ = appDelegate {
             let container = appDelegate!.persistentContainer
@@ -157,6 +157,123 @@ class CoreDataHelper {
                         let date = selected.value(forKeyPath: "month") as! Date
                         let amount = selected.value(forKeyPath: "amount") as! Double
                         dataPoint = GreenDataPoint(month: date, value: amount, dataType: dataType)
+                        if let lastUpdated = selected.value(forKeyPath: "lastUpdated") as? Date {
+                            dataPoint!.lastUpdated = lastUpdated
+                        }
+                        if let isDeleted = selected.value(forKeyPath: "hasBeenDeleted") as? Bool {
+                            dataPoint!.isDeleted = isDeleted
+                        }
+                    }
+                } catch let error as NSError {
+                    print("Could not check if the point has been deleted. Treat it as if it has not. \(error), \(error.userInfo)")
+                }
+                callback(dataPoint)
+            }
+        }
+    }
+    
+    static func addOdometerReading(_ reading:GreenDataPoint, forCar car:String) {
+        if let _ = appDelegate {
+            let container = appDelegate!.persistentContainer
+            container.performBackgroundTask() {
+                context in
+                
+                let entity = NSEntityDescription.entity(forEntityName: "Car", in: context)!
+                
+                let obj = NSManagedObject(entity: entity, insertInto: context)
+                
+                obj.setValue(car, forKeyPath: "name")
+                obj.setValue(reading.month, forKeyPath: "month")
+                obj.setValue(reading.value, forKeyPath: "amount")
+                obj.setValue(reading.lastUpdated, forKeyPath: "lastUpdated")
+                obj.setValue(false, forKeyPath: "hasBeenDeleted")
+                
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+            }
+        }
+    }
+    
+    static func deleteOdometerReading(_ point: GreenDataPoint, forCar car:String) {
+        if let _ = appDelegate {
+            let container = appDelegate!.persistentContainer
+            container.performBackgroundTask() {
+                context in
+                
+                let predicate = NSPredicate(format: "name == %@ and month == %@", argumentArray: [car, point.month])
+                
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
+                fetchRequest.predicate = predicate
+                
+                do {
+                    let fetchedEntities = try context.fetch(fetchRequest)
+                    for entry in fetchedEntities {
+                        context.delete(entry)
+                    }
+                } catch let error as NSError {
+                    print("Could not delete. \(error), \(error.userInfo)")
+                }
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+            }
+        }
+    }
+    
+    static func updateOdometerReading(_ point: GreenDataPoint, forCar car:String) {
+        if let _ = appDelegate {
+            let container = appDelegate!.persistentContainer
+            container.performBackgroundTask() {
+                context in
+                
+                let predicate = NSPredicate(format: "name == %@ AND month == %@", argumentArray: [car, point.month])
+                
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
+                fetchRequest.predicate = predicate
+                
+                do {
+                    let fetchedEntities = try context.fetch(fetchRequest)
+                    fetchedEntities.first?.setValue(point.value, forKeyPath: "amount")
+                    fetchedEntities.first?.setValue(Date(), forKeyPath: "lastUpdated")
+                    fetchedEntities.first?.setValue(point.isDeleted, forKeyPath: "hasBeenDeleted")
+                } catch let error as NSError {
+                    print("Could not update. \(error), \(error.userInfo)")
+                }
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+            }
+        }
+    }
+    
+    //Use to find points which the user has deleted
+    static func hasDeletedOdometerReading(_ month: Date, forCar car: String, callback: @escaping (GreenDataPoint?) -> Void) {
+        if let _ = appDelegate {
+            let container = appDelegate!.persistentContainer
+            container.performBackgroundTask() {
+                context in
+                
+                let predicate = NSPredicate(format: "name == %@ AND month == %@ AND hasBeenDeleted == %@", argumentArray: [car, month, true])
+                
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
+                fetchRequest.predicate = predicate
+                
+                let managedContext = appDelegate!.persistentContainer.viewContext
+                var dataPoint: GreenDataPoint?
+                do {
+                    let fetchedEntities = try managedContext.fetch(fetchRequest)
+                    if let selected = fetchedEntities.first {
+                        //Construct a GreenDataPoint to Return
+                        let date = selected.value(forKeyPath: "month") as! Date
+                        let amount = selected.value(forKeyPath: "amount") as! Double
+                        dataPoint = GreenDataPoint(month: date, value: amount, dataType: GreenDataType.driving.rawValue)
                         if let lastUpdated = selected.value(forKeyPath: "lastUpdated") as? Date {
                             dataPoint!.lastUpdated = lastUpdated
                         }

@@ -80,7 +80,7 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         var parameters:[String:Any] = ["month":"NA", "amount":value, "lastUpdated":Formatter.iso8601.string(from: Date())]
         parameters["dataType"] = [self.data.dataName, type, key].joined(separator: ":")
         let id=[APIRequestType.log.rawValue, self.data.dataName, key].joined(separator: ":")
-        data.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+        data.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
     }
     
     required init?(coder aDecoder: NSCoder) {

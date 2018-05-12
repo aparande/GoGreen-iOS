@@ -78,7 +78,7 @@ class DrivingDataViewController: BulkDataViewController {
             
             let index = drivingData.indexOfPointForDate(date, inArray: drivingData.carData[carName]!)
             drivingData.carData[carName]?[index].value = point
-            self.drivingData.updateCoreDataForCar(car: carName, month: date, amount: point)
+            CoreDataHelper.updateOdometerReading(drivingData.carData[carName]![index], forCar: carName)
         }
     }
     
@@ -178,8 +178,8 @@ class DrivingDataViewController: BulkDataViewController {
                 } else {
                     let carName = self.cars[indexPath.section]
                     let index = self.drivingData.indexOfPointForDate(date, inArray: self.drivingData.carData[carName]!)
-                    self.drivingData.carData[carName]?.remove(at: index)
-                    self.drivingData.deletePointForCar(carName, month: date)
+                    let reading = self.drivingData.carData[carName]?.remove(at: index)
+                    self.drivingData.deleteOdometerReading(reading!, forCar: carName)
                     self.drivingData.compileToGraph()
                     self.tableView.deleteRows(at: [indexPath], with: .right)
                 }
@@ -300,6 +300,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         owner.drivingData.carMileage[carName] = GreenAttribute(value: mileage, lastUpdated: Date())
         
         if nameField.isUserInteractionEnabled && mileageField.isUserInteractionEnabled {
+            //This is when the car is created
             nameField.isUserInteractionEnabled = false
             mileageField.isUserInteractionEnabled = false
             
@@ -312,42 +313,39 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             let encodedData = try? JSONEncoder().encode(owner.drivingData.carMileage)
             UserDefaults.standard.set(encodedData, forKey: "MilesData")
             
-            car = carName
+            owner.drivingData.addCarToServer(carName, describedByPoint: owner.drivingData.carMileage[carName]!)
         }
         
         let dateString = Date.monthFormat(date: Date())
         let date = Date.monthFormat(string: dateString)
         
-        if owner.drivingData.carData[carName] == nil {
-            //This is the first row in the section
-            let odometerReading = GreenDataPoint(month: date, value: 1000, dataType: owner.drivingData.dataName, pointType: .odometer)
-            owner.drivingData.carData[carName] = [odometerReading]
-            owner.drivingData.addPointToCoreData(car: carName, month: date, point: 1000)
+        if let carData = owner.drivingData.carData[carName] {
+            //This is not the first row in the section
             
-            let path = IndexPath(row: 0, section: sectionNum)
+            //Get the previvous odometer reading
+            let lastVal = carData[0].value
             
-            owner.tableView.insertRows(at: [path], with: .automatic)
-            return
-        }
-        
-        let lastVal = owner.drivingData.carData[carName]![0].value
-        
-        if let _ = owner.drivingData.carData[carName] {
+            //Make sure that the user is not trying to add two points for the same month
             if let _ = owner.drivingData.findPointForDate(date, inArray: owner.drivingData.carData[carName]!) {
                 let alertView = UIAlertController(title: "Error", message: "You can only enter one odometer reader per car each month. Record the next reading next month.", preferredStyle: .alert)
                 alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
                 owner.present(alertView, animated: true, completion: nil)
                 return
             } else {
+                //If there is data for this car and
                 let odometerReading = GreenDataPoint(month: date, value: lastVal, dataType: owner.drivingData.dataName, pointType: .odometer)
-                owner.drivingData.carData[carName] = [odometerReading]
+                owner.drivingData.addOdometerReading(odometerReading, forCar: carName)
             }
         } else {
-            let odometerReading = GreenDataPoint(month: date, value: lastVal, dataType: owner.drivingData.dataName, pointType: .odometer)
-            owner.drivingData.carData[carName] = [odometerReading]
+            //This is the first row in the section
+            let odometerReading = GreenDataPoint(month: date, value: 1000, dataType: owner.drivingData.dataName, pointType: .odometer)
+            owner.drivingData.addOdometerReading(odometerReading, forCar: carName)
+            
+            let path = IndexPath(row: 0, section: sectionNum)
+            
+            owner.tableView.insertRows(at: [path], with: .automatic)
+            return
         }
-        
-        owner.drivingData.addPointToCoreData(car: carName, month: date, point: lastVal)
         
         let path = IndexPath(row: 0, section: sectionNum)
         
@@ -360,8 +358,6 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             _ in
             //Remove the mileage data, the car data, and the odometer data
             let carName = self.owner.cars.remove(at: self.sectionNum)
-            self.owner.drivingData.carMileage.removeValue(forKey: carName)
-            self.owner.drivingData.carData.removeValue(forKey: carName)
             self.owner.sectionHeaders.removeValue(forKey: self.sectionNum)
             self.owner.drivingData.deleteCar(carName)
             self.owner.tableView.deleteSections([self.sectionNum], with: .automatic)

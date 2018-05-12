@@ -138,7 +138,7 @@ class GreenData {
             let dateString = Date.monthFormat(date: point.month)
             let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName, "lastUpdated":Formatter.iso8601.string(from: point.lastUpdated)]
             let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
-            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
         }
     }
     
@@ -182,7 +182,7 @@ class GreenData {
             
             let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":Formatter.iso8601.string(from: Date())]
             let id=[APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
-            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
         } else {
             print("Did not add data because a request was present")
         }
@@ -304,21 +304,34 @@ class GreenData {
         })
     }
     
-    func makeServerCall(withParameters parameters: [String:Any], identifiedBy id: String, atEndpoint endpoint:String, withLocationData sendLocation: Bool) {
+    func makeServerCall(withParameters parameters: [String:Any], identifiedBy id: String, atEndpoint endpoint:String, containingLocation shouldSendLocation: Bool) {
+        if let params = setupServerCall(withParameters: parameters, containingLocation: shouldSendLocation) {
+            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: endpoint, withParameters: params, andSuccessFunction: nil, andFailureFunction: nil)
+        }
+    }
+    
+    func makeServerCall(withParameters parameters: [String:Any], identifiedBy id:String, atEndpoint endpoint:String, withSuccessFunction success: @escaping (NSDictionary) -> Void, andFailureFunction failure: @escaping (NSDictionary) -> Void) {
+        if let params = setupServerCall(withParameters: parameters, containingLocation: false) {
+            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: endpoint, withParameters: params, andSuccessFunction: success, andFailureFunction: failure)
+        }
+    }
+    
+    //Sets up the server call by adding certain things to the parameters. Returns nil if the call should not continue
+    private func setupServerCall(withParameters parameters: [String:Any], containingLocation shouldSendLocation: Bool) -> [String:Any]? {
         guard let locality = SettingsManager.sharedInstance.getLocationData() else {
-            return
+            return nil
         }
         
         var params = parameters
         params["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         
-        if sendLocation {
+        if shouldSendLocation {
             params["city"] = locality["City"]!
             params["state"] = locality["State"]
             params["country"] = locality["Country"]
         }
         
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: endpoint, withParameters: params, andSuccessFunction: nil, andFailureFunction: nil)
+        return params
     }
     
     func reachConsensus() {
@@ -340,7 +353,7 @@ class GreenData {
                 let dateString = Date.monthFormat(date: month)
                 let parameters:[String:Any] = ["month":dateString, "amount":Int(amount), "dataType": self.dataName, "lastUpdated":Formatter.iso8601.string(from: lastUpdated)]
                 let id=[APIRequestType.log.rawValue, self.dataName, dateString].joined(separator: ":")
-                self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+                self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
             }
             
             if let _ = unUploadedPoints {
@@ -436,7 +449,7 @@ class GreenData {
             parameters["dataType"] = [self.dataName, type, key].joined(separator: ":")
             parameters["lastUpdated"] = Formatter.iso8601.string(from: lastUpdated)
             let id=[APIRequestType.log.rawValue, self.dataName, key].joined(separator: ":")
-            self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", withLocationData: true)
+            self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
         }
         
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
