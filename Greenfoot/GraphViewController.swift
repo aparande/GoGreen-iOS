@@ -52,6 +52,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func reloadData() {
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
+        dailyAverageLabel.text  = "\(data.averageValue) " + data.averageLabel
         attributeTableView.reloadData()
         
         graph.highlightValues(nil)
