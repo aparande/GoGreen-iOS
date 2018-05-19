@@ -164,9 +164,11 @@ class DrivingData: GreenData {
             }
         }
         
-        for i in 0..<graphData.count {
-            if !keys.contains(graphData[i].month) {
+        for var i in 0..<graphData.count {
+            //Include the graphData.count condition and the i -= 1 to stop index out of range errors.
+            if i < graphData.count && !keys.contains(graphData[i].month) {
                 removeDataPoint(atIndex: i)
+                i -= 1
             }
         }
     }
@@ -252,6 +254,20 @@ class DrivingData: GreenData {
             recalculateEP()
             recalculateCarbon()
         }
+    }
+    
+    func updateOdometerReading(forCar car: String, atIndex index: Int, toValue value:Double) {
+        carData[car]?[index].value = value
+        let point: GreenDataPoint = carData[car]![index]
+        
+        //Set server call parameters
+        let dateString = Date.monthFormat(date:point.month)
+        var parameters:[String:Any] = ["month": dateString, "amount":Int(point.value), "lastUpdated": Formatter.iso8601.string(from: point.lastUpdated)]
+        parameters["dataType"] = dataName+":Point:"+car
+        let id=[APIRequestType.log.rawValue, dataName, car, dateString].joined(separator: ":")
+        
+        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+        CoreDataHelper.updateOdometerReading(point, forCar: car)
     }
     
     func deleteOdometerReading(_ point: GreenDataPoint, forCar car:String) {

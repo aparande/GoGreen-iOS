@@ -77,8 +77,7 @@ class DrivingDataViewController: BulkDataViewController {
             let date = Date.monthFormat(string: month)
             
             let index = drivingData.indexOfPointForDate(date, inArray: drivingData.carData[carName]!)
-            drivingData.carData[carName]?[index].value = point
-            CoreDataHelper.updateOdometerReading(drivingData.carData[carName]![index], forCar: carName)
+            drivingData.updateOdometerReading(forCar: carName, atIndex: index, toValue: point)
         }
     }
     
