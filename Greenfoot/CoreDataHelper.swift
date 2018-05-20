@@ -254,38 +254,34 @@ class CoreDataHelper {
     }
     
     //Use to find points which the user has deleted
+    //MUST NOT be run as a background task. It will mess up car consensus then.
     static func hasDeletedOdometerReading(_ month: Date, forCar car: String, callback: @escaping (GreenDataPoint?) -> Void) {
         if let _ = appDelegate {
-            let container = appDelegate!.persistentContainer
-            container.performBackgroundTask() {
-                context in
-                
-                let predicate = NSPredicate(format: "name == %@ AND month == %@ AND hasBeenDeleted == %@", argumentArray: [car, month, true])
-                
-                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
-                fetchRequest.predicate = predicate
-                
-                let managedContext = appDelegate!.persistentContainer.viewContext
-                var dataPoint: GreenDataPoint?
-                do {
-                    let fetchedEntities = try managedContext.fetch(fetchRequest)
-                    if let selected = fetchedEntities.first {
-                        //Construct a GreenDataPoint to Return
-                        let date = selected.value(forKeyPath: "month") as! Date
-                        let amount = selected.value(forKeyPath: "amount") as! Double
-                        dataPoint = GreenDataPoint(month: date, value: amount, dataType: GreenDataType.driving.rawValue)
-                        if let lastUpdated = selected.value(forKeyPath: "lastUpdated") as? Date {
-                            dataPoint!.lastUpdated = lastUpdated
-                        }
-                        if let isDeleted = selected.value(forKeyPath: "hasBeenDeleted") as? Bool {
-                            dataPoint!.isDeleted = isDeleted
-                        }
+            let managedContext = appDelegate!.persistentContainer.viewContext
+            let predicate = NSPredicate(format: "name == %@ AND month == %@ AND hasBeenDeleted == %@", argumentArray: [car, month, true])
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Car")
+            fetchRequest.predicate = predicate
+            
+            var dataPoint: GreenDataPoint?
+            do {
+                let fetchedEntities = try managedContext.fetch(fetchRequest)
+                if let selected = fetchedEntities.first {
+                    //Construct a GreenDataPoint to Return
+                    let date = selected.value(forKeyPath: "month") as! Date
+                    let amount = selected.value(forKeyPath: "amount") as! Double
+                    dataPoint = GreenDataPoint(month: date, value: amount, dataType: GreenDataType.driving.rawValue)
+                    if let lastUpdated = selected.value(forKeyPath: "lastUpdated") as? Date {
+                        dataPoint!.lastUpdated = lastUpdated
                     }
-                } catch let error as NSError {
-                    print("Could not check if the point has been deleted. Treat it as if it has not. \(error), \(error.userInfo)")
+                    if let isDeleted = selected.value(forKeyPath: "hasBeenDeleted") as? Bool {
+                        dataPoint!.isDeleted = isDeleted
+                    }
                 }
-                callback(dataPoint)
+            } catch let error as NSError {
+                print("Could not check if the point has been deleted. Treat it as if it has not. \(error), \(error.userInfo)")
             }
+            callback(dataPoint)
         }
     }
 }

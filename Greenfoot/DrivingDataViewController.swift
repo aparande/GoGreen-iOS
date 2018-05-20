@@ -339,10 +339,6 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             //This is the first row in the section
             let odometerReading = GreenDataPoint(month: date, value: 1000, dataType: owner.drivingData.dataName, pointType: .odometer)
             owner.drivingData.addOdometerReading(odometerReading, forCar: carName)
-            
-            let path = IndexPath(row: 0, section: sectionNum)
-            
-            owner.tableView.insertRows(at: [path], with: .automatic)
             return
         }
         

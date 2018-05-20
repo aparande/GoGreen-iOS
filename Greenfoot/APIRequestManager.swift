@@ -19,6 +19,7 @@ enum APIError {
 enum APINotifications:String {
     case stateRank = "fetchedStateRank"
     case cityRank = "fetchedCityRank"
+    case carDataCompiled = "compiledCarData"
 }
 
 enum APIRequestType: String {

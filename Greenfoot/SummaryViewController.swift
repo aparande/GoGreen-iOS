@@ -55,20 +55,26 @@ class SummaryViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshRank), name: NSNotification.Name(rawValue: APINotifications.stateRank.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshRank), name: NSNotification.Name(rawValue: APINotifications.cityRank.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreashEP), name: NSNotification.Name(rawValue: APINotifications.carDataCompiled.rawValue), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         pointLabel.text = "\(GreenfootModal.sharedInstance.totalEnergyPoints)"
-        
         GreenfootModal.sharedInstance.logEnergyPoints()
+        
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         SettingsManager.sharedInstance.requestNotificationPermissions(completion: nil)
+    }
+    
+    @objc func refreashEP() {
+        DispatchQueue.main.async {
+            self.pointLabel.text = "\(GreenfootModal.sharedInstance.totalEnergyPoints)"
+        }
     }
     
     @objc func share() {

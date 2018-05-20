@@ -171,10 +171,13 @@ class DrivingData: GreenData {
                 i -= 1
             }
         }
+        
+        let notification = NSNotification.Name.init(rawValue: "compiledCarData")
+        NotificationCenter.default.post(name: notification, object: self)
     }
     
     func addOdometerReading(_ reading: GreenDataPoint, forCar car:String) {
-        self.carData[car] = [reading]
+        self.carData[car]!.append(reading)
         CoreDataHelper.addOdometerReading(reading, forCar: car)
         
         let dateString = Date.monthFormat(date:reading.month)
@@ -470,8 +473,8 @@ class DrivingData: GreenData {
                                     //The device has not deleted this point, so add it
                                     print("Adding odometer point")
                                     let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                                    self.carData[car]!.append(odometerReading)
                                     DispatchQueue.main.async {
-                                        self.carData[car]!.append(odometerReading)
                                         CoreDataHelper.addOdometerReading(odometerReading, forCar: car)
                                     }
                                 }
@@ -481,10 +484,10 @@ class DrivingData: GreenData {
                 } else {
                     //Triggers if the device doesn't have the car and the car is not deleted on the server
                     if isDeleted == 0 {
-                        print("Adding car")
-                        DispatchQueue.main.sync {
-                            let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                            self.carData[car] = [odometerReading]
+                        print("Adding odometer point")
+                        let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                        self.carData[car] = [odometerReading]
+                        DispatchQueue.main.async {
                             CoreDataHelper.addOdometerReading(odometerReading, forCar: car)
                         }
                     }
@@ -493,7 +496,15 @@ class DrivingData: GreenData {
             
             upload(uploadedPoints)
             
+            for (car, _) in self.carData {
+                self.carData[car]!.sort(by: {
+                    (point1, point2) in
+                    return point1.month.compare(point2.month) == ComparisonResult.orderedAscending
+                })
+            }
+            
             self.compileToGraph()
+            
         }, andFailureFunction: {
             errorDict in
             
