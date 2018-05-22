@@ -181,14 +181,15 @@ class DrivingData: GreenData {
         CoreDataHelper.addOdometerReading(reading, forCar: car)
         
         let dateString = Date.monthFormat(date:reading.month)
-        var parameters:[String:Any] = ["month": dateString, "amount":Int(reading.value), "lastUpdated": Formatter.iso8601.string(from: reading.lastUpdated)]
+        
+        var parameters:[String:Any] = ["month": dateString, "amount":Int(reading.value), "lastUpdated": reading.lastUpdated.timeIntervalSince1970]
         parameters["dataType"] = self.dataName+":Point:"+car
         let id=[APIRequestType.log.rawValue, self.dataName, car, dateString].joined(separator: ":")
         self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
     }
     
     func addCarToServer(_ car:String, describedByPoint point:GreenAttribute) {
-        var parameters:[String:Any] = ["month":"NA", "amount":point.value, "lastUpdated": Formatter.iso8601.string(from: point.lastUpdated)]
+        var parameters:[String:Any] = ["month":"NA", "amount":point.value, "lastUpdated": point.lastUpdated.timeIntervalSince1970]
         parameters["dataType"] = [self.dataName, "Car", car].joined(separator: ":")
         let id=[APIRequestType.log.rawValue, self.dataName, car].joined(separator: ":")
         self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
@@ -261,11 +262,12 @@ class DrivingData: GreenData {
     
     func updateOdometerReading(forCar car: String, atIndex index: Int, toValue value:Double) {
         carData[car]?[index].value = value
+        carData[car]?[index].lastUpdated = Date()
         let point: GreenDataPoint = carData[car]![index]
         
         //Set server call parameters
         let dateString = Date.monthFormat(date:point.month)
-        var parameters:[String:Any] = ["month": dateString, "amount":Int(point.value), "lastUpdated": Formatter.iso8601.string(from: point.lastUpdated)]
+        var parameters:[String:Any] = ["month": dateString, "amount":Int(point.value), "lastUpdated": point.lastUpdated.timeIntervalSince1970]
         parameters["dataType"] = dataName+":Point:"+car
         let id=[APIRequestType.log.rawValue, dataName, car, dateString].joined(separator: ":")
         
@@ -312,7 +314,7 @@ class DrivingData: GreenData {
         
         let sendToServer:(String, Int, Date) -> Void = {
             car, mileage, lastUpdated in
-            var parameters:[String:Any] = ["month":"NA", "amount":mileage, "lastUpdated": Formatter.iso8601.string(from: lastUpdated)]
+            var parameters:[String:Any] = ["month":"NA", "amount":mileage, "lastUpdated": lastUpdated.timeIntervalSince1970]
             parameters["dataType"] = [self.dataName, "Car", car].joined(separator: ":")
             let id=[APIRequestType.log.rawValue, self.dataName, car].joined(separator: ":")
             self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
@@ -381,7 +383,7 @@ class DrivingData: GreenData {
             let sendToServer:(String, Date, Double, Date) -> Void = {
                 car, month, amount, lastUpdated in
                 let dateString = Date.monthFormat(date:month)
-                var parameters:[String:Any] = ["month": dateString, "amount":Int(amount), "lastUpdated": Formatter.iso8601.string(from: lastUpdated)]
+                var parameters:[String:Any] = ["month": dateString, "amount":Int(amount), "lastUpdated": lastUpdated.timeIntervalSince1970]
                 parameters["dataType"] = self.dataName+":Point:"+car
                 let id=[APIRequestType.log.rawValue, self.dataName, car, dateString].joined(separator: ":")
                 self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)

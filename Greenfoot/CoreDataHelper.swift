@@ -139,36 +139,31 @@ class CoreDataHelper {
     //Use to find points which the user has deleted
     static func hasDeleted(_ month: Date, inDataNamed dataType: String, callback: @escaping (GreenDataPoint?) -> Void) {
         if let _ = appDelegate {
-            let container = appDelegate!.persistentContainer
-            container.performBackgroundTask() {
-                context in
-                
-                let predicate = NSPredicate(format: "dataType == %@ AND month == %@ AND hasBeenDeleted == %@", argumentArray: [dataType, month, true])
-                
-                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
-                fetchRequest.predicate = predicate
-                
-                let managedContext = appDelegate!.persistentContainer.viewContext
-                var dataPoint: GreenDataPoint?
-                do {
-                    let fetchedEntities = try managedContext.fetch(fetchRequest)
-                    if let selected = fetchedEntities.first {
-                        //Construct a GreenDataPoint to Return
-                        let date = selected.value(forKeyPath: "month") as! Date
-                        let amount = selected.value(forKeyPath: "amount") as! Double
-                        dataPoint = GreenDataPoint(month: date, value: amount, dataType: dataType)
-                        if let lastUpdated = selected.value(forKeyPath: "lastUpdated") as? Date {
-                            dataPoint!.lastUpdated = lastUpdated
-                        }
-                        if let isDeleted = selected.value(forKeyPath: "hasBeenDeleted") as? Bool {
-                            dataPoint!.isDeleted = isDeleted
-                        }
+            let managedContext = appDelegate!.persistentContainer.viewContext
+            let predicate = NSPredicate(format: "dataType == %@ AND month == %@ AND hasBeenDeleted == %@", argumentArray: [dataType, month, true])
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataPoint")
+            fetchRequest.predicate = predicate
+            
+            var dataPoint: GreenDataPoint?
+            do {
+                let fetchedEntities = try managedContext.fetch(fetchRequest)
+                if let selected = fetchedEntities.first {
+                    //Construct a GreenDataPoint to Return
+                    let date = selected.value(forKeyPath: "month") as! Date
+                    let amount = selected.value(forKeyPath: "amount") as! Double
+                    dataPoint = GreenDataPoint(month: date, value: amount, dataType: dataType)
+                    if let lastUpdated = selected.value(forKeyPath: "lastUpdated") as? Date {
+                        dataPoint!.lastUpdated = lastUpdated
                     }
-                } catch let error as NSError {
-                    print("Could not check if the point has been deleted. Treat it as if it has not. \(error), \(error.userInfo)")
+                    if let isDeleted = selected.value(forKeyPath: "hasBeenDeleted") as? Bool {
+                        dataPoint!.isDeleted = isDeleted
+                    }
                 }
-                callback(dataPoint)
+            } catch let error as NSError {
+                print("Could not check if the point has been deleted. Treat it as if it has not. \(error), \(error.userInfo)")
             }
+            callback(dataPoint)
         }
     }
     

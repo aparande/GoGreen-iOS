@@ -136,7 +136,8 @@ class GreenData {
             
             //If save is true, that means its a new data point, so you want to try uploading to the server
             let dateString = Date.monthFormat(date: point.month)
-            let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName, "lastUpdated":Formatter.iso8601.string(from: point.lastUpdated)]
+            let lastUpdated = point.lastUpdated.timeIntervalSince1970
+            let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName, "lastUpdated":lastUpdated]
             let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
         }
@@ -180,7 +181,7 @@ class GreenData {
         if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
             CoreDataHelper.update(point: dataPoint)
             
-            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":Formatter.iso8601.string(from: Date())]
+            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":Date().timeIntervalSince1970]
             let id=[APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
         } else {
@@ -351,7 +352,7 @@ class GreenData {
             let logToServer:(Date, Double, Date) -> Void = {
                 month, amount, lastUpdated in
                 let dateString = Date.monthFormat(date: month)
-                let parameters:[String:Any] = ["month":dateString, "amount":Int(amount), "dataType": self.dataName, "lastUpdated":Formatter.iso8601.string(from: lastUpdated)]
+                let parameters:[String:Any] = ["month":dateString, "amount":Int(amount), "dataType": self.dataName, "lastUpdated":lastUpdated.timeIntervalSince1970]
                 let id=[APIRequestType.log.rawValue, self.dataName, dateString].joined(separator: ":")
                 self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
             }
@@ -416,10 +417,12 @@ class GreenData {
                     if isDeleted == 1 {
                         self.removeDataPoint(atIndex: index)
                     } else {
-                        let point = self.graphData[index]
+                        let savedPoint = self.graphData[index]
                         
                         //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
-                        if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                        //print("Comparing local: \(savedPoint.lastUpdated.timeIntervalSince1970) with server \(lastUpdated)")
+                        //For some odd reason, when the device timestamp is larger, the value should be updated
+                        if savedPoint.value != amount && savedPoint.lastUpdated.timeIntervalSince1970 < lastUpdated {
                             unUploadedPoints[index] = nil
                             print("Editing point")
                             self.editDataPoint(atIndex: index, toValue: amount)
@@ -427,6 +430,8 @@ class GreenData {
                     }
                 }
             }
+            
+            self.sortData()
             
             upload(unUploadedPoints)
         }, andFailureFunction: {
@@ -447,7 +452,7 @@ class GreenData {
             key, value, lastUpdated in
             var parameters:[String:Any] = ["month":"NA", "amount":value]
             parameters["dataType"] = [self.dataName, type, key].joined(separator: ":")
-            parameters["lastUpdated"] = Formatter.iso8601.string(from: lastUpdated)
+            parameters["lastUpdated"] = lastUpdated.timeIntervalSince1970
             let id=[APIRequestType.log.rawValue, self.dataName, key].joined(separator: ":")
             self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
         }
