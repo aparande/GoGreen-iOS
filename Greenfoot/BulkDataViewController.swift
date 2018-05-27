@@ -109,7 +109,7 @@ class BulkDataViewController: UITableViewController, DataUpdater {
                 let sectionData = self.dataForSection(indexPath.section)!
                 let index = sectionData.count - 1 - indexPath.row
                 
-                self.data.removeDataPoint(atIndex: index)
+                self.data.removeDataPoint(atIndex: index, fromServer: true)
                 self.tableView.deleteRows(at: [indexPath], with: .right)
             }))
             
@@ -328,7 +328,7 @@ class AddDataHeaderView: UIView, UITextFieldDelegate {
         }
         
         let dataPoint = GreenDataPoint(month: date, value: conversionFactor * point, dataType: data.dataName, lastUpdated: Date())
-        data.addDataPoint(point: dataPoint, save:true)
+        data.addDataPoint(point: dataPoint, save:true, upload: true)
         
         monthField.text = ""
         pointField.text = ""

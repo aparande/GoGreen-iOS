@@ -41,6 +41,9 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         attributeTableView.tableFooterView = UIView(frame: CGRect.zero)
         
+        NotificationCenter.default.addObserver(attributeTableView, selector: #selector(reloadData), name: NSNotification.Name(rawValue: "AttributeUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: NSNotification.Name(rawValue: "attributeFormDismissed"), object: nil)
+        
         createFABMenu()
     }
     
@@ -50,7 +53,7 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         reloadData()
     }
     
-    func reloadData() {
+    @objc func reloadData() {
         energyPointsLabel.text = "\(data.energyPoints) Energy Points"
         dailyAverageLabel.text  = "\(data.averageValue) " + data.averageLabel
         attributeTableView.reloadData()

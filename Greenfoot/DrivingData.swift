@@ -158,7 +158,7 @@ class DrivingData: GreenData {
             let index = indexOfPointForDate(date, inArray: graphData)
             if index == -1 {
                 let dataPoint = GreenDataPoint(month: date, value: miles, dataType: self.dataName)
-                addDataPoint(point: dataPoint, save:true)
+                addDataPoint(point: dataPoint, save:true, upload: true)
             } else {
                 editDataPoint(atIndex: index, toValue: miles)
             }
@@ -167,7 +167,7 @@ class DrivingData: GreenData {
         for var i in 0..<graphData.count {
             //Include the graphData.count condition and the i -= 1 to stop index out of range errors.
             if i < graphData.count && !keys.contains(graphData[i].month) {
-                removeDataPoint(atIndex: i)
+                removeDataPoint(atIndex: i, fromServer: true)
                 i -= 1
             }
         }

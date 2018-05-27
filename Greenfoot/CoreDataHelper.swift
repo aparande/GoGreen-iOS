@@ -39,7 +39,7 @@ class CoreDataHelper {
                     }
                     
                     if !dataPoint.isDeleted {
-                        data.addDataPoint(point: dataPoint, save: false)
+                        data.addDataPoint(point: dataPoint, save: false, upload: false)
                     }
                 }
                 

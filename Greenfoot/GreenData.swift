@@ -116,7 +116,7 @@ class GreenData {
     }
     
     
-    func addDataPoint(point: GreenDataPoint, save: Bool) {
+    func addDataPoint(point: GreenDataPoint, save: Bool, upload: Bool) {
         graphData.append(point)
         
         let ep = calculateEP(baseline, point.value)
@@ -133,7 +133,9 @@ class GreenData {
             CoreDataHelper.save(dataPoint: point)
             
             sortData()
-            
+        }
+        
+        if upload {
             //If save is true, that means its a new data point, so you want to try uploading to the server
             let dateString = Date.monthFormat(date: point.month)
             let lastUpdated = point.lastUpdated.timeIntervalSince1970
@@ -181,7 +183,7 @@ class GreenData {
         if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
             CoreDataHelper.update(point: dataPoint)
             
-            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":Date().timeIntervalSince1970]
+            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":dataPoint.lastUpdated.timeIntervalSince1970]
             let id=[APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
             makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
         } else {
@@ -189,7 +191,7 @@ class GreenData {
         }
     }
     
-    func removeDataPoint(atIndex index:Int) {
+    func removeDataPoint(atIndex index:Int, fromServer shouldDeleteFromServer: Bool) {
         let dataPoint = graphData.remove(at: index)
         let carbonPoint = co2Equivalent.remove(at: index)
         let energyPoint = epData.remove(at: index)
@@ -197,7 +199,9 @@ class GreenData {
         totalCarbon -= Int(carbonPoint.value)
         energyPoints -= Int(energyPoint.value)
         
-        deletePointOnServer(dataPoint)
+        if shouldDeleteFromServer {
+            deletePointOnServer(dataPoint)
+        }
     }
     
     func recalculateEP() {
@@ -386,6 +390,8 @@ class GreenData {
             }
             
             var unUploadedPoints:[GreenDataPoint?] = self.graphData
+            //Use this variable to search indexes because the actual graph data variable will change since points are being added and removed from it
+            let storedGraphData = self.graphData
             for point in serverData {
                 guard let pointInfo = point as? NSDictionary else {
                     return
@@ -398,7 +404,7 @@ class GreenData {
                 
                 let date = formatter.date(from: month)!
                 
-                let index = self.indexOfPointForDate(date, inArray: self.graphData)
+                let index = self.indexOfPointForDate(date, inArray: storedGraphData)
                 if index == -1 {
                     //If the point is not deleted, then add it to the device, but check that the device didn't delete it before it is added to the device
                     if isDeleted == 0 {
@@ -409,20 +415,18 @@ class GreenData {
                                 self.deletePointOnServer(deletedPoint!)
                             } else {
                                 let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                                self.addDataPoint(point: dataPoint, save: false)
+                                self.addDataPoint(point: dataPoint, save: true, upload: false)
                             }
                         })
                     }
                 } else {
                     if isDeleted == 1 {
-                        self.removeDataPoint(atIndex: index)
+                        self.removeDataPoint(atIndex: index, fromServer: false)
                     } else {
-                        let savedPoint = self.graphData[index]
+                        let savedPoint = storedGraphData[index]
                         
                         //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
-                        //print("Comparing local: \(savedPoint.lastUpdated.timeIntervalSince1970) with server \(lastUpdated)")
-                        //For some odd reason, when the device timestamp is larger, the value should be updated
-                        if savedPoint.value != amount && savedPoint.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                        if savedPoint.value != amount &&      savedPoint.lastUpdated.timeIntervalSince1970 < lastUpdated {
                             unUploadedPoints[index] = nil
                             print("Editing point")
                             self.editDataPoint(atIndex: index, toValue: amount)

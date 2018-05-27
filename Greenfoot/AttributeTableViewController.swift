@@ -81,6 +81,9 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         parameters["dataType"] = [self.data.dataName, type, key].joined(separator: ":")
         let id=[APIRequestType.log.rawValue, self.data.dataName, key].joined(separator: ":")
         data.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+        
+        let attributeUpdate = NSNotification.Name.init(rawValue: "AttributeUpdated")
+        NotificationCenter.default.post(name: attributeUpdate, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -124,6 +127,7 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
             if self.expandedRows.contains(indexPath.row-1) {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AttributeDescription", for: indexPath) as! AttributeDescriptionTableViewCell
                 cell.descriptionLabel.text = dataKeys[indexPath.row]
+                cell.selectionStyle = .none
                 return cell
             }
             
@@ -145,6 +149,16 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
         
         let key = dataKeys[indexPath.row]
         
+        //Stops clicking on the attribute cell from crashing the app. Instead it just minimizes it
+        if self.expandedRows.contains(indexPath.row - 1) {
+            dataKeys.remove(at: indexPath.row)
+            self.expandedRows.remove(indexPath.row-1)
+            let oldPath = IndexPath(row: indexPath.row, section: indexPath.section)
+            self.tableView.deleteRows(at: [oldPath], with: .top)
+            self.tableView.endUpdates()
+            return
+        }
+        
         switch self.expandedRows.contains(indexPath.row) {
         case true:
             dataKeys.remove(at: indexPath.row + 1)
@@ -164,11 +178,19 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         self.tableView.beginUpdates()
         
-        dataKeys.remove(at: indexPath.row + 1)
-        self.expandedRows.remove(indexPath.row)
-        let oldPath = IndexPath(row: indexPath.row+1, section: indexPath.section)
-        self.tableView.deleteRows(at: [oldPath], with: .top)
+        if self.expandedRows.contains(indexPath.row - 1) {
+            let parentPath = IndexPath(row: indexPath.row-1, section: indexPath.section)
+            self.tableView(self.tableView, didDeselectRowAt: parentPath)
+            return
+        }
         
+        if self.expandedRows.contains(indexPath.row) {
+            dataKeys.remove(at: indexPath.row + 1)
+            self.expandedRows.remove(indexPath.row)
+            let oldPath = IndexPath(row: indexPath.row+1, section: indexPath.section)
+            self.tableView.deleteRows(at: [oldPath], with: .top)
+        }
+            
         self.tableView.endUpdates()
     }
     
@@ -202,7 +224,10 @@ class AttributeTableViewController: UITableViewController, DataUpdater {
     }
     
     @objc private func closeForm() {
-        presentingViewController?.dismiss(animated: true, completion: nil)
+        presentingViewController?.dismiss(animated: true, completion: {
+            let notification = NSNotification.Name.init(rawValue: "attributeFormDismissed")
+            NotificationCenter.default.post(name: notification, object: nil)
+        })
     }
 }
 
