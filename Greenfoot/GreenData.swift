@@ -421,6 +421,8 @@ class GreenData {
                     }
                 } else {
                     if isDeleted == 1 {
+                        //When deleting the point from the device, make sure it is not reuploaded
+                        unUploadedPoints[index] = nil
                         self.removeDataPoint(atIndex: index, fromServer: false)
                     } else {
                         let savedPoint = storedGraphData[index]
