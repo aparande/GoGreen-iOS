@@ -360,6 +360,8 @@ class DrivingData: GreenData {
             
             if success {
                 self.carConsensus()
+            } else {
+                self.compileToGraph()
             }
         })
     }
@@ -591,6 +593,8 @@ class DrivingData: GreenData {
             if errorDict["Error"] as? APIError == .serverFailure {
                 upload(nil)
             }
+            
+            self.compileToGraph()
         })
     }
 }

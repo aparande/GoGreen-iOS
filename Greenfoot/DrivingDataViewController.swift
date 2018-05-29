@@ -285,17 +285,6 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         
         let carName = nameField.text!.removeSpecialChars()
         
-        for car in owner.cars {
-            if carName.lowercased() == car.lowercased() {
-                let alertView = UIAlertController(title: "Error", message: "You already have a car named \"\(carName)\"", preferredStyle: .alert)
-                alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                owner.present(alertView, animated: true, completion: {
-                    self.mileageField.text = ""
-                })
-                return
-            }
-        }
-        
         guard let mileage = Int(mileageField.text!) else {
             let alertView = UIAlertController(title: "Error", message: "Please round to the nearest whole number", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
@@ -305,12 +294,22 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             return
         }
         
-        owner.cars[sectionNum] = carName
-        
         owner.drivingData.carMileage[carName] = GreenAttribute(value: mileage, lastUpdated: Date())
         
+        //This is when the car is created
         if nameField.isUserInteractionEnabled && mileageField.isUserInteractionEnabled {
-            //This is when the car is created
+            //Check to make sure there is no car iwth that name already
+            for car in owner.cars {
+                if carName.lowercased() == car.lowercased() {
+                    let alertView = UIAlertController(title: "Error", message: "You already have a car named \"\(carName)\"", preferredStyle: .alert)
+                    alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                    owner.present(alertView, animated: true, completion: {
+                        self.mileageField.text = ""
+                    })
+                    return
+                }
+            }
+            
             nameField.isUserInteractionEnabled = false
             mileageField.isUserInteractionEnabled = false
             
@@ -325,6 +324,9 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             
             owner.drivingData.addCarToServer(carName, describedByPoint: owner.drivingData.carMileage[carName]!)
         }
+        
+        //Do this down here because that's how we check whether or not there is a duplicate car
+        owner.cars[sectionNum] = carName
         
         let dateString = Date.monthFormat(date: Date())
         let date = Date.monthFormat(string: dateString)
