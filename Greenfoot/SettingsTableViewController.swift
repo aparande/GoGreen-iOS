@@ -35,6 +35,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.backgroundColor = UIColor(red: 239/255, green: 239/255, blue: 244/255, alpha: 1.0)
+        self.tableView.cellLayoutMarginsFollowReadableWidth = false
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
