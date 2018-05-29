@@ -285,6 +285,17 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
         
         let carName = nameField.text!.removeSpecialChars()
         
+        for car in owner.cars {
+            if carName.lowercased() == car.lowercased() {
+                let alertView = UIAlertController(title: "Error", message: "You already have a car named \"\(carName)\"", preferredStyle: .alert)
+                alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                owner.present(alertView, animated: true, completion: {
+                    self.mileageField.text = ""
+                })
+                return
+            }
+        }
+        
         guard let mileage = Int(mileageField.text!) else {
             let alertView = UIAlertController(title: "Error", message: "Please round to the nearest whole number", preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))

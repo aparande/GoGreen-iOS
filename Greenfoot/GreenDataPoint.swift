@@ -155,7 +155,7 @@ extension Date {
 extension String {
     func removeSpecialChars() -> String {
         let okayChars : Set<Character> =
-            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890")
+            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890 ")
         return String(self.filter {okayChars.contains($0) })
     }
 }
