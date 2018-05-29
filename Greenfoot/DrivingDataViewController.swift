@@ -171,7 +171,7 @@ class DrivingDataViewController: BulkDataViewController {
                     self.drivingData.carMileage.removeValue(forKey: carName)
                     self.drivingData.carData.removeValue(forKey: carName)
                     self.sectionHeaders.removeValue(forKey: indexPath.section)
-                    self.drivingData.deleteCar(carName)
+                    self.drivingData.deleteCar(carName, fromServer: true)
                     self.tableView.deleteSections([indexPath.section], with: .automatic)
                     self.updateHeaders()
                 } else {
@@ -331,15 +331,14 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
                 owner.present(alertView, animated: true, completion: nil)
                 return
             } else {
-                //If there is data for this car and
                 let odometerReading = GreenDataPoint(month: date, value: lastVal, dataType: owner.drivingData.dataName, pointType: .odometer)
                 owner.drivingData.addOdometerReading(odometerReading, forCar: carName)
             }
         } else {
             //This is the first row in the section
+            owner.drivingData.carData[carName] = []
             let odometerReading = GreenDataPoint(month: date, value: 1000, dataType: owner.drivingData.dataName, pointType: .odometer)
             owner.drivingData.addOdometerReading(odometerReading, forCar: carName)
-            return
         }
         
         let path = IndexPath(row: 0, section: sectionNum)
@@ -354,7 +353,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             //Remove the mileage data, the car data, and the odometer data
             let carName = self.owner.cars.remove(at: self.sectionNum)
             self.owner.sectionHeaders.removeValue(forKey: self.sectionNum)
-            self.owner.drivingData.deleteCar(carName)
+            self.owner.drivingData.deleteCar(carName, fromServer: true)
             self.owner.tableView.deleteSections([self.sectionNum], with: .automatic)
             self.owner.updateHeaders()
         }))

@@ -68,6 +68,18 @@ class GreenDataPoint {
 struct GreenAttribute: Codable {
     var value: Int
     var lastUpdated: Date
+    var isDeleted: Bool
+    
+    init(value: Int, lastUpdated: Date) {
+        self.value = value
+        self.lastUpdated = lastUpdated
+        self.isDeleted = false
+    }
+    
+    mutating func delete() {
+        isDeleted = true
+        lastUpdated = Date()
+    }
 }
 
 enum DataPointType:String {

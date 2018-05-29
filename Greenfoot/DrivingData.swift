@@ -88,20 +88,57 @@ class DrivingData: GreenData {
     
     func compileToGraph() {
         var totalMPG = 0
+        var carCount = 0
         for (key, point) in carMileage {
-            if carData[key] != nil && carData[key]!.count != 0 {
+            if carData[key] != nil && carData[key]!.count != 0 && !point.isDeleted {
                 totalMPG += point.value
+                carCount += 1
             }
         }
         
         if totalMPG == 0 || carMileage.count == 0 {
             self.data["Average MPG"] = GreenAttribute(value: 0, lastUpdated: Date())
             self.data["Number of Cars"] = GreenAttribute(value: 0, lastUpdated: Date())
+            
+            for (key, attribute) in self.data {
+                var parameters:[String:Any] = ["month":"NA", "amount":attribute.value, "lastUpdated": attribute.lastUpdated.timeIntervalSince1970]
+                parameters["dataType"] = [self.dataName, "Data", key].joined(separator: ":")
+                let id=[APIRequestType.log.rawValue, self.dataName, key].joined(separator: ":")
+                self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+            }
+            
+            for var i in 0..<graphData.count {
+                //Include the graphData.count condition to stop index out of range errors.
+                if i < graphData.count {
+                    removeDataPoint(atIndex: i, fromServer: true)
+                    i -= 1
+                }
+            }
+            
             return
         }
         
-        self.data["Average MPG"] = GreenAttribute(value: totalMPG/carMileage.count, lastUpdated: Date())
-        self.data["Number of Cars"] = GreenAttribute(value: carMileage.count, lastUpdated: Date())
+        let oldMPG = self.data["Average MPG"]!.value
+        let oldCarCount = self.data["Number of Cars"]!.value
+        let newMPG = totalMPG/carCount
+        
+        //Update on the server and the device if the car counts changed
+        if oldMPG != newMPG || oldCarCount != carCount {
+            
+            let averageMPG = GreenAttribute(value: totalMPG/carCount, lastUpdated: Date()) //Use carCount instead of carMileage.count for these two calculations because of deleted cars on the device which haven't been uploaded to the server yet
+            let carCountPoint = GreenAttribute(value: carCount, lastUpdated: Date())
+            
+            self.data["Average MPG"] = averageMPG
+            self.data["Number of Cars"] = carCountPoint
+            
+            for (key, attribute) in self.data {
+                var parameters:[String:Any] = ["month":"NA", "amount":attribute.value, "lastUpdated": attribute.lastUpdated.timeIntervalSince1970]
+                parameters["dataType"] = [self.dataName, "Data", key].joined(separator: ":")
+                let id=[APIRequestType.log.rawValue, self.dataName, key].joined(separator: ":")
+                self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+            }
+        }
+        
         
         let odometerArr:[[GreenDataPoint]] = Array(carData.values)
         
@@ -195,13 +232,16 @@ class DrivingData: GreenData {
         self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
     }
     
-    func deleteCar(_ car:String) {
-        carMileage.removeValue(forKey: car)
+    func deleteCar(_ car:String, fromServer shouldDeleteFromServer: Bool) {
+        //Mark the mileage point for the car as deleted
+        carMileage[car]!.delete() //Don't remove it from the dictionary immediately because it might not connect to the server
         let encodedData = try? JSONEncoder().encode(self.carMileage)
         UserDefaults.standard.set(encodedData, forKey: "MilesData")
         
-        carData.removeValue(forKey: car)
+        carData.removeValue(forKey: car) //We can remove the array instead of marking points as deleted since they'll be marked as deleted in Core Data
         
+        let saveDataGroup = DispatchGroup()
+        saveDataGroup.enter()
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let predicate = NSPredicate(format: "name == %@", argumentArray: [car])
             
@@ -212,52 +252,53 @@ class DrivingData: GreenData {
             do {
                 let fetchedEntities = try managedContext.fetch(fetchRequest)
                 for entry in fetchedEntities {
-                    
-                    let name = entry.value(forKeyPath: "name") as! String
-                    let month = entry.value(forKeyPath: "month") as! Date
-                    
-                    let dateString = Date.monthFormat(date:month)
-                    var parameters:[String:Any] = ["month":dateString]
-                    parameters["dataType"] = dataName+":Point:"+name
-                    let id=[APIRequestType.delete.rawValue, dataName, name, dateString].joined(separator: ":")
-                    
-                    //If the call to the server is successful, delete the point. Otherwise, simply update the point for deletion later
-                    self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withSuccessFunction: {
-                        _ in
-                        print ("Successfully deleted odometer reading")
+                    if shouldDeleteFromServer {
+                        let name = entry.value(forKeyPath: "name") as! String
+                        let month = entry.value(forKeyPath: "month") as! Date
+                        
+                        let dateString = Date.monthFormat(date:month)
+                        var parameters:[String:Any] = ["month":dateString]
+                        parameters["dataType"] = dataName+":Point:"+name
+                        let id=[APIRequestType.delete.rawValue, dataName, name, dateString].joined(separator: ":")
+                        
+                        //If the call to the server is successful, delete the point. Otherwise, simply update the point for deletion later
+                        saveDataGroup.enter()
+                        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withSuccessFunction: {
+                            _ in
+                            print ("Successfully deleted odometer reading")
+                            managedContext.delete(entry)
+                            saveDataGroup.leave()
+                        }, andFailureFunction: {
+                            _ in
+                            entry.setValue(true, forKeyPath: "hasBeenDeleted")
+                            saveDataGroup.leave()
+                        })
+                        
+                    } else {
                         managedContext.delete(entry)
-                    }, andFailureFunction: {
-                        _ in
-                        entry.setValue(true, forKeyPath: "hasBeenDeleted")
-                    })
-                    self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", containingLocation: false)
+                    }
+                    
                 }
             } catch let error as NSError {
                 print("Could not delete. \(error), \(error.userInfo)")
             }
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
+            saveDataGroup.leave()
+            saveDataGroup.notify(queue: .main) {
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
             }
         }
         
-        var parameters:[String:Any] = ["month":"NA"]
-        parameters["dataType"] = dataName+":Car:"+car
-        let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
-        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", containingLocation: false)
-        
-        if carData.keys.count == 0 {
-            graphData = []
-            epData = []
-            co2Equivalent = []
-            energyPoints = 0
-            totalCarbon = 0
-        } else {
-            compileToGraph()
-            recalculateEP()
-            recalculateCarbon()
+        if shouldDeleteFromServer {
+            deleteMileage(forCar: car)
         }
+        
+        compileToGraph()
+        recalculateEP()
+        recalculateCarbon()
     }
     
     func updateOdometerReading(forCar car: String, atIndex index: Int, toValue value:Double) {
@@ -293,6 +334,22 @@ class DrivingData: GreenData {
             print ("Rip no server")
             point.isDeleted = true
             CoreDataHelper.updateOdometerReading(point, forCar: car)
+        })
+    }
+    
+    private func deleteMileage(forCar car: String) {
+        var parameters:[String:Any] = ["month":"NA"]
+        parameters["dataType"] = dataName+":Car:"+car
+        let id=[APIRequestType.delete.rawValue, dataName, car].joined(separator: ":")
+        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "deleteDataPoint", withSuccessFunction: {
+            _ in
+            //Remove the mileage value from the device since it has been deleted from the server
+            self.carMileage.removeValue(forKey: car)
+            let encodedData = try? JSONEncoder().encode(self.carMileage)
+            UserDefaults.standard.set(encodedData, forKey: "MilesData")
+        }, andFailureFunction: {
+            _ in
+            print("Error deleting mileage for Car named \(car)")
         })
     }
     
@@ -344,7 +401,10 @@ class DrivingData: GreenData {
                     //If we have a car with the same name already, check to see if it is not out of date.
                     //If it is more updated than the server, then don't put it in uploaded cars so it gets sent to the server
                     if let savedMileage = self.carMileage[car] {
-                        if savedMileage.value != mileage && savedMileage.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                        if savedMileage.isDeleted {
+                            uploadedCars.append(car)
+                            self.deleteMileage(forCar: car)
+                        } else if savedMileage.value != mileage && savedMileage.lastUpdated.timeIntervalSince1970 < lastUpdated {
                             print("Editing car mileage")
                             self.carMileage[car] = GreenAttribute(value: mileage, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                             uploadedCars.append(car)
@@ -352,6 +412,14 @@ class DrivingData: GreenData {
                     } else {
                         self.carMileage[car] = GreenAttribute(value: mileage, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
                         uploadedCars.append(car)
+                    }
+                } else {
+                    //If the car is deleted, make sure it is removed from the device if it is still on the device
+                    uploadedCars.append(car)
+                    if let _ = self.carMileage[car] {
+                        DispatchQueue.main.async {
+                            self.deleteCar(car, fromServer: false)
+                        }
                     }
                 }
             }
@@ -486,12 +554,22 @@ class DrivingData: GreenData {
                 } else {
                     //Triggers if the device doesn't have the car and the car is not deleted on the server
                     if isDeleted == 0 {
-                        print("Adding odometer point")
-                        let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                        self.carData[car] = [odometerReading]
-                        DispatchQueue.main.async {
-                            CoreDataHelper.addOdometerReading(odometerReading, forCar: car)
-                        }
+                        CoreDataHelper.hasDeletedOdometerReading(date, forCar: car, callback: {
+                            deletedPoint in
+                            
+                            if let _ = deletedPoint {
+                                //The device has deleted this point, so delete it from the server
+                                self.deleteOdometerReading(deletedPoint!, forCar: car)
+                            } else {
+                                //The device has not deleted this point, so add it
+                                print("Adding odometer point")
+                                let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                                self.carData[car] = [odometerReading]
+                                DispatchQueue.main.async {
+                                    CoreDataHelper.addOdometerReading(odometerReading, forCar: car)
+                                }
+                            }
+                        })
                     }
                 }
             }
