@@ -81,6 +81,18 @@ class SummaryViewController: UIViewController {
         let message = "I earned "+pointLabel.text!+" Energy Points on Greenfoot! How many do you have?"
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            activityView.modalPresentationStyle = .popover
+            
+            let shareButtonView = navigationItem.rightViews[0]
+            let shareButtonRect = shareButtonView.bounds
+            
+            activityView.popoverPresentationController?.sourceView = shareButtonView
+            activityView.popoverPresentationController?.sourceRect = shareButtonRect
+            activityView.popoverPresentationController?.permittedArrowDirections = [.up]
+        }
+        
         self.present(activityView, animated: true, completion: nil)
     }
     

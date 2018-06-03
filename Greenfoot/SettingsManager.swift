@@ -192,20 +192,23 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 let reqId = request.identifier
                 for dataType in GreenDataType.allValues {
                     if let id = self.scheduledReminders[dataType] {
-                        if reqId == id {
-                            pending.append(dataType)
-                            break
+                        pending.append(dataType)
+                        if reqId != id {
+                            self.scheduledReminders[dataType] = reqId //For some reason, if the notification in scheduled reminders has a different id, just update it
                         }
-                    } else {
+                    } else if reqId.range(of: dataType.rawValue) != nil {
+                        //If the pending notification for some reason is not in scheduled reminders at all
+                        self.scheduledReminders[dataType] = reqId
                         pending.append(dataType)
                     }
                 }
             }
             
+            //If there is no notification for a datatype, then make sure there is nothing about it in scheduled reminders
             for dataType in GreenDataType.allValues {
                 if !pending.contains(dataType) {
                     print("Removing notification for \(dataType)")
-                    self.scheduledReminders.removeValue(forKey: dataType)
+                    self.scheduledReminders.removeValue(forKey: dataType) //We don't have to delete it from notification center because it's not there in the first place
                 }
             }
         })

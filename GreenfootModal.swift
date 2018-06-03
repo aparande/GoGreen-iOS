@@ -182,7 +182,7 @@ class GreenfootModal {
                                                             repeats: false)
             
             // Schedule the notification.
-            let identifier = "REM:\(dataType.rawValue):\(nextDate)"
+            let identifier = "REM:\(dataType.rawValue):\(Date.monthFormat(date: nextDate))"
             print("Scheduling Reminder for \(identifier)")
             
             let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
@@ -192,6 +192,40 @@ class GreenfootModal {
                 
                 SettingsManager.sharedInstance.scheduledReminders[dataType] = identifier
             })
+        }
+    }
+    
+    private func loadAttributes(forDataType dataType: GreenDataType, ofCategory category: String) -> [String: GreenAttribute]? {
+        let defaults = UserDefaults.standard
+        
+        if let json = defaults.data(forKey: dataType.rawValue+":\(category)") {
+            var resultDict: [String: GreenAttribute] = [:]
+            do {
+                resultDict = try JSONDecoder().decode([String:GreenAttribute].self, from: json)
+            } catch {
+                do {
+                    let jsonObj = try JSONSerialization.jsonObject(with: json, options: .mutableContainers) as? [String:Any]
+                    for (key, value) in jsonObj! {
+                        let attributeObj = value as! NSDictionary
+                        let attribute = GreenAttribute(value: attributeObj["value"]! as! Int, lastUpdated: Date(timeIntervalSince1970: attributeObj["lastUpdated"] as! Double))
+                        resultDict[key] = attribute
+                    }
+                } catch {
+                    return nil
+                }
+            }
+            
+            return resultDict
+        } else {
+            if let storedDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:Int] {
+                var resultDict:[String: GreenAttribute] = [:]
+                for (key, value) in storedDict {
+                    resultDict[key] = GreenAttribute(value: value, lastUpdated:Date())
+                }
+                return resultDict
+            } else {
+                return nil
+            }
         }
     }
     
@@ -205,28 +239,14 @@ class GreenfootModal {
         
         let defaults = UserDefaults.standard
         
-        if let json = defaults.data(forKey: GreenDataType.electric.rawValue+":bonus") {
-            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
-            electricData.bonusDict = bonusDict!
+        if let bonusDict = loadAttributes(forDataType: GreenDataType.electric, ofCategory: "bonus") {
+            electricData.bonusDict = bonusDict
         } else {
-            if let bonusDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:Int] {
-                for (key, value) in bonusDict {
-                    electricData.bonusDict[key] = GreenAttribute(value: value, lastUpdated:Date())
-                }
-            } else {
-                electricData.bonusDict["Solar Panels"] = GreenAttribute(value: 0, lastUpdated: Date());
-            }
+            electricData.bonusDict["Solar Panels"] = GreenAttribute(value: 0, lastUpdated: Date());
         }
         
-        if let json = defaults.data(forKey: GreenDataType.electric.rawValue+":data") {
-            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
-            electricData.data = data!
-        } else {
-            if let data = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":data") as? [String:Int] {
-                for (key, value) in data {
-                    electricData.data[key] = GreenAttribute(value: value, lastUpdated:Date())
-                }
-            }
+        if let dataDict = loadAttributes(forDataType: GreenDataType.electric, ofCategory: "data") {
+            electricData.data = dataDict
         }
         
         //If you were to try and load the e_factor from the web here, under the current code, an endless loop would be created
@@ -292,31 +312,16 @@ class GreenfootModal {
             return (attr != 0 && attr < base) ? 5*(base-attr) : 0
         }
         
-        let defaults = UserDefaults.standard
-        if let json = defaults.data(forKey: GreenDataType.water.rawValue+":bonus") {
-            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
-            waterData.bonusDict = bonusDict!
+        if let bonusDict = loadAttributes(forDataType: GreenDataType.water, ofCategory: "bonus") {
+            waterData.bonusDict = bonusDict
         } else {
-            if let bonusDict = defaults.dictionary(forKey: GreenDataType.water.rawValue+"bonus") as? [String:Int] {
-                for (key, value) in bonusDict {
-                    waterData.bonusDict[key] = GreenAttribute(value: value, lastUpdated: Date())
-                }
-            } else {
-                waterData.bonusDict["Shower Length"] = GreenAttribute(value: 0, lastUpdated: Date())
-                waterData.bonusDict["Laundry Frequency"] = GreenAttribute(value: 0, lastUpdated: Date())
-                waterData.bonusDict["Bathroom Frequency"] = GreenAttribute(value: 0, lastUpdated: Date())
-            }
+            waterData.bonusDict["Shower Length"] = GreenAttribute(value: 0, lastUpdated: Date())
+            waterData.bonusDict["Laundry Frequency"] = GreenAttribute(value: 0, lastUpdated: Date())
+            waterData.bonusDict["Bathroom Frequency"] = GreenAttribute(value: 0, lastUpdated: Date())
         }
         
-        if let json = defaults.data(forKey: GreenDataType.water.rawValue+":data") {
-            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
-            waterData.data = data!
-        } else {
-            if let data = defaults.dictionary(forKey: GreenDataType.water.rawValue+":data") as? [String:Int] {
-                for (key, value) in data {
-                    waterData.data[key] = GreenAttribute(value: value, lastUpdated:Date())
-                }
-            }
+        if let dataDict = loadAttributes(forDataType: GreenDataType.water, ofCategory: "data") {
+            waterData.data = dataDict
         }
         
         CoreDataHelper.fetch(data: waterData)
@@ -363,33 +368,18 @@ class GreenfootModal {
             return Int(additive)
         }
         
-        let defaults = UserDefaults.standard
-        if let json = defaults.data(forKey: GreenDataType.driving.rawValue+":bonus") {
-            let bonusDict = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
-            drivingData.bonusDict = bonusDict!
+        if let bonusDict = loadAttributes(forDataType: GreenDataType.driving, ofCategory: "bonus") {
+            drivingData.bonusDict = bonusDict
         } else {
-            if let bonusDict = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":bonus") as? [String:Int] {
-                for (key, value) in bonusDict {
-                    drivingData.bonusDict[key] = GreenAttribute(value: value, lastUpdated: Date())
-                }
-            } else {
-                drivingData.bonusDict["Walking/Biking"] = GreenAttribute(value: 0, lastUpdated: Date())
-            }
+            drivingData.bonusDict["Walking/Biking"] = GreenAttribute(value: 0, lastUpdated: Date())
         }
         
-        if let json = defaults.data(forKey: GreenDataType.driving.rawValue+":data") {
-            let data = try? JSONDecoder().decode([String:GreenAttribute].self, from: json)
-            drivingData.data = data!
+        if let dataDict = loadAttributes(forDataType: GreenDataType.driving, ofCategory: "data") {
+            drivingData.data = dataDict
         } else {
-            if let data = defaults.dictionary(forKey: GreenDataType.driving.rawValue+":data") as? [String:Int] {
-                for (key, value) in data {
-                    drivingData.data[key] = GreenAttribute(value: value, lastUpdated: Date())
-                }
-            } else {
-                drivingData.data["Number of Cars"] = GreenAttribute(value: 0, lastUpdated: Date())
-                //If they have two cars, its the sum of their mpgs/number of cars
-                drivingData.data["Average MPG"] = GreenAttribute(value: 0, lastUpdated: Date())
-            }
+            drivingData.data["Number of Cars"] = GreenAttribute(value: 0, lastUpdated: Date())
+            //If they have two cars, its the sum of their mpgs/number of cars
+            drivingData.data["Average MPG"] = GreenAttribute(value: 0, lastUpdated: Date())
         }
         
         CoreDataHelper.fetch(data: drivingData)

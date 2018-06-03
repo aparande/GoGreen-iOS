@@ -147,8 +147,11 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
             fabMenu.fabMenuItems = [addFabItem, shareFabItem]
         }
         
-        
-        self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(75).right(25)
+        if UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436 {
+            self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(125).right(25)
+        } else {
+            self.view.layout(fabMenu).size(CGSize(width: 50, height: 50)).bottom(75).right(25)
+        }
     }
     
     @objc func bulkAdd() {
@@ -180,6 +183,18 @@ class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let message = "I earned "+energyPointsLabel.text!+" Energy Points on GoGreen from "+data.dataName+"! How many do you have?"
         let activityView = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityView.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .copyToPasteboard, .openInIBooks, .postToFlickr, .postToVimeo, .print, .saveToCameraRoll]
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            activityView.modalPresentationStyle = .popover
+            
+            let shareButtonView = fabMenu.fabMenuItems[2] as UIView
+            let shareButtonRect = shareButtonView.bounds
+            
+            activityView.popoverPresentationController?.sourceView = shareButtonView
+            activityView.popoverPresentationController?.sourceRect = shareButtonRect
+            activityView.popoverPresentationController?.permittedArrowDirections = [.right]
+        }
+        
         self.present(activityView, animated: true, completion: nil)
     }
     

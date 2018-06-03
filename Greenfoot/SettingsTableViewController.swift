@@ -501,7 +501,16 @@ extension PopupDialog {
                             loginPopup.dismiss() {
                                 if let tutorialViewController = viewController as? TutorialPageViewController {
                                     tutorialViewController.delegate.tutorialComplete()
+                                    return
                                 }
+                                
+                                if let _ = viewController as? SettingsTableViewController {
+                                    let popupDialog = PopupDialog(title: "Logged In!", message: "You have successfully logged in! You should now be able to see all data from your other devices.")
+                                    let continueButton = PopupDialogButton(title: "Ok", dismissOnTap: true, action: nil)
+                                    popupDialog.addButton(continueButton)
+                                    viewController.present(popupDialog, animated: true, completion: nil)
+                                }
+                                
                             }
                         } else {
                             if let _ = err {
@@ -520,8 +529,14 @@ extension PopupDialog {
                 }
             }
             
+            let resetButton = DefaultButton(title: "Forgot Password", dismissOnTap: false) {
+                let resetUrl = URL(string: "http://192.168.1.94:8000/reset")!
+                //let base = URL(string: "https://gogreencarbonapp.herokuapp.com/reset")!
+                UIApplication.shared.open(resetUrl, options: [:], completionHandler: nil)
+            }
+            
             //Add the buttons
-            loginPopup.addButtons([loginButton, createButton, cancelButton])
+            loginPopup.addButtons([loginButton, createButton, resetButton, cancelButton])
             return loginPopup
         } else {
             //Create the signup dialog
@@ -548,6 +563,13 @@ extension PopupDialog {
                             signupPopup.dismiss() {
                                 if let tutorialViewController = viewController as? TutorialPageViewController {
                                     tutorialViewController.delegate.signedIn()
+                                }
+                                
+                                if let _ = viewController as? SettingsTableViewController {
+                                    let popupDialog = PopupDialog(title: "Sign up successful", message: "Thank you for making an account! Use the same email address and password to access your data on your other devices.")
+                                    let continueButton = PopupDialogButton(title: "Ok", dismissOnTap: true, action: nil)
+                                    popupDialog.addButton(continueButton)
+                                    viewController.present(popupDialog, animated: true, completion: nil)
                                 }
                             }
                         } else {
