@@ -217,7 +217,7 @@ class GreenfootModal {
             
             return resultDict
         } else {
-            if let storedDict = defaults.dictionary(forKey: GreenDataType.electric.rawValue+":bonus") as? [String:Int] {
+            if let storedDict = defaults.dictionary(forKey: dataType.rawValue+":\(category)") as? [String:Int] {
                 var resultDict:[String: GreenAttribute] = [:]
                 for (key, value) in storedDict {
                     resultDict[key] = GreenAttribute(value: value, lastUpdated:Date())
