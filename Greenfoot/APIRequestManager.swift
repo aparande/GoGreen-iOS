@@ -38,9 +38,9 @@ class APIRequestManager: NSObject, URLSessionDelegate {
     private var queuedRequests:[String: APICall] = [:]
     
     func queueAPICall(identifiedBy uId:String, atEndpoint endpoint:String, withParameters parameters:[String:Any], andSuccessFunction success:((NSDictionary) -> Void)?, andFailureFunction failure:((NSDictionary) -> Void)?) {
-        let base = URL(string: "http://192.168.1.94:8000/api/")!
+        //let base = URL(string: "http://192.168.1.94:8000/api/")!
         //let base = URL(string: "http://localhost:8000/api/")!
-        //let base = URL(string: "https://gogreencarbonapp.herokuapp.com/")!
+        let base = URL(string: "https://gogreencarbonapp.herokuapp.com/api/")!
         
         let call = APICall(self, atEndpoint: endpoint, onURL:base, withParameters: parameters, identifiedBy:uId, andSuccessFunction: success, andFailureFunction: failure)
         

@@ -530,8 +530,8 @@ extension PopupDialog {
             }
             
             let resetButton = DefaultButton(title: "Forgot Password", dismissOnTap: false) {
-                let resetUrl = URL(string: "http://192.168.1.94:8000/reset")!
-                //let base = URL(string: "https://gogreencarbonapp.herokuapp.com/reset")!
+                //let resetUrl = URL(string: "http://192.168.1.94:8000/reset")!
+                let resetUrl = URL(string: "https://gogreencarbonapp.herokuapp.com/reset")!
                 UIApplication.shared.open(resetUrl, options: [:], completionHandler: nil)
             }
             
