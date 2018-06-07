@@ -101,13 +101,14 @@ class SummaryViewController: UIViewController {
         if rankings.keys.count != 4 {
             rankingView.isHidden = true
         } else {
+            
             cityRankLabel.text = "\(rankings["CityRank"]!)"
             cityCountLabel.text = "out of \(rankings["CityCount"]!)"
             stateRankLabel.text = "\(rankings["StateRank"]!)"
             stateCountLabel.text = "out of \(rankings["StateCount"]!)"
             
-            /*
-            cityRankLabel.text = "8945"
+            
+            /*cityRankLabel.text = "8945"
             cityCountLabel.text = "out of 26,328"
             stateRankLabel.text = "1,786,554"
             stateCountLabel.text = "out of 12,800,000"*/

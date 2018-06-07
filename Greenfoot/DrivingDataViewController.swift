@@ -335,7 +335,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             //This is not the first row in the section
             
             //Get the previvous odometer reading
-            let lastVal = carData[0].value
+            let lastVal = carData.last!.value
             
             //Make sure that the user is not trying to add two points for the same month
             if let _ = owner.drivingData.findPointForDate(date, inArray: owner.drivingData.carData[carName]!) {
