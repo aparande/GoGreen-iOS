@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F065E6D22AD8ADF0037BEA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F065E6C22AD8ADF0037BEA1 /* GoogleService-Info.plist */; };
+		1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */; };
 		1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB0FE71E2B3684006463AE /* DroidSans.ttf */; };
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
 		1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */; };
@@ -68,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F065E6C22AD8ADF0037BEA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
 		1F0C23561E6FB6E2006004CD /* AttributeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeTableViewCell.swift; sourceTree = "<group>"; };
 		1F0D878F1F3E70B000ED894A /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 		1F70CCBA1E105D0600AD351A /* Greenfoot */ = {
 			isa = PBXGroup;
 			children = (
+				1F065E6C22AD8ADF0037BEA1 /* GoogleService-Info.plist */,
 				1F2544EF1FFBEE4E0031C9F8 /* Greenfoot.entitlements */,
 				1F123F821FE5A92500FEAC84 /* license.txt */,
 				1F123F811FE5A92500FEAC84 /* privacy.txt */,
@@ -238,6 +243,7 @@
 				1FA737F81F001F4100B721D0 /* APIRequestManager.swift */,
 				1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */,
 				1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */,
+				1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -304,7 +310,6 @@
 				1F70CCB51E105D0600AD351A /* Frameworks */,
 				1F70CCB61E105D0600AD351A /* Resources */,
 				FFEB0A537B8973393DEAC0BF /* [CP] Embed Pods Frameworks */,
-				61EDD5D6938E8AB5EF7DA723 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -348,6 +353,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -386,6 +392,7 @@
 				1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */,
 				1FC515661F32D0650021DC1D /* Raleway-Bold.ttf in Resources */,
 				1FC962EC1FF4B48600C6F686 /* BarGraphFooter.xib in Resources */,
+				1F065E6D22AD8ADF0037BEA1 /* GoogleService-Info.plist in Resources */,
 				1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */,
 				1F123F841FE5A92600FEAC84 /* license.txt in Resources */,
 				1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */,
@@ -398,21 +405,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		61EDD5D6938E8AB5EF7DA723 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E3C3C7C3BE8F906CE2BCDEAF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -438,19 +430,33 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 				"${BUILT_PRODUCTS_DIR}/PopupDialog/PopupDialog.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicBlurView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopupDialog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -494,6 +500,7 @@
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,
+				1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */,
 				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
 				1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */,
 				1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */,

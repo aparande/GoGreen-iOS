@@ -243,12 +243,15 @@ class GreenData {
             return
         }
         
-        let parameters:[String:String] = ["zip":zip]
-        let id = [APIRequestType.get.rawValue, "EGRID"].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "getFromEGrid", withParameters: parameters, andSuccessFunction: {
-            data in
+        guard let state = locality["State"] else {
+            return
+        }
+        
+        FirebaseUtils.getEGridDataFor(zipCode: zip, andState: state) { (factor) in
+            guard let e_factor = factor else {
+                return
+            }
             
-            let e_factor = data["e_factor"] as! Double
             UserDefaults.standard.set(e_factor, forKey: "e_factor")
             
             self.calculateCO2 = {
@@ -258,7 +261,7 @@ class GreenData {
             
             self.recalculateEP()
             self.recalculateCarbon()
-        }, andFailureFunction: nil)
+        }
     }
     
     func fetchConsumption() {

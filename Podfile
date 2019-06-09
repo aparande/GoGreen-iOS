@@ -14,4 +14,6 @@ target 'Greenfoot' do
   pod 'Material', '~> 2.0'
   pod 'Charts'
   pod 'PopupDialog', '~> 0.7'
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
 end

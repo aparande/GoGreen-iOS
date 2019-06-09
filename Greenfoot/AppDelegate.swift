@@ -10,6 +10,7 @@ import UIKit
 import Material
 import CoreData
 import PopupDialog
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         window = UIWindow(frame: Screen.bounds)
+        
+        FirebaseApp.configure()
         
         let modal = GreenfootModal.sharedInstance
         
