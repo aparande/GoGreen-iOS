@@ -1,0 +1,30 @@
+PODS:
+  - Charts (3.0.5):
+    - Charts/Core (= 3.0.5)
+  - Charts/Core (3.0.5)
+  - DynamicBlurView (2.0.2)
+  - Material (2.13.5):
+    - Material/Core (= 2.13.5)
+  - Material/Core (2.13.5):
+    - Motion (~> 1.3.0)
+  - Motion (1.3.4):
+    - Motion/Core (= 1.3.4)
+  - Motion/Core (1.3.4)
+  - PopupDialog (0.7.0):
+    - DynamicBlurView (~> 2.0)
+
+DEPENDENCIES:
+  - Charts
+  - Material (~> 2.0)
+  - PopupDialog (~> 0.7)
+
+SPEC CHECKSUMS:
+  Charts: 45cdc985b764c838b35ee47eb1365d15735f6d1a
+  DynamicBlurView: aa6db4defc6e537eb86fc5e58dd3991666178399
+  Material: ced3fd11882147b135f897ca20227174bb104ad0
+  Motion: 85b8777db2e68801c03a5c629e918c35dd184c8d
+  PopupDialog: 4abc6db5b22b7c8029e2162bde8891ee6aa4b6c8
+
+PODFILE CHECKSUM: 0ffcd0c159f09fe16eda93a509c638edf1fe7695
+
+COCOAPODS: 1.4.0

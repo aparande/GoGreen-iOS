@@ -1,0 +1,6 @@
+framework module Pods_Greenfoot {
+  umbrella header "Pods-Greenfoot-umbrella.h"
+
+  export *
+  module * { export * }
+}

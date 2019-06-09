@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="GeosansLight.ttf">
+            <string>GeosansLight</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SummaryViewController" customModule="Greenfoot" customModuleProvider="target">
+            <connections>
+                <outlet property="pointLabel" destination="bu8-QK-LEo" id="hMi-eM-Tfd"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Emblem" translatesAutoresizingMaskIntoConstraints="NO" id="3ni-zu-lFD">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="CxA-9S-R58">
+                    <rect key="frame" x="50" y="30" width="275" height="285"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="62" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bu8-QK-LEo">
+                            <rect key="frame" x="0.0" y="0.0" width="275" height="230"/>
+                            <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="140"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustsFontSizeToFitWidth" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Energy Points" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="23" translatesAutoresizingMaskIntoConstraints="NO" id="I1g-ba-VuY">
+                            <rect key="frame" x="0.0" y="235" width="275" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="zFY-Xr-1do"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="GeosansLight" family="GeosansLight" pointSize="45"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustsFontSizeToFitWidth" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="CxA-9S-R58" firstAttribute="trailing" secondItem="3ni-zu-lFD" secondAttribute="trailing" constant="-50" id="7Eh-gP-hcg"/>
+                <constraint firstItem="CxA-9S-R58" firstAttribute="top" secondItem="3ni-zu-lFD" secondAttribute="top" constant="30" id="8Zk-ey-APM"/>
+                <constraint firstItem="3ni-zu-lFD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GQg-La-aGg"/>
+                <constraint firstItem="3ni-zu-lFD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Msy-hp-Wlj"/>
+                <constraint firstItem="CxA-9S-R58" firstAttribute="leading" secondItem="3ni-zu-lFD" secondAttribute="leading" constant="50" id="Tku-Id-AyW"/>
+                <constraint firstItem="3ni-zu-lFD" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="UEw-MM-Haf"/>
+                <constraint firstItem="CxA-9S-R58" firstAttribute="centerX" secondItem="3ni-zu-lFD" secondAttribute="centerX" id="a2Y-lA-mlZ"/>
+                <constraint firstItem="3ni-zu-lFD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="d2P-5B-X20"/>
+                <constraint firstItem="CxA-9S-R58" firstAttribute="bottom" secondItem="3ni-zu-lFD" secondAttribute="bottom" constant="-60" id="m5S-xm-mrJ"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="24.5" y="-115.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Emblem" width="512" height="512"/>
+    </resources>
+</document>
