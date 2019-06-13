@@ -259,6 +259,8 @@ class GreenData {
                 return point * e_factor/1000
             }
             
+            print("EGrid conversion is \(e_factor)")
+            
             self.recalculateEP()
             self.recalculateCarbon()
         }
@@ -273,18 +275,10 @@ class GreenData {
             return
         }
         
-        var parameters:[String:String] = ["type":GreenDataType.electric.rawValue]
-        parameters["state"] = locality["State"]!
-        parameters["country"] = locality["Country"]!
-        
-        let id=[APIRequestType.get.rawValue, "CONSUMPTION", dataName].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "getFromConsumption", withParameters: parameters, andSuccessFunction: {
-            data in
-            
-            let consumption = data["Consumption"] as! Double
-            self.stateConsumption = consumption
+        FirebaseUtils.getAverageFor(state: locality["State"]!, type: .electric) { (value) in
+            self.stateConsumption = value
             print("State consumption is \(self.stateConsumption!)")
-        }, andFailureFunction: nil)
+        }
     }
     
     func deletePointOnServer(_ dataPoint: GreenDataPoint) {
