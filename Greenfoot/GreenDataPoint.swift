@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Material
+import CoreLocation
 
 class GreenDataPoint {
     var value: Double
@@ -79,6 +80,50 @@ struct GreenAttribute: Codable {
     mutating func delete() {
         isDeleted = true
         lastUpdated = Date()
+    }
+}
+
+struct Location:Codable {
+    var id: String?
+    var city: String
+    var state: String
+    var country: String
+    var isoCode: String
+    var zip: String
+    
+    init(fromPlacemark placemark: CLPlacemark) {
+        self.city = placemark.locality!
+        self.state = placemark.administrativeArea!
+        self.country = placemark.country!
+        self.isoCode = placemark.isoCountryCode!
+        self.zip = placemark.postalCode!
+    }
+    
+    init(fromDict dict: [String:Any]) {
+        self.id = dict["Id"] as! String
+        self.city = dict["City"] as! String
+        self.state = dict["State"] as! String
+        self.country = dict["Country"] as! String
+        self.isoCode = dict["ISOCode"] as! String
+        self.zip = dict["Zip"] as! String
+    }
+    
+    func toDict() -> [String : Any] {
+        return ["City": city, "State":state, "Country":country, "ISOCode":isoCode, "Zip":zip]
+    }
+    
+    func saveToDefaults(forKey key:String) {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(self) {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
+    }
+    
+    static func fromDefaults(withKey key: String) -> Location? {
+        guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
+        
+        let decoder = JSONDecoder()
+        return try? decoder.decode(Location.self, from: data)
     }
 }
 

@@ -14,7 +14,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     static let sharedInstance = SettingsManager()
     
     var shouldUseLocation:Bool
-    var locality:[String:String]?
+    var locality:Location?
     
     var canNotify:Bool
     var reminderTimings:[GreenDataType:ReminderSettings]?
@@ -59,12 +59,12 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         }
         
-        if let locale_data = UserDefaults.standard.dictionary(forKey: "Setting_Locale") as? [String:String] {
+        if let locale_data = Location.fromDefaults(withKey: "Setting_Locale") {
             locality = locale_data
         } else {
             if let locale = GreenfootModal.sharedInstance.locality {
                 self.locality = locale
-                UserDefaults.standard.set(locality, forKey:"Setting_Locale")
+                self.locality?.saveToDefaults(forKey: "Setting_Locale")
                 self.shouldUseLocation = true
             }
         }
@@ -107,37 +107,35 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         
         guard let locale = GreenfootModal.sharedInstance.locality else {
-            var localityData:[String:String] = [:]
-            localityData["City"] = placemark.locality
-            localityData["State"] = placemark.administrativeArea
-            localityData["Country"] = placemark.country
-            localityData["Zip"] = placemark.postalCode
-            GreenfootModal.sharedInstance.locality = localityData
-            self.locality = localityData
-            print("Saved locale: \(localityData)")
             
-            for (key, value) in GreenfootModal.sharedInstance.data {
-                value.reachConsensus()
+            FirebaseUtils.uploadLocation(placemark) { (location) in
+                self.locality = location
+                GreenfootModal.sharedInstance.locality = location
+                print("Saved locale: \(location)")
                 
-                if key == .electric {
-                    value.fetchEGrid()
-                    value.fetchConsumption()
+                for (key, value) in GreenfootModal.sharedInstance.data {
+                    value.reachConsensus()
+                    
+                    if key == .electric {
+                        value.fetchEGrid()
+                        value.fetchConsumption()
+                    }
                 }
+                
+                GreenfootModal.sharedInstance.logEnergyPoints()
+                
+                location.saveToDefaults(forKey: "LocalityData")
+                location.saveToDefaults(forKey: "Setting_Locale")
+                
+                NotificationCenter.default.post(name: self.locationUpdatedNotification, object: self)
             }
-            
-            GreenfootModal.sharedInstance.logEnergyPoints()
-            
-            UserDefaults.standard.set(localityData, forKey:"LocalityData")
-            UserDefaults.standard.set(localityData, forKey:"Setting_Locale")
-            
-            NotificationCenter.default.post(name: locationUpdatedNotification, object: self)
-            
+        
             return
         }
         
         guard let _ = self.locality else {
             self.locality = locale
-            UserDefaults.standard.set(locale, forKey:"Setting_Locale")
+            locale.saveToDefaults(forKey: "Setting_Locale")
             return
         }
         
@@ -263,23 +261,20 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 if let _ = self.locality {
                     
                 } else {
-                    self.locality = [:]
+                    self.locality = nil
                 }
                 
                 if downloadedLocation.object(forKey: "city") as? String != "null" {
-                    self.locality!["City"] = downloadedLocation.object(forKey: "city") as? String
-                    self.locality!["State"] = downloadedLocation.object(forKey: "state") as? String
-                    self.locality!["Country"] = downloadedLocation.object(forKey: "country") as? String
-                    self.locality!["Zip"] = downloadedLocation.object(forKey: "zip") as? String
-                    
+                    self.locality = Location(fromDict: downloadedLocation.dictionaryWithValues(forKeys: ["Id", "City", "State", "Country", "ISOCode", "Zip"]))
                     self.shouldUseLocation = true
                 }
                 
-                UserDefaults.standard.set(self.locality, forKey:"Setting_Locale")
+                self.locality?.saveToDefaults(forKey: "Setting_Locale")
                 
                 if self.shouldUseLocation {
                     GreenfootModal.sharedInstance.locality = self.locality
-                    UserDefaults.standard.set(self.locality, forKey:"LocalityData")
+                    #warning("Why the heck do I save this twice")
+                    self.locality?.saveToDefaults(forKey: "LocalityData")
                 }
                 
                 GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
@@ -358,7 +353,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     //Location data should be retrived from the Greenfoot modal if location settings are enabled.
     //If they are not enabled and the user is logged in, then use the location which is stored in settings
     //To make sure that the server and the device are not out of sync
-    func getLocationData() -> [String:String]? {
+    func getLocationData() -> Location? {
         guard let locality = GreenfootModal.sharedInstance.locality else {
             if self.profile["linked"] as? Bool == true {
                 return self.locality

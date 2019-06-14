@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import CoreLocation
 
 class FirebaseUtils {
     static func getEGridDataFor(zipCode zip: String, andState state: String, inCountry country:String = "US", completion: @escaping (Double?) -> Void) {
@@ -43,6 +44,53 @@ class FirebaseUtils {
             }
             completion(Double(data["Value"] as! String))
         }
+    }
+    
+    static func uploadLocation(_ placemark: CLPlacemark, completion: @escaping  ((Location) -> Void)) {
+        #warning("It is not smart to be unwrapping these")
+        let store = Firestore.firestore()
+        let locRef = store.collection("Locations")
+        
+        var location = Location(fromPlacemark: placemark)
+        var params = location.toDict()
+        
+        guard let query = queryCollection(locRef, withParams: params) else { return }
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                #warning("Need to do something if the id is nil")
+                completion(location)
+                return
+            }
+            
+            guard let snapshot = snapshot else { return }
+            if snapshot.isEmpty {
+                let docRef = locRef.document()
+                location.id = docRef.documentID
+                params["Id"] = location.id
+                docRef.setData(params, merge: true)
+                completion(location)
+            } else {
+                completion(Location(fromDict: snapshot.documents[0].data()))
+            }
+        }
+    }
+    
+    #warning("Does not support null types I think")
+    static private func queryCollection(_ ref: CollectionReference, withParams params:[String : Any]) -> Query? {
+        var query: Query?
+        
+        for (field, value) in params {
+            guard let subquery = query else {
+                query = ref.whereField(field, isEqualTo: value)
+                continue
+            }
+            
+            subquery.whereField(field, isEqualTo: value)
+            query = subquery
+        }
+        
+        return query
     }
 }
 

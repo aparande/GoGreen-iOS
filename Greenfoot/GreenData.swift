@@ -239,15 +239,7 @@ class GreenData {
             return
         }
         
-        guard let zip = locality["Zip"] else {
-            return
-        }
-        
-        guard let state = locality["State"] else {
-            return
-        }
-        
-        FirebaseUtils.getEGridDataFor(zipCode: zip, andState: state) { (factor) in
+        FirebaseUtils.getEGridDataFor(zipCode: locality.zip, andState: locality.state) { (factor) in
             guard let e_factor = factor else {
                 return
             }
@@ -275,7 +267,7 @@ class GreenData {
             return
         }
         
-        FirebaseUtils.getAverageFor(state: locality["State"]!, type: .electric) { (value) in
+        FirebaseUtils.getAverageFor(state: locality.state, type: .electric) { (value) in
             self.stateConsumption = value
             print("State consumption is \(self.stateConsumption!)")
         }
@@ -328,9 +320,9 @@ class GreenData {
         params["profId"] = SettingsManager.sharedInstance.profile["profId"]!
         
         if shouldSendLocation {
-            params["city"] = locality["City"]!
-            params["state"] = locality["State"]
-            params["country"] = locality["Country"]
+            params["city"] = locality.city
+            params["state"] = locality.state
+            params["country"] = locality.country
         }
         
         return params
