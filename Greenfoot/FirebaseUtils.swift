@@ -76,6 +76,24 @@ class FirebaseUtils {
         }
     }
     
+    static func logData(_ point: GreenDataPoint) {
+        let store = Firestore.firestore()
+        
+        let userId = SettingsManager.sharedInstance.profile["profId"] as! String
+        
+        let pointsRef = store.collection("Energy Data").document(point.dataType).collection(userId)
+        let docRef = pointsRef.document()
+        
+        var payload = point.toJSON()
+        payload["id"] = docRef.documentID
+        payload["user_id"] = userId
+        if let loc_id = GreenfootModal.sharedInstance.locality?.id {
+            payload["loc_id"] = loc_id
+        }
+    
+        docRef.setData(payload)
+    }
+    
     #warning("Does not support null types I think")
     static private func queryCollection(_ ref: CollectionReference, withParams params:[String : Any]) -> Query? {
         var query: Query?

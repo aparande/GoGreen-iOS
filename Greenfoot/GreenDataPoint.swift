@@ -48,6 +48,15 @@ class GreenDataPoint {
         self.pointType = DataPointType.regular
         self.lastUpdated = lastUpdated
     }
+    
+    func toJSON() -> [String:Any] {
+        return [
+            "amount": value,
+            "type": dataType,
+            "month": month.timeIntervalSince1970,
+            "lastUpdated": lastUpdated.timeIntervalSince1970
+        ]
+    }
     /**
      Updates value of the GreenDataPoint and sets lastUpdated to today
      - parameter newVal: The new value

@@ -137,11 +137,7 @@ class GreenData {
         
         if upload {
             //If save is true, that means its a new data point, so you want to try uploading to the server
-            let dateString = Date.monthFormat(date: point.month)
-            let lastUpdated = point.lastUpdated.timeIntervalSince1970
-            let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName, "lastUpdated":lastUpdated]
-            let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
-            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+            FirebaseUtils.logData(point)
         }
     }
     
