@@ -11,11 +11,17 @@ import UIKit
 import Material
 import CoreLocation
 
-class GreenDataPoint {
+class GreenDataPoint: FirebaseObject {
+    var id: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, value, month, dataType, lastUpdated, userId, locId
+    }
+    
     var value: Double
     var month: Date
     var dataType: String
-    var pointType: DataPointType
+    var pointType: DataPointType = .regular
     var lastUpdated: Date
     var isDeleted: Bool = false
     
@@ -49,14 +55,30 @@ class GreenDataPoint {
         self.lastUpdated = lastUpdated
     }
     
-    func toJSON() -> [String:Any] {
-        return [
-            "amount": value,
-            "type": dataType,
-            "month": month.timeIntervalSince1970,
-            "lastUpdated": lastUpdated.timeIntervalSince1970
-        ]
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(value, forKey: .value)
+        try container.encode(dataType, forKey: .dataType)
+        try container.encode(lastUpdated, forKey: .lastUpdated)
+        try container.encode(month, forKey: .month)
+        
+        let userId = SettingsManager.sharedInstance.profile["profId"] as! String
+        try container.encode(userId, forKey: .userId)
+        
+        let locId = GreenfootModal.sharedInstance.locality?.id
+        try container.encode(locId, forKey: .locId)
     }
+    
+    required init(from decoder: Decoder) throws {
+        let values  = try decoder.container(keyedBy: CodingKeys.self)
+        id          = try values.decode(String.self, forKey: .id)
+        value       = try values.decode(Double.self, forKey: .value)
+        dataType    = try values.decode(String.self, forKey: .dataType)
+        lastUpdated = try values.decode(Date.self, forKey: .lastUpdated)
+        month       = try values.decode(Date.self, forKey: .month)
+    }
+    
     /**
      Updates value of the GreenDataPoint and sets lastUpdated to today
      - parameter newVal: The new value
@@ -92,49 +114,6 @@ struct GreenAttribute: Codable {
     }
 }
 
-struct Location:Codable {
-    var id: String?
-    var city: String
-    var state: String
-    var country: String
-    var isoCode: String
-    var zip: String
-    
-    init(fromPlacemark placemark: CLPlacemark) {
-        self.city = placemark.locality!
-        self.state = placemark.administrativeArea!
-        self.country = placemark.country!
-        self.isoCode = placemark.isoCountryCode!
-        self.zip = placemark.postalCode!
-    }
-    
-    init(fromDict dict: [String:Any]) {
-        self.id = dict["Id"] as! String
-        self.city = dict["City"] as! String
-        self.state = dict["State"] as! String
-        self.country = dict["Country"] as! String
-        self.isoCode = dict["ISOCode"] as! String
-        self.zip = dict["Zip"] as! String
-    }
-    
-    func toDict() -> [String : Any] {
-        return ["City": city, "State":state, "Country":country, "ISOCode":isoCode, "Zip":zip]
-    }
-    
-    func saveToDefaults(forKey key:String) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(self) {
-            UserDefaults.standard.set(encoded, forKey: key)
-        }
-    }
-    
-    static func fromDefaults(withKey key: String) -> Location? {
-        guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
-        
-        let decoder = JSONDecoder()
-        return try? decoder.decode(Location.self, from: data)
-    }
-}
 
 enum DataPointType:String {
     case regular = "REGULAR"

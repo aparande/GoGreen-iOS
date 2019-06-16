@@ -52,7 +52,7 @@ class FirebaseUtils {
         let locRef = store.collection("Locations")
         
         var location = Location(fromPlacemark: placemark)
-        var params = location.toDict()
+        var params = location.toJSON()
         
         guard let query = queryCollection(locRef, withParams: params) else { return }
         query.getDocuments { (snapshot, error) in
@@ -67,7 +67,7 @@ class FirebaseUtils {
             if snapshot.isEmpty {
                 let docRef = locRef.document()
                 location.id = docRef.documentID
-                params["Id"] = location.id
+                params["id"] = location.id
                 docRef.setData(params, merge: true)
                 completion(location)
             } else {
@@ -84,13 +84,9 @@ class FirebaseUtils {
         let pointsRef = store.collection("Energy Data").document(point.dataType).collection(userId)
         let docRef = pointsRef.document()
         
-        var payload = point.toJSON()
-        payload["id"] = docRef.documentID
-        payload["user_id"] = userId
-        if let loc_id = GreenfootModal.sharedInstance.locality?.id {
-            payload["loc_id"] = loc_id
-        }
-    
+        point.id = docRef.documentID
+        
+        let payload = point.toJSON()
         docRef.setData(payload)
     }
     
