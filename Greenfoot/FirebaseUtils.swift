@@ -90,6 +90,44 @@ class FirebaseUtils {
         docRef.setData(payload)
     }
     
+    static func signUpUserWith(named name:String, withEmail email: String, andPassword psd: String, doOnSuccess successFunc: @escaping (String) -> Void, elseOnFailure failureFunc: @escaping (String) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: psd) { (authRes, error) in
+            if let err = error {
+                print(err.localizedDescription)
+                return failureFunc("Something went wrong. Please try again")
+            }
+            
+            guard let authRes = authRes else { return failureFunc("Something went wrong. Please try again") }
+            
+            let changeRequest = authRes.user.createProfileChangeRequest()
+            changeRequest.displayName = name
+            
+            changeRequest.commitChanges(completion: { (changeError) in
+                if let err = error {
+                    print(err.localizedDescription)
+                    return failureFunc("Something went wrong. Please try again")
+                }
+                
+                return successFunc(authRes.user.uid)
+            })
+        }
+    }
+    
+    static func loginUser(withEmail email:String, andPassword psd: String, doOnSuccess successFunc: @escaping (String) -> Void, elseOnFailure failureFunc: @escaping (String) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: psd) { (authRes, error) in
+            if let err = error {
+                print(err.localizedDescription)
+                return failureFunc("Email/Password Incorrect")
+            }
+            
+            if let authRes = authRes {
+                return successFunc(authRes.user.uid)
+            } else {
+                return failureFunc("Email/Password Incorrect")
+            }
+        }
+    }
+    
     #warning("Does not support null types I think")
     static private func queryCollection(_ ref: CollectionReference, withParams params:[String : Any]) -> Query? {
         var query: Query?

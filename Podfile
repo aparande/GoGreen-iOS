@@ -16,4 +16,6 @@ target 'Greenfoot' do
   pod 'PopupDialog', '~> 0.7'
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
 end

@@ -236,27 +236,20 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             return completion(false, "Please enter your password")
         }
         
-        let parameters:[String:Any] = ["email":email, "password":password]
-        
-        let id = APIRequestType.login.rawValue
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "login", withParameters: parameters, andSuccessFunction: {
-            (data) in
-            print(data)
-            
-            if let newProfile = data["UserId"] as? String{
-                if self.profile["profId"] as! String != newProfile  {
-                    let deleteId = APIRequestType.delete.rawValue + ":EP"
-                    APIRequestManager.sharedInstance.queueAPICall(identifiedBy: deleteId, atEndpoint:"deleteProfData", withParameters: ["id": self.profile["profId"]!], andSuccessFunction: nil, andFailureFunction: nil)
-                }
-                
-                self.profile["profId"] = newProfile
+        FirebaseUtils.loginUser(withEmail: email, andPassword: password, doOnSuccess: { (userId) in
+            if self.profile["profId"] as! String != userId  {
+                let deleteId = APIRequestType.delete.rawValue + ":EP"
+                APIRequestManager.sharedInstance.queueAPICall(identifiedBy: deleteId, atEndpoint:"deleteProfData", withParameters: ["id": self.profile["profId"]!], andSuccessFunction: nil, andFailureFunction: nil)
             }
             
+            self.profile["profId"] = userId
             self.profile["email"] = email
             self.profile["password"] = password
             self.profile["linked"] = true
             UserDefaults.standard.set(self.profile, forKey: "Profile")
             
+            #warning("This stuff basically redownloaded the location and overwrites the current user's location. Not even necessary?")
+            /*
             if let downloadedLocation = data["location"] as? NSDictionary {
                 if let _ = self.locality {
                     
@@ -284,20 +277,10 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 data.reachConsensus()
             }
             
-            completion(true, nil)
-        }, andFailureFunction: {
-            (err) in
-            guard let errorType = err["Error"] as? APIError else {
-                return completion(false, nil)
-            }
-            
-            if errorType == .serverFailure {
-                completion(false, "Incorrect Username/Password Combination")
-            } else {
-                completion(false, "Please check your network connection or try again later")
-            }
-            
-        })
+            completion(true, nil) */
+        }) { (errorMessage) in
+            completion(false, errorMessage)
+        }
     }
     
     func signup(email: String, password: String, retypedPassword: String, firstname: String, lastname: String, completion: @escaping (Bool, String?) -> Void) {
@@ -321,33 +304,19 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             return completion(false, "Invalid Email Address")
         }
         
-        var parameters:[String:Any] = ["id": profile["profId"]!, "lastName":lastname, "firstName":firstname, "email":email, "password":password]
-        if let location = locality {
-            parameters["location"] = location
-        }
-        
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: APIRequestType.signup.rawValue, atEndpoint: "createAccount", withParameters: parameters, andSuccessFunction: {
-            (data) in
-            print(data)
-            
+        FirebaseUtils.signUpUserWith(named: "\(firstname) \(lastname)", withEmail: email, andPassword: password, doOnSuccess: { (userId) in
             self.profile["email"] = email
             self.profile["password"] = password
             self.profile["linked"] = true
+            #warning("Need to update any points that were logged with the old user id to have a new user id")
+            self.profile["profId"] = userId
+            
             UserDefaults.standard.set(self.profile, forKey: "Profile")
-            
             completion(true, nil)
-        }, andFailureFunction: {
-            (err) in
-            guard let errorType = err["Error"] as? APIError else {
-                return completion(false, nil)
-            }
             
-            if errorType == .serverFailure {
-                completion(false, "Could not create account")
-            } else {
-                completion(false, "Please check your network connection or try again later")
-            }
-        })
+        }) { (errorMessage) in
+            return completion(false, errorMessage)
+        }
     }
     
     //Location data should be retrived from the Greenfoot modal if location settings are enabled.

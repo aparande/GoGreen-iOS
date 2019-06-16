@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F00C38622B703A500715506 /* PopupDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F00C38522B703A500715506 /* PopupDialog.swift */; };
 		1F065E6D22AD8ADF0037BEA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F065E6C22AD8ADF0037BEA1 /* GoogleService-Info.plist */; };
 		1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */; };
 		1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB0FE71E2B3684006463AE /* DroidSans.ttf */; };
@@ -71,6 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F00C38522B703A500715506 /* PopupDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupDialog.swift; sourceTree = "<group>"; };
 		1F065E6C22AD8ADF0037BEA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				1F70CCBF1E105D0600AD351A /* Main.storyboard */,
 				1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */,
 				1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */,
+				1F00C38522B703A500715506 /* PopupDialog.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
 				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
@@ -451,6 +455,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicBlurView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
@@ -493,6 +498,7 @@
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
+				1F00C38622B703A500715506 /* PopupDialog.swift in Sources */,
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
 				1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */,
 				1FE6E1C122B5BAB5004C0E81 /* FirebaseObject.swift in Sources */,

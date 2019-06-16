@@ -9,6 +9,11 @@ PODS:
     - Charts/Core (= 3.0.5)
   - Charts/Core (3.0.5)
   - DynamicBlurView (2.0.2)
+  - Firebase/Analytics (5.19.0):
+    - Firebase/Core
+  - Firebase/Auth (5.19.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (= 5.4.1)
   - Firebase/Core (5.19.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.8.0)
@@ -26,6 +31,11 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
+  - FirebaseAuth (5.4.1):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (5.4.0):
     - GoogleUtilities/Environment (~> 5.2)
@@ -89,6 +99,7 @@ PODS:
     - gRPC-Core/Interface (= 1.17.0)
     - nanopb (~> 0.3)
   - gRPC-Core/Interface (1.17.0)
+  - GTMSessionFetcher/Core (1.2.1)
   - leveldb-library (1.20)
   - Material (2.13.5):
     - Material/Core (= 2.13.5)
@@ -108,6 +119,8 @@ PODS:
 
 DEPENDENCIES:
   - Charts
+  - Firebase/Analytics
+  - Firebase/Auth
   - Firebase/Core
   - Firebase/Firestore
   - Material (~> 2.0)
@@ -120,6 +133,7 @@ SPEC REPOS:
     - DynamicBlurView
     - Firebase
     - FirebaseAnalytics
+    - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseFirestore
@@ -128,6 +142,7 @@ SPEC REPOS:
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
+    - GTMSessionFetcher
     - leveldb-library
     - Material
     - Motion
@@ -141,6 +156,7 @@ SPEC CHECKSUMS:
   DynamicBlurView: aa6db4defc6e537eb86fc5e58dd3991666178399
   Firebase: c60d49e9c2630875a96207d15e2affb8364996d1
   FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
+  FirebaseAuth: cbb892a66baed025efc179372598941252acf853
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: 22a79a961c3951ef2f77b67bfbc99e454247b319
   FirebaseFirestore: 1531eefe02da66be6860966ac4e2cdac635706e2
@@ -149,6 +165,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
   "gRPC-C++": e76441995900ac90e9bd98644ab4733f12521edf
   gRPC-Core: 4028031ed2c5267cca0d846c876d8046b1ecb9b6
+  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Material: ced3fd11882147b135f897ca20227174bb104ad0
   Motion: 85b8777db2e68801c03a5c629e918c35dd184c8d
@@ -156,6 +173,6 @@ SPEC CHECKSUMS:
   PopupDialog: 4abc6db5b22b7c8029e2162bde8891ee6aa4b6c8
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
 
-PODFILE CHECKSUM: 93c4f68d4327f90e3a705dfb51bd084ffab3a292
+PODFILE CHECKSUM: 6c57f5a5c3d009b10f532e59e65bea52bb5138fd
 
 COCOAPODS: 1.5.2
