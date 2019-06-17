@@ -90,6 +90,18 @@ class FirebaseUtils {
         docRef.setData(payload)
     }
     
+    static func editData(_ point: GreenDataPoint) {
+        guard let id = point.id else { return } //Because if the id doesn't exist, this point isn't uploaded
+        
+        let store = Firestore.firestore()
+        
+        let userId = SettingsManager.sharedInstance.profile["profId"] as! String
+        
+        let pointRef = store.collection("Energy Data").document(point.dataType).collection(userId).document(id)
+        
+        pointRef.updateData(point.toJSON())
+    }
+    
     static func signUpUserWith(named name:String, withEmail email: String, andPassword psd: String, doOnSuccess successFunc: @escaping (String) -> Void, elseOnFailure failureFunc: @escaping (String) -> Void) {
         Auth.auth().createUser(withEmail: email, password: psd) { (authRes, error) in
             if let err = error {

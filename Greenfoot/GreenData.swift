@@ -173,18 +173,8 @@ class GreenData {
         
         //If the data is uploaded, update it, else, upload it
         let dataPoint = graphData[index]
-        let date = Date.monthFormat(date: dataPoint.month)
-        
-        let reqId = [APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
-        if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
-            CoreDataHelper.update(point: dataPoint)
-            
-            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":dataPoint.lastUpdated.timeIntervalSince1970]
-            let id=[APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
-            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
-        } else {
-            print("Did not add data because a request was present")
-        }
+        CoreDataHelper.update(point: dataPoint)
+        FirebaseUtils.editData(dataPoint)
     }
     
     func removeDataPoint(atIndex index:Int, fromServer shouldDeleteFromServer: Bool) {
