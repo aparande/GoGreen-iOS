@@ -30,12 +30,17 @@ class CoreDataHelper {
                     let date = managedObj.value(forKeyPath: "month") as! Date
                     let amount = managedObj.value(forKeyPath: "amount") as! Double
                     let dataPoint = GreenDataPoint(month: date, value: amount, dataType: data.dataName)
+                    
                     if let lastUpdated = managedObj.value(forKeyPath: "lastUpdated") as? Date {
                         dataPoint.lastUpdated = lastUpdated
                     }
                     
                     if let isDeleted = managedObj.value(forKeyPath: "hasBeenDeleted") as? Bool {
                         dataPoint.isDeleted = isDeleted
+                    }
+                    
+                    if let id = managedObj.value(forKeyPath: "id") as? String {
+                        dataPoint.id = id
                     }
                     
                     if !dataPoint.isDeleted {
@@ -63,11 +68,13 @@ class CoreDataHelper {
                 
                 let point = NSManagedObject(entity: entity, insertInto: context)
                 
+                #warning("This is hella outdated")
                 point.setValue(dataPoint.month, forKeyPath: "month")
                 point.setValue(dataPoint.value, forKeyPath: "amount")
                 point.setValue(dataPoint.dataType, forKey: "dataType")
                 point.setValue(dataPoint.lastUpdated, forKey: "lastUpdated")
                 point.setValue(dataPoint.isDeleted, forKey: "hasBeenDeleted")
+                point.setValue(dataPoint.id, forKey: "id")
                 
                 do {
                     try context.save()
