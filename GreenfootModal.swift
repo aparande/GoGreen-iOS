@@ -71,7 +71,7 @@ class GreenfootModal {
             return
         }
         
-        var parameters:[String: Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "points":totalEnergyPoints]
+        var parameters:[String: Any] = ["id":SettingsManager.sharedInstance.profile.id!, "points":totalEnergyPoints]
         parameters["state"] = locale.state
         parameters["country"] = locale.country
         parameters["city"] = locale.city
@@ -95,7 +95,7 @@ class GreenfootModal {
         
         rankingFetchInProgress = true
         
-        var parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!]
+        var parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile.id!]
         parameters["state"] = locale.state
         parameters["country"] = locale.country
         

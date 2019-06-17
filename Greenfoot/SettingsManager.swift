@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import UserNotifications
+import Firebase
 
 class SettingsManager: NSObject, CLLocationManagerDelegate {
     static let sharedInstance = SettingsManager()
@@ -23,24 +24,26 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     let locationFailedNotification = NSNotification.Name.init(rawValue: "LocateFailed")
     let locationUpdatedNotification = NSNotification.Name.init(rawValue: "LocationUpdated")
     
-    var profile:[String:Any]
+    var profile: User
     
     override init() {
         let defaults = UserDefaults.standard
         
-        if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
-            profile = prof
+        if let user = User.fromDefaults(withKey: "Profile") {
+            profile = user
+        } else if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
+            profile = User(fromDict: prof)
         } else {
-            profile = ["linked":false]
             
             if let uuid = defaults.string(forKey: "ProfId") {
-                profile["profId"] = uuid
+                profile = User(withId: uuid)
             } else {
-                let uuid = UUID().uuidString
-                profile["profId"] = uuid
-                defaults.set(profile, forKey: "Profile")
+                profile = User(withId: UUID().uuidString)
+                profile.saveToDefaults(forKey: "Profile")
             }
         }
+        
+        FirebaseUtils.updateUser(profile)
         
         scheduledReminders = [:]
         if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
@@ -126,6 +129,9 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 
                 location.saveToDefaults(forKey: "LocalityData")
                 location.saveToDefaults(forKey: "Setting_Locale")
+                
+                self.profile.locId = location.id
+                FirebaseUtils.updateUser(self.profile)
                 
                 NotificationCenter.default.post(name: self.locationUpdatedNotification, object: self)
             }
@@ -237,16 +243,32 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         }
         
         FirebaseUtils.loginUser(withEmail: email, andPassword: password, doOnSuccess: { (userId) in
-            if self.profile["profId"] as! String != userId  {
+            if self.profile.id != userId {
                 let deleteId = APIRequestType.delete.rawValue + ":EP"
-                APIRequestManager.sharedInstance.queueAPICall(identifiedBy: deleteId, atEndpoint:"deleteProfData", withParameters: ["id": self.profile["profId"]!], andSuccessFunction: nil, andFailureFunction: nil)
+                APIRequestManager.sharedInstance.queueAPICall(identifiedBy: deleteId, atEndpoint:"deleteProfData", withParameters: ["id": self.profile.id!], andSuccessFunction: nil, andFailureFunction: nil)
+                
+                FirebaseUtils.deleteUser(withId: self.profile.id!)
+                self.profile.id = userId
+                
+                #warning("Do this in a batch ideally ")
+                for (_, data) in GreenfootModal.sharedInstance.data {
+                    for point in data.graphData {
+                        FirebaseUtils.logData(point)
+                    }
+                }
             }
             
-            self.profile["profId"] = userId
-            self.profile["email"] = email
-            self.profile["password"] = password
-            self.profile["linked"] = true
-            UserDefaults.standard.set(self.profile, forKey: "Profile")
+            self.profile.email = email
+            
+            let names = Auth.auth().currentUser!.displayName!.components(separatedBy: " ")
+            self.profile.firstName = names[0]
+            self.profile.lastName = names[1]
+            
+            self.profile.isLoggedIn = true
+            self.profile.locId = self.locality?.id
+            
+            self.profile.saveToDefaults(forKey: "Profile")
+            FirebaseUtils.updateUser(self.profile)
             
             #warning("This stuff basically redownloaded the location and overwrites the current user's location. Not even necessary?")
             /*
@@ -305,13 +327,25 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         }
         
         FirebaseUtils.signUpUserWith(named: "\(firstname) \(lastname)", withEmail: email, andPassword: password, doOnSuccess: { (userId) in
-            self.profile["email"] = email
-            self.profile["password"] = password
-            self.profile["linked"] = true
-            #warning("Need to update any points that were logged with the old user id to have a new user id")
-            self.profile["profId"] = userId
+            FirebaseUtils.deleteUser(withId: self.profile.id!)
+            self.profile.id = userId
             
-            UserDefaults.standard.set(self.profile, forKey: "Profile")
+            #warning("Do this in a batch ideally ")
+            for (_, data) in GreenfootModal.sharedInstance.data {
+                for point in data.graphData {
+                    FirebaseUtils.logData(point)
+                }
+            }
+            
+            self.profile.email = email
+            self.profile.firstName = firstname
+            self.profile.lastName = lastname
+            self.profile.isLoggedIn = true
+            self.profile.locId = self.locality?.id
+        
+            self.profile.saveToDefaults(forKey: "Profile")
+            FirebaseUtils.updateUser(self.profile)
+            
             completion(true, nil)
             
         }) { (errorMessage) in
@@ -324,7 +358,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     //To make sure that the server and the device are not out of sync
     func getLocationData() -> Location? {
         guard let locality = GreenfootModal.sharedInstance.locality else {
-            if self.profile["linked"] as? Bool == true {
+            if self.profile.isLoggedIn {
                 return self.locality
             }
             return nil

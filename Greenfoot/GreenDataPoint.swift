@@ -63,7 +63,10 @@ class GreenDataPoint: FirebaseObject {
         try container.encode(lastUpdated, forKey: .lastUpdated)
         try container.encode(month, forKey: .month)
         
-        let userId = SettingsManager.sharedInstance.profile["profId"] as! String
+        guard let userId = SettingsManager.sharedInstance.profile.id else {
+            throw EncodingError.invalidValue(SettingsManager.sharedInstance.profile.id as Any, EncodingError.Context.init(codingPath: container.codingPath, debugDescription: "Profile ID is not set"))
+        }
+        
         try container.encode(userId, forKey: .userId)
         
         let locId = GreenfootModal.sharedInstance.locality?.id

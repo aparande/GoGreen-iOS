@@ -268,7 +268,7 @@ class GreenData {
         let dateString = Date.monthFormat(date: dataPoint.month)
         let id = [APIRequestType.delete.rawValue, dataName, dateString].joined(separator: ":")
         var parameters:[String:Any] = ["month":dateString, "dataType": dataName]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        parameters["profId"] = SettingsManager.sharedInstance.profile.id!
         
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: {
             (success) in
@@ -303,7 +303,7 @@ class GreenData {
         }
         
         var params = parameters
-        params["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        params["profId"] = SettingsManager.sharedInstance.profile.id!
         
         if shouldSendLocation {
             params["city"] = locality.city
@@ -355,7 +355,7 @@ class GreenData {
         formatter.dateFormat = "MM/yy"
         
         let id = [APIRequestType.consensus.rawValue, dataName].joined(separator: ":")
-        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName]
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile.id!, "dataType": dataName]
         
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
             data in
@@ -427,7 +427,7 @@ class GreenData {
     func consensusFor(_ type:String, completion: ((Bool) -> Void)?) {
         var dict = (type == "Bonus") ? bonusDict : data
         let id = [APIRequestType.consensus.rawValue, dataName, type].joined(separator: ":")
-        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName, "assoc":type]
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile.id!, "dataType": dataName, "assoc":type]
         
         let logToServer:(String, Int, Date) -> Void = {
             key, value, lastUpdated in

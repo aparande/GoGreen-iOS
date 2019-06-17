@@ -119,7 +119,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             let vc = FileScrollViewController(fileName: "privacy", contentHeight: contentHeight)
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
-            if (!(SettingsManager.sharedInstance.profile["linked"] as! Bool)) {
+            if !SettingsManager.sharedInstance.profile.isLoggedIn {
                 showLogin()
             }
             tableView.deselectRow(at: indexPath, animated: false)
@@ -143,7 +143,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         case 2:
             cell.textLabel?.text = "Privacy Policy"
         case 3:
-            if (!(SettingsManager.sharedInstance.profile["linked"] as! Bool)) {
+            if !SettingsManager.sharedInstance.profile.isLoggedIn {
                 cell.textLabel?.text = "Link Device"
             } else {
                 cell.textLabel?.text = "Device Linked"

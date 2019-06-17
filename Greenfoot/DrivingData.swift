@@ -369,7 +369,7 @@ class DrivingData: GreenData {
     private func carConsensus() {
         let id = [APIRequestType.consensus.rawValue, dataName, "Cars"].joined(separator: ":")
         let dataType = dataName
-        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataType, "assoc": "Car"]
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile.id!, "dataType": dataType, "assoc": "Car"]
         
         let sendToServer:(String, Int, Date) -> Void = {
             car, mileage, lastUpdated in
@@ -486,7 +486,7 @@ class DrivingData: GreenData {
         
         let id = [APIRequestType.consensus.rawValue, dataName, "carpoints"].joined(separator: ":")
         let dataType = dataName
-        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataType, "assoc": "Point"]
+        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile.id!, "dataType": dataType, "assoc": "Point"]
         
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
             data in

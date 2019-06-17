@@ -66,7 +66,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        currentViewController = pendingViewControllers[0] as! TutorialPageViewController
+        currentViewController = pendingViewControllers[0] as? TutorialPageViewController
         currentViewController.delegate = self
     }
     

@@ -76,10 +76,11 @@ class FirebaseUtils {
         }
     }
     
+    #warning("Can the following methods be condensed into one?")
     static func logData(_ point: GreenDataPoint) {
         let store = Firestore.firestore()
         
-        let userId = SettingsManager.sharedInstance.profile["profId"] as! String
+        guard let userId = SettingsManager.sharedInstance.profile.id else { return }
         
         let pointsRef = store.collection("Energy Data").document(point.dataType).collection(userId)
         let docRef = pointsRef.document()
@@ -95,11 +96,19 @@ class FirebaseUtils {
         
         let store = Firestore.firestore()
         
-        let userId = SettingsManager.sharedInstance.profile["profId"] as! String
+        guard let userId = SettingsManager.sharedInstance.profile.id else { return }
         
         let pointRef = store.collection("Energy Data").document(point.dataType).collection(userId).document(id)
         
         pointRef.updateData(point.toJSON())
+    }
+    
+    static func updateUser(_ user: User) {
+        let store = Firestore.firestore()
+        var userRef: DocumentReference!
+        
+        userRef = store.collection("Users").document(user.id!) //This is a good force unwrap because a User will always have an id
+        userRef.setData(user.toJSON(), merge: true)
     }
     
     static func signUpUserWith(named name:String, withEmail email: String, andPassword psd: String, doOnSuccess successFunc: @escaping (String) -> Void, elseOnFailure failureFunc: @escaping (String) -> Void) {
@@ -138,6 +147,13 @@ class FirebaseUtils {
                 return failureFunc("Email/Password Incorrect")
             }
         }
+    }
+    
+    static func deleteUser(withId id:String) {
+        let store = Firestore.firestore()
+        store.collection("Users").document(id).delete()
+        
+        #warning("Make and call cloud function which can make the appropriate deletes")
     }
     
     #warning("Does not support null types I think")
