@@ -149,11 +149,20 @@ class FirebaseUtils {
         }
     }
     
-    static func deleteUser(withId id:String) {
-        let store = Firestore.firestore()
-        store.collection("Users").document(id).delete()
-        
-        #warning("Make and call cloud function which can make the appropriate deletes")
+    static func migrateUserData(fromId id:String) {
+        var functions = Functions.functions()
+        functions.httpsCallable("migrateUserData").call(["oldId": id]) {
+            (result, error) in
+            #warning("Need to do error handling here")
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let code = FunctionsErrorCode(rawValue: error.code)
+                    let message = error.localizedDescription
+                    let details = error.userInfo[FunctionsErrorDetailsKey]
+                    print("Firebase failed with code: \(code), message: \(message)")
+                }
+            }
+        }
     }
     
     #warning("Does not support null types I think")

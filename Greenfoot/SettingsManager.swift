@@ -244,18 +244,8 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         
         FirebaseUtils.loginUser(withEmail: email, andPassword: password, doOnSuccess: { (userId) in
             if self.profile.id != userId {
-                let deleteId = APIRequestType.delete.rawValue + ":EP"
-                APIRequestManager.sharedInstance.queueAPICall(identifiedBy: deleteId, atEndpoint:"deleteProfData", withParameters: ["id": self.profile.id!], andSuccessFunction: nil, andFailureFunction: nil)
-                
-                FirebaseUtils.deleteUser(withId: self.profile.id!)
+                FirebaseUtils.migrateUserData(fromId: self.profile.id!)
                 self.profile.id = userId
-                
-                #warning("Do this in a batch ideally ")
-                for (_, data) in GreenfootModal.sharedInstance.data {
-                    for point in data.graphData {
-                        FirebaseUtils.logData(point)
-                    }
-                }
             }
             
             self.profile.email = email
@@ -327,16 +317,9 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         }
         
         FirebaseUtils.signUpUserWith(named: "\(firstname) \(lastname)", withEmail: email, andPassword: password, doOnSuccess: { (userId) in
-            FirebaseUtils.deleteUser(withId: self.profile.id!)
+            FirebaseUtils.migrateUserData(fromId: self.profile.id!)
+            
             self.profile.id = userId
-            
-            #warning("Do this in a batch ideally ")
-            for (_, data) in GreenfootModal.sharedInstance.data {
-                for point in data.graphData {
-                    FirebaseUtils.logData(point)
-                }
-            }
-            
             self.profile.email = email
             self.profile.firstName = firstname
             self.profile.lastName = lastname
