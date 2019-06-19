@@ -20,6 +20,8 @@
 		1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F15D0901F27101400DFA60B /* AddDataHeader.xib */; };
 		1F1A4B7D2061FCF8005E7D45 /* TestCases.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */; };
 		1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */; };
+		1F2013BD22BA0154000183FE /* FirebaseUtils-GetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */; };
+		1F2013BF22BA01A6000183FE /* FirebaseUtils-Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */; };
 		1F2544F31FFBF04A0031C9F8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2544F21FFBF04A0031C9F8 /* UserNotifications.framework */; };
 		1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */; };
 		1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */; };
@@ -84,6 +86,8 @@
 		1F15D0901F27101400DFA60B /* AddDataHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataHeader.xib; sourceTree = "<group>"; };
 		1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestCases.plist; sourceTree = "<group>"; };
 		1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICall.swift; sourceTree = "<group>"; };
+		1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils-GetData.swift"; sourceTree = "<group>"; };
+		1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils-Storage.swift"; sourceTree = "<group>"; };
 		1F2544EF1FFBEE4E0031C9F8 /* Greenfoot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Greenfoot.entitlements; sourceTree = "<group>"; };
 		1F2544F01FFBEF150031C9F8 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		1F2544F21FFBF04A0031C9F8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -177,6 +181,17 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		1F2013BB22BA0130000183FE /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */,
+				1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */,
+				1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */,
+				1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */,
+			);
+			name = Firebase;
+			sourceTree = "<group>";
+		};
 		1F66654A205B748200FCD30C /* GreenfootTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,8 +263,7 @@
 				1FA737F81F001F4100B721D0 /* APIRequestManager.swift */,
 				1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */,
 				1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */,
-				1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */,
-				1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */,
+				1F2013BB22BA0130000183FE /* Firebase */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -490,7 +504,9 @@
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
 				1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */,
+				1F2013BD22BA0154000183FE /* FirebaseUtils-GetData.swift in Sources */,
 				1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */,
+				1F2013BF22BA01A6000183FE /* FirebaseUtils-Storage.swift in Sources */,
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,
 				1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */,
 				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,

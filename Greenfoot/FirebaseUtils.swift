@@ -11,41 +11,6 @@ import Firebase
 import CoreLocation
 
 class FirebaseUtils {
-    static func getEGridDataFor(zipCode zip: String, andState state: String, inCountry country:String = "US", completion: @escaping (Double?) -> Void) {
-    
-        let store = Firestore.firestore()
-        
-        store.collection("EGrid").document(country).collection("\(zip)-\(state)").document("default").getDocument { (snapshot, error) in
-                if let err = error {
-                    print("Couldn't get EGrid data for \(zip)-\(state) because \(err.localizedDescription)")
-                    return completion(nil)
-                }
-            
-                guard let data = snapshot?.data() else {
-                    print("Couldn't get EGrid data for \(zip)-\(state) because document dosen't exist")
-                    return completion(nil)
-                }
-                completion(Double(data["Factor"] as! String))
-            }
-    }
-    
-    static func getAverageFor(state: String, inCountry country:String = "US", type: GreenDataType, completion: @escaping (Double?) -> Void) {
-        let store = Firestore.firestore()
-        store.collection("Averages").document(type.rawValue).collection("\(state)-\(country)").document("default").getDocument {(snapshot, error) in
-            
-            if let err = error {
-                print("Couldn't get Average data for \(state)-\(country) because \(err.localizedDescription)")
-                return completion(nil)
-            }
-            
-            guard let data = snapshot?.data() else {
-                print("Couldn't get Average data for \(state)-\(country) because document dosen't exist")
-                return completion(nil)
-            }
-            completion(Double(data["Value"] as! String))
-        }
-    }
-    
     static func uploadLocation(_ placemark: CLPlacemark, completion: @escaping  ((Location) -> Void)) {
         #warning("It is not smart to be unwrapping these")
         let store = Firestore.firestore()
@@ -74,33 +39,6 @@ class FirebaseUtils {
                 completion(Location(fromDict: snapshot.documents[0].data()))
             }
         }
-    }
-    
-    #warning("Can the following methods be condensed into one?")
-    static func logData(_ point: GreenDataPoint) {
-        let store = Firestore.firestore()
-        
-        guard let userId = SettingsManager.sharedInstance.profile.id else { return }
-        
-        let pointsRef = store.collection("Energy Data").document(point.dataType).collection(userId)
-        let docRef = pointsRef.document()
-        
-        point.id = docRef.documentID
-        
-        let payload = point.toJSON()
-        docRef.setData(payload)
-    }
-    
-    static func editData(_ point: GreenDataPoint) {
-        guard let id = point.id else { return } //Because if the id doesn't exist, this point isn't uploaded
-        
-        let store = Firestore.firestore()
-        
-        guard let userId = SettingsManager.sharedInstance.profile.id else { return }
-        
-        let pointRef = store.collection("Energy Data").document(point.dataType).collection(userId).document(id)
-        
-        pointRef.updateData(point.toJSON())
     }
     
     static func updateUser(_ user: User) {
@@ -147,30 +85,6 @@ class FirebaseUtils {
                 return failureFunc("Email/Password Incorrect")
             }
         }
-    }
-    
-    static func createCar(named name: String, withMileage mileage: Int) {
-        let userId = SettingsManager.sharedInstance.profile.id!
-        
-        let store = Firestore.firestore()
-        let ref = store.collection("Energy Data").document("Car").collection(userId).document(name)
-        
-        let payload:[String:Any] = ["name":name, "mileage": mileage]
-        ref.setData(payload)
-    }
-    
-    static func addOdometerReading(_ point: GreenDataPoint, toCar car: String) {
-        let userId = SettingsManager.sharedInstance.profile.id!
-        
-        let store = Firestore.firestore()
-        let ref = store.collection("Energy Data").document("Car").collection(userId).document(car).collection("Readings")
-        
-        let docRef = ref.document()
-        
-        point.id = docRef.documentID
-        
-        let payload = point.toJSON()
-        docRef.setData(payload)
     }
     
     static func migrateUserData(fromId id:String) {
