@@ -98,6 +98,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         graphVC.setDataType(data:GreenfootModal.sharedInstance.data[type]!)
         
         var icon: UIImage!
+        
+        #warning("This switch statement is repeated")
         switch type {
         case .electric:
             icon = Icon.electric_white
@@ -110,6 +112,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             break
         case .gas:
             icon = Icon.fire_white
+            break
+        default:
+            icon = Icon.logo_white
             break
         }
         icon = icon.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)

@@ -217,19 +217,11 @@ class DrivingData: GreenData {
         self.carData[car]!.append(reading)
         CoreDataHelper.addOdometerReading(reading, forCar: car)
         
-        let dateString = Date.monthFormat(date:reading.month)
-        
-        var parameters:[String:Any] = ["month": dateString, "amount":Int(reading.value), "lastUpdated": reading.lastUpdated.timeIntervalSince1970]
-        parameters["dataType"] = self.dataName+":Point:"+car
-        let id=[APIRequestType.log.rawValue, self.dataName, car, dateString].joined(separator: ":")
-        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+        FirebaseUtils.addOdometerReading(reading, toCar: car)
     }
     
     func addCarToServer(_ car:String, describedByPoint point:GreenAttribute) {
-        var parameters:[String:Any] = ["month":"NA", "amount":point.value, "lastUpdated": point.lastUpdated.timeIntervalSince1970]
-        parameters["dataType"] = [self.dataName, "Car", car].joined(separator: ":")
-        let id=[APIRequestType.log.rawValue, self.dataName, car].joined(separator: ":")
-        self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+        FirebaseUtils.createCar(named: car, withMileage: point.value)
     }
     
     func deleteCar(_ car:String, fromServer shouldDeleteFromServer: Bool) {

@@ -130,8 +130,9 @@ enum GreenDataType:String {
     case water = "Water"
     case driving = "Driving"
     case gas = "Gas"
+    case car = "Car"
     
-    static let allValues = [electric, water, driving, gas]
+    static let allValues = [electric, water, driving, gas, car]
 }
 
 struct Colors {

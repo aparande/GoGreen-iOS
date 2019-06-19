@@ -149,6 +149,30 @@ class FirebaseUtils {
         }
     }
     
+    static func createCar(named name: String, withMileage mileage: Int) {
+        let userId = SettingsManager.sharedInstance.profile.id!
+        
+        let store = Firestore.firestore()
+        let ref = store.collection("Energy Data").document("Car").collection(userId).document(name)
+        
+        let payload:[String:Any] = ["name":name, "mileage": mileage]
+        ref.setData(payload)
+    }
+    
+    static func addOdometerReading(_ point: GreenDataPoint, toCar car: String) {
+        let userId = SettingsManager.sharedInstance.profile.id!
+        
+        let store = Firestore.firestore()
+        let ref = store.collection("Energy Data").document("Car").collection(userId).document(car).collection("Readings")
+        
+        let docRef = ref.document()
+        
+        point.id = docRef.documentID
+        
+        let payload = point.toJSON()
+        docRef.setData(payload)
+    }
+    
     static func migrateUserData(fromId id:String) {
         var functions = Functions.functions()
         functions.httpsCallable("migrateUserData").call(["oldId": id]) {

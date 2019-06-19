@@ -321,7 +321,7 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
             
             let encodedData = try? JSONEncoder().encode(owner.drivingData.carMileage)
             UserDefaults.standard.set(encodedData, forKey: "MilesData")
-            
+ 
             owner.drivingData.addCarToServer(carName, describedByPoint: owner.drivingData.carMileage[carName]!)
         }
         
@@ -344,13 +344,13 @@ class DrivingHeaderView: UIView, UITextFieldDelegate {
                 owner.present(alertView, animated: true, completion: nil)
                 return
             } else {
-                let odometerReading = GreenDataPoint(month: date, value: lastVal, dataType: owner.drivingData.dataName, pointType: .odometer)
+                let odometerReading = GreenDataPoint(month: date, value: lastVal, dataType: GreenDataType.car.rawValue, pointType: .odometer)
                 owner.drivingData.addOdometerReading(odometerReading, forCar: carName)
             }
         } else {
             //This is the first row in the section
             owner.drivingData.carData[carName] = []
-            let odometerReading = GreenDataPoint(month: date, value: 1000, dataType: owner.drivingData.dataName, pointType: .odometer)
+            let odometerReading = GreenDataPoint(month: date, value: 1000, dataType: GreenDataType.car.rawValue, pointType: .odometer)
             owner.drivingData.addOdometerReading(odometerReading, forCar: carName)
         }
         
