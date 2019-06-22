@@ -26,6 +26,8 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     
     var profile: User
     
+    private var loggingLocation = false
+    
     override init() {
         let defaults = UserDefaults.standard
         
@@ -43,8 +45,6 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         }
         
-        FirebaseUtils.updateUser(profile)
-        
         scheduledReminders = [:]
         if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
             for (key, value) in reminderQueue{
@@ -61,7 +61,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 self.reminderTimings![GreenDataType(rawValue: key)!] = ReminderSettings(rawValue: value)!
             }
         }
-        
+
         if let locale_data = Location.fromDefaults(withKey: "Setting_Locale") {
             locality = locale_data
         } else {
@@ -71,6 +71,9 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 self.shouldUseLocation = true
             }
         }
+        
+        
+        FirebaseUtils.updateUser(profile)
     }
     
     let locationManager = CLLocationManager()
@@ -109,44 +112,31 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     func saveLocationInfo(placemark: CLPlacemark) {
         locationManager.stopUpdatingLocation()
         
-        guard let locale = GreenfootModal.sharedInstance.locality else {
-            
-            FirebaseUtils.uploadLocation(placemark) { (location) in
+        if loggingLocation {
+            return
+        }
+        
+        loggingLocation = true
+        
+        FirebaseUtils.uploadLocation(placemark) { (location) in
+            if let locId = location.id, locId != self.locality?.id {
+                #warning("Should prompt user that we detected a location change")
+                print("Detected a Location Change")
                 self.locality = location
-                GreenfootModal.sharedInstance.locality = location
-                print("Saved locale: \(location)")
-                
-                for (key, value) in GreenfootModal.sharedInstance.data {
-                    value.reachConsensus()
-                    
-                    if key == .electric {
-                        value.fetchEGrid()
-                        value.fetchConsumption()
-                    }
-                }
+                self.profile.id = self.locality?.id
                 
                 GreenfootModal.sharedInstance.logEnergyPoints()
                 
                 location.saveToDefaults(forKey: "LocalityData")
                 location.saveToDefaults(forKey: "Setting_Locale")
                 
-                self.profile.locId = location.id
                 FirebaseUtils.updateUser(self.profile)
-                
                 NotificationCenter.default.post(name: self.locationUpdatedNotification, object: self)
             }
-        
-            return
+            
+            GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
+            GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
         }
-        
-        guard let _ = self.locality else {
-            self.locality = locale
-            locale.saveToDefaults(forKey: "Setting_Locale")
-            return
-        }
-        
-        GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
-        GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
     }
     
     func setNotificationCategories() {
