@@ -45,6 +45,8 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         }
         
+        print(profile.id)
+        
         scheduledReminders = [:]
         if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
             for (key, value) in reminderQueue{
@@ -123,7 +125,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 #warning("Should prompt user that we detected a location change")
                 print("Detected a Location Change")
                 self.locality = location
-                self.profile.id = self.locality?.id
+                self.profile.locId = self.locality?.id
                 
                 GreenfootModal.sharedInstance.logEnergyPoints()
                 

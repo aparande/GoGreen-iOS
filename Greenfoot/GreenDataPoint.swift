@@ -79,7 +79,9 @@ class GreenDataPoint: FirebaseObject {
         value       = try values.decode(Double.self, forKey: .value)
         dataType    = try values.decode(String.self, forKey: .dataType)
         lastUpdated = try values.decode(Date.self, forKey: .lastUpdated)
-        month       = try values.decode(Date.self, forKey: .month)
+        
+        let dateRepr = try values.decode(Double.self, forKey: .month)
+        month = Date(timeIntervalSince1970: dateRepr)
     }
     
     /**
