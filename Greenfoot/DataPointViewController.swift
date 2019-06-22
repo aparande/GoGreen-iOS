@@ -91,7 +91,7 @@ class DataPointViewController: UITableViewController {
                 
                 var data:[String:Double] = ["You":values["Usage"]!, "U.S":self.data!.baseline]
                 if let stateConsumption = self.data!.stateConsumption {
-                    data[(GreenfootModal.sharedInstance.locality?["State"])!] = stateConsumption
+                    data[(GreenfootModal.sharedInstance.locality?.state)!] = stateConsumption
                 }
                 
                 if let graph = footerView.barGraph as? HorizontalBarChartView {

@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 /// BarChart with horizontal bar orientation. In this implementation, x- and y-axis are switched.
 open class HorizontalBarChartView: BarChartView
 {
@@ -32,6 +28,67 @@ open class HorizontalBarChartView: BarChartView
         xAxisRenderer = XAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
         self.highlighter = HorizontalBarHighlighter(chart: self)
+    }
+    
+    internal override func calculateLegendOffsets(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRight: inout CGFloat, offsetBottom: inout CGFloat)
+    {
+        guard
+            let legend = _legend,
+            legend.isEnabled,
+            !legend.drawInside
+        else { return }
+        
+        // setup offsets for legend
+        switch legend.orientation
+        {
+        case .vertical:
+            switch legend.horizontalAlignment
+            {
+            case .left:
+                offsetLeft += min(legend.neededWidth, _viewPortHandler.chartWidth * legend.maxSizePercent) + legend.xOffset
+                
+            case .right:
+                offsetRight += min(legend.neededWidth, _viewPortHandler.chartWidth * legend.maxSizePercent) + legend.xOffset
+                
+            case .center:
+                
+                switch legend.verticalAlignment
+                {
+                case .top:
+                    offsetTop += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
+                    
+                case .bottom:
+                    offsetBottom += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
+                    
+                default:
+                    break
+                }
+            }
+            
+        case .horizontal:
+            switch legend.verticalAlignment
+            {
+            case .top:
+                offsetTop += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
+                
+                // left axis equals the top x-axis in a horizontal chart
+                if leftAxis.isEnabled && leftAxis.isDrawLabelsEnabled
+                {
+                    offsetTop += leftAxis.getRequiredHeightSpace()
+                }
+                
+            case .bottom:
+                offsetBottom += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
+
+                // right axis equals the bottom x-axis in a horizontal chart
+                if rightAxis.isEnabled && rightAxis.isDrawLabelsEnabled
+                {
+                    offsetBottom += rightAxis.getRequiredHeightSpace()
+                }
+            default:
+                break
+            }
+        }
     }
     
     internal override func calculateOffsets()
@@ -81,7 +138,7 @@ open class HorizontalBarChartView: BarChartView
         offsetRight += self.extraRightOffset
         offsetBottom += self.extraBottomOffset
         offsetLeft += self.extraLeftOffset
-        
+
         _viewPortHandler.restrainViewPort(
             offsetLeft: max(self.minOffset, offsetLeft),
             offsetTop: max(self.minOffset, offsetTop),
@@ -147,7 +204,7 @@ open class HorizontalBarChartView: BarChartView
         return self.highlighter?.getHighlight(x: pt.y, y: pt.x)
     }
     
-    /// - returns: The lowest x-index (value on the x-axis) that is still visible on he chart.
+    /// The lowest x-index (value on the x-axis) that is still visible on he chart.
     open override var lowestVisibleX: Double
     {
         var pt = CGPoint(
@@ -159,7 +216,7 @@ open class HorizontalBarChartView: BarChartView
         return max(xAxis._axisMinimum, Double(pt.y))
     }
     
-    /// - returns: The highest x-index (value on the x-axis) that is still visible on the chart.
+    /// The highest x-index (value on the x-axis) that is still visible on the chart.
     open override var highestVisibleX: Double
     {
         var pt = CGPoint(

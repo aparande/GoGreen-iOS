@@ -111,7 +111,7 @@ class BarGraph: BarChartView {
     private func basicSetup() {
         self.noDataText = "NO DATA"
         self.noDataTextColor = UIColor.white.withAlphaComponent(0.8)
-        self.noDataFont = UIFont(name: "DroidSans", size: 35.0)
+        self.noDataFont = UIFont(name: "DroidSans", size: 35.0)!
         
         //Creates the corner radius
         self.layer.cornerRadius = 10
@@ -140,7 +140,7 @@ class BarGraph: BarChartView {
         
         let chartDataSet: BarChartDataSet
         if let label = legendLabel {
-            chartDataSet = BarChartDataSet(values: dataEntries, label: label)
+            chartDataSet = BarChartDataSet(entries: dataEntries, label: label)
             
             self.legend.enabled = true
             self.legend.textColor = UIColor.white
@@ -149,7 +149,7 @@ class BarGraph: BarChartView {
             //Adds some padding
             self.setViewPortOffsets(left: 30, top: 15, right: 0, bottom: 40)
         } else {
-            chartDataSet = BarChartDataSet(values: dataEntries, label: "")
+            chartDataSet = BarChartDataSet(entries: dataEntries, label: "")
             
             self.legend.enabled = false
             //Adds some padding
@@ -277,7 +277,7 @@ extension HorizontalBarChartView {
             dataEntries.append(dataEntry)
         }
         
-        let chartDataSet = BarChartDataSet(values: dataEntries, label: label)
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: label)
         let chartData = BarChartData(dataSet: chartDataSet)
         //chartData.setValueTextColor(UIColor.white)
         //chartData.setValueFont(UIFont.boldSystemFont(ofSize: 8))
@@ -343,7 +343,7 @@ extension HorizontalBarChartView {
     func showError(_ error: String) {
         self.noDataText = error
         self.noDataTextColor = UIColor.white.withAlphaComponent(0.8)
-        self.noDataFont = UIFont(name: "DroidSans", size: 20.0)
+        self.noDataFont = UIFont(name: "DroidSans", size: 20.0)!
         
         //Creates the corner radius
         self.layer.cornerRadius = 10

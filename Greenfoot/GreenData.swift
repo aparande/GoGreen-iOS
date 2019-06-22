@@ -12,6 +12,7 @@ import Material
 import CoreData
 
 class GreenData {
+    #warning("Why isn't this GreenDataType")
     var dataName:String
     var data:[String:GreenAttribute]
     var baselines:[String:Int]
@@ -137,11 +138,7 @@ class GreenData {
         
         if upload {
             //If save is true, that means its a new data point, so you want to try uploading to the server
-            let dateString = Date.monthFormat(date: point.month)
-            let lastUpdated = point.lastUpdated.timeIntervalSince1970
-            let parameters:[String:Any] = ["month":dateString, "amount":Int(point.value), "dataType": dataName, "lastUpdated":lastUpdated]
-            let id=[APIRequestType.log.rawValue, dataName, dateString].joined(separator: ":")
-            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
+            FirebaseUtils.logData(point)
         }
     }
     
@@ -177,18 +174,8 @@ class GreenData {
         
         //If the data is uploaded, update it, else, upload it
         let dataPoint = graphData[index]
-        let date = Date.monthFormat(date: dataPoint.month)
-        
-        let reqId = [APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
-        if !(APIRequestManager.sharedInstance.requestExists(reqId)) {
-            CoreDataHelper.update(point: dataPoint)
-            
-            let parameters:[String:Any] = ["month":date, "amount":Int(newVal), "dataType": dataName, "lastUpdated":dataPoint.lastUpdated.timeIntervalSince1970]
-            let id=[APIRequestType.log.rawValue, dataName, date].joined(separator: ":")
-            makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
-        } else {
-            print("Did not add data because a request was present")
-        }
+        CoreDataHelper.update(point: dataPoint)
+        FirebaseUtils.editData(dataPoint)
     }
     
     func removeDataPoint(atIndex index:Int, fromServer shouldDeleteFromServer: Bool) {
@@ -239,16 +226,11 @@ class GreenData {
             return
         }
         
-        guard let zip = locality["Zip"] else {
-            return
-        }
-        
-        let parameters:[String:String] = ["zip":zip]
-        let id = [APIRequestType.get.rawValue, "EGRID"].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "getFromEGrid", withParameters: parameters, andSuccessFunction: {
-            data in
+        FirebaseUtils.getEGridDataFor(zipCode: locality.zip, andState: locality.state) { (factor) in
+            guard let e_factor = factor else {
+                return
+            }
             
-            let e_factor = data["e_factor"] as! Double
             UserDefaults.standard.set(e_factor, forKey: "e_factor")
             
             self.calculateCO2 = {
@@ -256,9 +238,11 @@ class GreenData {
                 return point * e_factor/1000
             }
             
+            print("EGrid conversion is \(e_factor)")
+            
             self.recalculateEP()
             self.recalculateCarbon()
-        }, andFailureFunction: nil)
+        }
     }
     
     func fetchConsumption() {
@@ -270,18 +254,10 @@ class GreenData {
             return
         }
         
-        var parameters:[String:String] = ["type":GreenDataType.electric.rawValue]
-        parameters["state"] = locality["State"]!
-        parameters["country"] = locality["Country"]!
-        
-        let id=[APIRequestType.get.rawValue, "CONSUMPTION", dataName].joined(separator: ":")
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "getFromConsumption", withParameters: parameters, andSuccessFunction: {
-            data in
-            
-            let consumption = data["Consumption"] as! Double
-            self.stateConsumption = consumption
+        FirebaseUtils.getAverageFor(state: locality.state, type: .electric) { (value) in
+            self.stateConsumption = value
             print("State consumption is \(self.stateConsumption!)")
-        }, andFailureFunction: nil)
+        }
     }
     
     func deletePointOnServer(_ dataPoint: GreenDataPoint) {
@@ -293,7 +269,7 @@ class GreenData {
         let dateString = Date.monthFormat(date: dataPoint.month)
         let id = [APIRequestType.delete.rawValue, dataName, dateString].joined(separator: ":")
         var parameters:[String:Any] = ["month":dateString, "dataType": dataName]
-        parameters["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        parameters["profId"] = SettingsManager.sharedInstance.profile.id!
         
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "deleteDataPoint", withParameters: parameters, andSuccessFunction: {
             (success) in
@@ -328,12 +304,12 @@ class GreenData {
         }
         
         var params = parameters
-        params["profId"] = SettingsManager.sharedInstance.profile["profId"]!
+        params["profId"] = SettingsManager.sharedInstance.profile.id!
         
         if shouldSendLocation {
-            params["city"] = locality["City"]!
-            params["state"] = locality["State"]
-            params["country"] = locality["Country"]
+            params["city"] = locality.city
+            params["state"] = locality.state
+            params["country"] = locality.country
         }
         
         return params
@@ -341,180 +317,40 @@ class GreenData {
     
     func reachConsensus() {
         print("Attepting to reach consensus")
-        consensusFor("Bonus", completion: nil)
-        consensusFor("Data", completion: nil)
-        pointConsensus()
-    }
-    
-    func pointConsensus() {
-        let upload:([GreenDataPoint?]?) -> Void = {
-            unUploadedPoints in
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/yy"
-            
-            let logToServer:(Date, Double, Date) -> Void = {
-                month, amount, lastUpdated in
-                let dateString = Date.monthFormat(date: month)
-                let parameters:[String:Any] = ["month":dateString, "amount":Int(amount), "dataType": self.dataName, "lastUpdated":lastUpdated.timeIntervalSince1970]
-                let id=[APIRequestType.log.rawValue, self.dataName, dateString].joined(separator: ":")
-                self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
-            }
-            
-            if let _ = unUploadedPoints {
-                for dataPoint in unUploadedPoints! {
-                    guard let point = dataPoint else {
-                        continue
-                    }
-                    
-                    logToServer(point.month, point.value, point.lastUpdated)
-                }
-            } else {
-                for dataPoint in self.graphData {
-                    logToServer(dataPoint.month, dataPoint.value, dataPoint.lastUpdated)
-                }
-            }
-        }
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        
-        let id = [APIRequestType.consensus.rawValue, dataName].joined(separator: ":")
-        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName]
-        
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
-            data in
-            
-            guard let serverData = data["Data"] as? NSArray else {
-                return
-            }
+        FirebaseUtils.getDataForType(dataName) {
+            (serverData) in
             
             var unUploadedPoints:[GreenDataPoint?] = self.graphData
-            //Use this variable to search indexes because the actual graph data variable will change since points are being added and removed from it
             let storedGraphData = self.graphData
+            
             for point in serverData {
-                guard let pointInfo = point as? NSDictionary else {
-                    return
-                }
-                
-                let month = pointInfo["Month"]! as! String
-                let amount = pointInfo["Amount"]! as! Double
-                let lastUpdated = pointInfo["LastUpdated"]! as! Double
-                let isDeleted = pointInfo["IsDeleted"]! as! Double
-                
-                let date = formatter.date(from: month)!
-                
-                let index = self.indexOfPointForDate(date, inArray: storedGraphData)
+                let index = self.indexOfPointForDate(point.month, inArray: storedGraphData)
+                //If the point is not deleted, then add it to the device, but check that the device didn't delete it before it is added to the device
                 if index == -1 {
-                    //If the point is not deleted, then add it to the device, but check that the device didn't delete it before it is added to the device
-                    if isDeleted == 0 {
-                        CoreDataHelper.hasDeleted(date, inDataNamed: self.dataName, callback: {
-                            deletedPoint in
-                            
-                            if let _ = deletedPoint {
-                                self.deletePointOnServer(deletedPoint!)
-                            } else {
-                                let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                                self.addDataPoint(point: dataPoint, save: true, upload: false)
-                            }
-                        })
-                    }
+                    self.addDataPoint(point: point, save: true, upload: false)
                 } else {
-                    if isDeleted == 1 {
-                        //When deleting the point from the device, make sure it is not reuploaded
+                    let savedPoint = storedGraphData[index]
+                    
+                    //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
+                    if savedPoint.value != point.value && savedPoint.lastUpdated < point.lastUpdated {
                         unUploadedPoints[index] = nil
-                        self.removeDataPoint(atIndex: index, fromServer: false)
-                    } else {
-                        let savedPoint = storedGraphData[index]
-                        
-                        //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
-                        if savedPoint.value != amount &&      savedPoint.lastUpdated.timeIntervalSince1970 < lastUpdated {
-                            unUploadedPoints[index] = nil
-                            print("Editing point")
-                            self.editDataPoint(atIndex: index, toValue: amount)
-                        }
+                        print("Editing point")
+                        self.editDataPoint(atIndex: index, toValue: point.value)
                     }
                 }
             }
             
             self.sortData()
             
-            upload(unUploadedPoints)
-        }, andFailureFunction: {
-            errorDict in
-            
-            if errorDict["Error"] as? APIError == .serverFailure {
-                upload(nil)
-            }
-        })
-    }
-    
-    func consensusFor(_ type:String, completion: ((Bool) -> Void)?) {
-        var dict = (type == "Bonus") ? bonusDict : data
-        let id = [APIRequestType.consensus.rawValue, dataName, type].joined(separator: ":")
-        let parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "dataType": dataName, "assoc":type]
-        
-        let logToServer:(String, Int, Date) -> Void = {
-            key, value, lastUpdated in
-            var parameters:[String:Any] = ["month":"NA", "amount":value]
-            parameters["dataType"] = [self.dataName, type, key].joined(separator: ":")
-            parameters["lastUpdated"] = lastUpdated.timeIntervalSince1970
-            let id=[APIRequestType.log.rawValue, self.dataName, key].joined(separator: ":")
-            self.makeServerCall(withParameters: parameters, identifiedBy: id, atEndpoint: "logData", containingLocation: true)
-        }
-        
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
-            data in
-            
-            guard let serverData = data["Data"] as? NSArray else {
-                return
-            }
-            
-            var uploadedAttrs:[String] = []
-            for point in serverData {
-                guard let pointInfo = point as? NSDictionary else {
-                    return
+            for dataPoint in unUploadedPoints {
+                guard let point = dataPoint else {
+                    continue
                 }
                 
-                let value = pointInfo["Amount"]! as! Int
-                let dataType = pointInfo["DataType"]! as! String
-                let lastUpdated = pointInfo["LastUpdated"]! as! Double
-                let attrName = dataType.components(separatedBy: ":")[2]
-                if let amount = dict[attrName] {
-                    if amount.value != value && amount.lastUpdated.timeIntervalSince1970 < lastUpdated {
-                        print("Editing Bonus Attr")
-                        dict[attrName] = GreenAttribute(value: value, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                        uploadedAttrs.append(attrName)
-                    }
-                } else {
-                    dict[attrName] = GreenAttribute(value: value, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                }
+                FirebaseUtils.logData(point)
             }
-            
-            for (key, attr) in dict {
-                if !uploadedAttrs.contains(key) {
-                    logToServer(key, attr.value, attr.lastUpdated)
-                }
-            }
-            
-            if type == "Bonus" {
-                self.bonusDict = dict
-            } else {
-                self.data = dict
-            }
-            let encodedData = try? JSONEncoder().encode(dict)
-            UserDefaults.standard.set(encodedData, forKey: self.dataName+":\(type.lowercased())")
-            
-            completion?(true)
-        }, andFailureFunction: {
-            errorDict in
-            if errorDict["Error"] as? APIError == .serverFailure {
-                for (key, attr) in dict {
-                    logToServer(key, attr.value, attr.lastUpdated)
-                }
-            }
-            completion?(false)
-        })
+        }
     }
     
     func findPointForDate(_ date: Date, inArray arr:[GreenDataPoint]) -> GreenDataPoint? {

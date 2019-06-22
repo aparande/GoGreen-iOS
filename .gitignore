@@ -4,6 +4,7 @@
 Issues.md
 
 */tessdata/
+GoogleService-Info.plist
 
 ## Build generated
 build/

@@ -9,12 +9,19 @@
 import Foundation
 import UIKit
 import Material
+import CoreLocation
 
-class GreenDataPoint {
+class GreenDataPoint: FirebaseObject {
+    var id: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, value, month, dataType, lastUpdated, userId, locId
+    }
+    
     var value: Double
     var month: Date
     var dataType: String
-    var pointType: DataPointType
+    var pointType: DataPointType = .regular
     var lastUpdated: Date
     var isDeleted: Bool = false
     
@@ -47,6 +54,34 @@ class GreenDataPoint {
         self.pointType = DataPointType.regular
         self.lastUpdated = lastUpdated
     }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(value, forKey: .value)
+        try container.encode(dataType, forKey: .dataType)
+        try container.encode(lastUpdated, forKey: .lastUpdated)
+        try container.encode(month, forKey: .month)
+        
+        guard let userId = SettingsManager.sharedInstance.profile.id else {
+            throw EncodingError.invalidValue(SettingsManager.sharedInstance.profile.id as Any, EncodingError.Context.init(codingPath: container.codingPath, debugDescription: "Profile ID is not set"))
+        }
+        
+        try container.encode(userId, forKey: .userId)
+        
+        let locId = GreenfootModal.sharedInstance.locality?.id
+        try container.encode(locId, forKey: .locId)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values  = try decoder.container(keyedBy: CodingKeys.self)
+        id          = try values.decode(String.self, forKey: .id)
+        value       = try values.decode(Double.self, forKey: .value)
+        dataType    = try values.decode(String.self, forKey: .dataType)
+        lastUpdated = try values.decode(Date.self, forKey: .lastUpdated)
+        month       = try values.decode(Date.self, forKey: .month)
+    }
+    
     /**
      Updates value of the GreenDataPoint and sets lastUpdated to today
      - parameter newVal: The new value
@@ -82,6 +117,7 @@ struct GreenAttribute: Codable {
     }
 }
 
+
 enum DataPointType:String {
     case regular = "REGULAR"
     case energy = "EP"
@@ -94,8 +130,9 @@ enum GreenDataType:String {
     case water = "Water"
     case driving = "Driving"
     case gas = "Gas"
+    case car = "Car"
     
-    static let allValues = [electric, water, driving, gas]
+    static let allValues = [electric, water, driving, gas, car]
 }
 
 struct Colors {

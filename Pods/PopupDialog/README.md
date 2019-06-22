@@ -2,13 +2,14 @@
 
 <p>&nbsp;</p>
 
+![Swift Version](https://img.shields.io/badge/Swift-5-orange.svg)
 [![Version](https://img.shields.io/cocoapods/v/PopupDialog.svg?style=flat)](http://cocoapods.org/pods/PopupDialog)
 [![License](https://img.shields.io/cocoapods/l/PopupDialog.svg?style=flat)](http://cocoapods.org/pods/PopupDialog)
 [![Platform](https://img.shields.io/cocoapods/p/PopupDialog.svg?style=flat)](http://cocoapods.org/pods/PopupDialog)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![codebeat badge](https://codebeat.co/badges/006f8d13-072a-42bb-a584-6b97e60201e1)](https://codebeat.co/projects/github-com-orderella-popupdialog)
 [![Build Status Master](https://travis-ci.org/Orderella/PopupDialog.svg?branch=master)](https://travis-ci.org/Orderella/PopupDialog)
 [![Build Status Development](https://travis-ci.org/Orderella/PopupDialog.svg?branch=development)](https://travis-ci.org/Orderella/PopupDialog)
+[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 <p>&nbsp;</p>
 
@@ -30,15 +31,15 @@ Popup Dialog is a simple, customizable popup dialog written in Swift.
 - [x] Fully themeable via appearance, including fonts, colors, corner radius, shadow, overlay color and blur, etc.
 - [x] Can be dismissed via swipe and background tap
 - [x] Objective-C compatible
-- [x] Works on all screens and devices supporting iOS 9.0+
+- [x] Works on all screens and devices supporting iOS 10.0+
 
 <p>&nbsp;</p>
 
 # Installation
 
-This version is Swift 4 compatible. For the Swift 3 version, please use [V0.5.4](https://github.com/Orderella/PopupDialog/releases/tag/0.5.4).
+This version is Swift 5 compatible. For the Swift 4.2 version, please use [V1.0.0](https://github.com/Orderella/PopupDialog/releases/tag/1.0.0).
 
-## Cocoapods
+## CocoaPods
 
 PopupDialog is available through [CocoaPods](http://cocoapods.org). Simply add the following to your Podfile:
 
@@ -46,7 +47,7 @@ PopupDialog is available through [CocoaPods](http://cocoapods.org). Simply add t
 use_frameworks!
 
 target '<Your Target Name>'
-pod 'PopupDialog', '~> 0.7'
+pod 'PopupDialog', '~> 1.1'
 ```
 
 ## Carthage
@@ -56,8 +57,7 @@ pod 'PopupDialog', '~> 0.7'
 To install, simply add the following lines to your Cartfile:
 
 ```ruby
-github "Orderella/PopupDialog" ~> 0.7
-github "KyoheiG3/DynamicBlurView" ~> 2.0
+github "Orderella/PopupDialog" ~> 1.1
 ```
 
 ## Manually
@@ -122,7 +122,8 @@ public convenience init(
     buttonAlignment: UILayoutConstraintAxis = .vertical,
     transitionStyle: PopupDialogTransitionStyle = .bounceUp,
     preferredWidth: CGFloat = 340,
-    gestureDismissal: Bool = true,
+    tapGestureDismissal: Bool = true,
+    panGestureDismissal: Bool = true,
     hideStatusBar: Bool = false,
     completion: (() -> Void)? = nil) 
 ```
@@ -141,7 +142,8 @@ public init(
     buttonAlignment: UILayoutConstraintAxis = .vertical,
     transitionStyle: PopupDialogTransitionStyle = .bounceUp,
     preferredWidth: CGFloat = 340,
-    gestureDismissal: Bool = true,
+    tapGestureDismissal: Bool = true,
+    panGestureDismissal: Bool = true,
     hideStatusBar: Bool = false,
     completion: (() -> Void)? = nil) 
 ```
@@ -181,7 +183,7 @@ PopupDialog will always try to have a max width of 340 . On iPhones with smaller
 
 ## Gesture Dismissal
 
-Gesture dismissal allows your dialog being dismissed either by a background tap or by swiping the dialog down. By default, this is set to `true`. You can prevent this behavior by setting `gestureDismissal` to `false` in the initializer.
+Gesture dismissal allows your dialog being dismissed either by a background tap or by swiping the dialog down. By default, this is set to `true`. You can prevent this behavior by setting either `tapGestureDismissal` or `panGestureDismissal`  to `false` in the initializer.
 
 ## Hide Status Bar
 
@@ -251,6 +253,10 @@ containerAppearance.backgroundColor = UIColor(red:0.23, green:0.23, blue:0.27, a
 containerAppearance.cornerRadius    = 2
 containerAppearance.shadowEnabled   = true
 containerAppearance.shadowColor     = .black
+containerAppearance.shadowOpacity   = 0.6
+containerAppearance.shadowRadius    = 20
+containerAppearance.shadowOffset    = CGSize(width: 0, height: 8)
+containerAppearance.shadowPath      = CGPath(...)
 ```
 
 ## Overlay View Appearance Settings
@@ -390,30 +396,37 @@ PopupDialog can be used in Objective-C projects as well.
 Here is a basic example:
 
 ```objective-c
-#import <PopupDialog/PopupDialog-Swift.h>
+PopupDialog *popup = [[PopupDialog alloc] initWithTitle: @"Title"
+                                                message: @"This is a message"
+                                                  image: nil
+                                        buttonAlignment: UILayoutConstraintAxisVertical
+                                        transitionStyle: PopupDialogTransitionStyleBounceUp
+                                         preferredWidth: 380
+                                    tapGestureDismissal: NO
+                                    panGestureDismissal: NO
+                                          hideStatusBar: NO
+                                             completion: nil];
 
-PopupDialog *popup = [[PopupDialog alloc] initWithTitle:@"TEST"
-                                                message:@"This is a test message!"
-                                                  image:nil
-                                        buttonAlignment:UILayoutConstraintAxisHorizontal
-                                        transitionStyle:PopupDialogTransitionStyleBounceUp
-                                         preferredWidth:340.0,
-                                       gestureDismissal:YES
-                                          hideStatusBar:NO
-                                             completion:nil];
+DestructiveButton *delete = [[DestructiveButton alloc] initWithTitle: @"Delete"
+                                                              height: 45
+                                                        dismissOnTap: YES
+                                                              action: nil];
 
-CancelButton *cancel = [[CancelButton alloc] initWithTitle:@"CANCEL" dismissOnTap:YES action:^{
-    // Default action
-}];
+CancelButton *cancel = [[CancelButton alloc] initWithTitle: @"Cancel"
+                                                    height: 45
+                                              dismissOnTap: YES
+                                                    action: nil];
 
-DefaultButton *ok = [[DefaultButton alloc] initWithTitle:@"OK" dismissOnTap:YES action:^{
-    // Ok action
-}];
+DefaultButton *ok = [[DefaultButton alloc] initWithTitle: @"OK"
+                                                  height: 45
+                                            dismissOnTap: YES
+                                                  action: nil];
 
-[popup addButtons: @[cancel, ok]];
+[dialog addButtons:@[delete, cancel, ok]];
 
 [self presentViewController:popup animated:YES completion:nil];
 ```
+
 
 <p>&nbsp;</p>
 
@@ -428,11 +441,19 @@ If you happen to use PopupDialog to validate text input, for example, you can ca
 
 # Requirements
 
-Minimum requirement is iOS 9.0. This dialog was written with Swift 4, for support of older versions please head over to releases.
+Minimum requirement is iOS 10.0. This dialog was written with Swift 5, for support of older versions please head over to releases.
 
 <p>&nbsp;</p>
 
 # Changelog
+* **1.1.0** Swift 5 support
+* **1.0.0** Pinned Swift version to 4.2<br>Dropped iOS 9 support as of moving to ios-snapshot-test-case
+* **0.9.2** Fixes crash when presenting dialog while app is inactive
+* **0.9.1** Fixes Carthage support
+* **0.9.0** Swift 4.2 support
+* **0.8.1** Added shadow appearance properties
+* **0.8.0** Separated tap and pan gesture dismissal
+* **0.7.1** Fixes Objective-C compatability<br>Improved Carthage handling
 * **0.7.0** Removed FXBlurView while switching to DynamicBlurView
 * **0.6.2** Added preferredWidth option for iPads
 * **0.6.1** Added shake animation<br>Introduced hideStatusBar option

@@ -36,7 +36,7 @@ class GreenfootModal {
         }
     }
     
-    var locality:[String:String]?
+    var locality:Location?
     
     var rankings:[String:Int]
     
@@ -48,7 +48,7 @@ class GreenfootModal {
         
         let defaults = UserDefaults.standard
         
-        if let locale_data = defaults.dictionary(forKey: "LocalityData") as? [String:String] {
+        if let locale_data = Location.fromDefaults(withKey: "LocalityData") {
             locality = locale_data
             //SettingsManager.sharedInstance.shouldUseLocation = true
         }
@@ -71,10 +71,10 @@ class GreenfootModal {
             return
         }
         
-        var parameters:[String: Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!, "points":totalEnergyPoints]
-        parameters["state"] = locale["State"]
-        parameters["country"] = locale["Country"]
-        parameters["city"] = locale["City"]
+        var parameters:[String: Any] = ["id":SettingsManager.sharedInstance.profile.id!, "points":totalEnergyPoints]
+        parameters["state"] = locale.state
+        parameters["country"] = locale.country
+        parameters["city"] = locale.city
         
         let id = [APIRequestType.log.rawValue, "EP"].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logEnergyPoints", withParameters: parameters, andSuccessFunction: {
@@ -95,9 +95,9 @@ class GreenfootModal {
         
         rankingFetchInProgress = true
         
-        var parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile["profId"]!]
-        parameters["state"] = locale["State"]
-        parameters["country"] = locale["Country"]
+        var parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile.id!]
+        parameters["state"] = locale.state
+        parameters["country"] = locale.country
         
         let stateId = [APIRequestType.get.rawValue, "STATE_RANK"].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: stateId, atEndpoint: "getStateRank", withParameters: parameters, andSuccessFunction: {
@@ -115,7 +115,7 @@ class GreenfootModal {
             }
         }, andFailureFunction: nil)
         
-        parameters["city"] = locale["City"]
+        parameters["city"] = locale.city
         
         let cityId = [APIRequestType.get.rawValue, "CITY_RANK"].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: cityId, atEndpoint: "getCityRank", withParameters: parameters, andSuccessFunction: {

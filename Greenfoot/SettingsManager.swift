@@ -9,12 +9,13 @@
 import UIKit
 import CoreLocation
 import UserNotifications
+import Firebase
 
 class SettingsManager: NSObject, CLLocationManagerDelegate {
     static let sharedInstance = SettingsManager()
     
     var shouldUseLocation:Bool
-    var locality:[String:String]?
+    var locality:Location?
     
     var canNotify:Bool
     var reminderTimings:[GreenDataType:ReminderSettings]?
@@ -23,24 +24,26 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     let locationFailedNotification = NSNotification.Name.init(rawValue: "LocateFailed")
     let locationUpdatedNotification = NSNotification.Name.init(rawValue: "LocationUpdated")
     
-    var profile:[String:Any]
+    var profile: User
     
     override init() {
         let defaults = UserDefaults.standard
         
-        if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
-            profile = prof
+        if let user = User.fromDefaults(withKey: "Profile") {
+            profile = user
+        } else if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
+            profile = User(fromDict: prof)
         } else {
-            profile = ["linked":false]
             
             if let uuid = defaults.string(forKey: "ProfId") {
-                profile["profId"] = uuid
+                profile = User(withId: uuid)
             } else {
-                let uuid = UUID().uuidString
-                profile["profId"] = uuid
-                defaults.set(profile, forKey: "Profile")
+                profile = User(withId: UUID().uuidString)
+                profile.saveToDefaults(forKey: "Profile")
             }
         }
+        
+        FirebaseUtils.updateUser(profile)
         
         scheduledReminders = [:]
         if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
@@ -59,12 +62,12 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         }
         
-        if let locale_data = UserDefaults.standard.dictionary(forKey: "Setting_Locale") as? [String:String] {
+        if let locale_data = Location.fromDefaults(withKey: "Setting_Locale") {
             locality = locale_data
         } else {
             if let locale = GreenfootModal.sharedInstance.locality {
                 self.locality = locale
-                UserDefaults.standard.set(locality, forKey:"Setting_Locale")
+                self.locality?.saveToDefaults(forKey: "Setting_Locale")
                 self.shouldUseLocation = true
             }
         }
@@ -107,37 +110,38 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         
         guard let locale = GreenfootModal.sharedInstance.locality else {
-            var localityData:[String:String] = [:]
-            localityData["City"] = placemark.locality
-            localityData["State"] = placemark.administrativeArea
-            localityData["Country"] = placemark.country
-            localityData["Zip"] = placemark.postalCode
-            GreenfootModal.sharedInstance.locality = localityData
-            self.locality = localityData
-            print("Saved locale: \(localityData)")
             
-            for (key, value) in GreenfootModal.sharedInstance.data {
-                value.reachConsensus()
+            FirebaseUtils.uploadLocation(placemark) { (location) in
+                self.locality = location
+                GreenfootModal.sharedInstance.locality = location
+                print("Saved locale: \(location)")
                 
-                if key == .electric {
-                    value.fetchEGrid()
-                    value.fetchConsumption()
+                for (key, value) in GreenfootModal.sharedInstance.data {
+                    value.reachConsensus()
+                    
+                    if key == .electric {
+                        value.fetchEGrid()
+                        value.fetchConsumption()
+                    }
                 }
+                
+                GreenfootModal.sharedInstance.logEnergyPoints()
+                
+                location.saveToDefaults(forKey: "LocalityData")
+                location.saveToDefaults(forKey: "Setting_Locale")
+                
+                self.profile.locId = location.id
+                FirebaseUtils.updateUser(self.profile)
+                
+                NotificationCenter.default.post(name: self.locationUpdatedNotification, object: self)
             }
-            
-            GreenfootModal.sharedInstance.logEnergyPoints()
-            
-            UserDefaults.standard.set(localityData, forKey:"LocalityData")
-            UserDefaults.standard.set(localityData, forKey:"Setting_Locale")
-            
-            NotificationCenter.default.post(name: locationUpdatedNotification, object: self)
-            
+        
             return
         }
         
         guard let _ = self.locality else {
             self.locality = locale
-            UserDefaults.standard.set(locale, forKey:"Setting_Locale")
+            locale.saveToDefaults(forKey: "Setting_Locale")
             return
         }
         
@@ -238,48 +242,44 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             return completion(false, "Please enter your password")
         }
         
-        let parameters:[String:Any] = ["email":email, "password":password]
-        
-        let id = APIRequestType.login.rawValue
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "login", withParameters: parameters, andSuccessFunction: {
-            (data) in
-            print(data)
-            
-            if let newProfile = data["UserId"] as? String{
-                if self.profile["profId"] as! String != newProfile  {
-                    let deleteId = APIRequestType.delete.rawValue + ":EP"
-                    APIRequestManager.sharedInstance.queueAPICall(identifiedBy: deleteId, atEndpoint:"deleteProfData", withParameters: ["id": self.profile["profId"]!], andSuccessFunction: nil, andFailureFunction: nil)
-                }
-                
-                self.profile["profId"] = newProfile
+        FirebaseUtils.loginUser(withEmail: email, andPassword: password, doOnSuccess: { (userId) in
+            if self.profile.id != userId {
+                FirebaseUtils.migrateUserData(fromId: self.profile.id!)
+                self.profile.id = userId
             }
             
-            self.profile["email"] = email
-            self.profile["password"] = password
-            self.profile["linked"] = true
-            UserDefaults.standard.set(self.profile, forKey: "Profile")
+            self.profile.email = email
             
+            let names = Auth.auth().currentUser!.displayName!.components(separatedBy: " ")
+            self.profile.firstName = names[0]
+            self.profile.lastName = names[1]
+            
+            self.profile.isLoggedIn = true
+            self.profile.locId = self.locality?.id
+            
+            self.profile.saveToDefaults(forKey: "Profile")
+            FirebaseUtils.updateUser(self.profile)
+            
+            #warning("This stuff basically redownloaded the location and overwrites the current user's location. Not even necessary?")
+            /*
             if let downloadedLocation = data["location"] as? NSDictionary {
                 if let _ = self.locality {
                     
                 } else {
-                    self.locality = [:]
+                    self.locality = nil
                 }
                 
                 if downloadedLocation.object(forKey: "city") as? String != "null" {
-                    self.locality!["City"] = downloadedLocation.object(forKey: "city") as? String
-                    self.locality!["State"] = downloadedLocation.object(forKey: "state") as? String
-                    self.locality!["Country"] = downloadedLocation.object(forKey: "country") as? String
-                    self.locality!["Zip"] = downloadedLocation.object(forKey: "zip") as? String
-                    
+                    self.locality = Location(fromDict: downloadedLocation.dictionaryWithValues(forKeys: ["Id", "City", "State", "Country", "ISOCode", "Zip"]))
                     self.shouldUseLocation = true
                 }
                 
-                UserDefaults.standard.set(self.locality, forKey:"Setting_Locale")
+                self.locality?.saveToDefaults(forKey: "Setting_Locale")
                 
                 if self.shouldUseLocation {
                     GreenfootModal.sharedInstance.locality = self.locality
-                    UserDefaults.standard.set(self.locality, forKey:"LocalityData")
+                    #warning("Why the heck do I save this twice")
+                    self.locality?.saveToDefaults(forKey: "LocalityData")
                 }
                 
                 GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
@@ -289,20 +289,10 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 data.reachConsensus()
             }
             
-            completion(true, nil)
-        }, andFailureFunction: {
-            (err) in
-            guard let errorType = err["Error"] as? APIError else {
-                return completion(false, nil)
-            }
-            
-            if errorType == .serverFailure {
-                completion(false, "Incorrect Username/Password Combination")
-            } else {
-                completion(false, "Please check your network connection or try again later")
-            }
-            
-        })
+            completion(true, nil) */
+        }) { (errorMessage) in
+            completion(false, errorMessage)
+        }
     }
     
     func signup(email: String, password: String, retypedPassword: String, firstname: String, lastname: String, completion: @escaping (Bool, String?) -> Void) {
@@ -326,41 +316,32 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             return completion(false, "Invalid Email Address")
         }
         
-        var parameters:[String:Any] = ["id": profile["profId"]!, "lastName":lastname, "firstName":firstname, "email":email, "password":password]
-        if let location = locality {
-            parameters["location"] = location
-        }
-        
-        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: APIRequestType.signup.rawValue, atEndpoint: "createAccount", withParameters: parameters, andSuccessFunction: {
-            (data) in
-            print(data)
+        FirebaseUtils.signUpUserWith(named: "\(firstname) \(lastname)", withEmail: email, andPassword: password, doOnSuccess: { (userId) in
+            FirebaseUtils.migrateUserData(fromId: self.profile.id!)
             
-            self.profile["email"] = email
-            self.profile["password"] = password
-            self.profile["linked"] = true
-            UserDefaults.standard.set(self.profile, forKey: "Profile")
+            self.profile.id = userId
+            self.profile.email = email
+            self.profile.firstName = firstname
+            self.profile.lastName = lastname
+            self.profile.isLoggedIn = true
+            self.profile.locId = self.locality?.id
+        
+            self.profile.saveToDefaults(forKey: "Profile")
+            FirebaseUtils.updateUser(self.profile)
             
             completion(true, nil)
-        }, andFailureFunction: {
-            (err) in
-            guard let errorType = err["Error"] as? APIError else {
-                return completion(false, nil)
-            }
             
-            if errorType == .serverFailure {
-                completion(false, "Could not create account")
-            } else {
-                completion(false, "Please check your network connection or try again later")
-            }
-        })
+        }) { (errorMessage) in
+            return completion(false, errorMessage)
+        }
     }
     
     //Location data should be retrived from the Greenfoot modal if location settings are enabled.
     //If they are not enabled and the user is logged in, then use the location which is stored in settings
     //To make sure that the server and the device are not out of sync
-    func getLocationData() -> [String:String]? {
+    func getLocationData() -> Location? {
         guard let locality = GreenfootModal.sharedInstance.locality else {
-            if self.profile["linked"] as? Bool == true {
+            if self.profile.isLoggedIn {
                 return self.locality
             }
             return nil

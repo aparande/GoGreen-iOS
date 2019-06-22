@@ -60,7 +60,7 @@ class HistoryViewController: UITableViewController, ChartViewDelegate {
             footerView.frame = footerFrame
             self.tableView.tableFooterView = footerView
             
-            epHistoryChart = footerView.barGraph as! BarGraph
+            epHistoryChart = footerView.barGraph as? BarGraph
             
             epHistoryChart.loadDataFrom(array: monthlyBreakdown, labeled: "Energy Points")
             epHistoryChart.legend.enabled = true

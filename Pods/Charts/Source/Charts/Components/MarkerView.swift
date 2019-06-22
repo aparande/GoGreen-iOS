@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(ChartMarkerView)
 open class MarkerView: NSUIView, IMarker
 {
@@ -72,27 +68,27 @@ open class MarkerView: NSUIView, IMarker
     }
     
     @objc
-    open class func viewFromXib() -> MarkerView?
+    open class func viewFromXib(in bundle: Bundle = .main) -> MarkerView?
     {
         #if !os(OSX)
-            return Bundle.main.loadNibNamed(
-                String(describing: self),
-                owner: nil,
-                options: nil)?[0] as? MarkerView
+        return bundle.loadNibNamed(
+            String(describing: self),
+            owner: nil,
+            options: nil)?[0] as? MarkerView
         #else
-            
-            var loadedObjects = NSArray()
-            let loadedObjectsPointer = AutoreleasingUnsafeMutablePointer<NSArray?>(&loadedObjects)
-            
-            if Bundle.main.loadNibNamed(
-                NSNib.Name(String(describing: self)),
-                owner: nil,
-                topLevelObjects: loadedObjectsPointer)
-            {
-                return loadedObjects[0] as? MarkerView
-            }
-            
-            return nil
+        
+        var loadedObjects = NSArray()
+        let loadedObjectsPointer = AutoreleasingUnsafeMutablePointer<NSArray?>(&loadedObjects)
+        
+        if bundle.loadNibNamed(
+            NSNib.Name(String(describing: self)),
+            owner: nil,
+            topLevelObjects: loadedObjectsPointer)
+        {
+            return loadedObjects[0] as? MarkerView
+        }
+        
+        return nil
         #endif
     }
     
