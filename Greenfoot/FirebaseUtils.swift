@@ -49,7 +49,7 @@ class FirebaseUtils {
         userRef.setData(user.toJSON(), merge: true)
     }
     
-    static func signUpUserWith(named name:String, withEmail email: String, andPassword psd: String, doOnSuccess successFunc: @escaping (String) -> Void, elseOnFailure failureFunc: @escaping (String) -> Void) {
+    static func signUpUserWith(named name:String?, withEmail email: String, andPassword psd: String, doOnSuccess successFunc: @escaping (String) -> Void, elseOnFailure failureFunc: @escaping (String) -> Void) {
         Auth.auth().createUser(withEmail: email, password: psd) { (authRes, error) in
             if let err = error {
                 print(err.localizedDescription)
@@ -57,6 +57,8 @@ class FirebaseUtils {
             }
             
             guard let authRes = authRes else { return failureFunc("Something went wrong. Please try again") }
+            
+            guard let name = name else { return successFunc(authRes.user.uid) }
             
             let changeRequest = authRes.user.createProfileChangeRequest()
             changeRequest.displayName = name

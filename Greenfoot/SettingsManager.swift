@@ -27,43 +27,11 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
     var profile: User
     
     private var loggingLocation = false
+    private var shouldUpdateUser = false
     
     override init() {
         let defaults = UserDefaults.standard
         
-        if let user = User.fromDefaults(withKey: "Profile") {
-            profile = user
-        } else if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
-            profile = User(fromDict: prof)
-        } else {
-            
-            if let uuid = defaults.string(forKey: "ProfId") {
-                profile = User(withId: uuid)
-            } else {
-                profile = User(withId: UUID().uuidString)
-                profile.saveToDefaults(forKey: "Profile")
-            }
-        }
-        
-        print(profile.id)
-        
-        scheduledReminders = [:]
-        if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
-            for (key, value) in reminderQueue{
-                self.scheduledReminders[GreenDataType(rawValue: key)!] = value
-            }
-        }
-        
-        self.canNotify = defaults.bool(forKey: "NotificationSetting")
-        self.shouldUseLocation = UserDefaults.standard.bool(forKey: "LocationSetting")
-        
-        if let reminders = defaults.object(forKey: "ReminderSettings") as? [String:String] {
-            self.reminderTimings = [:]
-            for (key, value) in reminders {
-                self.reminderTimings![GreenDataType(rawValue: key)!] = ReminderSettings(rawValue: value)!
-            }
-        }
-
         if let locale_data = Location.fromDefaults(withKey: "Setting_Locale") {
             locality = locale_data
         } else {
@@ -74,6 +42,61 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             }
         }
         
+        self.canNotify = defaults.bool(forKey: "NotificationSetting")
+        self.shouldUseLocation = UserDefaults.standard.bool(forKey: "LocationSetting")
+        
+        self.scheduledReminders = [:]
+        self.reminderTimings = [:]
+        
+        var email:String?
+        var password: String?
+        
+        if let user = User.fromDefaults(withKey: "Profile") {
+            self.profile = user
+        } else if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
+            self.profile = User(fromDict: prof)
+            
+            email = prof["email"] as? String
+            password = prof["password"] as? String
+        } else {
+            
+            if let uuid = defaults.string(forKey: "ProfId") {
+                self.profile = User(withId: uuid)
+            } else {
+                self.profile = User(withId: UUID().uuidString)
+                self.profile.saveToDefaults(forKey: "Profile")
+            }
+        }
+        
+        super.init()
+        
+        print(profile.id)
+        
+        if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
+            for (key, value) in reminderQueue{
+                self.scheduledReminders[GreenDataType(rawValue: key)!] = value
+            }
+        }
+        
+        if let reminders = defaults.object(forKey: "ReminderSettings") as? [String:String] {
+            for (key, value) in reminders {
+                self.reminderTimings![GreenDataType(rawValue: key)!] = ReminderSettings(rawValue: value)!
+            }
+        }
+        
+        //This means the user was signed in on the old version of the app, so we need to create their user in Firebase
+        if let email = email, let pass = password {
+            FirebaseUtils.signUpUserWith(named: nil, withEmail: email, andPassword: pass, doOnSuccess: { (userId) in
+                FirebaseUtils.migrateUserData(fromId: self.profile.id!)
+                self.profile.id =  userId
+                self.profile.isLoggedIn = true
+                print("User was signed in on old device. New Id is \(self.profile.id!)")
+                FirebaseUtils.updateUser(self.profile)
+            }) { (message) in
+                #warning("Should do something to notify the user/try again")
+                return
+            }
+        }
         
         FirebaseUtils.updateUser(profile)
     }
