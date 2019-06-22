@@ -391,4 +391,182 @@ class DrivingData: GreenData {
             }
         }
     }
+    
+    #warning("Deprecated but need it for backward compatability")
+    override func consensusWithOldServer(usingOldId userId: String) {
+        let id = [APIRequestType.consensus.rawValue, dataName, "Cars"].joined(separator: ":")
+        let dataType = dataName
+        let parameters:[String:Any] = ["id":userId, "dataType": dataType, "assoc": "Car"]
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
+            data in
+            
+            guard let serverData = data["Data"] as? NSArray else {
+                return
+            }
+            
+            var uploadedCars:[String] = []
+            for point in serverData {
+                guard let pointInfo = point as? NSDictionary else {
+                    return
+                }
+                
+                let mileage = pointInfo["Amount"]! as! Int
+                let dataType = pointInfo["DataType"]! as! String
+                let lastUpdated = pointInfo["LastUpdated"]! as! Double
+                let car = dataType.components(separatedBy: ":")[2]
+                let isDeleted = pointInfo["IsDeleted"]! as! Double
+                
+                //If the car is not deleted, then check to see if there are points containing that car and update accordingly
+                if isDeleted == 0 {
+                    //If we have a car with the same name already, check to see if it is not out of date.
+                    //If it is more updated than the server, then don't put it in uploaded cars so it gets sent to the server
+                    if let savedMileage = self.carMileage[car] {
+                        if savedMileage.isDeleted {
+                            uploadedCars.append(car)
+                            self.deleteMileage(forCar: car)
+                        } else if savedMileage.value != mileage && savedMileage.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                            print("Editing car mileage")
+                            self.carMileage[car] = GreenAttribute(value: mileage, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                            uploadedCars.append(car)
+                        }
+                    } else {
+                        self.carMileage[car] = GreenAttribute(value: mileage, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                        uploadedCars.append(car)
+                    }
+                } else {
+                    //If the car is deleted, make sure it is removed from the device if it is still on the device
+                    uploadedCars.append(car)
+                    if let _ = self.carMileage[car] {
+                        DispatchQueue.main.async {
+                            self.deleteCar(car, fromServer: false)
+                        }
+                    }
+                }
+            }
+            
+            self.pointConsensusWithOldServer(usingId: userId)
+        }, andFailureFunction: {
+            errorDict in
+        
+            self.pointConsensusWithOldServer(usingId: userId)
+        })
+    }
+    
+    #warning("Deprecated but need it for backward compatability")
+    private func pointConsensusWithOldServer(usingId userId: String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        
+        let id = [APIRequestType.consensus.rawValue, dataName, "carpoints"].joined(separator: ":")
+        let dataType = dataName
+        let parameters:[String:Any] = ["id":userId, "dataType": dataType, "assoc": "Point"]
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
+            data in
+            
+            guard let serverData = data["Data"] as? NSArray else {
+                return
+            }
+            
+            var uploadedPoints:[String] = []
+            for point in serverData {
+                guard let pointInfo = point as? NSDictionary else {
+                    return
+                }
+                
+                let month = pointInfo["Month"]! as! String
+                let amount = pointInfo["Amount"]! as! Double
+                let dataType = pointInfo["DataType"]! as! String
+                let lastUpdated = pointInfo["LastUpdated"]! as! Double
+                let isDeleted = pointInfo["IsDeleted"]! as! Double
+                
+                let car = dataType.components(separatedBy: ":")[2]
+                let date = formatter.date(from: month)!
+                
+                uploadedPoints.append(car+":"+month)
+                
+                if let savedPoints = self.carData[car] {
+                    let index = self.indexOfPointForDate(date, inArray: savedPoints)
+                    if index != -1 {
+                        //The device has the point saved (it is not deleted)
+                        if isDeleted == 0 {
+                            let point = savedPoints[index]
+                            if point.value != amount && point.lastUpdated.timeIntervalSince1970 < lastUpdated  {
+                                //Outdated value
+                                print("Editing odometer point")
+                                self.carData[car]![index].value = amount
+                                self.carData[car]![index].lastUpdated = Date(timeIntervalSince1970: lastUpdated)
+                                CoreDataHelper.updateOdometerReading(self.carData[car]![index], forCar: car)
+                            }
+                        } else {
+                            //The device has the point saved but the server deleted it, so delete it from CoreData
+                            let point = savedPoints[index]
+                            DispatchQueue.main.async {
+                                CoreDataHelper.deleteOdometerReading(point, forCar: car)
+                            }
+                        }
+                    } else {
+                        //The device does not have the point saved. Check to see if the server has deleted it before adding it
+                        if isDeleted == 0 {
+                            CoreDataHelper.hasDeletedOdometerReading(date, forCar: car, callback: {
+                                deletedPoint in
+                                
+                                if let _ = deletedPoint {
+                                    //The device has deleted this point, so delete it from the server
+                                    self.deleteOdometerReading(deletedPoint!, forCar: car)
+                                } else {
+                                    //The device has not deleted this point, so add it
+                                    print("Adding odometer point")
+                                    let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                                    self.carData[car]!.append(odometerReading)
+                                    DispatchQueue.main.async {
+                                        CoreDataHelper.addOdometerReading(odometerReading, forCar: car)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    //Triggers if the device doesn't have the car and the car is not deleted on the server
+                    if isDeleted == 0 {
+                        CoreDataHelper.hasDeletedOdometerReading(date, forCar: car, callback: {
+                            deletedPoint in
+                            
+                            if let _ = deletedPoint {
+                                //The device has deleted this point, so delete it from the server
+                                self.deleteOdometerReading(deletedPoint!, forCar: car)
+                            } else {
+                                //The device has not deleted this point, so add it
+                                print("Adding odometer point")
+                                let odometerReading = GreenDataPoint(month: date, value: amount, dataType: self.dataName, pointType:.odometer, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                                self.carData[car] = [odometerReading]
+                                DispatchQueue.main.async {
+                                    CoreDataHelper.addOdometerReading(odometerReading, forCar: car)
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+            
+            for (car, _) in self.carData {
+                self.carData[car]!.sort(by: {
+                    (point1, point2) in
+                    return point1.month.compare(point2.month) == ComparisonResult.orderedAscending
+                })
+            }
+            
+            self.compileToGraph()
+            
+            self.reachConsensus()
+            
+        }, andFailureFunction: {
+            errorDict in
+            
+            self.compileToGraph()
+            
+            self.reachConsensus()
+        })
+    }
 }

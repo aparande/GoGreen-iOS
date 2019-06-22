@@ -428,4 +428,73 @@ class GreenData {
     func getCarbonData() -> [GreenDataPoint] {
         return co2Equivalent
     }
+    
+    #warning("Deprecated but need it for backward compatability")
+    func consensusWithOldServer(usingOldId userId:String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        
+        let id = [APIRequestType.consensus.rawValue, dataName].joined(separator: ":")
+        let parameters:[String:Any] = ["id": userId, "dataType": dataName]
+        
+        APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "fetchData", withParameters: parameters, andSuccessFunction: {
+            data in
+            
+            guard let serverData = data["Data"] as? NSArray else {
+                return
+            }
+            
+            var unUploadedPoints:[GreenDataPoint?] = self.graphData
+            //Use this variable to search indexes because the actual graph data variable will change since points are being added and removed from it
+            let storedGraphData = self.graphData
+            for point in serverData {
+                guard let pointInfo = point as? NSDictionary else {
+                    return
+                }
+                
+                let month = pointInfo["Month"]! as! String
+                let amount = pointInfo["Amount"]! as! Double
+                let lastUpdated = pointInfo["LastUpdated"]! as! Double
+                let isDeleted = pointInfo["IsDeleted"]! as! Double
+                
+                let date = formatter.date(from: month)!
+                
+                let index = self.indexOfPointForDate(date, inArray: storedGraphData)
+                if index == -1 {
+                    //If the point is not deleted, then add it to the device, but check that the device didn't delete it before it is added to the device
+                    if isDeleted == 0 {
+                        CoreDataHelper.hasDeleted(date, inDataNamed: self.dataName, callback: {
+                            deletedPoint in
+                            
+                            if let _ = deletedPoint {
+                                self.deletePointOnServer(deletedPoint!)
+                            } else {
+                                let dataPoint = GreenDataPoint(month: date, value: amount, dataType: self.dataName, lastUpdated: Date(timeIntervalSince1970: lastUpdated))
+                                self.addDataPoint(point: dataPoint, save: true, upload: false)
+                            }
+                        })
+                    }
+                } else {
+                    if isDeleted == 1 {
+                        //When deleting the point from the device, make sure it is not reuploaded
+                        unUploadedPoints[index] = nil
+                        self.removeDataPoint(atIndex: index, fromServer: false)
+                    } else {
+                        let savedPoint = storedGraphData[index]
+                        
+                        //The only case in which a point in which a point is not sent to the server is when the server is newer, hence there  being only one place unUploadedPoints[index] = nil
+                        if savedPoint.value != amount && savedPoint.lastUpdated.timeIntervalSince1970 < lastUpdated {
+                            unUploadedPoints[index] = nil
+                            print("Editing point")
+                            self.editDataPoint(atIndex: index, toValue: amount)
+                        }
+                    }
+                }
+            }
+            
+            self.sortData()
+            
+            self.reachConsensus()
+        }, andFailureFunction: nil)
+    }
 }
