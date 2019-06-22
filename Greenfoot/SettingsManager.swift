@@ -265,46 +265,21 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             
             self.profile.email = email
             
-            let names = Auth.auth().currentUser!.displayName!.components(separatedBy: " ")
-            self.profile.firstName = names[0]
-            self.profile.lastName = names[1]
+            //If the account was created on the old version, then display name won't exist
+            if let names = Auth.auth().currentUser?.displayName?.components(separatedBy: " ") {
+                self.profile.firstName = names[0]
+                self.profile.lastName = names[1]
+            }
             
             self.profile.isLoggedIn = true
+            
+            #warning("This will overwrite the location stored on the server. Is this right?")
             self.profile.locId = self.locality?.id
             
             self.profile.saveToDefaults(forKey: "Profile")
             FirebaseUtils.updateUser(self.profile)
             
-            #warning("This stuff basically redownloaded the location and overwrites the current user's location. Not even necessary?")
-            /*
-            if let downloadedLocation = data["location"] as? NSDictionary {
-                if let _ = self.locality {
-                    
-                } else {
-                    self.locality = nil
-                }
-                
-                if downloadedLocation.object(forKey: "city") as? String != "null" {
-                    self.locality = Location(fromDict: downloadedLocation.dictionaryWithValues(forKeys: ["Id", "City", "State", "Country", "ISOCode", "Zip"]))
-                    self.shouldUseLocation = true
-                }
-                
-                self.locality?.saveToDefaults(forKey: "Setting_Locale")
-                
-                if self.shouldUseLocation {
-                    GreenfootModal.sharedInstance.locality = self.locality
-                    #warning("Why the heck do I save this twice")
-                    self.locality?.saveToDefaults(forKey: "LocalityData")
-                }
-                
-                GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
-            }
-            
-            for (_, data) in GreenfootModal.sharedInstance.data {
-                data.reachConsensus()
-            }
-            
-            completion(true, nil) */
+            completion(true, nil)
         }) { (errorMessage) in
             completion(false, errorMessage)
         }
