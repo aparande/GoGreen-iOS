@@ -281,7 +281,39 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             
             completion(true, nil)
         }) { (errorMessage) in
-            completion(false, errorMessage)
+            print("Couldn't find account on Firebase. Trying on old server")
+            let parameters:[String: Any] = ["email": email, "password":password]
+            let id = APIRequestType.login.rawValue
+            APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "login", withParameters: parameters, andSuccessFunction: {
+                (data) in
+                print(data)
+                
+                FirebaseUtils.signUpUserWith(named: nil, withEmail: email, andPassword: password, doOnSuccess: { (userId) in
+                    FirebaseUtils.migrateUserData(fromId: self.profile.id!)
+                    
+                    self.profile.id = userId
+                    self.profile.email = email
+                    self.profile.isLoggedIn = true
+                    
+                    FirebaseUtils.updateUser(self.profile)
+                    
+                    completion(true, nil)
+                }, elseOnFailure: { (error) in
+                    print(error)
+                    completion(false, "Please check your network connection or try again later")
+                })
+            }, andFailureFunction: {
+                (err) in
+                guard let errorType = err["Error"] as? APIError else {
+                    return completion(false, nil)
+                }
+                
+                if errorType == .serverFailure {
+                    completion(false, "Incorrect Username/Password Combination")
+                } else {
+                    completion(false, "Please check your network connection or try again later")
+                }
+            })
         }
     }
     
