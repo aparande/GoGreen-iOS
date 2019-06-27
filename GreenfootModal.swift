@@ -142,7 +142,11 @@ class GreenfootModal {
                 return
             }
             
-            let setting = reminderSettings[dataType]!
+            guard let setting = reminderSettings[dataType] else {
+                print("Could not queue reminder because reminder settings for \(dataType.rawValue) is null")
+                return
+            }
+            
             if setting == .None {
                 return
             }
