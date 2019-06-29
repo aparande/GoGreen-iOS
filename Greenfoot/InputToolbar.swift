@@ -86,7 +86,7 @@ class InputToolbar: UIToolbar {
         }
         
         if let text = right as? String {
-            self.rightButton = UIBarButtonItem(title: text, style: .plain, target: self, action: #selector(clickLeft))
+            self.rightButton = UIBarButtonItem(title: text, style: .plain, target: self, action: #selector(clickRight))
         }
         
         if let button = self.rightButton {

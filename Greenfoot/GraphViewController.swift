@@ -9,8 +9,9 @@
 import UIKit
 import Material
 import Charts
+import BLTNBoard
 
-class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDelegate {
+class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDelegate, BLTNPageItemDelegate {
 
     private let greenModal = GreenfootModal.sharedInstance
     private weak var data: GreenData!
@@ -38,6 +39,12 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     @IBOutlet weak var toolbar: InputToolbar!
     @IBOutlet weak var monthGraph: HorizontalBarChartView!
     
+    lazy var bulletinManager: BLTNItemManager = {
+        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", data: self.data)
+        rootItem.delegate = self
+        return BLTNItemManager(rootItem: rootItem)
+    }()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -55,9 +62,12 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     }
     
     @IBAction func addData(_ sender: Any) {
-        let bulkAdder = BulkDataViewController(withData: self.data)
-        let nvc = NavigationController(rootViewController: bulkAdder)
-        self.present(nvc, animated: true, completion: nil)
+        bulletinManager.showBulletin(above: self)
+    }
+    
+    func onActionClicked() {
+        mainGraph.loadDataFrom(array: data.getGraphData(), labeled: "kWh")
+        bulletinManager.dismissBulletin(animated: true)
     }
     
     func setDataType(data:GreenData) {

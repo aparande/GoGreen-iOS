@@ -5,6 +5,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - BulletinBoard (3.0.0)
   - Charts (3.3.0):
     - Charts/Core (= 3.3.0)
   - Charts/Core (3.3.0)
@@ -126,6 +127,7 @@ PODS:
   - Protobuf (3.8.0)
 
 DEPENDENCIES:
+  - BulletinBoard
   - Charts
   - Firebase/Analytics
   - Firebase/Auth
@@ -138,6 +140,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BoringSSL-GRPC
+    - BulletinBoard
     - Charts
     - DynamicBlurView
     - Firebase
@@ -162,6 +165,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  BulletinBoard: 927f4f9fd22503ceecd71bfc830fd65d5996593a
   Charts: e0dd4cd8f257bccf98407b58183ddca8e8d5b578
   DynamicBlurView: b1df5415f9bd31897549e5d7077e5ec120a4d636
   Firebase: 5965bac23e7fcb5fa6d926ed429c9ecef8a2014e
@@ -184,6 +188,6 @@ SPEC CHECKSUMS:
   PopupDialog: 42fb7a0bc4fafdf89fef8b5b2b127a6023f3e1cc
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
 
-PODFILE CHECKSUM: 734f6be96cc398a48af44001ab67338b87612477
+PODFILE CHECKSUM: fd59139060b7fcbfe2ae96ad76ddb5b183f79b1b
 
 COCOAPODS: 1.5.2

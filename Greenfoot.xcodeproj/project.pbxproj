@@ -29,6 +29,7 @@
 		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
+		1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F61DA6022C7257600462BDB /* AddDataBLTNItem.swift */; };
 		1F66654C205B748200FCD30C /* GreenfootTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66654B205B748200FCD30C /* GreenfootTests.swift */; };
 		1F6C73B61EDB593C006A0003 /* EditDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C73B51EDB593C006A0003 /* EditDataCell.xib */; };
 		1F6EF2881EF07903000EF403 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6EF2871EF07903000EF403 /* CoreLocation.framework */; };
@@ -97,6 +98,7 @@
 		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenfootModal.swift; sourceTree = SOURCE_ROOT; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		1F61DA6022C7257600462BDB /* AddDataBLTNItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataBLTNItem.swift; sourceTree = "<group>"; };
 		1F666549205B748200FCD30C /* GreenfootTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GreenfootTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F66654B205B748200FCD30C /* GreenfootTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenfootTests.swift; sourceTree = "<group>"; };
 		1F66654D205B748200FCD30C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */,
 				1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */,
 				1F00C38522B703A500715506 /* PopupDialog.swift */,
+				1F61DA6022C7257600462BDB /* AddDataBLTNItem.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/BulletinBoard/BLTNBoard.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -467,6 +471,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BLTNBoard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicBlurView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
@@ -522,6 +527,7 @@
 				1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */,
 				1FA018A01EE394D6005ED9E2 /* DrivingDataViewController.swift in Sources */,
 				1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */,
+				1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */,
 				1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
