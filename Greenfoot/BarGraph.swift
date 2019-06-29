@@ -111,7 +111,7 @@ class BarGraph: BarChartView {
     private func basicSetup() {
         self.noDataText = "NO DATA"
         self.noDataTextColor = UIColor.white.withAlphaComponent(0.8)
-        self.noDataFont = UIFont(name: "DroidSans", size: 35.0)!
+        self.noDataFont = UIFont.header
         
         //Creates the corner radius
         self.layer.cornerRadius = 10
@@ -279,8 +279,6 @@ extension HorizontalBarChartView {
         
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: label)
         let chartData = BarChartData(dataSet: chartDataSet)
-        //chartData.setValueTextColor(UIColor.white)
-        //chartData.setValueFont(UIFont.boldSystemFont(ofSize: 8))
         
         let chartFormatter = BarChartFormatter(labels: labels)
         let xAxis = XAxis()
@@ -338,18 +336,6 @@ extension HorizontalBarChartView {
         //self.setScaleMinima(10, scaleY: 1)
         
         self.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: .linear)
-    }
-    
-    func showError(_ error: String) {
-        self.noDataText = error
-        self.noDataTextColor = UIColor.white.withAlphaComponent(0.8)
-        self.noDataFont = UIFont(name: "DroidSans", size: 20.0)!
-        
-        //Creates the corner radius
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = true
-        
-        self.backgroundColor = Colors.green
     }
 }
 

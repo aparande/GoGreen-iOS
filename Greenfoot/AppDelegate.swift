@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func style() {
         let buttonAppearance = PopupDialogButton.appearance()
-        buttonAppearance.titleFont = UIFont(name: "DroidSans", size: 15)
+        buttonAppearance.titleFont = UIFont.button
         buttonAppearance.titleColor = Colors.green
         
         CancelButton.appearance().titleColor = .red

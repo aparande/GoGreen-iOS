@@ -153,7 +153,7 @@ extension UIViewController {
         if let text = title {
             navigationItem.titleLabel.text = text
             navigationItem.titleLabel.textColor = UIColor.white
-            navigationItem.titleLabel.font = UIFont(name: "DroidSans", size: 17)
+            navigationItem.titleLabel.font = UIFont.header
         }
         
         navigationController?.navigationBar.tintColor = UIColor.white

@@ -31,7 +31,7 @@ class AddDataBLTNItem: BLTNPageItem {
         isDismissable = true
         actionButtonTitle = "Create"
         
-        appearance.titleFontDescriptor = UIFontDescriptor(name: "DroidSans", matrix: .identity)
+        appearance.titleFontDescriptor = UIFont.header.fontDescriptor
         appearance.titleTextColor = UIColor.black
         appearance.actionButtonColor = Colors.green
     }

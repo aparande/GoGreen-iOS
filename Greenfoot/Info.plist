@@ -46,6 +46,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>GeosansLight.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Black.ttf</string>
 		<string>DroidSans.tff</string>
 		<string>Raleway-Regular.tff</string>
 		<string>Raleway-Bold.tff</string>

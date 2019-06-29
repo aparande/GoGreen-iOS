@@ -21,6 +21,10 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     
     private var location: Int!{
         didSet {
+            if self.datapoints.count < 0 {
+                return
+            }
+            
             let datapoint = self.datapoints[self.location]
             toolbar.centerField.text = Date.monthFormat(date: datapoint.month)
             

@@ -73,7 +73,7 @@ class DataPointViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = (isData) ? setDataCells(indexPath: indexPath) : setUnitCells(indexPath: indexPath)
         
-        cell.textLabel?.font = UIFont(name: "DroidSans", size: 17.0)
+        cell.textLabel?.font = UIFont.label
         cell.textLabel?.textColor = Colors.green
         cell.selectionStyle = .none
         

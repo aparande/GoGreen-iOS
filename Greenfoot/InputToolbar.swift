@@ -101,7 +101,7 @@ class InputToolbar: UIToolbar {
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
         centerField = UITextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width/3, height: 44))
-        centerField!.font = UIFont(name: "Droid Sans", size: 30.0)
+        centerField!.font = UIFont.header
         centerField!.textAlignment = .center
         let center = UIBarButtonItem(customView: centerField!)
         

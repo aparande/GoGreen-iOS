@@ -35,14 +35,14 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         navigationController?.navigationBar.barTintColor = Colors.green
         
         navigationItem.backButton.title = "Save"
-        navigationItem.backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
+        navigationItem.backButton.titleLabel?.font = UIFont.button
         navigationItem.backButton.titleColor = UIColor.white
         navigationItem.backButton.tintColor = UIColor.white
         
         if self == self.navigationController?.viewControllers[0] {
             let backButton = IconButton()
             backButton.title = "Save"
-            backButton.titleLabel?.font = UIFont(name: "DroidSans", size: 20.0)
+            backButton.titleLabel?.font = UIFont.button
             backButton.titleColor = UIColor.white
             backButton.tintColor = UIColor.white
             backButton.addTarget(self, action: #selector(returnToTutorial), for: .touchUpInside)

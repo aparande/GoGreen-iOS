@@ -41,7 +41,7 @@ class DrivingDataViewController: BulkDataViewController {
         if cars.count == 0 {
             let noDataLabel = UILabel(frame: CGRect(x: 0, y: tableView.bounds.height/2, width: tableView.bounds.width, height: tableView.bounds.height))
             noDataLabel.text = "NO DATA"
-            noDataLabel.font = UIFont(name: "Droid Sans", size: 75.0)
+            noDataLabel.font = UIFont.header
             noDataLabel.textColor = Color.grey.base.withAlphaComponent(0.7)
             noDataLabel.textAlignment = .center
             noDataLabel.numberOfLines = 0
@@ -142,7 +142,7 @@ class DrivingDataViewController: BulkDataViewController {
         if cars.count == 0 {
             let noDataLabel = UILabel(frame: CGRect(x: 0, y: tableView.bounds.height/2, width: tableView.bounds.width, height: tableView.bounds.height))
             noDataLabel.text = "NO DATA"
-            noDataLabel.font = UIFont(name: "Droid Sans", size: 75.0)
+            noDataLabel.font = UIFont.header
             noDataLabel.textColor = Color.grey.base.withAlphaComponent(0.7)
             noDataLabel.textAlignment = .center
             noDataLabel.numberOfLines = 0
