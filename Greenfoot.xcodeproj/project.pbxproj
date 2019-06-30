@@ -57,7 +57,6 @@
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
 		1FAA27FC22C88891007E7403 /* BarGraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA27FB22C88891007E7403 /* BarGraphTableViewCell.swift */; };
 		1FAA27FE22C888AB007E7403 /* BarGraphCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FAA27FD22C888AB007E7403 /* BarGraphCell.xib */; };
-		1FAA280022C88BE2007E7403 /* SummaryContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA27FF22C88BE2007E7403 /* SummaryContainerViewController.swift */; };
 		1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */; };
 		1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FAFFB02201AE11A0015CF4B /* Account.storyboard */; };
 		1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB08D4F202E01FD00D4C20C /* DrivingData.swift */; };
@@ -70,6 +69,7 @@
 		1FD0055222C9406E00F5828B /* LogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD0055122C9406E00F5828B /* LogCell.xib */; };
 		1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD0055322C9425200F5828B /* LogTableViewCell.swift */; };
 		1FE6E1C122B5BAB5004C0E81 /* FirebaseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */; };
+		1FE8A57B22C97DAB0044ABEC /* Summary-TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */; };
 		1FEE9FD01FFB1086002D0458 /* AttributeDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FEE9FCF1FFB1086002D0458 /* AttributeDescriptionCell.xib */; };
 		1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */; };
 		28D5E3560046B69D741C08F5 /* Pods_Greenfoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */; };
@@ -141,7 +141,6 @@
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		1FAA27FB22C88891007E7403 /* BarGraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphTableViewCell.swift; sourceTree = "<group>"; };
 		1FAA27FD22C888AB007E7403 /* BarGraphCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BarGraphCell.xib; sourceTree = "<group>"; };
-		1FAA27FF22C88BE2007E7403 /* SummaryContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryContainerViewController.swift; sourceTree = "<group>"; };
 		1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		1FAFFB02201AE11A0015CF4B /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		1FB08D4F202E01FD00D4C20C /* DrivingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingData.swift; sourceTree = "<group>"; };
@@ -155,6 +154,7 @@
 		1FD0055122C9406E00F5828B /* LogCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogCell.xib; sourceTree = "<group>"; };
 		1FD0055322C9425200F5828B /* LogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
 		1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseObject.swift; sourceTree = "<group>"; };
+		1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Summary-TableView.swift"; sourceTree = "<group>"; };
 		1FEE9FCF1FFB1086002D0458 /* AttributeDescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttributeDescriptionCell.xib; sourceTree = "<group>"; };
 		1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputToolbar.swift; sourceTree = "<group>"; };
 		6AC0A5254D86C03173AE76C5 /* Pods-Greenfoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Greenfoot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot.debug.xcconfig"; sourceTree = "<group>"; };
@@ -313,7 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				1F70CCBD1E105D0600AD351A /* SummaryViewController.swift */,
-				1FAA27FF22C88BE2007E7403 /* SummaryContainerViewController.swift */,
+				1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */,
 			);
 			path = Summary;
 			sourceTree = "<group>";
@@ -596,7 +596,6 @@
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
 				1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */,
 				1FE6E1C122B5BAB5004C0E81 /* FirebaseObject.swift in Sources */,
-				1FAA280022C88BE2007E7403 /* SummaryContainerViewController.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
 				1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */,
 				1FA018A01EE394D6005ED9E2 /* DrivingDataViewController.swift in Sources */,
@@ -613,6 +612,7 @@
 				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
 				1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */,
 				1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */,
+				1FE8A57B22C97DAB0044ABEC /* Summary-TableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

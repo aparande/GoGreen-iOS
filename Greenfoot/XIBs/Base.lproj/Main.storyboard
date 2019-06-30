@@ -26,10 +26,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Summary Container View Controller-->
+        <!--Summary View Controller-->
         <scene sceneID="QNn-sh-MiF">
             <objects>
-                <viewController storyboardIdentifier="Summary" id="Twm-ah-WsH" customClass="SummaryContainerViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Summary" id="Twm-ah-WsH" customClass="SummaryViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dMB-kJ-VEW"/>
                         <viewControllerLayoutGuide type="bottom" id="V3C-vz-rMD"/>
@@ -101,69 +101,49 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zOd-s3-oXe">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7gM-kl-efi">
                                 <rect key="frame" x="0.0" y="331.66666666666674" width="375" height="397.33333333333326"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="krV-FN-FG3">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="397.33333333333331"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                    </tableView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <segue destination="WYB-4M-KdG" kind="embed" id="XLs-yJ-yJ9"/>
-                                </connections>
-                            </containerView>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="krV-FN-FG3" secondAttribute="trailing" id="4TH-tS-hbG"/>
+                                    <constraint firstItem="krV-FN-FG3" firstAttribute="top" secondItem="7gM-kl-efi" secondAttribute="top" id="Qfn-aK-XKb"/>
+                                    <constraint firstAttribute="bottom" secondItem="krV-FN-FG3" secondAttribute="bottom" id="Sz3-zB-pbx"/>
+                                    <constraint firstItem="krV-FN-FG3" firstAttribute="leading" secondItem="7gM-kl-efi" secondAttribute="leading" id="upt-J6-Yew"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.1846533716" green="0.79983717200000004" blue="0.44363409279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="7gM-kl-efi" firstAttribute="top" secondItem="mwc-Ux-GWq" secondAttribute="bottom" constant="20" id="2d9-aZ-aUc"/>
                             <constraint firstItem="mwc-Ux-GWq" firstAttribute="leading" secondItem="lSX-qr-hcU" secondAttribute="leading" constant="20" id="8Xy-Hu-3vh"/>
                             <constraint firstItem="mwc-Ux-GWq" firstAttribute="top" secondItem="YRx-2v-3mD" secondAttribute="bottom" constant="10" id="8nM-aF-Yxv"/>
-                            <constraint firstItem="zOd-s3-oXe" firstAttribute="leading" secondItem="lSX-qr-hcU" secondAttribute="leading" id="KHn-4A-RY6"/>
+                            <constraint firstItem="7gM-kl-efi" firstAttribute="leading" secondItem="lSX-qr-hcU" secondAttribute="leading" id="IRe-pM-r8n"/>
+                            <constraint firstItem="V3C-vz-rMD" firstAttribute="top" secondItem="7gM-kl-efi" secondAttribute="bottom" id="ME5-Fs-f7E"/>
                             <constraint firstItem="YRx-2v-3mD" firstAttribute="top" secondItem="f0C-0t-KXl" secondAttribute="bottom" constant="10" id="PjS-pd-Nrg"/>
                             <constraint firstAttribute="trailing" secondItem="mwc-Ux-GWq" secondAttribute="trailing" constant="20" id="Rw4-Hg-Qg8"/>
-                            <constraint firstItem="V3C-vz-rMD" firstAttribute="top" secondItem="zOd-s3-oXe" secondAttribute="bottom" id="T8g-e7-JtK"/>
-                            <constraint firstAttribute="trailing" secondItem="zOd-s3-oXe" secondAttribute="trailing" id="ayN-56-Ffc"/>
-                            <constraint firstItem="zOd-s3-oXe" firstAttribute="top" secondItem="mwc-Ux-GWq" secondAttribute="bottom" constant="20" id="egi-8k-Ojz"/>
                             <constraint firstItem="YRx-2v-3mD" firstAttribute="centerX" secondItem="lSX-qr-hcU" secondAttribute="centerX" id="fLa-w5-rFn"/>
                             <constraint firstItem="f0C-0t-KXl" firstAttribute="leading" secondItem="lSX-qr-hcU" secondAttribute="leading" constant="10" id="kDq-D3-mbz"/>
                             <constraint firstAttribute="trailing" secondItem="f0C-0t-KXl" secondAttribute="trailing" constant="10" id="n9L-Lb-isi"/>
                             <constraint firstItem="f0C-0t-KXl" firstAttribute="top" secondItem="dMB-kJ-VEW" secondAttribute="bottom" id="qGG-bp-39t"/>
+                            <constraint firstAttribute="trailing" secondItem="7gM-kl-efi" secondAttribute="trailing" id="tfi-4Y-LIm"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="tableContainerView" destination="zOd-s3-oXe" id="YRR-jz-h1B"/>
+                        <outlet property="tableContainerView" destination="7gM-kl-efi" id="Lco-LU-KOJ"/>
+                        <outlet property="tableView" destination="krV-FN-FG3" id="xP3-33-otv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DrB-qj-UI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-41" y="164"/>
-        </scene>
-        <!--Summary View Controller-->
-        <scene sceneID="f7s-Zm-G5t">
-            <objects>
-                <tableViewController id="WYB-4M-KdG" customClass="SummaryViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="1EM-Yk-Wy9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="397.33333333333326"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GraphCell" id="hvD-2Q-JGy" customClass="BarGraphTableViewCell" customModule="Greenfoot" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hvD-2Q-JGy" id="bnQ-xJ-P2r">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="WYB-4M-KdG" id="wIp-JH-hDI"/>
-                            <outlet property="delegate" destination="WYB-4M-KdG" id="b2u-pu-dej"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6YC-sp-cRp" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="791" y="165"/>
+            <point key="canvasLocation" x="-42.399999999999999" y="163.30049261083744"/>
         </scene>
         <!--Graph View Controller-->
         <scene sceneID="4HD-ZW-wzG">
