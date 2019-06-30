@@ -10,4 +10,10 @@ import UIKit
 
 class BarGraphTableViewCell: UITableViewCell {
     @IBOutlet weak var graph: BarGraph!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        graph.isUserInteractionEnabled = false
+    }
 }

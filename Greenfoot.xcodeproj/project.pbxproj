@@ -808,7 +808,7 @@
 				CODE_SIGN_ENTITLEMENTS = Greenfoot/Greenfoot.entitlements;
 				DEVELOPMENT_TEAM = CZ787F8MST;
 				INFOPLIST_FILE = Greenfoot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aparande.gogreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -826,7 +826,7 @@
 				CODE_SIGN_ENTITLEMENTS = Greenfoot/Greenfoot.entitlements;
 				DEVELOPMENT_TEAM = CZ787F8MST;
 				INFOPLIST_FILE = Greenfoot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aparande.gogreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";

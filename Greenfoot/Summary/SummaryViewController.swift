@@ -22,6 +22,40 @@ class SummaryViewController: UITableViewController {
         tableView.register(logNib, forCellReuseIdentifier: "LogCell")
         
         tableView.separatorStyle = .none
+        
+        tableView.estimatedSectionHeaderHeight = 40
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        
+        tableView.backgroundColor = UIColor.white
+        
+        tableView.layer.cornerRadius = 20
+        tableView.layer.masksToBounds = true
+        tableView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        label.textColor = .black
+        label.font = UIFont.header
+        
+        if section == 0 {
+           label.text = "Monthly Emissions"
+        } else {
+            label.text = "View Data"
+        }
+        
+        headerView.addSubview(label)
+        
+        label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
+        headerView.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10).isActive = true
+        label.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10).isActive = true
+        headerView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 10).isActive = true
+        
+        return headerView
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,14 +97,6 @@ class SummaryViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Monthly Emissions"
-        } else {
-            return "View Data"
-        }
     }
 }
 

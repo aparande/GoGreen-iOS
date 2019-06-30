@@ -13,6 +13,7 @@ class LogTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var recordedLabel: UILabel!
     @IBOutlet weak var iconView: UIImageView!
+    @IBOutlet weak var roundedView: UIView!
     
     var title: String = "" {
         didSet {
@@ -42,6 +43,6 @@ class LogTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        self.layer.cornerRadius = 20
+        roundedView.layer.cornerRadius = 20
     }
 }
