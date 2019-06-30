@@ -135,6 +135,22 @@ enum GreenDataType:String {
     case car = "Car"
     
     static let allValues = [electric, water, driving, gas, car]
+    static let recordedValues = [electric, water, gas, driving]
+    
+    static func getImage(for type: GreenDataType) -> UIImage {
+        switch type {
+        case .electric:
+            return Icon.electric_white
+        case .water:
+            return Icon.water_white
+        case .driving:
+            return Icon.road_white
+        case .gas:
+            return Icon.fire_white
+        default:
+            return Icon.logo_white
+        }
+    }
 }
 
 extension Date {

@@ -49,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let tvc = UITabBarController()
             
             let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
-            let sNVC = NavigationController(rootViewController: svc)
             let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
             svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
             
@@ -58,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let drivingVc = getGraphController(forDataType: GreenDataType.driving, andTag: 4)
             let gasVc = getGraphController(forDataType: GreenDataType.gas, andTag: 5)
             
-            tvc.viewControllers = [sNVC, electricVc, waterVc, drivingVc, gasVc]
+            tvc.viewControllers = [svc, electricVc, waterVc, drivingVc, gasVc]
             
             tvc.tabBar.tintColor = Colors.green
         
