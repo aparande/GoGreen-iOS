@@ -132,11 +132,19 @@
                             <constraint firstAttribute="trailing" secondItem="f0C-0t-KXl" secondAttribute="trailing" constant="10" id="n9L-Lb-isi"/>
                             <constraint firstItem="f0C-0t-KXl" firstAttribute="top" secondItem="dMB-kJ-VEW" secondAttribute="bottom" id="qGG-bp-39t"/>
                             <constraint firstAttribute="trailing" secondItem="7gM-kl-efi" secondAttribute="trailing" id="tfi-4Y-LIm"/>
+                            <constraint firstItem="7gM-kl-efi" firstAttribute="top" secondItem="dMB-kJ-VEW" secondAttribute="bottom" constant="20" id="y0m-9o-4wm"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="y0m-9o-4wm"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="containerAnchoredTopConstraint" destination="y0m-9o-4wm" id="jGO-fj-DxM"/>
+                        <outlet property="containerFloatingConstraint" destination="2d9-aZ-aUc" id="L2e-sM-0c2"/>
                         <outlet property="tableContainerView" destination="7gM-kl-efi" id="Lco-LU-KOJ"/>
                         <outlet property="tableView" destination="krV-FN-FG3" id="xP3-33-otv"/>
                     </connections>

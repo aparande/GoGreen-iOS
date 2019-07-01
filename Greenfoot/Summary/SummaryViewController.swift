@@ -15,8 +15,29 @@ class SummaryViewController: UIViewController {
     @IBOutlet weak var tableContainerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    //@IBOutlet weak var containerAnchoredTopConstraint: NSLayoutConstraint!
-    //@IBOutlet weak var containerFloatingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var containerAnchoredTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var containerFloatingConstraint: NSLayoutConstraint!
+    
+    private var tableViewExpanded: Bool = false {
+        didSet {
+            self.tableView.isScrollEnabled = false
+            let onComplete: ((Bool) -> Void) = {(finished) in if finished { self.tableView.isScrollEnabled = true}}
+            
+            if tableViewExpanded {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [], animations: {
+                    self.containerFloatingConstraint.isActive = false
+                    self.containerAnchoredTopConstraint.isActive = true
+                    self.view.layoutIfNeeded()
+                }, completion: onComplete)
+            } else {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [], animations: {
+                    self.containerAnchoredTopConstraint.isActive = false
+                    self.containerFloatingConstraint.isActive = true
+                    self.view.layoutIfNeeded()
+                }, completion: onComplete)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,37 +48,27 @@ class SummaryViewController: UIViewController {
         let logNib = UINib(nibName: "LogCell", bundle: nil)
         tableView.register(logNib, forCellReuseIdentifier: "LogCell")
         
-        tableContainerView.backgroundColor = UIColor.clear
-        tableContainerView.layer.shadowColor = UIColor.darkGray.cgColor
-        tableContainerView.layer.shadowOffset = CGSize(width: 0, height: -1.0)
-        tableContainerView.layer.shadowOpacity = 1.0
-        tableContainerView.layer.shadowRadius = 10
-        
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.estimatedSectionHeaderHeight = 40
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.backgroundColor = UIColor.white
-        tableView.layer.cornerRadius = 20
-        tableView.layer.masksToBounds = true
-        tableView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        setupTableContainer()
+        setupTableView()
     }
     
-    /*
+
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
-        if translation.y > 0 {
-            print("Swiping Down from \(scrollView.contentOffset.y)")
-            
-            // swipes from top to bottom of screen -> down
-        } else {
-            print("Swiping Up from \(scrollView.contentOffset.y)")
-            // swipes from bottom to top of screen -> up
+        if scrollView.contentOffset.y > 0 {
+            return
         }
-    } */
+        
+        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
+        if translation.y > 0 && tableViewExpanded {
+            print("Swiping Down")
+            self.tableViewExpanded = false
+        } else if translation.y < 0 && !tableViewExpanded {
+            print("Swiping Up")
+            self.tableViewExpanded = true
+        }
+    }
+
 }
 
 extension UIViewController {
