@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="7HP-1w-8i7">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -26,6 +26,25 @@
         </array>
     </customFonts>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="lEA-Ai-Rde">
+            <objects>
+                <navigationController id="7HP-1w-8i7" customClass="NavigationController" customModule="Material" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="w33-uA-D7J">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xQs-OZ-f4O">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="Twm-ah-WsH" kind="relationship" relationship="rootViewController" id="Vks-xe-ZFM"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7pE-DE-9XI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-726" y="154"/>
+        </scene>
         <!--Summary View Controller-->
         <scene sceneID="QNn-sh-MiF">
             <objects>
@@ -140,6 +159,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="QlA-gu-Pqz"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -147,11 +167,12 @@
                         <outlet property="containerFloatingConstraint" destination="2d9-aZ-aUc" id="L2e-sM-0c2"/>
                         <outlet property="tableContainerView" destination="7gM-kl-efi" id="Lco-LU-KOJ"/>
                         <outlet property="tableView" destination="krV-FN-FG3" id="xP3-33-otv"/>
+                        <segue destination="Z3v-lE-HHE" kind="show" identifier="toGraphView" id="t7w-fI-DA8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DrB-qj-UI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-42.399999999999999" y="163.30049261083744"/>
+            <point key="canvasLocation" x="228" y="155"/>
         </scene>
         <!--Graph View Controller-->
         <scene sceneID="4HD-ZW-wzG">
@@ -162,11 +183,11 @@
                         <viewControllerLayoutGuide type="bottom" id="QzH-B0-9de"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MdO-Vb-qKr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ccy-4E-t9s" userLabel="Outer Stack">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="601"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="601"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6Mm-ZH-0Dt" userLabel="Top Stack">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="253.33333333333334"/>
@@ -188,7 +209,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dee-qS-gGd" customClass="InputToolbar" customModule="Greenfoot" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="209.33333333333331" width="375" height="44"/>
+                                                <rect key="frame" x="0.0" y="209.33333333333334" width="375" height="44"/>
                                                 <color key="backgroundColor" red="0.1846533716" green="0.79983717200000004" blue="0.44363409279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="VkV-HU-vmB"/>
@@ -267,7 +288,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mainGraph" destination="OtU-UA-HLq" id="laM-gw-4GL"/>
@@ -277,7 +298,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8C1-th-OkN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1838" y="858"/>
+            <point key="canvasLocation" x="1242" y="161"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="IaN-vL-7An">

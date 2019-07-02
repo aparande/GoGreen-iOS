@@ -62,6 +62,7 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         mainGraph.loadDataFrom(array: data.getGraphData(), labeled: "kWh")
     }
     

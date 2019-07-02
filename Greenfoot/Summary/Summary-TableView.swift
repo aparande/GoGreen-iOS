@@ -50,6 +50,16 @@ extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            return
+        }
+        
+        let selectedDataType = GreenDataType.recordedValues[indexPath.row]
+        let data = GreenfootModal.sharedInstance.data[selectedDataType]
+        self.performSegue(withIdentifier: "toGraphView", sender: data)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -74,5 +84,25 @@ extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
+    }
+    
+    func setupTableContainer() {
+        tableContainerView.backgroundColor = UIColor.clear
+        tableContainerView.layer.shadowColor = UIColor.darkGray.cgColor
+        tableContainerView.layer.shadowOffset = CGSize(width: 0, height: -1.0)
+        tableContainerView.layer.shadowOpacity = 1.0
+        tableContainerView.layer.shadowRadius = 10
+    }
+    
+    func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.estimatedSectionHeaderHeight = 40
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.backgroundColor = UIColor.white
+        tableView.layer.cornerRadius = 20
+        tableView.layer.masksToBounds = true
+        tableView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
     }
 }

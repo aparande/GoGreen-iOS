@@ -48,7 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
             let tvc = UITabBarController()
             
-            let svc = storyboard.instantiateViewController(withIdentifier: "Summary")
+            let svc = storyboard.instantiateInitialViewController()!
+            
             let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
             svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
             
@@ -90,6 +91,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         buttonAppearance.titleColor = Colors.green
         
         CancelButton.appearance().titleColor = .red
+        
+        let attrs = [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.header
+        ]
+        
+        UINavigationBar.appearance().titleTextAttributes = attrs
     }
     
     private func getGraphController(forDataType type:GreenDataType, andTag tag:Int) -> NavigationController {

@@ -52,7 +52,15 @@ class SummaryViewController: UIViewController {
         setupTableView()
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 0 {
@@ -66,6 +74,12 @@ class SummaryViewController: UIViewController {
         } else if translation.y < 0 && !tableViewExpanded {
             print("Swiping Up")
             self.tableViewExpanded = true
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let data = sender as? GreenData, let destination = segue.destination as? GraphViewController {
+            destination.setDataType(data: data)
         }
     }
 
@@ -94,14 +108,20 @@ extension UIViewController {
     }
     
     func prepNavigationBar(titled title:String?) {
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barStyle = .default
+        
         if let text = title {
-            navigationItem.titleLabel.text = text
-            navigationItem.titleLabel.textColor = UIColor.white
-            navigationItem.titleLabel.font = UIFont.header
+            self.title = text
+            self.navigationItem.titleLabel.text = text
+            self.navigationItem.titleLabel.textColor = UIColor.white
+            self.navigationItem.titleLabel.font = UIFont.navigationTitle
         }
         
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = Colors.green
-        navigationItem.backButton.tintColor = UIColor.white
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.barTintColor = Colors.green
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
     }
 }
