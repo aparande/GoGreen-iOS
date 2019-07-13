@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Black.ttf">
+            <string>Roboto-Black</string>
+        </array>
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HistoryCell" rowHeight="65" id="ItS-ED-Yef" customClass="HistoryTableViewCell" customModule="Greenfoot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="66"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ItS-ED-Yef" id="B5Z-6r-cXY">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="65.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Header" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ng-YP-cPa">
+                        <rect key="frame" x="10" y="10" width="394" height="28.5"/>
+                        <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="24"/>
+                        <color key="textColor" red="0.1846533716" green="0.79983717200000004" blue="0.44363409279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="kjr-1P-k8N">
+                        <rect key="frame" x="10" y="38.5" width="394" height="18.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y22-Hn-YTM">
+                                <rect key="frame" x="0.0" y="0.0" width="112" height="18.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFh-WR-9Up">
+                                <rect key="frame" x="141" y="0.0" width="112" height="18.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CO2 Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gn-5E-Wgo">
+                                <rect key="frame" x="282" y="0.0" width="112" height="18.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="kjr-1P-k8N" secondAttribute="trailing" constant="10" id="6ia-oQ-3NT"/>
+                    <constraint firstItem="kjr-1P-k8N" firstAttribute="top" secondItem="5ng-YP-cPa" secondAttribute="bottom" id="CgW-Ag-8HU"/>
+                    <constraint firstItem="5ng-YP-cPa" firstAttribute="top" secondItem="B5Z-6r-cXY" secondAttribute="top" constant="10" id="WP7-aj-5hv"/>
+                    <constraint firstItem="5ng-YP-cPa" firstAttribute="leading" secondItem="B5Z-6r-cXY" secondAttribute="leading" constant="10" id="cKz-0w-nki"/>
+                    <constraint firstItem="kjr-1P-k8N" firstAttribute="leading" secondItem="B5Z-6r-cXY" secondAttribute="leading" constant="10" id="gkP-AZ-c1e"/>
+                    <constraint firstAttribute="trailing" secondItem="5ng-YP-cPa" secondAttribute="trailing" constant="10" id="qus-c2-2uC"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="amountLabel" destination="OFh-WR-9Up" id="A4J-Ya-Wcn"/>
+                <outlet property="co2Label" destination="4gn-5E-Wgo" id="daJ-NZ-AA6"/>
+                <outlet property="dateLabel" destination="y22-Hn-YTM" id="AcD-uR-hFx"/>
+                <outlet property="dateTitleLabel" destination="5ng-YP-cPa" id="XQ7-vP-p9M"/>
+            </connections>
+            <point key="canvasLocation" x="-33.333333333333336" y="101.78571428571428"/>
+        </tableViewCell>
+    </objects>
+</document>

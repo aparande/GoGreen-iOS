@@ -80,6 +80,12 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
         self.data = data
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let dest = segue.destination as? BulkDataViewController {
+            dest.data = self.data
+        }
+    }
+    
     func rightTrigger() {
         if location + 1 < self.datapoints.count {
             location += 1

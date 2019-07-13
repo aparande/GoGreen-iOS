@@ -16,6 +16,8 @@
 		1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D878F1F3E70B000ED894A /* AboutViewController.swift */; };
 		1F123F831FE5A92600FEAC84 /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F123F811FE5A92500FEAC84 /* privacy.txt */; };
 		1F123F841FE5A92600FEAC84 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F123F821FE5A92500FEAC84 /* license.txt */; };
+		1F13032022CE97EE0069AEDC /* HistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F13031F22CE97EE0069AEDC /* HistoryCell.xib */; };
+		1F13032222CE9A8C0069AEDC /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13032122CE9A8C0069AEDC /* HistoryTableViewCell.swift */; };
 		1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */; };
 		1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F15D0901F27101400DFA60B /* AddDataHeader.xib */; };
 		1F1A4B7D2061FCF8005E7D45 /* TestCases.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */; };
@@ -94,6 +96,8 @@
 		1F0D878F1F3E70B000ED894A /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		1F123F811FE5A92500FEAC84 /* privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		1F123F821FE5A92500FEAC84 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		1F13031F22CE97EE0069AEDC /* HistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryCell.xib; sourceTree = "<group>"; };
+		1F13032122CE9A8C0069AEDC /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPointViewController.swift; sourceTree = "<group>"; };
 		1F15D0901F27101400DFA60B /* AddDataHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataHeader.xib; sourceTree = "<group>"; };
 		1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestCases.plist; sourceTree = "<group>"; };
@@ -187,6 +191,7 @@
 		1F14FADF1EF71498005E9F33 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1F13032122CE9A8C0069AEDC /* HistoryTableViewCell.swift */,
 				1F654CD722C857F600A5BFD7 /* Storyboards */,
 				1F654CD222C855A600A5BFD7 /* XIBs */,
 				1F487AA61EFAC9700072D28F /* BarGraph.swift */,
@@ -236,6 +241,7 @@
 				1F654CD522C8563C00A5BFD7 /* CircularEmblemView.xib */,
 				1FAA27FD22C888AB007E7403 /* BarGraphCell.xib */,
 				1FD0055122C9406E00F5828B /* LogCell.xib */,
+				1F13031F22CE97EE0069AEDC /* HistoryCell.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";
@@ -480,6 +486,7 @@
 				1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */,
 				1FEE9FD01FFB1086002D0458 /* AttributeDescriptionCell.xib in Resources */,
 				1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */,
+				1F13032022CE97EE0069AEDC /* HistoryCell.xib in Resources */,
 				1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */,
 				1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */,
 				1FC515661F32D0650021DC1D /* Raleway-Bold.ttf in Resources */,
@@ -610,6 +617,7 @@
 				1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */,
 				1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */,
 				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
+				1F13032222CE9A8C0069AEDC /* HistoryTableViewCell.swift in Sources */,
 				1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */,
 				1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */,
 				1FE8A57B22C97DAB0044ABEC /* Summary-TableView.swift in Sources */,

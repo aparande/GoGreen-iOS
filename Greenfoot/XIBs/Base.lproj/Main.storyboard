@@ -260,6 +260,9 @@
                                                                 <color key="value" red="0.96108293020000002" green="0.96108293020000002" blue="0.96108293020000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <segue destination="lVu-wl-YJw" kind="show" identifier="viewHistory" id="0VE-u4-Am6"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -300,6 +303,24 @@
             </objects>
             <point key="canvasLocation" x="1242" y="161"/>
         </scene>
+        <!--Bulk Data View Controller-->
+        <scene sceneID="WBD-Yf-zOn">
+            <objects>
+                <tableViewController id="lVu-wl-YJw" customClass="BulkDataViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="tae-2P-xL3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <connections>
+                            <outlet property="dataSource" destination="lVu-wl-YJw" id="qgC-rE-dCh"/>
+                            <outlet property="delegate" destination="lVu-wl-YJw" id="YQ0-Vg-6TO"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JMD-lO-C1e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2169" y="164"/>
+        </scene>
         <!--About View Controller-->
         <scene sceneID="IaN-vL-7An">
             <objects>
@@ -323,7 +344,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0z-LY-ZzQ">
-                                            <rect key="frame" x="20" y="64" width="241" height="25"/>
+                                            <rect key="frame" x="20" y="64" width="241" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="GjF-W6-pEM"/>
                                             </constraints>
@@ -335,7 +356,7 @@
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a multiline description of what the information is" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="n21-w8-Go6">
-                                            <rect key="frame" x="20" y="94" width="241" height="110"/>
+                                            <rect key="frame" x="20" y="97" width="241" height="110"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="110" id="amC-hh-ZgL"/>
                                             </constraints>

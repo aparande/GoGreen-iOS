@@ -154,6 +154,12 @@ enum GreenDataType:String {
 }
 
 extension Date {
+    func toString(withFormat format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+    
     static func monthFormat(string:String) -> Date {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/yy"
