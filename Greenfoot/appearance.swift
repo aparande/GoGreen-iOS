@@ -14,6 +14,7 @@ extension UIFont {
     static let header = UIFont(name: "Roboto-Black", size: 30)!
     static let label = UIFont(name: "Roboto-Regular", size: UIFont.labelFontSize)!
     static let button = UIFont(name: "Roboto-Regular", size: UIFont.buttonFontSize)!
+    static let tabItemTitle = UIFont(name: "Roboto-Regular", size: 12)!
 }
 
 struct Colors {

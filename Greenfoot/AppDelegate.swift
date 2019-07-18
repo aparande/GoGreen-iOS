@@ -45,23 +45,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-      
-            let tvc = UITabBarController()
+            
+            let tvc = GGTabController()
             
             let svc = storyboard.instantiateInitialViewController()!
             
-            let sumBarImage = UIImage(named: "Chart_Green")?.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
-            svc.tabBarItem = UITabBarItem(title: "Summary", image: sumBarImage, tag: 1)
+            let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
+            logoButton.itemHeight = 80
             
-            let electricVc = getGraphController(forDataType: GreenDataType.electric, andTag: 2)
-            let waterVc = getGraphController(forDataType: GreenDataType.water, andTag: 3)
-            let drivingVc = getGraphController(forDataType: GreenDataType.driving, andTag: 4)
-            let gasVc = getGraphController(forDataType: GreenDataType.gas, andTag: 5)
+            let electricButton = GGTabBarItem(icon: Icon.electric_white, title: "ELECTRICITY", isRounded: false)
+            let gasButton = GGTabBarItem(icon: Icon.fire_white, title: "GAS", isRounded: false)
             
-            tvc.viewControllers = [svc, electricVc, waterVc, drivingVc, gasVc]
+            let electricVc = getGraphController(forDataType: GreenDataType.electric)
+            let gasVc = getGraphController(forDataType: GreenDataType.gas)
             
-            tvc.tabBar.tintColor = Colors.green
-        
+            tvc.setTabBar(items: [electricButton, logoButton, gasButton])
+            tvc.viewControllers = [electricVc, svc, gasVc]
+            
+            tvc.selectedIndex = 1
+            
             window!.rootViewController = tvc
         } else {
         
@@ -100,33 +102,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = attrs
     }
     
-    private func getGraphController(forDataType type:GreenDataType, andTag tag:Int) -> NavigationController {
+    private func getGraphController(forDataType type:GreenDataType) -> NavigationController {
         let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
         graphVC.setDataType(data:GreenfootModal.sharedInstance.data[type]!)
-        
-        var icon: UIImage!
-        
-        #warning("This switch statement is repeated")
-        switch type {
-        case .electric:
-            icon = Icon.electric_white
-            break
-        case .water:
-            icon = Icon.water_white
-            break
-        case .driving:
-            icon = Icon.road_white
-            break
-        case .gas:
-            icon = Icon.fire_white
-            break
-        default:
-            icon = Icon.logo_white
-            break
-        }
-        icon = icon.withRenderingMode(.alwaysTemplate).resize(toWidth: 30)?.resize(toHeight: 30)
-        graphVC.tabBarItem = UITabBarItem(title: type.rawValue, image: icon, tag: tag)
-        
         return NavigationController(rootViewController: graphVC)
     }
 
