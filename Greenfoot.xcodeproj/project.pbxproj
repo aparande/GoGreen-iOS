@@ -21,6 +21,7 @@
 		1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */; };
 		1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F15D0901F27101400DFA60B /* AddDataHeader.xib */; };
 		1F1A4B7D2061FCF8005E7D45 /* TestCases.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */; };
+		1F1C54C422E397B100D12598 /* RoundedIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C54C322E397B100D12598 /* RoundedIconButton.swift */; };
 		1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */; };
 		1F2013BD22BA0154000183FE /* FirebaseUtils-GetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */; };
 		1F2013BF22BA01A6000183FE /* FirebaseUtils-Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */; };
@@ -32,6 +33,7 @@
 		1F2E46F522C7E8F600DDDAB2 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */; };
 		1F2E46F722C7E92600DDDAB2 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2E46F622C7E92600DDDAB2 /* Roboto-Regular.ttf */; };
 		1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E46F922C7E9C100DDDAB2 /* appearance.swift */; };
+		1F4480E122E6CCFA00811666 /* UtilityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4480E022E6CCFA00811666 /* UtilityCell.xib */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
 		1F503A4222DA550200A07805 /* GGTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4122DA550200A07805 /* GGTabBarItem.swift */; };
 		1F503A4522DA5C7200A07805 /* GGTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4422DA5C7200A07805 /* GGTabBar.swift */; };
@@ -73,6 +75,9 @@
 		1FC962EC1FF4B48600C6F686 /* BarGraphFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */; };
 		1FD0055222C9406E00F5828B /* LogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD0055122C9406E00F5828B /* LogCell.xib */; };
 		1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD0055322C9425200F5828B /* LogTableViewCell.swift */; };
+		1FE256D222E7EFDD0020C191 /* UtilityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */; };
+		1FE256D422E7F53D0020C191 /* UtilitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */; };
+		1FE256D622E80FF40020C191 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FE256D522E80FF30020C191 /* Assets.xcassets */; };
 		1FE6E1C122B5BAB5004C0E81 /* FirebaseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */; };
 		1FE8A57B22C97DAB0044ABEC /* Summary-TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */; };
 		1FEE9FD01FFB1086002D0458 /* AttributeDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FEE9FCF1FFB1086002D0458 /* AttributeDescriptionCell.xib */; };
@@ -104,6 +109,7 @@
 		1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPointViewController.swift; sourceTree = "<group>"; };
 		1F15D0901F27101400DFA60B /* AddDataHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataHeader.xib; sourceTree = "<group>"; };
 		1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestCases.plist; sourceTree = "<group>"; };
+		1F1C54C322E397B100D12598 /* RoundedIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedIconButton.swift; sourceTree = "<group>"; };
 		1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICall.swift; sourceTree = "<group>"; };
 		1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils-GetData.swift"; sourceTree = "<group>"; };
 		1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils-Storage.swift"; sourceTree = "<group>"; };
@@ -117,6 +123,7 @@
 		1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		1F2E46F622C7E92600DDDAB2 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		1F2E46F922C7E9C100DDDAB2 /* appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appearance.swift; sourceTree = "<group>"; };
+		1F4480E022E6CCFA00811666 /* UtilityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UtilityCell.xib; sourceTree = "<group>"; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F503A4122DA550200A07805 /* GGTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabBarItem.swift; sourceTree = "<group>"; };
 		1F503A4422DA5C7200A07805 /* GGTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabBar.swift; sourceTree = "<group>"; };
@@ -163,6 +170,9 @@
 		1FCB0FE71E2B3684006463AE /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
 		1FD0055122C9406E00F5828B /* LogCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogCell.xib; sourceTree = "<group>"; };
 		1FD0055322C9425200F5828B /* LogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
+		1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityTableViewCell.swift; sourceTree = "<group>"; };
+		1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesTableViewController.swift; sourceTree = "<group>"; };
+		1FE256D522E80FF30020C191 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Pods/Material/Sources/Assets.xcassets; sourceTree = "<group>"; };
 		1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseObject.swift; sourceTree = "<group>"; };
 		1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Summary-TableView.swift"; sourceTree = "<group>"; };
 		1FEE9FCF1FFB1086002D0458 /* AttributeDescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttributeDescriptionCell.xib; sourceTree = "<group>"; };
@@ -211,6 +221,8 @@
 				1F654CD822C85A8800A5BFD7 /* CircleBorder.swift */,
 				1FD0055322C9425200F5828B /* LogTableViewCell.swift */,
 				1F503A4322DA5C2F00A07805 /* TabBarController */,
+				1F1C54C322E397B100D12598 /* RoundedIconButton.swift */,
+				1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -259,6 +271,7 @@
 				1FAA27FD22C888AB007E7403 /* BarGraphCell.xib */,
 				1FD0055122C9406E00F5828B /* LogCell.xib */,
 				1F13031F22CE97EE0069AEDC /* HistoryCell.xib */,
+				1F4480E022E6CCFA00811666 /* UtilityCell.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";
@@ -286,6 +299,7 @@
 		1F70CCAF1E105D0600AD351A = {
 			isa = PBXGroup;
 			children = (
+				1FE256D522E80FF30020C191 /* Assets.xcassets */,
 				1F70CCBA1E105D0600AD351A /* Greenfoot */,
 				1F66654A205B748200FCD30C /* GreenfootTests */,
 				1F70CCB91E105D0600AD351A /* Products */,
@@ -328,6 +342,7 @@
 				1F70CCC71E105D0600AD351A /* Info.plist */,
 				1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */,
 				1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */,
+				1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -493,6 +508,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FE256D622E80FF40020C191 /* Assets.xcassets in Resources */,
 				1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */,
 				1F654CD622C8563C00A5BFD7 /* CircularEmblemView.xib in Resources */,
 				1F123F831FE5A92600FEAC84 /* privacy.txt in Resources */,
@@ -502,6 +518,7 @@
 				1FAA27FE22C888AB007E7403 /* BarGraphCell.xib in Resources */,
 				1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */,
 				1FEE9FD01FFB1086002D0458 /* AttributeDescriptionCell.xib in Resources */,
+				1F4480E122E6CCFA00811666 /* UtilityCell.xib in Resources */,
 				1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */,
 				1F13032022CE97EE0069AEDC /* HistoryCell.xib in Resources */,
 				1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */,
@@ -604,8 +621,10 @@
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
 				1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */,
+				1FE256D422E7F53D0020C191 /* UtilitiesTableViewController.swift in Sources */,
 				1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */,
 				1F503A4722DA610400A07805 /* GGTabController.swift in Sources */,
+				1FE256D222E7EFDD0020C191 /* UtilityTableViewCell.swift in Sources */,
 				1F654CD422C855F100A5BFD7 /* CircularEmblemView.swift in Sources */,
 				1F2013BD22BA0154000183FE /* FirebaseUtils-GetData.swift in Sources */,
 				1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */,
@@ -634,6 +653,7 @@
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,
 				1F503A4222DA550200A07805 /* GGTabBarItem.swift in Sources */,
+				1F1C54C422E397B100D12598 /* RoundedIconButton.swift in Sources */,
 				1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */,
 				1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */,
 				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,

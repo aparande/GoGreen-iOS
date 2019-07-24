@@ -53,14 +53,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
             logoButton.itemHeight = 80
             
-            let electricButton = GGTabBarItem(icon: Icon.electric_white, title: "ELECTRICITY", isRounded: false)
-            let gasButton = GGTabBarItem(icon: Icon.fire_white, title: "GAS", isRounded: false)
+            let travelButton = GGTabBarItem(icon: Icon.road_white, title: "TRAVEL", isRounded: false)
+            let utilityButton = GGTabBarItem(icon: Icon.electric_white, title: "UTILITIES", isRounded: false)
             
-            let electricVc = getGraphController(forDataType: GreenDataType.electric)
-            let gasVc = getGraphController(forDataType: GreenDataType.gas)
+            let travelData =  [GreenfootModal.sharedInstance.data[.driving]!]
+            let utilityData = [GreenfootModal.sharedInstance.data[.electric]!, GreenfootModal.sharedInstance.data[.gas]!]
             
-            tvc.setTabBar(items: [electricButton, logoButton, gasButton])
-            tvc.viewControllers = [electricVc, svc, gasVc]
+            let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", forGreenData: travelData))
+            let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", forGreenData: utilityData))
+            
+            tvc.setTabBar(items: [travelButton, logoButton, utilityButton])
+            tvc.viewControllers = [travelVc, svc, utilityVc]
             
             tvc.selectedIndex = 1
             

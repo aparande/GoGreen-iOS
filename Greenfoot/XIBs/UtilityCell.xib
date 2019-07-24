@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Black.ttf">
+            <string>Roboto-Black</string>
+        </array>
+        <array key="Roboto-Light.ttf">
+            <string>Roboto-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UtilityCell" rowHeight="236" id="gLD-Q6-N1X" customClass="UtilityTableViewCell" customModule="Greenfoot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="236"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gLD-Q6-N1X" id="vQa-dE-eWT">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="235.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ho3-8w-MsE">
+                        <rect key="frame" x="10" y="10" width="394" height="215.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Electricity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0W-No-hli">
+                                <rect key="frame" x="10" y="10" width="374" height="30.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="26"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="XnZ-CK-g5R">
+                                <rect key="frame" x="47.5" y="60.5" width="299.5" height="52"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="NVE-W5-gz6">
+                                        <rect key="frame" x="0.0" y="0.0" width="97.5" height="52"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total CO2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y66-Q2-cbn">
+                                                <rect key="frame" x="0.0" y="0.0" width="97.5" height="26"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="22"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 TONS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEl-Hk-hh7">
+                                                <rect key="frame" x="0.0" y="26" width="97.5" height="26"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="16"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="66e-sH-qNF">
+                                        <rect key="frame" x="197.5" y="0.0" width="102" height="52"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Month" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpo-f4-sSG">
+                                                <rect key="frame" x="0.0" y="0.0" width="102" height="26"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 TONS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYx-qM-Fd1">
+                                                <rect key="frame" x="0.0" y="26" width="102" height="26"/>
+                                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="16"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Recorded On: {Date}" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qvq-Hn-fcb">
+                                <rect key="frame" x="95.5" y="132.5" width="203" height="21.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="WkK-S2-Gg9">
+                                <rect key="frame" x="111" y="164" width="172.5" height="41.5"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06l-LA-sFR" customClass="RoundedIconButton" customModule="Greenfoot" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="41.5" height="41.5"/>
+                                        <color key="backgroundColor" red="0.16404820119999999" green="0.71179783190000001" blue="0.4005393055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="06l-LA-sFR" secondAttribute="height" multiplier="1:1" id="tFD-MM-ep0"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isCircle" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="icon" value="cm_menu_white"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                <color key="value" red="0.16404820119999999" green="0.71179783190000001" blue="0.4005393055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0uK-sJ-qzA" customClass="RoundedIconButton" customModule="Greenfoot" customModuleProvider="target">
+                                        <rect key="frame" x="65.5" y="0.0" width="41.5" height="41.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="0uK-sJ-qzA" secondAttribute="height" multiplier="1:1" id="oR2-gg-7XY"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isCircle" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="icon" value="cm_pen_white"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                                <color key="value" red="0.1846533716" green="0.79983717200000004" blue="0.44363409279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDc-P1-HJB" customClass="RoundedIconButton" customModule="Greenfoot" customModuleProvider="target">
+                                        <rect key="frame" x="131" y="0.0" width="41.5" height="41.5"/>
+                                        <color key="backgroundColor" red="0.16404820119999999" green="0.71179783190000001" blue="0.4005393055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="HDc-P1-HJB" secondAttribute="height" multiplier="1:1" id="3DA-sW-pqs"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isCircle" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="icon" value="ic_visibility_white"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                <color key="value" red="0.16404820119999999" green="0.71179783190000001" blue="0.4005393055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1846533716" green="0.79983717200000004" blue="0.44363409279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="WkK-S2-Gg9" firstAttribute="top" secondItem="Qvq-Hn-fcb" secondAttribute="bottom" constant="10" id="1ps-wG-Yo1"/>
+                            <constraint firstAttribute="bottom" secondItem="WkK-S2-Gg9" secondAttribute="bottom" constant="10" id="935-Y4-zOZ"/>
+                            <constraint firstItem="H0W-No-hli" firstAttribute="top" secondItem="Ho3-8w-MsE" secondAttribute="top" constant="10" id="Cax-fi-mPU"/>
+                            <constraint firstItem="XnZ-CK-g5R" firstAttribute="centerX" secondItem="Ho3-8w-MsE" secondAttribute="centerX" id="Itc-4U-ux1"/>
+                            <constraint firstItem="H0W-No-hli" firstAttribute="leading" secondItem="Ho3-8w-MsE" secondAttribute="leading" constant="10" id="Le6-qc-mr5"/>
+                            <constraint firstItem="Qvq-Hn-fcb" firstAttribute="top" secondItem="XnZ-CK-g5R" secondAttribute="bottom" constant="20" id="S3G-Vs-pTS"/>
+                            <constraint firstAttribute="trailing" secondItem="H0W-No-hli" secondAttribute="trailing" constant="10" id="SUc-f1-VwL"/>
+                            <constraint firstItem="Qvq-Hn-fcb" firstAttribute="centerX" secondItem="Ho3-8w-MsE" secondAttribute="centerX" id="XJb-hV-cp6"/>
+                            <constraint firstItem="XnZ-CK-g5R" firstAttribute="top" secondItem="H0W-No-hli" secondAttribute="bottom" constant="20" id="m6c-LE-SJy"/>
+                            <constraint firstItem="WkK-S2-Gg9" firstAttribute="centerX" secondItem="Ho3-8w-MsE" secondAttribute="centerX" id="vRj-fH-C8K"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="Ho3-8w-MsE" secondAttribute="bottom" constant="10" id="DX9-dI-AfC"/>
+                    <constraint firstItem="Ho3-8w-MsE" firstAttribute="top" secondItem="vQa-dE-eWT" secondAttribute="top" constant="10" id="LRq-Z3-4wY"/>
+                    <constraint firstAttribute="trailing" secondItem="Ho3-8w-MsE" secondAttribute="trailing" constant="10" id="nvp-rs-aB8"/>
+                    <constraint firstItem="Ho3-8w-MsE" firstAttribute="leading" secondItem="vQa-dE-eWT" secondAttribute="leading" constant="10" id="u4U-KY-2uX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lastMonthLabel" destination="cYx-qM-Fd1" id="FV8-HE-gUE"/>
+                <outlet property="lastRecordedLabel" destination="Qvq-Hn-fcb" id="L8i-XJ-Wcn"/>
+                <outlet property="leftActionButton" destination="06l-LA-sFR" id="m5b-7b-JpB"/>
+                <outlet property="leftTitleLabel" destination="y66-Q2-cbn" id="y9w-wO-6zV"/>
+                <outlet property="primaryActionButton" destination="0uK-sJ-qzA" id="dQV-ci-NWH"/>
+                <outlet property="rightActionButton" destination="HDc-P1-HJB" id="iY9-W0-UKh"/>
+                <outlet property="rightTitleLabel" destination="qpo-f4-sSG" id="cgH-YG-pdF"/>
+                <outlet property="roundedView" destination="Ho3-8w-MsE" id="a0s-Jx-PHj"/>
+                <outlet property="titleLabel" destination="H0W-No-hli" id="83T-nj-IG8"/>
+                <outlet property="totalCO2Label" destination="sEl-Hk-hh7" id="t63-Jf-GC1"/>
+            </connections>
+            <point key="canvasLocation" x="102.89855072463769" y="150"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="cm_menu_white" width="24" height="24"/>
+        <image name="cm_pen_white" width="24" height="24"/>
+        <image name="ic_visibility_white" width="24" height="24"/>
+    </resources>
+</document>
