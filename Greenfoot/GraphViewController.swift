@@ -70,7 +70,7 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
         bulletinManager.showBulletin(above: self)
     }
     
-    func onActionClicked() {
+    func onBLTNPageItemActionClicked(with data: GreenData) {
         mainGraph.loadDataFrom(array: data.getGraphData(), labeled: "kWh")
         bulletinManager.dismissBulletin(animated: true)
     }
@@ -108,5 +108,11 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     
     fileprivate func setupMainGraph() {
         mainGraph.delegate = self
+    }
+    
+    static func instantiate(for data: GreenData) -> GraphViewController{
+        let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
+        graphVC.setDataType(data: data)
+        return graphVC
     }
 }

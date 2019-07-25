@@ -11,7 +11,7 @@ import BLTNBoard
 import Material
 
 protocol BLTNPageItemDelegate {
-    func onActionClicked()
+    func onBLTNPageItemActionClicked(with data: GreenData)
 }
 
 class AddDataBLTNItem: BLTNPageItem {
@@ -78,7 +78,7 @@ class AddDataBLTNItem: BLTNPageItem {
         dateField.resignFirstResponder()
         amountField.resignFirstResponder()
         
-        self.delegate?.onActionClicked()
+        self.delegate?.onBLTNPageItemActionClicked(with: self.data)
         
         GreenfootModal.sharedInstance.queueReminder(dataType: GreenDataType(rawValue: data.dataName)!)
     }

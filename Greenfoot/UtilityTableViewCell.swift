@@ -7,6 +7,13 @@
 //
 
 import UIKit
+import BLTNBoard
+
+protocol UtilityTableViewCellDelegate: BLTNPageItemDelegate {
+    func showBulletin(for data: GreenData?)
+    func viewGraph(for data: GreenData?)
+    func listData(for data: GreenData?)
+}
 
 class UtilityTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
@@ -20,9 +27,16 @@ class UtilityTableViewCell: UITableViewCell {
     @IBOutlet weak var rightActionButton: RoundedIconButton!
     @IBOutlet weak var roundedView: UIView!
     
-    var title: String = "" {
+    private var hideSecondaryButtons:Bool = false {
         didSet {
-            self.titleLabel.text = title
+            leftActionButton.alpha = (hideSecondaryButtons) ? 0 : 1
+            rightActionButton.alpha = (hideSecondaryButtons) ? 0 : 1
+        }
+    }
+    
+    var data: GreenData? {
+        didSet {
+            configure(to: self.data)
         }
     }
     
@@ -38,28 +52,7 @@ class UtilityTableViewCell: UITableViewCell {
         }
     }
     
-    var lastRecorded: Date? {
-        didSet {
-            if let date = lastRecorded {
-                self.lastRecordedLabel.text = "Last Recorded On: \(date.toString(withFormat: "MM/yy"))"
-            } else {
-                let month = Date().toString(withFormat: "MMMM")
-                self.lastRecordedLabel.text = "Record \(month) Bill"
-            }
-        }
-    }
-    
-    var leftTitle: String = "Total CO2" {
-        didSet {
-            self.leftTitleLabel.text = leftTitle
-        }
-    }
-    
-    var rightTitle: String = "Last Month" {
-        didSet {
-            self.rightTitleLabel.text = rightTitle
-        }
-    }
+    var owner: UtilityTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,5 +61,28 @@ class UtilityTableViewCell: UITableViewCell {
         roundedView.layer.cornerRadius = 20
         
         self.selectionStyle = .none
+    }
+    
+    private func configure(to data:GreenData?) {
+        self.titleLabel.text = data?.dataName
+        
+        if let date = data?.graphData.last?.month {
+            self.lastRecordedLabel.text = "Last Recorded On: \(date.toString(withFormat: "MM/yy"))"
+        } else {
+            let month = Date().toString(withFormat: "MMMM")
+            self.lastRecordedLabel.text = "Record \(month) Bill"
+            self.hideSecondaryButtons = true
+        }
+    }
+    @IBAction func primaryButtonClicked(_ sender: Any) {
+        self.owner?.showBulletin(for: self.data)
+    }
+    
+    @IBAction func leftButtonClicked(_ sender: Any) {
+        self.owner?.listData(for: self.data)
+    }
+    
+    @IBAction func rightButtonClicked(_ sender: Any) {
+        self.owner?.viewGraph(for: self.data)
     }
 }

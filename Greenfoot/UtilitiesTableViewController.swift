@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import BLTNBoard
 
-class UtilitiesTableViewController: UITableViewController {
-    
+class UtilitiesTableViewController: UITableViewController, UtilityTableViewCellDelegate {
     var data: [GreenData]
     var navTitle: String
+    
+    private var bltnManager: BLTNItemManager?
     
     init(withTitle title:String, forGreenData greenData:[GreenData]) {
         self.navTitle = title
@@ -43,15 +45,45 @@ class UtilitiesTableViewController: UITableViewController {
         self.prepNavigationBar(titled: navTitle)
     }
     
+    func showBulletin(for data: GreenData?) {
+        guard let data = data else { return }
+        
+        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", data: data)
+        rootItem.delegate = self
+        self.bltnManager = BLTNItemManager(rootItem: rootItem)
+        self.bltnManager?.showBulletin(above: self)
+    }
+    
+    func onBLTNPageItemActionClicked(with data: GreenData) {
+        self.bltnManager?.dismissBulletin(animated: true)
+        self.bltnManager = nil
+        
+        self.navigationController?.pushViewController(GraphViewController.instantiate(for: data), animated: true)
+    }
+    
+    func viewGraph(for data: GreenData?) {
+        guard let data = data else { return }
+        self.navigationController?.pushViewController(GraphViewController.instantiate(for: data), animated: true)
+    }
+    
+    func listData(for data: GreenData?) {
+        guard let data = data else { return }
+        self.navigationController?.pushViewController(BulkDataViewController(withData: data), animated: true)
+    }
+    
+
+}
+
+extension UtilitiesTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UtilityCell", for: indexPath) as! UtilityTableViewCell
         
-        let dataType = data[indexPath.row]
-        cell.title = dataType.dataName
-        cell.lastRecorded = dataType.graphData.last?.month
+        cell.data = data[indexPath.row]
+        cell.owner = self
+        
         return cell
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -59,7 +91,7 @@ class UtilitiesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 235
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }

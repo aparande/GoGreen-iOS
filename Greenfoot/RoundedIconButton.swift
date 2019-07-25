@@ -65,10 +65,7 @@ class RoundedIconButton: RaisedButton {
     }
     
     private func refreshCornerRadius() {
-        print("Ooh Circular: \(isCircle)")
         if isCircle {
-            print(self.layer.frame.height / 2)
-            print(self.frame.height / 2)
             self.layer.cornerRadius = self.layer.frame.height / 2
         } else {
             self.layer.cornerRadius = cornerRadius
