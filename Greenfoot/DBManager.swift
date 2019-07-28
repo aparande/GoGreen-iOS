@@ -44,8 +44,8 @@ class DBManager {
     func createCarbonSource(name:String, category: CarbonSource.SourceCategory, type: CarbonSource.SourceType) {
         let source = CarbonSource(context: backgroundContext)
         source.name = name
-        source.sourceCategory = category.rawValue
-        source.sourceType = type.rawValue
+        source.sourceCategory = category
+        source.sourceType = type
         
         self.save()
     }

@@ -59,7 +59,7 @@ class CarbonSourceTest: XCTestCase {
             let sources = try CarbonSource.all(inContext: dbManager.backgroundContext,
                                                fromCategories: [CarbonSource.SourceCategory.utility])
             for source in sources {
-                XCTAssert(source.sourceCategory == CarbonSource.SourceCategory.utility.rawValue)
+                XCTAssert(source.sourceCategory == CarbonSource.SourceCategory.utility)
             }
         } catch {
             XCTFail()
@@ -71,8 +71,8 @@ class CarbonSourceTest: XCTestCase {
             let sources = try CarbonSource.all(inContext: dbManager.backgroundContext,
                                                withTypes: [.electricity, .odometer])
             for source in sources {
-                XCTAssert(source.sourceType == CarbonSource.SourceType.electricity.rawValue ||
-                            source.sourceType == CarbonSource.SourceType.odometer.rawValue)
+                XCTAssert(source.sourceType == CarbonSource.SourceType.electricity ||
+                            source.sourceType == CarbonSource.SourceType.odometer)
             }
         } catch {
             XCTFail()

@@ -19,8 +19,8 @@ extension CarbonSource {
 
     @NSManaged public var fid: String?
     @NSManaged public var name: String
-    @NSManaged public var sourceCategory: Int16
-    @NSManaged public var sourceType: Int16
+    @NSManaged public var sourceCategory: SourceCategory
+    @NSManaged public var sourceType: SourceType
     @NSManaged public var data: NSOrderedSet?
 
 }
