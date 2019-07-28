@@ -14,7 +14,7 @@ class CoreDataHelper {
     static let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     //Fetches graph data from the modal and loads it into the GreenData
-    static func fetch(data: GreenData) {
+    static func fetch(data: GreenData) {        
         if let _ = appDelegate {
             let managedContext = appDelegate!.persistentContainer.viewContext
             let predicate = NSPredicate(format: "dataType == %@", argumentArray: [data.dataName])

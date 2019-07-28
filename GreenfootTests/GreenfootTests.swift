@@ -43,7 +43,7 @@ class GreenfootTests: XCTestCase {
             let date = formatter.date(from: month)!
             
             let dataPoint = GreenDataPoint(month: date, value: amount, dataType: "Electricity", lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-            electricData.addDataPoint(point: dataPoint, save: false)
+            electricData.addDataPoint(point: dataPoint, save: false, upload: false)
         }
     }
     
@@ -79,7 +79,7 @@ class GreenfootTests: XCTestCase {
             let index = electricData.indexOfPointForDate(date, inArray: electricData.graphData)
             if index == -1 {
                 let dataPoint = GreenDataPoint(month: date, value: amount, dataType: "Electricity", lastUpdated: Date(timeIntervalSince1970: lastUpdated))
-                electricData.addDataPoint(point: dataPoint, save: false)
+                electricData.addDataPoint(point: dataPoint, save: false, upload: false)
             } else {
                 let point = electricData.graphData[index]
                 unUploadedPoints[index] = nil

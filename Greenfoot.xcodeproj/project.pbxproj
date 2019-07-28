@@ -33,6 +33,7 @@
 		1F2E46F522C7E8F600DDDAB2 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */; };
 		1F2E46F722C7E92600DDDAB2 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2E46F622C7E92600DDDAB2 /* Roboto-Regular.ttf */; };
 		1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E46F922C7E9C100DDDAB2 /* appearance.swift */; };
+		1F42A00322EBEE480057C88C /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42A00222EBEE480057C88C /* utils.swift */; };
 		1F4480E122E6CCFA00811666 /* UtilityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4480E022E6CCFA00811666 /* UtilityCell.xib */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
 		1F503A4222DA550200A07805 /* GGTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4122DA550200A07805 /* GGTabBarItem.swift */; };
@@ -51,6 +52,7 @@
 		1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCBF1E105D0600AD351A /* Main.storyboard */; };
 		1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC21E105D0600AD351A /* Assets.xcassets */; };
 		1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */; };
+		1F8BC1C822EE5B5500B58DFA /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
 		1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9195051E67922B0035A4AD /* BulkDataViewController.swift */; };
 		1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F91DDE31E1570A70020371F /* GeosansLight.ttf */; };
 		1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */; };
@@ -79,10 +81,17 @@
 		1FE256D422E7F53D0020C191 /* UtilitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */; };
 		1FE256D622E80FF40020C191 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FE256D522E80FF30020C191 /* Assets.xcassets */; };
 		1FE6E1C122B5BAB5004C0E81 /* FirebaseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */; };
+		1FE6E7DA22ED180C00E558D7 /* CarbonSource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E7D822ED180C00E558D7 /* CarbonSource+CoreDataClass.swift */; };
+		1FE6E7DB22ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E7D922ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift */; };
+		1FE6E7DE22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E7DC22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift */; };
+		1FE6E7DF22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E7DD22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift */; };
+		1FE6E7E122ED235600E558D7 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E7E022ED235600E558D7 /* DBManager.swift */; };
+		1FE6E7E322ED36B700E558D7 /* CarbonSourceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE6E7E222ED36B700E558D7 /* CarbonSourceTest.swift */; };
 		1FE8A57B22C97DAB0044ABEC /* Summary-TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */; };
 		1FEE9FD01FFB1086002D0458 /* AttributeDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FEE9FCF1FFB1086002D0458 /* AttributeDescriptionCell.xib */; };
 		1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */; };
 		28D5E3560046B69D741C08F5 /* Pods_Greenfoot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */; };
+		468A41E116721F1D9945959F /* Pods_Greenfoot_GreenfootTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB65627ADC7BAA638231694 /* Pods_Greenfoot_GreenfootTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,10 +128,11 @@
 		1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenDataPoint.swift; sourceTree = "<group>"; };
-		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenfootModal.swift; sourceTree = SOURCE_ROOT; };
+		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GreenfootModal.swift; path = "Greenfoot/Old Modal/GreenfootModal.swift"; sourceTree = SOURCE_ROOT; };
 		1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		1F2E46F622C7E92600DDDAB2 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		1F2E46F922C7E9C100DDDAB2 /* appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appearance.swift; sourceTree = "<group>"; };
+		1F42A00222EBEE480057C88C /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		1F4480E022E6CCFA00811666 /* UtilityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UtilityCell.xib; sourceTree = "<group>"; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F503A4122DA550200A07805 /* GGTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabBarItem.swift; sourceTree = "<group>"; };
@@ -174,12 +184,22 @@
 		1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesTableViewController.swift; sourceTree = "<group>"; };
 		1FE256D522E80FF30020C191 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Pods/Material/Sources/Assets.xcassets; sourceTree = "<group>"; };
 		1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseObject.swift; sourceTree = "<group>"; };
+		1FE6E7CF22ED164800E558D7 /* GoGreenv2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GoGreenv2.0.xcdatamodel; sourceTree = "<group>"; };
+		1FE6E7D822ED180C00E558D7 /* CarbonSource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonSource+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1FE6E7D922ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonSource+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FE6E7DC22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonDataPoint+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1FE6E7DD22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonDataPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FE6E7E022ED235600E558D7 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		1FE6E7E222ED36B700E558D7 /* CarbonSourceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbonSourceTest.swift; sourceTree = "<group>"; };
 		1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Summary-TableView.swift"; sourceTree = "<group>"; };
 		1FEE9FCF1FFB1086002D0458 /* AttributeDescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttributeDescriptionCell.xib; sourceTree = "<group>"; };
 		1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputToolbar.swift; sourceTree = "<group>"; };
+		59C4EB2DF594B49864DF0713 /* Pods-Greenfoot-GreenfootTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Greenfoot-GreenfootTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Greenfoot-GreenfootTests/Pods-Greenfoot-GreenfootTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6AC0A5254D86C03173AE76C5 /* Pods-Greenfoot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Greenfoot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot.debug.xcconfig"; sourceTree = "<group>"; };
 		7348CB52CC0198E382221D74 /* Pods-Greenfoot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Greenfoot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Greenfoot/Pods-Greenfoot.release.xcconfig"; sourceTree = "<group>"; };
 		88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Greenfoot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDB65627ADC7BAA638231694 /* Pods_Greenfoot_GreenfootTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Greenfoot_GreenfootTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED8667CC476FD90701F178F2 /* Pods-Greenfoot-GreenfootTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Greenfoot-GreenfootTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Greenfoot-GreenfootTests/Pods-Greenfoot-GreenfootTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +207,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				468A41E116721F1D9945959F /* Pods_Greenfoot_GreenfootTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +257,20 @@
 				1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */,
 			);
 			name = Firebase;
+			sourceTree = "<group>";
+		};
+		1F328C2322ED0D760085FC1A /* Old Modal */ = {
+			isa = PBXGroup;
+			children = (
+				1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */,
+				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
+				1FB08D4F202E01FD00D4C20C /* DrivingData.swift */,
+				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
+				1FA737F81F001F4100B721D0 /* APIRequestManager.swift */,
+				1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */,
+				1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */,
+			);
+			path = "Old Modal";
 			sourceTree = "<group>";
 		};
 		1F503A4322DA5C2F00A07805 /* TabBarController */ = {
@@ -292,6 +327,7 @@
 				1F66654B205B748200FCD30C /* GreenfootTests.swift */,
 				1F66654D205B748200FCD30C /* Info.plist */,
 				1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */,
+				1FE6E7E222ED36B700E558D7 /* CarbonSourceTest.swift */,
 			);
 			path = GreenfootTests;
 			sourceTree = "<group>";
@@ -343,6 +379,7 @@
 				1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */,
 				1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */,
 				1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */,
+				1F42A00222EBEE480057C88C /* utils.swift */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -359,16 +396,15 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
+				1FE6E7DC22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift */,
+				1FE6E7DD22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift */,
+				1FE6E7D822ED180C00E558D7 /* CarbonSource+CoreDataClass.swift */,
+				1FE6E7D922ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift */,
+				1F328C2322ED0D760085FC1A /* Old Modal */,
 				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
-				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
-				1FB08D4F202E01FD00D4C20C /* DrivingData.swift */,
-				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
 				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
-				1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */,
-				1FA737F81F001F4100B721D0 /* APIRequestManager.swift */,
-				1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */,
-				1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */,
 				1F2013BB22BA0130000183FE /* Firebase */,
+				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -391,6 +427,8 @@
 			children = (
 				6AC0A5254D86C03173AE76C5 /* Pods-Greenfoot.debug.xcconfig */,
 				7348CB52CC0198E382221D74 /* Pods-Greenfoot.release.xcconfig */,
+				59C4EB2DF594B49864DF0713 /* Pods-Greenfoot-GreenfootTests.debug.xcconfig */,
+				ED8667CC476FD90701F178F2 /* Pods-Greenfoot-GreenfootTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -403,6 +441,7 @@
 				1FC291D51EF1C235007F7835 /* CoreData.framework */,
 				1F6EF2871EF07903000EF403 /* CoreLocation.framework */,
 				88667CDCA87C300010E84CC8 /* Pods_Greenfoot.framework */,
+				BDB65627ADC7BAA638231694 /* Pods_Greenfoot_GreenfootTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -414,9 +453,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F666552205B748200FCD30C /* Build configuration list for PBXNativeTarget "GreenfootTests" */;
 			buildPhases = (
+				DB20112B97F8D647923BD63D /* [CP] Check Pods Manifest.lock */,
 				1F666545205B748200FCD30C /* Sources */,
 				1F666546205B748200FCD30C /* Frameworks */,
 				1F666547205B748200FCD30C /* Resources */,
+				4F66170200733F91DD2C7820 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -540,6 +581,68 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4F66170200733F91DD2C7820 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Greenfoot-GreenfootTests/Pods-Greenfoot-GreenfootTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/BulletinBoard/BLTNBoard.framework",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
+				"${BUILT_PRODUCTS_DIR}/PopupDialog/PopupDialog.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BLTNBoard.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicBlurView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopupDialog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Greenfoot-GreenfootTests/Pods-Greenfoot-GreenfootTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB20112B97F8D647923BD63D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Greenfoot-GreenfootTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E3C3C7C3BE8F906CE2BCDEAF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -609,7 +712,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8BC1C822EE5B5500B58DFA /* greenfoot.xcdatamodeld in Sources */,
 				1F66654C205B748200FCD30C /* GreenfootTests.swift in Sources */,
+				1FE6E7E322ED36B700E558D7 /* CarbonSourceTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,9 +722,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F42A00322EBEE480057C88C /* utils.swift in Sources */,
 				1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
+				1FE6E7DA22ED180C00E558D7 /* CarbonSource+CoreDataClass.swift in Sources */,
+				1FE6E7E122ED235600E558D7 /* DBManager.swift in Sources */,
 				1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */,
 				1FE256D422E7F53D0020C191 /* UtilitiesTableViewController.swift in Sources */,
 				1F9BEE8C1E6FB4FB00CD5B46 /* AttributeTableViewController.swift in Sources */,
@@ -634,6 +742,7 @@
 				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,
 				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
+				1FE6E7DE22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift in Sources */,
 				1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
 				1F00C38622B703A500715506 /* PopupDialog.swift in Sources */,
@@ -652,12 +761,14 @@
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,
+				1FE6E7DB22ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift in Sources */,
 				1F503A4222DA550200A07805 /* GGTabBarItem.swift in Sources */,
 				1F1C54C422E397B100D12598 /* RoundedIconButton.swift in Sources */,
 				1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */,
 				1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */,
 				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
 				1F13032222CE9A8C0069AEDC /* HistoryTableViewCell.swift in Sources */,
+				1FE6E7DF22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift in Sources */,
 				1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */,
 				1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */,
 				1FE8A57B22C97DAB0044ABEC /* Summary-TableView.swift in Sources */,
@@ -696,6 +807,7 @@
 /* Begin XCBuildConfiguration section */
 		1F666550205B748200FCD30C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 59C4EB2DF594B49864DF0713 /* Pods-Greenfoot-GreenfootTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -705,6 +817,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CZ787F8MST;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = GreenfootTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -718,6 +831,7 @@
 		};
 		1F666551205B748200FCD30C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED8667CC476FD90701F178F2 /* Pods-Greenfoot-GreenfootTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -727,6 +841,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CZ787F8MST;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = GreenfootTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -919,9 +1034,10 @@
 		1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				1FE6E7CF22ED164800E558D7 /* GoGreenv2.0.xcdatamodel */,
 				1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */,
 			);
-			currentVersion = 1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */;
+			currentVersion = 1FE6E7CF22ED164800E558D7 /* GoGreenv2.0.xcdatamodel */;
 			path = greenfoot.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

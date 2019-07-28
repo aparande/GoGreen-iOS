@@ -7,6 +7,21 @@
         <attribute name="month" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="CarbonDataPoint" representedClassName="CarbonDataPoint" syncable="YES">
+        <attribute name="carbonValue" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="fid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="month" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="rawValue" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="source" maxCount="1" deletionRule="Nullify" destinationEntity="CarbonSource" inverseName="data" inverseEntity="CarbonSource" syncable="YES"/>
+    </entity>
+    <entity name="CarbonSource" representedClassName="CarbonSource" syncable="YES">
+        <attribute name="fid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="sourceCategory" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sourceType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="data" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CarbonDataPoint" inverseName="source" inverseEntity="CarbonDataPoint" syncable="YES"/>
+    </entity>
     <entity name="DataPoint" representedClassName="DataPoint" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="dataType" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,6 +32,8 @@
     </entity>
     <elements>
         <element name="Car" positionX="-837" positionY="-105" width="128" height="120"/>
+        <element name="CarbonSource" positionX="-720" positionY="-63" width="128" height="120"/>
         <element name="DataPoint" positionX="-612" positionY="-105" width="128" height="30"/>
+        <element name="CarbonDataPoint" positionX="-711" positionY="-54" width="128" height="135"/>
     </elements>
 </model>
