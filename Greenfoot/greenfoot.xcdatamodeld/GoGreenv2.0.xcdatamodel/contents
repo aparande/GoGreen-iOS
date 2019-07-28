@@ -13,12 +13,13 @@
         <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="month" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="rawValue" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="references" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonReference" syncable="YES"/>
+        <relationship name="references" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonReference" inverseName="comparisonPoints" inverseEntity="CarbonReference" syncable="YES"/>
         <relationship name="source" maxCount="1" deletionRule="Nullify" destinationEntity="CarbonSource" inverseName="data" inverseEntity="CarbonSource" syncable="YES"/>
     </entity>
     <entity name="CarbonReference" representedClassName="CarbonReference" parentEntity="CarbonDataPoint" syncable="YES">
         <attribute name="level" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="comparisonPoints" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonDataPoint" inverseName="references" inverseEntity="CarbonDataPoint" syncable="YES"/>
     </entity>
     <entity name="CarbonSource" representedClassName="CarbonSource" syncable="YES">
         <attribute name="fid" optional="YES" attributeType="String" syncable="YES"/>
@@ -38,7 +39,7 @@
     <elements>
         <element name="Car" positionX="-837" positionY="-105" width="128" height="120"/>
         <element name="CarbonDataPoint" positionX="-711" positionY="-54" width="128" height="150"/>
-        <element name="CarbonReference" positionX="-720" positionY="-27" width="128" height="75"/>
+        <element name="CarbonReference" positionX="-720" positionY="-27" width="128" height="90"/>
         <element name="CarbonSource" positionX="-720" positionY="-63" width="128" height="120"/>
         <element name="DataPoint" positionX="-612" positionY="-105" width="128" height="30"/>
     </elements>

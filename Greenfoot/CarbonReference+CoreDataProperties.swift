@@ -19,5 +19,23 @@ extension CarbonReference {
 
     @NSManaged public var level: Level
     @NSManaged public var name: String
+    @NSManaged public var comparisonPoints: NSSet?
+
+}
+
+// MARK: Generated accessors for comparisonPoints
+extension CarbonReference {
+
+    @objc(addComparisonPointsObject:)
+    @NSManaged public func addToComparisonPoints(_ value: CarbonDataPoint)
+
+    @objc(removeComparisonPointsObject:)
+    @NSManaged public func removeFromComparisonPoints(_ value: CarbonDataPoint)
+
+    @objc(addComparisonPoints:)
+    @NSManaged public func addToComparisonPoints(_ values: NSSet)
+
+    @objc(removeComparisonPoints:)
+    @NSManaged public func removeFromComparisonPoints(_ values: NSSet)
 
 }
