@@ -75,6 +75,8 @@
 		1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */; };
 		1FC515661F32D0650021DC1D /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FC515651F32D0650021DC1D /* Raleway-Bold.ttf */; };
 		1FC962EC1FF4B48600C6F686 /* BarGraphFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */; };
+		1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */; };
+		1FCD198422EE6874008E6194 /* CarbonReference+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */; };
 		1FD0055222C9406E00F5828B /* LogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD0055122C9406E00F5828B /* LogCell.xib */; };
 		1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD0055322C9425200F5828B /* LogTableViewCell.swift */; };
 		1FE256D222E7EFDD0020C191 /* UtilityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */; };
@@ -178,6 +180,8 @@
 		1FC515651F32D0650021DC1D /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BarGraphFooter.xib; sourceTree = "<group>"; };
 		1FCB0FE71E2B3684006463AE /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
+		1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1FD0055122C9406E00F5828B /* LogCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogCell.xib; sourceTree = "<group>"; };
 		1FD0055322C9425200F5828B /* LogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
 		1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityTableViewCell.swift; sourceTree = "<group>"; };
@@ -396,6 +400,8 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
+				1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */,
+				1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */,
 				1FE6E7DC22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift */,
 				1FE6E7DD22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift */,
 				1FE6E7D822ED180C00E558D7 /* CarbonSource+CoreDataClass.swift */,
@@ -723,6 +729,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F42A00322EBEE480057C88C /* utils.swift in Sources */,
+				1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */,
 				1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
@@ -751,6 +758,7 @@
 				1FE6E1C122B5BAB5004C0E81 /* FirebaseObject.swift in Sources */,
 				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
 				1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */,
+				1FCD198422EE6874008E6194 /* CarbonReference+CoreDataProperties.swift in Sources */,
 				1FA018A01EE394D6005ED9E2 /* DrivingDataViewController.swift in Sources */,
 				1FAA27FC22C88891007E7403 /* BarGraphTableViewCell.swift in Sources */,
 				1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */,
