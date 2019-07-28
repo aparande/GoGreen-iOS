@@ -19,4 +19,8 @@ target 'Greenfoot' do
   pod 'Firebase/Auth'
   pod 'Firebase/Functions'
   pod 'BulletinBoard'
+  
+  target 'GreenfootTests' do
+    inherit! :complete
+  end
 end
