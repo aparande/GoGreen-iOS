@@ -33,6 +33,9 @@
 		1F2E46F522C7E8F600DDDAB2 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */; };
 		1F2E46F722C7E92600DDDAB2 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2E46F622C7E92600DDDAB2 /* Roboto-Regular.ttf */; };
 		1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E46F922C7E9C100DDDAB2 /* appearance.swift */; };
+		1F3851AF22EFF7E900C5630E /* DBManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */; };
+		1F3851B122EFF99600C5630E /* CoreDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851B022EFF99600C5630E /* CoreDataTest.swift */; };
+		1F3851B422F0025600C5630E /* UnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851B322F0025600C5630E /* UnitTest.swift */; };
 		1F42A00322EBEE480057C88C /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42A00222EBEE480057C88C /* utils.swift */; };
 		1F4480E122E6CCFA00811666 /* UtilityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4480E022E6CCFA00811666 /* UtilityCell.xib */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
@@ -41,6 +44,7 @@
 		1F503A4722DA610400A07805 /* GGTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4622DA610400A07805 /* GGTabController.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
 		1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F61DA6022C7257600462BDB /* AddDataBLTNItem.swift */; };
+		1F62F66222EEBC6D00636D41 /* DBManager+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */; };
 		1F654CD422C855F100A5BFD7 /* CircularEmblemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F654CD322C855F100A5BFD7 /* CircularEmblemView.swift */; };
 		1F654CD622C8563C00A5BFD7 /* CircularEmblemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F654CD522C8563C00A5BFD7 /* CircularEmblemView.xib */; };
 		1F654CD922C85A8800A5BFD7 /* CircleBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F654CD822C85A8800A5BFD7 /* CircleBorder.swift */; };
@@ -77,6 +81,11 @@
 		1FC962EC1FF4B48600C6F686 /* BarGraphFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */; };
 		1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */; };
 		1FCD198422EE6874008E6194 /* CarbonReference+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */; };
+		1FCD198922EE7FC1008E6194 /* Unit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198522EE7FC1008E6194 /* Unit+CoreDataClass.swift */; };
+		1FCD198A22EE7FC1008E6194 /* Unit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198622EE7FC1008E6194 /* Unit+CoreDataProperties.swift */; };
+		1FCD198B22EE7FC1008E6194 /* Conversion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */; };
+		1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */; };
+		1FCD198E22EE8184008E6194 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FCD198D22EE8184008E6194 /* defaults.plist */; };
 		1FD0055222C9406E00F5828B /* LogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD0055122C9406E00F5828B /* LogCell.xib */; };
 		1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD0055322C9425200F5828B /* LogTableViewCell.swift */; };
 		1FE256D222E7EFDD0020C191 /* UtilityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */; };
@@ -134,6 +143,9 @@
 		1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		1F2E46F622C7E92600DDDAB2 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		1F2E46F922C7E9C100DDDAB2 /* appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appearance.swift; sourceTree = "<group>"; };
+		1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManagerTest.swift; sourceTree = "<group>"; };
+		1F3851B022EFF99600C5630E /* CoreDataTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTest.swift; sourceTree = "<group>"; };
+		1F3851B322F0025600C5630E /* UnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTest.swift; sourceTree = "<group>"; };
 		1F42A00222EBEE480057C88C /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		1F4480E022E6CCFA00811666 /* UtilityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UtilityCell.xib; sourceTree = "<group>"; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
@@ -142,6 +154,7 @@
 		1F503A4622DA610400A07805 /* GGTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabController.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		1F61DA6022C7257600462BDB /* AddDataBLTNItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataBLTNItem.swift; sourceTree = "<group>"; };
+		1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBManager+Defaults.swift"; sourceTree = "<group>"; };
 		1F654CD322C855F100A5BFD7 /* CircularEmblemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularEmblemView.swift; sourceTree = "<group>"; };
 		1F654CD522C8563C00A5BFD7 /* CircularEmblemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircularEmblemView.xib; sourceTree = "<group>"; };
 		1F654CD822C85A8800A5BFD7 /* CircleBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleBorder.swift; sourceTree = "<group>"; };
@@ -182,6 +195,11 @@
 		1FCB0FE71E2B3684006463AE /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
 		1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FCD198522EE7FC1008E6194 /* Unit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1FCD198622EE7FC1008E6194 /* Unit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversion+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversion+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FCD198D22EE8184008E6194 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		1FD0055122C9406E00F5828B /* LogCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogCell.xib; sourceTree = "<group>"; };
 		1FD0055322C9425200F5828B /* LogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
 		1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityTableViewCell.swift; sourceTree = "<group>"; };
@@ -277,6 +295,17 @@
 			path = "Old Modal";
 			sourceTree = "<group>";
 		};
+		1F3851B222F0020B00C5630E /* CoreDataTests */ = {
+			isa = PBXGroup;
+			children = (
+				1FE6E7E222ED36B700E558D7 /* CarbonSourceTest.swift */,
+				1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */,
+				1F3851B022EFF99600C5630E /* CoreDataTest.swift */,
+				1F3851B322F0025600C5630E /* UnitTest.swift */,
+			);
+			path = CoreDataTests;
+			sourceTree = "<group>";
+		};
 		1F503A4322DA5C2F00A07805 /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,7 +360,7 @@
 				1F66654B205B748200FCD30C /* GreenfootTests.swift */,
 				1F66654D205B748200FCD30C /* Info.plist */,
 				1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */,
-				1FE6E7E222ED36B700E558D7 /* CarbonSourceTest.swift */,
+				1F3851B222F0020B00C5630E /* CoreDataTests */,
 			);
 			path = GreenfootTests;
 			sourceTree = "<group>";
@@ -384,6 +413,7 @@
 				1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */,
 				1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */,
 				1F42A00222EBEE480057C88C /* utils.swift */,
+				1FCD198D22EE8184008E6194 /* defaults.plist */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -400,6 +430,10 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
+				1FCD198522EE7FC1008E6194 /* Unit+CoreDataClass.swift */,
+				1FCD198622EE7FC1008E6194 /* Unit+CoreDataProperties.swift */,
+				1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */,
+				1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */,
 				1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */,
 				1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */,
 				1FE6E7DC22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift */,
@@ -411,6 +445,7 @@
 				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
 				1F2013BB22BA0130000183FE /* Firebase */,
 				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
+				1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -577,6 +612,7 @@
 				1F123F841FE5A92600FEAC84 /* license.txt in Resources */,
 				1FD0055222C9406E00F5828B /* LogCell.xib in Resources */,
 				1F2E46F522C7E8F600DDDAB2 /* Roboto-Black.ttf in Resources */,
+				1FCD198E22EE8184008E6194 /* defaults.plist in Resources */,
 				1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */,
 				1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */,
 				1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */,
@@ -718,9 +754,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F3851B122EFF99600C5630E /* CoreDataTest.swift in Sources */,
 				1F8BC1C822EE5B5500B58DFA /* greenfoot.xcdatamodeld in Sources */,
 				1F66654C205B748200FCD30C /* GreenfootTests.swift in Sources */,
+				1F3851B422F0025600C5630E /* UnitTest.swift in Sources */,
 				1FE6E7E322ED36B700E558D7 /* CarbonSourceTest.swift in Sources */,
+				1F3851AF22EFF7E900C5630E /* DBManagerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,7 +770,9 @@
 				1F42A00322EBEE480057C88C /* utils.swift in Sources */,
 				1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */,
 				1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */,
+				1FCD198922EE7FC1008E6194 /* Unit+CoreDataClass.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
+				1FCD198A22EE7FC1008E6194 /* Unit+CoreDataProperties.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
 				1FE6E7DA22ED180C00E558D7 /* CarbonSource+CoreDataClass.swift in Sources */,
 				1FE6E7E122ED235600E558D7 /* DBManager.swift in Sources */,
@@ -749,6 +790,7 @@
 				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,
 				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
+				1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */,
 				1FE6E7DE22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift in Sources */,
 				1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,
@@ -762,6 +804,7 @@
 				1FA018A01EE394D6005ED9E2 /* DrivingDataViewController.swift in Sources */,
 				1FAA27FC22C88891007E7403 /* BarGraphTableViewCell.swift in Sources */,
 				1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */,
+				1FCD198B22EE7FC1008E6194 /* Conversion+CoreDataClass.swift in Sources */,
 				1F654CD922C85A8800A5BFD7 /* CircleBorder.swift in Sources */,
 				1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */,
 				1F503A4522DA5C7200A07805 /* GGTabBar.swift in Sources */,
@@ -769,6 +812,7 @@
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,
+				1F62F66222EEBC6D00636D41 /* DBManager+Defaults.swift in Sources */,
 				1FE6E7DB22ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift in Sources */,
 				1F503A4222DA550200A07805 /* GGTabBarItem.swift in Sources */,
 				1F1C54C422E397B100D12598 /* RoundedIconButton.swift in Sources */,

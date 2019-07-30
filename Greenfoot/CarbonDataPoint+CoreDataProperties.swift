@@ -22,8 +22,9 @@ extension CarbonDataPoint {
     @NSManaged public var lastUpdated: NSDate
     @NSManaged public var month: NSDate
     @NSManaged public var rawValue: Double
-    @NSManaged public var source: CarbonSource?
     @NSManaged public var references: NSSet?
+    @NSManaged public var source: CarbonSource?
+    @NSManaged public var unit: Unit
 
 }
 

@@ -13,13 +13,14 @@
         <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="month" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="rawValue" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="references" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonReference" inverseName="comparisonPoints" inverseEntity="CarbonReference" syncable="YES"/>
+        <relationship name="references" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonReference" inverseName="comparisonPoints" inverseEntity="CarbonReference" syncable="YES"/>
         <relationship name="source" maxCount="1" deletionRule="Nullify" destinationEntity="CarbonSource" inverseName="data" inverseEntity="CarbonSource" syncable="YES"/>
+        <relationship name="unit" maxCount="1" deletionRule="Nullify" destinationEntity="Unit" inverseName="associatedPoints" inverseEntity="Unit" syncable="YES"/>
     </entity>
     <entity name="CarbonReference" representedClassName="CarbonReference" parentEntity="CarbonDataPoint" syncable="YES">
         <attribute name="level" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="comparisonPoints" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonDataPoint" inverseName="references" inverseEntity="CarbonDataPoint" syncable="YES"/>
+        <relationship name="comparisonPoints" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonDataPoint" inverseName="references" inverseEntity="CarbonDataPoint" syncable="YES"/>
     </entity>
     <entity name="CarbonSource" representedClassName="CarbonSource" syncable="YES">
         <attribute name="fid" optional="YES" attributeType="String" syncable="YES"/>
@@ -27,6 +28,12 @@
         <attribute name="sourceCategory" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sourceType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="data" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CarbonDataPoint" inverseName="source" inverseEntity="CarbonDataPoint" syncable="YES"/>
+    </entity>
+    <entity name="Conversion" representedClassName="Conversion" syncable="YES">
+        <attribute name="factor" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="fid" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="dest" maxCount="1" deletionRule="Nullify" destinationEntity="Unit" inverseName="conversionsFrom" inverseEntity="Unit" syncable="YES"/>
+        <relationship name="source" maxCount="1" deletionRule="Nullify" destinationEntity="Unit" inverseName="conversionsTo" inverseEntity="Unit" syncable="YES"/>
     </entity>
     <entity name="DataPoint" representedClassName="DataPoint" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -36,11 +43,21 @@
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="month" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
     </entity>
+    <entity name="Unit" representedClassName="Unit" syncable="YES">
+        <attribute name="fid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="sourceType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="associatedPoints" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonDataPoint" inverseName="unit" inverseEntity="CarbonDataPoint" syncable="YES"/>
+        <relationship name="conversionsFrom" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Conversion" inverseName="dest" inverseEntity="Conversion" syncable="YES"/>
+        <relationship name="conversionsTo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Conversion" inverseName="source" inverseEntity="Conversion" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Car" positionX="-837" positionY="-105" width="128" height="120"/>
-        <element name="CarbonDataPoint" positionX="-711" positionY="-54" width="128" height="150"/>
-        <element name="CarbonReference" positionX="-720" positionY="-27" width="128" height="90"/>
-        <element name="CarbonSource" positionX="-720" positionY="-63" width="128" height="120"/>
-        <element name="DataPoint" positionX="-612" positionY="-105" width="128" height="30"/>
+        <element name="Car" positionX="-911.76171875" positionY="-332.078125" width="128" height="120"/>
+        <element name="CarbonDataPoint" positionX="-778.7890625" positionY="-109.5234375" width="128" height="163"/>
+        <element name="CarbonReference" positionX="-324.1953125" positionY="-64.421875" width="128" height="88"/>
+        <element name="CarbonSource" positionX="-1014.421875" positionY="31.9375" width="128" height="120"/>
+        <element name="DataPoint" positionX="-359.8515625" positionY="-200.53125" width="128" height="30"/>
+        <element name="Unit" positionX="-295.52734375" positionY="208.19921875" width="128" height="133"/>
+        <element name="Conversion" positionX="-696.9453125" positionY="308.56640625" width="128" height="103"/>
     </elements>
 </model>

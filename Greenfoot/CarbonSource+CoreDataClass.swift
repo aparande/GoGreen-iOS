@@ -11,14 +11,37 @@ import Foundation
 import CoreData
 
 @objc(CarbonSource)
-public class CarbonSource: NSManagedObject {
-    @nonobjc private class var fetchAllRequest: NSFetchRequest<CarbonSource> {
+public class CarbonSource: NSManagedObject, CoreDataRecord {
+    typealias Record = CarbonSource
+    
+    class var fetchAllRequest: NSFetchRequest<Record> {
         let request = NSFetchRequest<CarbonSource>(entityName: "CarbonSource")
         return request
     }
     
-    @nonobjc public class func all(inContext context: NSManagedObjectContext) throws -> [CarbonSource] {
+    class func all(inContext context: NSManagedObjectContext) throws -> [Record] {
         return try context.fetch(fetchAllRequest)
+    }
+    
+    /**
+     Constructs a Carbon Source from a "JSON" dictionary. Note JSON only works with primitives
+     */
+    required convenience init?(inContext context: NSManagedObjectContext, fromJson json:[String:Any]) {
+        self.init(context: context)
+        
+        guard case let (name as String, sourceCategory as Int, sourceType as Int) =
+            (json["name"], json["sourceCategory"], json["sourceType"]) else {
+                print("Could not create Carbon Source from json: \(json)")
+                context.delete(self)
+                return nil
+        }
+        
+        self.name = name
+        #warning("Unwrapped optional")
+        self.sourceCategory = SourceCategory(rawValue: Int16(sourceCategory))!
+        self.sourceType = SourceType(rawValue: Int16(sourceType))!
+        
+        self.fid = json["fid"] as? String
     }
     
     @nonobjc public class func all(inContext context: NSManagedObjectContext,
@@ -46,13 +69,23 @@ extension CarbonSource {
     @objc
     public enum SourceCategory: Int16 {
         case utility = 0,
-            travel = 1
+            travel = 1,
+            direct = 2
     }
     
     @objc
     public enum SourceType: Int16 {
         case electricity = 0,
             gas = 1,
-            odometer = 2
+            odometer = 2,
+            direct = 3
     }
+}
+
+protocol CoreDataRecord {
+    associatedtype Record: NSFetchRequestResult
+    
+    init?(inContext context: NSManagedObjectContext, fromJson json:[String:Any])
+    static var fetchAllRequest: NSFetchRequest<Record> { get }
+    static func all(inContext context: NSManagedObjectContext) throws -> [Record]
 }

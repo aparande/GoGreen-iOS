@@ -30,7 +30,7 @@ class DBManager {
         self.init(container: appDelegate.persistentContainer)
     }
     
-    private func save() {
+    func save() {
         if backgroundContext.hasChanges {
             do {
                 try backgroundContext.save()

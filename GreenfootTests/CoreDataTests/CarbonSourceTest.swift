@@ -10,42 +10,22 @@ import XCTest
 import CoreData
 @testable import Greenfoot
 
-class CarbonSourceTest: XCTestCase {
-    lazy var managedObjectModel: NSManagedObjectModel = {
-        let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle(for: type(of: self))])
-        return managedObjectModel!
-    }()
-    
-    lazy var mockPersistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "greenfoot_test", managedObjectModel: self.managedObjectModel)
-        let description = NSPersistentStoreDescription()
-        description.type = NSInMemoryStoreType
-        description.shouldAddStoreAsynchronously = false
-        container.persistentStoreDescriptions = [description]
-        container.loadPersistentStores(completionHandler: { (description, error) in
-            precondition(description.type == NSInMemoryStoreType)
-            
-            if let error = error {
-                fatalError("Could not create an in-memory store coordinator \(error)")
-            }
-        })
-        return container
-    }()
-    
-    var dbManager: DBManager!
-    
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        super.setUp()
-        dbManager = DBManager(container: mockPersistentContainer)
-        createStubs()
-    }
-
+class CarbonSourceTest: CoreDataTest {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        flush()
+    }
+    
+    func testCreateFromJson() {
+        let intJson:[String:Any] = ["name": "Int Test Source",
+                                     "sourceCategory": 0,
+                                     "sourceType": 1]
+        let intSource = CarbonSource(inContext: dbManager.backgroundContext, fromJson: intJson)
+        XCTAssertNotNil(intSource)
     }
 
     func testFetchAll() {
+        createStubs()
         do {
             let sources = try CarbonSource.all(inContext: dbManager.backgroundContext)
             XCTAssert(sources.count == 3, "Found \(sources.count) sources")
@@ -55,6 +35,7 @@ class CarbonSourceTest: XCTestCase {
     }
     
     func testFetchByCategory() {
+        createStubs()
         do {
             let sources = try CarbonSource.all(inContext: dbManager.backgroundContext,
                                                fromCategories: [CarbonSource.SourceCategory.utility])
@@ -67,6 +48,7 @@ class CarbonSourceTest: XCTestCase {
     }
     
     func testFetchByType() {
+        createStubs()
         do {
             let sources = try CarbonSource.all(inContext: dbManager.backgroundContext,
                                                withTypes: [.electricity, .odometer])
