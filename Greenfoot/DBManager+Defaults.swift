@@ -26,11 +26,13 @@ extension DBManager {
     }
     
     func loadDefaults() {
+        print("Loading Defaults")
+        
         let defaults = loadPlist(named: "defaults")
         
         guard let sourcesData = defaults["sources"] as? [[String: AnyObject]] else { return }
         guard let unitsData = defaults["units"] as? [[String: AnyObject]] else { return }
-        guard let referencesData = defaults["references"] as? [Int: [String: AnyObject]] else { return }
+        guard let referencesData = defaults["references"] as? [String: [String: AnyObject]] else { return }
         guard let conversionsData = defaults["conversions"] as? [String: [String: AnyObject]] else { return }
         
         let sources = createCoreDataObject(CarbonSource.self, fromData: sourcesData)
@@ -74,7 +76,7 @@ extension DBManager {
         return conversions
     }
     
-    private func createReferences(usingData data: [Int: [String:AnyObject]],
+    private func createReferences(usingData data: [String: [String:AnyObject]],
                                     forSources sources:[CarbonSource],
                                     withUnits units:[Unit]) -> [CarbonReference] {
         var idMap: [String:Unit] = [:]
@@ -86,7 +88,7 @@ extension DBManager {
         var references: [CarbonReference] = []
         
         for source in sources {
-            guard let referenceData = data[Int(source.sourceType.rawValue)] else { continue }
+            guard let referenceData = data[String(source.sourceType.rawValue)] else { continue }
             
             let reference = CarbonReference(context: self.backgroundContext)
             

@@ -13,13 +13,20 @@ import UIKit
 class DBManager {
     
     let persistentContainer: NSPersistentContainer
+    let defaults: UserDefaults
     
     lazy var backgroundContext: NSManagedObjectContext = {
         return self.persistentContainer.newBackgroundContext()
     }()
     
-    init(container: NSPersistentContainer) {
+    init(container: NSPersistentContainer, defaults: UserDefaults) {
         self.persistentContainer = container
+        self.defaults = defaults
+        
+        if !self.defaults.bool(forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS) {
+            self.loadDefaults()
+            self.defaults.set(true, forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS)
+        }
     }
     
     convenience init() {
@@ -27,7 +34,7 @@ class DBManager {
             fatalError("Can't get shared app delegate")
         }
         
-        self.init(container: appDelegate.persistentContainer)
+        self.init(container: appDelegate.persistentContainer, defaults: UserDefaults.standard)
     }
     
     func save() {
