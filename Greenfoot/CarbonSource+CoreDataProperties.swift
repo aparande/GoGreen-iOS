@@ -16,13 +16,17 @@ extension CarbonSource {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CarbonSource> {
         return NSFetchRequest<CarbonSource>(entityName: "CarbonSource")
     }
+    
+    public var points: [CarbonDataPoint]? {
+        return self.data?.filter {type(of: $0) == CarbonDataPoint.self} as? [CarbonDataPoint]
+    }
 
     @NSManaged public var fid: String?
     @NSManaged public var name: String
     @NSManaged public var sourceCategory: SourceCategory
     @NSManaged public var sourceType: SourceType
-    @NSManaged public var data: NSOrderedSet?
-
+    
+    @NSManaged private var data: NSOrderedSet?
 }
 
 // MARK: Generated accessors for data
