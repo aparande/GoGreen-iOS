@@ -36,7 +36,7 @@ extension DBManager {
         guard let conversionsData = defaults["conversions"] as? [String: [String: AnyObject]] else { return }
         
         let sources = createCoreDataObject(CarbonSource.self, fromData: sourcesData)
-        let units = createCoreDataObject(Unit.self, fromData: unitsData)
+        let units = createCoreDataObject(CarbonUnit.self, fromData: unitsData)
         let conversions = createConversions(forUnits: units, usingData: conversionsData)
         let references = createReferences(usingData: referencesData, forSources: sources, withUnits: units)
         
@@ -52,8 +52,8 @@ extension DBManager {
         return objs
     }
     
-    private func createConversions(forUnits units: [Unit], usingData data: [String: [String:AnyObject]]) -> [Conversion] {
-        var idMap: [String:Unit] = [:]
+    private func createConversions(forUnits units: [CarbonUnit], usingData data: [String: [String:AnyObject]]) -> [Conversion] {
+        var idMap: [String:CarbonUnit] = [:]
         for unit in units {
             guard let id = unit.fid else { continue }
             idMap[id] = unit
@@ -78,8 +78,8 @@ extension DBManager {
     
     private func createReferences(usingData data: [String: [String:AnyObject]],
                                     forSources sources:[CarbonSource],
-                                    withUnits units:[Unit]) -> [CarbonReference] {
-        var idMap: [String:Unit] = [:]
+                                    withUnits units:[CarbonUnit]) -> [CarbonReference] {
+        var idMap: [String:CarbonUnit] = [:]
         for unit in units {
             guard let id = unit.fid else { continue }
             idMap[id] = unit

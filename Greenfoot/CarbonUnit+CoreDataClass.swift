@@ -11,11 +11,11 @@ import Foundation
 import CoreData
 
 @objc(Unit)
-public class Unit: NSManagedObject, CoreDataRecord {
-    typealias Record = Unit
+public class CarbonUnit: NSManagedObject, CoreDataRecord {
+    typealias Record = CarbonUnit
     
     class var fetchAllRequest: NSFetchRequest<Record> {
-        let request = NSFetchRequest<Record>(entityName: "Unit")
+        let request = NSFetchRequest<Record>(entityName: "CarbonUnit")
         return request
     }
     

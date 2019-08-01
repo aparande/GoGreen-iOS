@@ -19,7 +19,7 @@ extension Conversion {
 
     @NSManaged public var fid: String?
     @NSManaged public var factor: Double
-    @NSManaged public var source: Unit
-    @NSManaged public var dest: Unit
+    @NSManaged public var source: CarbonUnit
+    @NSManaged public var dest: CarbonUnit
 
 }

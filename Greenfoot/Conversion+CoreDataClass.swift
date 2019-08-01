@@ -12,5 +12,7 @@ import CoreData
 
 @objc(Conversion)
 public class Conversion: NSManagedObject {
-
+    func convert(_ value: Double) -> Double {
+        return value * self.factor
+    }
 }

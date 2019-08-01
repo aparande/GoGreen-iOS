@@ -24,7 +24,7 @@ extension CarbonDataPoint {
     @NSManaged public var rawValue: Double
     @NSManaged public var references: NSSet?
     @NSManaged public var source: CarbonSource?
-    @NSManaged public var unit: Unit
+    @NSManaged public var unit: CarbonUnit
 
 }
 

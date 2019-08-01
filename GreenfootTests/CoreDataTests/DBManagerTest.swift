@@ -30,7 +30,7 @@ class DBManagerTest: CoreDataTest {
         }
         
         do {
-            let units = try Unit.all(inContext: dbManager.backgroundContext)
+            let units = try CarbonUnit.all(inContext: dbManager.backgroundContext)
             XCTAssert(units.count == 4)
             
             for unit in units {

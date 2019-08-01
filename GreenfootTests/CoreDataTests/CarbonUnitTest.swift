@@ -9,13 +9,13 @@
 import XCTest
 @testable import Greenfoot
 
-class UnitTest: CoreDataTest {
+class CarbonUnitTest: CoreDataTest {
     
     func testCreateFromJSON() {
         let intJson:[String:Any] = ["name": "Int Test Unit",
                                     "sourceType": 1,
                                     "fid": "Test Unit 1"]
-        let intUnit = Unit(inContext: dbManager.backgroundContext, fromJson: intJson)
+        let intUnit = CarbonUnit(inContext: dbManager.backgroundContext, fromJson: intJson)
         XCTAssertNotNil(intUnit)
     }
 }

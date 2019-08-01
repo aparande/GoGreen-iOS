@@ -35,7 +35,7 @@
 		1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E46F922C7E9C100DDDAB2 /* appearance.swift */; };
 		1F3851AF22EFF7E900C5630E /* DBManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */; };
 		1F3851B122EFF99600C5630E /* CoreDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851B022EFF99600C5630E /* CoreDataTest.swift */; };
-		1F3851B422F0025600C5630E /* UnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851B322F0025600C5630E /* UnitTest.swift */; };
+		1F3851B422F0025600C5630E /* CarbonUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851B322F0025600C5630E /* CarbonUnitTest.swift */; };
 		1F42A00322EBEE480057C88C /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42A00222EBEE480057C88C /* utils.swift */; };
 		1F4480E122E6CCFA00811666 /* UtilityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4480E022E6CCFA00811666 /* UtilityCell.xib */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
@@ -82,8 +82,8 @@
 		1FC962EC1FF4B48600C6F686 /* BarGraphFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */; };
 		1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */; };
 		1FCD198422EE6874008E6194 /* CarbonReference+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */; };
-		1FCD198922EE7FC1008E6194 /* Unit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198522EE7FC1008E6194 /* Unit+CoreDataClass.swift */; };
-		1FCD198A22EE7FC1008E6194 /* Unit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198622EE7FC1008E6194 /* Unit+CoreDataProperties.swift */; };
+		1FCD198922EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */; };
+		1FCD198A22EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */; };
 		1FCD198B22EE7FC1008E6194 /* Conversion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */; };
 		1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */; };
 		1FCD198E22EE8184008E6194 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FCD198D22EE8184008E6194 /* defaults.plist */; };
@@ -147,7 +147,7 @@
 		1F2E46F922C7E9C100DDDAB2 /* appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appearance.swift; sourceTree = "<group>"; };
 		1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManagerTest.swift; sourceTree = "<group>"; };
 		1F3851B022EFF99600C5630E /* CoreDataTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTest.swift; sourceTree = "<group>"; };
-		1F3851B322F0025600C5630E /* UnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTest.swift; sourceTree = "<group>"; };
+		1F3851B322F0025600C5630E /* CarbonUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbonUnitTest.swift; sourceTree = "<group>"; };
 		1F42A00222EBEE480057C88C /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		1F4480E022E6CCFA00811666 /* UtilityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UtilityCell.xib; sourceTree = "<group>"; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
@@ -198,8 +198,8 @@
 		1FCB0FE71E2B3684006463AE /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
 		1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		1FCD198522EE7FC1008E6194 /* Unit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+CoreDataClass.swift"; sourceTree = "<group>"; };
-		1FCD198622EE7FC1008E6194 /* Unit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonUnit+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonUnit+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversion+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversion+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1FCD198D22EE8184008E6194 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
@@ -305,7 +305,7 @@
 				1FE6E7E222ED36B700E558D7 /* CarbonSourceTest.swift */,
 				1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */,
 				1F3851B022EFF99600C5630E /* CoreDataTest.swift */,
-				1F3851B322F0025600C5630E /* UnitTest.swift */,
+				1F3851B322F0025600C5630E /* CarbonUnitTest.swift */,
 			);
 			path = CoreDataTests;
 			sourceTree = "<group>";
@@ -435,8 +435,8 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
-				1FCD198522EE7FC1008E6194 /* Unit+CoreDataClass.swift */,
-				1FCD198622EE7FC1008E6194 /* Unit+CoreDataProperties.swift */,
+				1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */,
+				1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */,
 				1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */,
 				1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */,
 				1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */,
@@ -763,7 +763,7 @@
 				1F3851B122EFF99600C5630E /* CoreDataTest.swift in Sources */,
 				1F8BC1C822EE5B5500B58DFA /* greenfoot.xcdatamodeld in Sources */,
 				1F66654C205B748200FCD30C /* GreenfootTests.swift in Sources */,
-				1F3851B422F0025600C5630E /* UnitTest.swift in Sources */,
+				1F3851B422F0025600C5630E /* CarbonUnitTest.swift in Sources */,
 				1FE6E7E322ED36B700E558D7 /* CarbonSourceTest.swift in Sources */,
 				1FF1BBEA22F147F5002912DF /* MockUserDefaults.swift in Sources */,
 				1F3851AF22EFF7E900C5630E /* DBManagerTest.swift in Sources */,
@@ -777,9 +777,9 @@
 				1F42A00322EBEE480057C88C /* utils.swift in Sources */,
 				1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */,
 				1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */,
-				1FCD198922EE7FC1008E6194 /* Unit+CoreDataClass.swift in Sources */,
+				1FCD198922EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
-				1FCD198A22EE7FC1008E6194 /* Unit+CoreDataProperties.swift in Sources */,
+				1FCD198A22EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
 				1FE6E7DA22ED180C00E558D7 /* CarbonSource+CoreDataClass.swift in Sources */,
 				1FE6E7E122ED235600E558D7 /* DBManager.swift in Sources */,

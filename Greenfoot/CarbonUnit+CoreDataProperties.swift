@@ -11,10 +11,10 @@ import Foundation
 import CoreData
 
 
-extension Unit {
+extension CarbonUnit {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Unit> {
-        return NSFetchRequest<Unit>(entityName: "Unit")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<CarbonUnit> {
+        return NSFetchRequest<CarbonUnit>(entityName: "CarbonUnit")
     }
 
     @NSManaged public var fid: String?
@@ -27,7 +27,7 @@ extension Unit {
 }
 
 // MARK: Generated accessors for conversionsTo
-extension Unit {
+extension CarbonUnit {
 
     @objc(addConversionsToObject:)
     @NSManaged public func addToConversionsTo(_ value: Conversion)
@@ -44,7 +44,7 @@ extension Unit {
 }
 
 // MARK: Generated accessors for associatedPoints
-extension Unit {
+extension CarbonUnit {
 
     @objc(addAssociatedPointsObject:)
     @NSManaged public func addToAssociatedPoints(_ value: CarbonDataPoint)
@@ -61,7 +61,7 @@ extension Unit {
 }
 
 // MARK: Generated accessors for conversionsFrom
-extension Unit {
+extension CarbonUnit {
 
     @objc(addConversionsFromObject:)
     @NSManaged public func addToConversionsFrom(_ value: Conversion)
