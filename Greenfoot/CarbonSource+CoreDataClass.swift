@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 @objc(CarbonSource)
-public class CarbonSource: NSManagedObject, CoreDataRecord {
+public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
     typealias Record = CarbonSource
     
     class var fetchAllRequest: NSFetchRequest<Record> {
@@ -80,12 +80,4 @@ extension CarbonSource {
             odometer = 2,
             direct = 3
     }
-}
-
-protocol CoreDataRecord {
-    associatedtype Record: NSFetchRequestResult
-    
-    init?(inContext context: NSManagedObjectContext, fromJson json:[String:Any])
-    static var fetchAllRequest: NSFetchRequest<Record> { get }
-    static func all(inContext context: NSManagedObjectContext) throws -> [Record]
 }

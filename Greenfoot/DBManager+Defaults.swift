@@ -43,7 +43,7 @@ extension DBManager {
         self.save()
     }
     
-    private func createCoreDataObject<T:CoreDataRecord>(_ Obj: T.Type, fromData data: [[String:AnyObject]]) -> [T] {
+    private func createCoreDataObject<T:CoreJsonObject>(_ Obj: T.Type, fromData data: [[String:AnyObject]]) -> [T] {
         var objs: [T] = []
         for objData in data {
             guard let o = T(inContext: self.backgroundContext, fromJson: objData) else {continue}

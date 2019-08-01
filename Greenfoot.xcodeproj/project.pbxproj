@@ -36,6 +36,7 @@
 		1F3851AF22EFF7E900C5630E /* DBManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */; };
 		1F3851B122EFF99600C5630E /* CoreDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851B022EFF99600C5630E /* CoreDataTest.swift */; };
 		1F3851B422F0025600C5630E /* CarbonUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3851B322F0025600C5630E /* CarbonUnitTest.swift */; };
+		1F3C99A122F293AA0008A1D3 /* CoreDataProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C99A022F293AA0008A1D3 /* CoreDataProtocols.swift */; };
 		1F42A00322EBEE480057C88C /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42A00222EBEE480057C88C /* utils.swift */; };
 		1F4480E122E6CCFA00811666 /* UtilityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4480E022E6CCFA00811666 /* UtilityCell.xib */; };
 		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
@@ -148,6 +149,7 @@
 		1F3851AE22EFF7E900C5630E /* DBManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManagerTest.swift; sourceTree = "<group>"; };
 		1F3851B022EFF99600C5630E /* CoreDataTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTest.swift; sourceTree = "<group>"; };
 		1F3851B322F0025600C5630E /* CarbonUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbonUnitTest.swift; sourceTree = "<group>"; };
+		1F3C99A022F293AA0008A1D3 /* CoreDataProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataProtocols.swift; sourceTree = "<group>"; };
 		1F42A00222EBEE480057C88C /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		1F4480E022E6CCFA00811666 /* UtilityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UtilityCell.xib; sourceTree = "<group>"; };
 		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
 				1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */,
 				1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */,
+				1F3C99A022F293AA0008A1D3 /* CoreDataProtocols.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -799,6 +802,7 @@
 				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */,
+				1F3C99A122F293AA0008A1D3 /* CoreDataProtocols.swift in Sources */,
 				1FE6E7DE22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift in Sources */,
 				1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */,
 				1F0C23571E6FB6E2006004CD /* AttributeTableViewCell.swift in Sources */,

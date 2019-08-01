@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 @objc(Unit)
-public class CarbonUnit: NSManagedObject, CoreDataRecord {
+public class CarbonUnit: NSManagedObject, CoreDataRecord, CoreJsonObject {
     typealias Record = CarbonUnit
     
     class var fetchAllRequest: NSFetchRequest<Record> {

@@ -12,7 +12,17 @@ import CoreData
 
 @objc(CarbonReference)
 public class CarbonReference: CarbonDataPoint {
-
+    /*
+    override typealias Record = CarbonReference
+    
+    override class var fetchAllRequest: NSFetchRequest<Record> {
+        let request = NSFetchRequest<CarbonReference>(entityName: "CarbonDataPoint")
+        return request
+    }
+    
+    override class func all(inContext context: NSManagedObjectContext) throws -> [Record] {
+        return try context.fetch(fetchAllRequest)
+    } */
 }
 
 extension CarbonReference {
