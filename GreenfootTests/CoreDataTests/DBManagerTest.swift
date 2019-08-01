@@ -16,10 +16,6 @@ class DBManagerTest: CoreDataTest {
     }
     
     func testLoadDefaults() {
-        let defaults = UserDefaults.makeClearedInstance()
-        
-        dbManager = DBManager(container: mockPersistentContainer, defaults: defaults)
-        
         XCTAssert(defaults.bool(forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS))
         
         do {

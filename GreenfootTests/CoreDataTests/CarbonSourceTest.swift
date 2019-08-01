@@ -11,6 +11,12 @@ import CoreData
 @testable import Greenfoot
 
 class CarbonSourceTest: CoreDataTest {
+    override func setUp() {
+        defaults = UserDefaults.makeClearedInstance()
+        defaults.set(true, forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS)
+        dbManager = DBManager(container: mockPersistentContainer, defaults: defaults)
+    }
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         flush()

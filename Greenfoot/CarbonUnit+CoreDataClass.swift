@@ -10,19 +10,8 @@
 import Foundation
 import CoreData
 
-@objc(Unit)
+@objc(CarbonUnit)
 public class CarbonUnit: NSManagedObject, CoreDataRecord, CoreJsonObject {
-    typealias Record = CarbonUnit
-    
-    class var fetchAllRequest: NSFetchRequest<Record> {
-        let request = NSFetchRequest<Record>(entityName: "CarbonUnit")
-        return request
-    }
-    
-    class func all(inContext context: NSManagedObjectContext) throws -> [Record] {
-        return try context.fetch(fetchAllRequest)
-    }
-    
     required convenience init?(inContext context: NSManagedObjectContext, fromJson json: [String : Any]) {
         self.init(context: context)
         

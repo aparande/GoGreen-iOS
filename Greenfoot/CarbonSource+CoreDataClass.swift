@@ -12,17 +12,6 @@ import CoreData
 
 @objc(CarbonSource)
 public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
-    typealias Record = CarbonSource
-    
-    class var fetchAllRequest: NSFetchRequest<Record> {
-        let request = NSFetchRequest<CarbonSource>(entityName: "CarbonSource")
-        return request
-    }
-    
-    class func all(inContext context: NSManagedObjectContext) throws -> [Record] {
-        return try context.fetch(fetchAllRequest)
-    }
-    
     /**
      Constructs a Carbon Source from a "JSON" dictionary. Note JSON only works with primitives
      */
@@ -45,7 +34,7 @@ public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
     }
     
     @nonobjc public class func all(inContext context: NSManagedObjectContext,
-                                   fromCategories categories: [SourceCategory] = [.utility, .travel]) throws -> [CarbonSource]{
+                                   fromCategories categories: [SourceCategory]) throws -> [CarbonSource]{
         let request = fetchAllRequest
         
         let categoryVals = categories.map({$0.rawValue})
@@ -55,7 +44,7 @@ public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
     }
     
     @nonobjc public class func all(inContext context: NSManagedObjectContext,
-                                   withTypes types: [SourceType] = [.electricity, .gas, .odometer]) throws -> [CarbonSource]{
+                                   withTypes types: [SourceType]) throws -> [CarbonSource]{
         let request = fetchAllRequest
         
         let typeVals =  types.map({$0.rawValue})

@@ -9,11 +9,24 @@
 import Foundation
 import CoreData
 
-protocol CoreDataRecord {
-    associatedtype Record: NSFetchRequestResult
+protocol CoreDataRecord: NSFetchRequestResult {
+    associatedtype Record: NSFetchRequestResult = Self
     
     static var fetchAllRequest: NSFetchRequest<Record> { get }
     static func all(inContext context: NSManagedObjectContext) throws -> [Record]
+}
+
+extension CoreDataRecord {
+    static func all(inContext context: NSManagedObjectContext) throws -> [Record] {
+        return try context.fetch(fetchAllRequest)
+    }
+    
+    static var fetchAllRequest: NSFetchRequest<Record> {
+        get {
+            let request = NSFetchRequest<Record>(entityName: String(describing: Self.self))
+            return request
+        }
+    }
 }
 
 protocol CoreJsonObject {
