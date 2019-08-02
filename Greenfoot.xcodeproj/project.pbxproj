@@ -255,6 +255,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F10916022F3F71A0019532F /* Core Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */,
+				1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */,
+				1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */,
+				1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */,
+				1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */,
+				1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */,
+				1FE6E7DC22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift */,
+				1FE6E7DD22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift */,
+				1FE6E7D822ED180C00E558D7 /* CarbonSource+CoreDataClass.swift */,
+				1FE6E7D922ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift */,
+				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
+				1F3C99A022F293AA0008A1D3 /* CoreDataProtocols.swift */,
+			);
+			path = "Core Data Models";
+			sourceTree = "<group>";
+		};
 		1F14FADF1EF71498005E9F33 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,24 +459,13 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
-				1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */,
-				1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */,
-				1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */,
-				1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */,
-				1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */,
-				1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */,
-				1FE6E7DC22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift */,
-				1FE6E7DD22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift */,
-				1FE6E7D822ED180C00E558D7 /* CarbonSource+CoreDataClass.swift */,
-				1FE6E7D922ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift */,
+				1F10916022F3F71A0019532F /* Core Data Models */,
 				1F328C2322ED0D760085FC1A /* Old Modal */,
 				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
-				1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */,
 				1F2013BB22BA0130000183FE /* Firebase */,
 				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
 				1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */,
 				1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */,
-				1F3C99A022F293AA0008A1D3 /* CoreDataProtocols.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
