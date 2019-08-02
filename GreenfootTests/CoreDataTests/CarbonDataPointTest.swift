@@ -27,7 +27,7 @@ class CarbonDataPointTest: CoreDataTest {
             XCTAssertNotNil(dataPoint)
             XCTAssert(dataPoint?.carbonValue == 616.4)
             
-            let sourceData = electricSource?.data?.filter {type(of: $0) == CarbonDataPoint.self}
+            let sourceData = electricSource?.points
             
             XCTAssert(sourceData?.count == 1) //The Reference
         } catch {

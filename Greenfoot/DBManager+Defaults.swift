@@ -90,16 +90,18 @@ extension DBManager {
         for source in sources {
             guard let referenceData = data[String(source.sourceType.rawValue)] else { continue }
             
-            let reference = CarbonReference(context: self.backgroundContext)
+            guard let name = referenceData["name"] as? String else { continue }
+            guard let rawValue = referenceData["rawValue"] as? Double else { continue }
+            guard let unit = idMap[referenceData["unit"] as! String] else { continue }
+            guard let level = CarbonReference.Level(rawValue: Int16(referenceData["level"] as! Int)) else { continue }
             
-            reference.name = referenceData["name"] as! String
-            reference.rawValue = referenceData["rawValue"] as! Double
-            reference.unit = idMap[referenceData["unit"] as! String]!
-            reference.source = source
-            reference.level = CarbonReference.Level(rawValue: Int16(referenceData["level"] as! Int))!
-            #warning("Need to modularize these")
-            reference.lastUpdated = NSDate()
-            reference.month = NSDate()
+            guard let reference = CarbonReference(inContext: backgroundContext,
+                                                  name: name,
+                                                  source: source,
+                                                  unit: unit,
+                                                  value: rawValue,
+                                                  level: level) else { continue }
+            
             references.append(reference)
         }
         
