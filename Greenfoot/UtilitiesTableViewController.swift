@@ -9,23 +9,22 @@
 import UIKit
 import BLTNBoard
 
-class UtilitiesTableViewController: UITableViewController, UtilityTableViewCellDelegate {
-    var data: [GreenData]
+class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTableViewCellDelegate {
     var navTitle: String
+    var tableView: UITableView!
     
     private var bltnManager: BLTNItemManager?
     
-    init(withTitle title:String, forGreenData greenData:[GreenData]) {
+    init(withTitle title:String, aggregator: SourceAggregator) {
         self.navTitle = title
-        self.data = greenData
+        super.init(nibName: nil, bundle: nil)
         
-        super.init(style: .plain)
+        self.aggregator = aggregator
     }
     
     required init?(coder aDecoder: NSCoder) {
         self.navTitle = ""
-        self.data = []
-        
+       
         super.init(coder: aDecoder)
     }
     
@@ -45,58 +44,66 @@ class UtilitiesTableViewController: UITableViewController, UtilityTableViewCellD
         self.prepNavigationBar(titled: navTitle)
     }
     
-    func showBulletin(for data: GreenData?) {
-        guard let data = data else { return }
+    func showBulletin(for source: CarbonSource?) {
+        guard let source = source else { return }
         
-        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", data: data)
+        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", source: source)
         rootItem.delegate = self
         self.bltnManager = BLTNItemManager(rootItem: rootItem)
         self.bltnManager?.showBulletin(above: self)
     }
     
-    func onBLTNPageItemActionClicked(with data: GreenData) {
+    func onBLTNPageItemActionClicked(with source: CarbonSource) {
         self.bltnManager?.dismissBulletin(animated: true)
         self.bltnManager = nil
         
-        self.navigationController?.pushViewController(GraphViewController.instantiate(for: data), animated: true)
+        self.navigationController?.pushViewController(GraphViewController.instantiate(for: source), animated: true)
     }
     
-    func viewGraph(for data: GreenData?) {
+    func viewGraph(for source: CarbonSource?) {
+        guard let source = source else { return }
+        self.navigationController?.pushViewController(GraphViewController.instantiate(for: source), animated: true)
+    }
+    
+    func listData(for source: CarbonSource?) {
+        /*
         guard let data = data else { return }
-        self.navigationController?.pushViewController(GraphViewController.instantiate(for: data), animated: true)
+        self.navigationController?.pushViewController(BulkDataViewController(withData: data), animated: true)*/
     }
     
-    func listData(for data: GreenData?) {
-        guard let data = data else { return }
-        self.navigationController?.pushViewController(BulkDataViewController(withData: data), animated: true)
+    override func loadView() {
+        self.tableView = UITableView(frame: CGRect.zero, style: .plain)
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        self.view = tableView
     }
-    
-
 }
 
-extension UtilitiesTableViewController {
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+extension UtilitiesTableViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UtilityCell", for: indexPath) as! UtilityTableViewCell
         
+        /*
         cell.data = data[indexPath.row]
-        cell.owner = self
+        cell.owner = self */
         
         return cell
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 235
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return aggregator.sources.count
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }
 }

@@ -8,10 +8,14 @@
 //
 
 import Foundation
+import UIKit
 import CoreData
+import Material
 
 @objc(CarbonSource)
 public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
+    typealias Record = CarbonSource
+    
     /**
      Constructs a Carbon Source from a "JSON" dictionary. Note JSON only works with primitives
      */
@@ -52,6 +56,10 @@ public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
         request.predicate = NSPredicate(format: "%K IN %@", "sourceType", typeVals)
         return try context.fetch(request)
     }
+    
+    func containsPoint(onDate date: Date) -> Bool {
+        return self.points.filter({$0.month.compare(date.truncateToMonth()) == .orderedSame}).count != 0
+    }
 }
 
 extension CarbonSource {
@@ -68,5 +76,18 @@ extension CarbonSource {
             gas = 1,
             odometer = 2,
             direct = 3
+        
+        var icon: UIImage {
+            switch self {
+            case .electricity:
+                return Icon.electric_white
+            case .gas:
+                return Icon.fire_white
+            case .odometer:
+                return Icon.road_white
+            case .direct:
+                return Icon.smoke_white
+            }
+        }
     }
 }

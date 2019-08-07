@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 
-extension CarbonDataPoint {
+extension CarbonDataPoint: Measurement {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CarbonDataPoint> {
         return NSFetchRequest<CarbonDataPoint>(entityName: "CarbonDataPoint")

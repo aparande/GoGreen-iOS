@@ -39,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let modal = GreenfootModal.sharedInstance
         
-        if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
+        
+       // if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
             for (_, data) in modal.data {
                 data.reachConsensus()
             }
@@ -48,7 +49,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let tvc = GGTabController()
             
-            let svc = storyboard.instantiateInitialViewController()!
+            let svc = storyboard.instantiateInitialViewController() as! NavigationController
+            let summary = svc.viewControllers[0] as! SummaryViewController
+            do {
+                summary.aggregator = try SourceAggregator()
+            } catch {
+                #warning("This is a terrible error message")
+                print("Encountered \(error.localizedDescription)")
+                summary.errorOnPresent(titled: "Error", withMessage: "Something went wrong. Please try redownloading the app")
+            }
             
             let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
             logoButton.itemHeight = 80
@@ -56,11 +65,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let travelButton = GGTabBarItem(icon: Icon.road_white, title: "TRAVEL", isRounded: false)
             let utilityButton = GGTabBarItem(icon: Icon.electric_white, title: "UTILITIES", isRounded: false)
             
-            let travelData =  [GreenfootModal.sharedInstance.data[.driving]!]
-            let utilityData = [GreenfootModal.sharedInstance.data[.electric]!, GreenfootModal.sharedInstance.data[.gas]!]
+            let travelData = try! SourceAggregator(fromCategories: [.travel])
+            let utilityData = try! SourceAggregator(fromCategories: [.utility])
             
-            let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", forGreenData: travelData))
-            let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", forGreenData: utilityData))
+            let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", aggregator: travelData))
+            let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", aggregator: utilityData))
             
             tvc.setTabBar(items: [travelButton, logoButton, utilityButton])
             tvc.viewControllers = [travelVc, svc, utilityVc]
@@ -68,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tvc.selectedIndex = 1
             
             window!.rootViewController = tvc
-        } else {
+       /* } else {
         
             let pager = TutorialViewController()
             
@@ -76,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             //TEST THAT THIS WORKS
             SettingsManager.sharedInstance.shouldUseLocation = true
-        }
+        }*/
         
         SettingsManager.sharedInstance.loadLocation()
         
@@ -103,12 +112,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
         
         UINavigationBar.appearance().titleTextAttributes = attrs
-    }
-    
-    private func getGraphController(forDataType type:GreenDataType) -> NavigationController {
-        let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
-        graphVC.setDataType(data:GreenfootModal.sharedInstance.data[type]!)
-        return NavigationController(rootViewController: graphVC)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

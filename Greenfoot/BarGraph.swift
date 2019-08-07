@@ -43,6 +43,36 @@ class BarGraph: BarChartView {
         buildGraphWith(points: points, legendLabel: label, hasNegative: hasNegative)
     }
     
+    func loadDataFrom(array data:[Measurement], labeled label:String) {
+        basicSetup()
+        
+        if data.count == 0 {
+            self.data = nil
+            return
+        }
+        
+        var points: [Double] = []
+        labels = []
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/yy"
+        
+        var hasNegative = false
+        
+        for dataPoint in data {
+            let point = dataPoint.rawValue
+            
+            if !hasNegative {
+                hasNegative = (point < 0)
+            }
+            
+            points.append(point)
+            labels.append(formatter.string(from: dataPoint.month as Date))
+        }
+        
+        buildGraphWith(points: points, legendLabel: label, hasNegative: hasNegative)
+    }
+    
     func loadDataFromDictionary(dictionary data:[Date: Double], labeled label:String) {
         basicSetup()
         

@@ -17,8 +17,16 @@ extension CarbonSource {
         return NSFetchRequest<CarbonSource>(entityName: "CarbonSource")
     }
     
-    public var points: [CarbonDataPoint]? {
-        return self.data?.filter {type(of: $0) == CarbonDataPoint.self} as? [CarbonDataPoint]
+    public var points: [CarbonDataPoint] {
+        return self.data?.filter {type(of: $0) == CarbonDataPoint.self} as? [CarbonDataPoint] ?? []
+    }
+    
+    public var lastRecorded: Date? {
+        return points.max(by: {$0.month.compare($1.month as Date) == .orderedAscending})?.month as Date?
+    }
+    
+    public var defaultUnit: CarbonUnit {
+        return try! CarbonUnit.with(id: "\(name.lowercased())-default", fromContext: DBManager.shared.backgroundContext)!
     }
 
     @NSManaged public var fid: String?

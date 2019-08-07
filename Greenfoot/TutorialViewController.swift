@@ -110,6 +110,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
     }
     
     func tutorialComplete() {
+        /*
         UserDefaults.standard.set(true, forKey: "CompletedTutorial")
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
@@ -129,7 +130,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         
         tvc.tabBar.tintColor = Colors.green
         
-        self.present(tvc, animated: true, completion: nil)
+        self.present(tvc, animated: true, completion: nil) */
     }
     
     func signedIn() {
@@ -156,6 +157,7 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         return indexOf(vc: currentViewController)
     }
     
+    /*
     private func getGraphController(forDataType type:GreenDataType, andTag tag:Int) -> NavigationController {
         let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
         graphVC.setDataType(data:GreenfootModal.sharedInstance.data[type]!)
@@ -182,5 +184,5 @@ class TutorialViewController: UIPageViewController, UIPageViewControllerDelegate
         graphVC.tabBarItem = UITabBarItem(title: type.rawValue, image: icon, tag: tag)
         
         return NavigationController(rootViewController: graphVC)
-    }
+    } */
 }

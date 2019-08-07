@@ -9,18 +9,9 @@
 import UIKit
 import Material
 
-class BulkDataViewController: UITableViewController, DataUpdater {
-    var data: GreenData!
-    
-    init(withData x:GreenData) {
-        data = x
-        super.init(style: .grouped)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
+class BulkDataViewController: UITableViewController {
+    var source: CarbonSource!
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +21,7 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = Colors.green
         
-        self.title = data.dataName
+        self.title = source.name
         
         navigationItem.backButton.titleLabel?.font = UIFont.button
         navigationItem.backButton.titleColor = UIColor.white
@@ -75,31 +66,14 @@ class BulkDataViewController: UITableViewController, DataUpdater {
         return UITableViewCellEditingStyle.delete
     }
     
-    func updateData(month: String, point: Double, path: IndexPath?) {
-        if let indexPath = path {
-            let index = self.dataForSection(indexPath.section)!.count - 1 - indexPath.row
-            self.data.editDataPoint(atIndex: index, toValue: point)
-        }
-    }
-    
-    func updateError() {
-        let alertView = UIAlertController(title: "Error", message: "Please enter a valid number", preferredStyle: .alert)
-        alertView.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        self.present(alertView, animated: true, completion: nil)
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let rowData = dataForSection(section) {
-            return rowData.count
-        } else {
-            return 0
-        }
+        return source.points.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryCell", for: indexPath) as! HistoryTableViewCell
         
-        let sectionData = dataForSection(indexPath.section)!
+        let sectionData = source.points
         //The data is ordered with increasing date, so to see most recent dates first, traverse the array backwards
         let index = sectionData.count - 1 - indexPath.row
         
@@ -113,10 +87,5 @@ class BulkDataViewController: UITableViewController, DataUpdater {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
-    }
-    
-    //This method can be overriden in the subclass so multiple sections can be supported
-    func dataForSection(_ section: Int) -> [GreenDataPoint]? {
-        return data.getGraphData()
     }
 }

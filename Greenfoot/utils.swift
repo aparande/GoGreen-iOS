@@ -9,6 +9,15 @@
 import Foundation
 
 extension Date {
+    var lastMonth: Date {
+        let val = Calendar.current.date(byAdding: .month, value: -1, to: self) ?? self
+        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: val))!
+    }
+    
+    func truncateToMonth() -> Date {
+        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
+    }
+    
     func toString(withFormat format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format

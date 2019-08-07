@@ -16,6 +16,10 @@ extension CarbonUnit {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CarbonUnit> {
         return NSFetchRequest<CarbonUnit>(entityName: "CarbonUnit")
     }
+    
+    public var carbonConversion: Conversion? {
+        return self.conversionsTo?.first(where: {($0 as? Conversion)?.dest.fid == "direct-default"}) as? Conversion
+    }
 
     @NSManaged public var fid: String?
     @NSManaged public var name: String

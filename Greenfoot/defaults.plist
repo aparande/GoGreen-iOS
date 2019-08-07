@@ -30,7 +30,7 @@
 			<key>factor</key>
 			<real>0.891</real>
 		</dict>
-		<key>electric-default</key>
+		<key>electricity-default</key>
 		<dict>
 			<key>dest</key>
 			<string>direct-default</string>
@@ -73,7 +73,7 @@
 		</dict>
 		<dict>
 			<key>fid</key>
-			<string>electric-default</string>
+			<string>electricity-default</string>
 			<key>name</key>
 			<string>kWh</string>
 			<key>sourceType</key>
@@ -96,11 +96,11 @@
 		<key>0</key>
 		<dict>
 			<key>name</key>
-			<string>electric-default</string>
+			<string>electricity-default</string>
 			<key>rawValue</key>
 			<integer>901</integer>
 			<key>unit</key>
-			<string>electric-default</string>
+			<string>electricity-default</string>
 			<key>level</key>
 			<integer>0</integer>
 		</dict>

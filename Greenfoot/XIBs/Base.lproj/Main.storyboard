@@ -165,8 +165,11 @@
                     <connections>
                         <outlet property="containerAnchoredTopConstraint" destination="y0m-9o-4wm" id="jGO-fj-DxM"/>
                         <outlet property="containerFloatingConstraint" destination="2d9-aZ-aUc" id="L2e-sM-0c2"/>
+                        <outlet property="emblemView" destination="YRx-2v-3mD" id="vUP-G9-We0"/>
+                        <outlet property="lastMonthLabel" destination="Ld4-hV-wZ0" id="szp-Vr-Zh1"/>
                         <outlet property="tableContainerView" destination="7gM-kl-efi" id="Lco-LU-KOJ"/>
                         <outlet property="tableView" destination="krV-FN-FG3" id="xP3-33-otv"/>
+                        <outlet property="usAverageLabel" destination="6hU-wf-UZq" id="2XG-wf-Tkb"/>
                         <segue destination="Z3v-lE-HHE" kind="show" identifier="toGraphView" id="t7w-fI-DA8"/>
                     </connections>
                 </viewController>

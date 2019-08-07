@@ -48,15 +48,19 @@ extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
+            #warning("This is temporary")
             let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell") as! BarGraphTableViewCell
             cell.graph.loadDataFrom(array: GreenfootModal.sharedInstance.data[.electric]!.getGraphData(), labeled: "")
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LogCell") as! LogTableViewCell
             
-            let type = GreenDataType.recordedValues[indexPath.row]
-            cell.title = type.rawValue
-            cell.icon = GreenDataType.getImage(for: type)
+            let source = self.aggregator.sources[indexPath.row]
+            
+            cell.title = source.name
+            cell.month = source.lastRecorded
+            cell.icon = source.sourceType.icon
+            
             return cell
         }
     }
@@ -66,9 +70,7 @@ extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
             return
         }
         
-        let selectedDataType = GreenDataType.recordedValues[indexPath.row]
-        let data = GreenfootModal.sharedInstance.data[selectedDataType]
-        self.performSegue(withIdentifier: "toGraphView", sender: data)
+        self.performSegue(withIdentifier: "toGraphView", sender: self.aggregator.sources[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -87,7 +89,7 @@ extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return GreenDataType.recordedValues.count
+            return self.aggregator.sources.count
         default:
             return 0
         }

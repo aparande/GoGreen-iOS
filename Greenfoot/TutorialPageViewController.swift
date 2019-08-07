@@ -64,6 +64,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
     }
     
     @IBAction func revealDataAdder() {
+        /*
         guard let type = dataType else {
             return
         }
@@ -82,7 +83,7 @@ class TutorialPageViewController: UIViewController, UITextFieldDelegate  {
             self.skipButton.addTarget(self, action: #selector(self.revealDataAdder), for: .touchUpInside)
         })
         
-        return
+        return */
     }
     
     @objc func showLogin() {

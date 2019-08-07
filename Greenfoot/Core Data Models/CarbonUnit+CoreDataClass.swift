@@ -12,6 +12,8 @@ import CoreData
 
 @objc(CarbonUnit)
 public class CarbonUnit: NSManagedObject, CoreDataRecord, CoreJsonObject {
+    typealias Record = CarbonUnit
+    
     required convenience init?(inContext context: NSManagedObjectContext, fromJson json: [String : Any]) {
         self.init(context: context)
         

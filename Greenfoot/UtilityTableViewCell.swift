@@ -10,9 +10,9 @@ import UIKit
 import BLTNBoard
 
 protocol UtilityTableViewCellDelegate: BLTNPageItemDelegate {
-    func showBulletin(for data: GreenData?)
-    func viewGraph(for data: GreenData?)
-    func listData(for data: GreenData?)
+    func showBulletin(for source: CarbonSource?)
+    func viewGraph(for source: CarbonSource?)
+    func listData(for source: CarbonSource?)
 }
 
 class UtilityTableViewCell: UITableViewCell {
@@ -34,9 +34,9 @@ class UtilityTableViewCell: UITableViewCell {
         }
     }
     
-    var data: GreenData? {
+    var source: CarbonSource! {
         didSet {
-            configure(to: self.data)
+            configure(to: self.source)
         }
     }
     
@@ -63,26 +63,31 @@ class UtilityTableViewCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
-    private func configure(to data:GreenData?) {
-        self.titleLabel.text = data?.dataName
+    private func configure(to source:CarbonSource) {
+        let aggregator = SourceAggregator(fromSources: [source])
         
-        if let date = data?.graphData.last?.month {
+        self.titleLabel.text = source.name
+        
+        if let date = aggregator.points.last?.month as? Date {
             self.lastRecordedLabel.text = "Last Recorded On: \(date.toString(withFormat: "MM/yy"))"
         } else {
             let month = Date().toString(withFormat: "MMMM")
             self.lastRecordedLabel.text = "Record \(month) Bill"
             self.hideSecondaryButtons = true
         }
+        
+        totalCo2 = aggregator.sumCarbon()
+        lastMonthCo2 = aggregator.carbonEmitted(on: Date().lastMonth)
     }
     @IBAction func primaryButtonClicked(_ sender: Any) {
-        self.owner?.showBulletin(for: self.data)
+        self.owner?.showBulletin(for: self.source)
     }
     
     @IBAction func leftButtonClicked(_ sender: Any) {
-        self.owner?.listData(for: self.data)
+        self.owner?.listData(for: self.source)
     }
     
     @IBAction func rightButtonClicked(_ sender: Any) {
-        self.owner?.viewGraph(for: self.data)
+        self.owner?.viewGraph(for: self.source)
     }
 }

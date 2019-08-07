@@ -11,29 +11,46 @@ import Material
 import Charts
 import BLTNBoard
 
-class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDelegate, BLTNPageItemDelegate {
+class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, InputToolbarDelegate, BLTNPageItemDelegate {
 
     private let greenModal = GreenfootModal.sharedInstance
-    private weak var data: GreenData!
-    private var datapoints: [GreenDataPoint] {
-        return data.getGraphData().reversed()
+    
+    var dataSource: CarbonSource! {
+        didSet {
+            #warning("Uninjected dependecy")
+            self.aggregator = SourceAggregator(fromSources: [self.dataSource])
+        }
+    }
+
+    private var datapoints: [Measurement] {
+        return aggregator.points.reversed()
     }
     
     private var location: Int!{
         didSet {
-            if self.datapoints.count == 0 {
+            if aggregator.points.count == 0 {
                 return
             }
             
-            let datapoint = self.datapoints[self.location]
-            toolbar.centerField.text = Date.monthFormat(date: datapoint.month)
+            let datapoint = aggregator.points[self.location]
+            toolbar.centerField.text = Date.monthFormat(date: datapoint.month as Date)
             
-            var dict = ["You":datapoint.value]
-            if let consumption = self.data.stateConsumption, let state = greenModal.locality?.state {
-                dict[state] = consumption
+            var dict = ["You":datapoint.rawValue]
+
+            #warning("Inelegant")
+            if let cdp = datapoint as? CarbonDataPoint {
+                if let cityRef = cdp.reference(atLevel: .city) {
+                    dict[cityRef.name] = cityRef.rawValue
+                }
+                
+                if let stateRef = cdp.reference(atLevel: .state) {
+                    dict[stateRef.name] = stateRef.rawValue
+                }
+                
+                if let countryRef = cdp.reference(atLevel: .country) {
+                    dict[countryRef.name] = countryRef.rawValue
+                }
             }
-            
-            dict["US"] = data.baseline
             
             monthGraph.loadData(dict, labeled: "Month Data")
         }
@@ -44,7 +61,7 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     @IBOutlet weak var monthGraph: HorizontalBarChartView!
     
     lazy var bulletinManager: BLTNItemManager = {
-        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", data: self.data)
+        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", source: self.dataSource)
         rootItem.delegate = self
         return BLTNItemManager(rootItem: rootItem)
     }()
@@ -52,8 +69,7 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        prepNavigationBar(titled: data.dataName)
+        prepNavigationBar(titled: dataSource.name)
         
         setupMainGraph()
         setupToolbar()
@@ -63,26 +79,22 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        mainGraph.loadDataFrom(array: data.getGraphData(), labeled: "kWh")
+        mainGraph.loadDataFrom(array: aggregator.points, labeled: "kWh")
     }
     
     @IBAction func addData(_ sender: Any) {
         bulletinManager.showBulletin(above: self)
     }
     
-    func onBLTNPageItemActionClicked(with data: GreenData) {
-        mainGraph.loadDataFrom(array: data.getGraphData(), labeled: "kWh")
+    func onBLTNPageItemActionClicked(with source: CarbonSource) {
+        aggregator.refresh()
+        mainGraph.loadDataFrom(array: aggregator.points, labeled: "kWh")
         bulletinManager.dismissBulletin(animated: true)
-    }
-    
-    func setDataType(data:GreenData) {
-        //assertionFailure("You need to override this method. Something like data=GreenfootModal.electricData should be put here")
-        self.data = data
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dest = segue.destination as? BulkDataViewController {
-            dest.data = self.data
+            dest.source = self.dataSource
         }
     }
     
@@ -110,9 +122,9 @@ class GraphViewController: UIViewController, ChartViewDelegate, InputToolbarDele
         mainGraph.delegate = self
     }
     
-    static func instantiate(for data: GreenData) -> GraphViewController{
+    static func instantiate(for source: CarbonSource) -> GraphViewController{
         let graphVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GraphView") as! GraphViewController
-        graphVC.setDataType(data: data)
+        graphVC.dataSource = source
         return graphVC
     }
 }

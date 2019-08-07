@@ -11,7 +11,7 @@ import BLTNBoard
 import Material
 
 protocol BLTNPageItemDelegate {
-    func onBLTNPageItemActionClicked(with data: GreenData)
+    func onBLTNPageItemActionClicked(with source: CarbonSource)
 }
 
 class AddDataBLTNItem: BLTNPageItem {
@@ -21,10 +21,10 @@ class AddDataBLTNItem: BLTNPageItem {
     public var delegate: BLTNPageItemDelegate?
     
     private var pointToolbarField: UITextField!
-    private var data: GreenData
+    private var source: CarbonSource
     
-    init(title: String, data: GreenData) {
-        self.data = data
+    init(title: String, source: CarbonSource) {
+        self.source = source
         
         super.init(title: title.uppercased())
         
@@ -42,45 +42,25 @@ class AddDataBLTNItem: BLTNPageItem {
         }
         
         let date = Date.monthFormat(string: dateField.text!)
-        
-        if let _ = data.findPointForDate(date, ofType: .regular) {
-            dateField.isErrorRevealed = true
-            amountField.resignFirstResponder()
-            return
-        }
-        
         guard let point = Double(amountField.text!) else {
             amountField.isErrorRevealed = true
             return
         }
         
-        var conversionFactor = 1.0
-        if data.dataName == GreenDataType.gas.rawValue {
-            for dataPoint in data.getGraphData() {
-                if dataPoint.value > 10 {
-                    conversionFactor = 1.0
-                    break
-                } else {
-                    conversionFactor = 1000.0
-                }
-            }
-            
-            if point > 10 && conversionFactor == 1000.0 {
-                conversionFactor = 1.0
-            } else if conversionFactor != 1.0 {
-                conversionFactor = 1000.0
-            }
-        }
-        
-        let dataPoint = GreenDataPoint(month: date, value: conversionFactor * point, dataType: data.dataName, lastUpdated: Date())
-        data.addDataPoint(point: dataPoint, save:true, upload: true)
-        
         dateField.resignFirstResponder()
         amountField.resignFirstResponder()
         
-        self.delegate?.onBLTNPageItemActionClicked(with: self.data)
+        do {
+            try DBManager.shared.createCarbonPoint(point, on: date, withUnit: source.defaultUnit, in: source)
+        } catch {
+            dateField.isErrorRevealed = true
+            amountField.resignFirstResponder()
+            return
+        }
         
-        GreenfootModal.sharedInstance.queueReminder(dataType: GreenDataType(rawValue: data.dataName)!)
+        self.delegate?.onBLTNPageItemActionClicked(with: self.source)
+        
+        //GreenfootModal.sharedInstance.queueReminder(dataType: GreenDataType(rawValue: data.dataName)!)*/
     }
     
     override func makeViewsUnderTitle(with interfaceBuilder: BLTNInterfaceBuilder) -> [UIView]? {
@@ -151,7 +131,7 @@ class AddDataBLTNItem: BLTNPageItem {
         
         dateField.text! = Date.monthFormat(date: date)
         
-        if let _ = data.findPointForDate(date, ofType: .regular) {
+        if source.containsPoint(onDate: date) {
             dateField.isErrorRevealed = true
         } else {
             dateField.isErrorRevealed = false

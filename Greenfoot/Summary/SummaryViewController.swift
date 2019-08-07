@@ -11,9 +11,12 @@ import Material
 import Charts
 import UserNotifications
 
-class SummaryViewController: UIViewController {
+class SummaryViewController: SourceAggregatorViewController {
     @IBOutlet weak var tableContainerView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var emblemView: CircularEmblemView!
+    @IBOutlet weak var lastMonthLabel: UILabel!
+    @IBOutlet weak var usAverageLabel: UILabel!
     
     @IBOutlet weak var containerAnchoredTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerFloatingConstraint: NSLayoutConstraint!
@@ -52,6 +55,14 @@ class SummaryViewController: UIViewController {
         setupTableView()
     }
     
+    override func refresh() {
+        super.refresh()
+        self.tableView.reloadData()
+        
+        emblemView.value = String(aggregator.sumCarbon())
+        lastMonthLabel.text = String(aggregator.carbonEmitted(on: Date().lastMonth))
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -78,8 +89,8 @@ class SummaryViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let data = sender as? GreenData, let destination = segue.destination as? GraphViewController {
-            destination.setDataType(data: data)
+        if let source = sender as? CarbonSource, let destination = segue.destination as? GraphViewController {
+            destination.dataSource = source
         }
     }
 
