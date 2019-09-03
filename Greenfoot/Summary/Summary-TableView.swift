@@ -9,94 +9,48 @@
 import Foundation
 import UIKit
 
-extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
+extension SummaryViewController: TableViewPresenter {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        label.textColor = .black
-        label.font = UIFont.header
-        
-        if section == 0 {
-            label.text = "Monthly Emissions"
-        } else {
-            label.text = "View Data"
+        if let _ = sections[indexPath.section] as? DataLogTableViewSection {
+            self.performSegue(withIdentifier: "toGraphView", sender: self.aggregator.sources[indexPath.row])
         }
-        
-        headerView.addSubview(label)
-        
-        label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10).isActive = true
-        headerView.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 10).isActive = true
-        label.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 10).isActive = true
-        headerView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 10).isActive = true
-        
-        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return sections[section].header
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard section == 1 else { return nil }
-        
-        let footer = UIView()
-        return footer
+        return sections[section].footer
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return (section == 1) ? 90 : 0
+        return sections[section].footerHeight
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            #warning("This is temporary")
-            let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell") as! BarGraphTableViewCell
-            cell.graph.loadDataFrom(array: GreenfootModal.sharedInstance.data[.electric]!.getGraphData(), labeled: "")
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LogCell") as! LogTableViewCell
-            
-            let source = self.aggregator.sources[indexPath.row]
-            
-            cell.title = source.name
-            cell.month = source.lastRecorded
-            cell.icon = source.sourceType.icon
-            
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            return
-        }
-        
-        self.performSegue(withIdentifier: "toGraphView", sender: self.aggregator.sources[indexPath.row])
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0:
-            return 200
-        case 1:
-            return 100
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        case 1:
-            return self.aggregator.sources.count
-        default:
-            return 0
-        }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return sections[section].headerHeight
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].rowCount
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return sections[indexPath.section].rowHeight
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let CellType = sections[indexPath.section].cellType
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellType.reuseIdentifier) as! CustomCell
+        cell.loadData(sections[indexPath.section].data[indexPath.row])
+        return cell as! UITableViewCell
     }
     
     func setupTableContainer() {
@@ -117,5 +71,15 @@ extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.layer.cornerRadius = 20
         tableView.layer.masksToBounds = true
         tableView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+    }
+    
+    func setupTableViewSections() {
+        sections = []
+        
+        if aggregator.points.count != 0 {
+            sections.append(BarGraphTableViewSection(titled: "Monthly Emissions", points: aggregator.points, unit: aggregator.unit))
+        }
+        
+        sections.append(DataLogTableViewSection(titled: "View Data", sources: aggregator.sources))
     }
 }

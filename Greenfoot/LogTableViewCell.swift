@@ -9,7 +9,15 @@
 import UIKit
 import Material
 
-class LogTableViewCell: UITableViewCell {
+class LogTableViewCell: UITableViewCell, CustomCell {
+    static var reuseIdentifier = "LogCell"
+    
+    typealias DataKeys = RequiredKeys
+    
+    enum RequiredKeys: String {
+        case source = "source"
+    }
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var recordedLabel: UILabel!
     @IBOutlet weak var iconView: UIImageView!
@@ -44,5 +52,13 @@ class LogTableViewCell: UITableViewCell {
         // Initialization code
         
         roundedView.layer.cornerRadius = 20
+    }
+    
+    func loadData(_ data: [String : Any]) {
+        guard let source = data[RequiredKeys.source.rawValue] as? CarbonSource else { return }
+        
+        self.title = source.name
+        self.month = source.lastRecorded
+        self.icon = source.sourceType.icon
     }
 }

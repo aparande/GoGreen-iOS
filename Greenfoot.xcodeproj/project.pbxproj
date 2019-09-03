@@ -76,6 +76,10 @@
 		1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FAFFB02201AE11A0015CF4B /* Account.storyboard */; };
 		1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB08D4F202E01FD00D4C20C /* DrivingData.swift */; };
 		1FB34B0422F15F690013AE12 /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */; };
+		1FBC684F231B286900440B0D /* TableViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC684E231B286900440B0D /* TableViewPresenter.swift */; };
+		1FBC6851231B28E500440B0D /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6850231B28E500440B0D /* TableViewSection.swift */; };
+		1FBC6854231B301800440B0D /* BarGraphTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6853231B301800440B0D /* BarGraphTableViewSection.swift */; };
+		1FBC6856231B41D000440B0D /* DataLogTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6855231B41D000440B0D /* DataLogTableViewSection.swift */; };
 		1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D31EF19A2A007F7835 /* GreenData.swift */; };
 		1FC291D61EF1C235007F7835 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC291D51EF1C235007F7835 /* CoreData.framework */; };
 		1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
@@ -193,6 +197,10 @@
 		1FAFFB02201AE11A0015CF4B /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		1FB08D4F202E01FD00D4C20C /* DrivingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingData.swift; sourceTree = "<group>"; };
 		1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
+		1FBC684E231B286900440B0D /* TableViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewPresenter.swift; sourceTree = "<group>"; };
+		1FBC6850231B28E500440B0D /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
+		1FBC6853231B301800440B0D /* BarGraphTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphTableViewSection.swift; sourceTree = "<group>"; };
+		1FBC6855231B41D000440B0D /* DataLogTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLogTableViewSection.swift; sourceTree = "<group>"; };
 		1FC291D31EF19A2A007F7835 /* GreenData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenData.swift; sourceTree = "<group>"; };
 		1FC291D51EF1C235007F7835 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = greenfoot.xcdatamodel; sourceTree = "<group>"; };
@@ -277,6 +285,8 @@
 		1F14FADF1EF71498005E9F33 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1FBC6852231B2FFB00440B0D /* TableViewSections */,
+				1F2D881922F72F23007D628D /* Abstract */,
 				1F654CD722C857F600A5BFD7 /* Storyboards */,
 				1F654CD222C855A600A5BFD7 /* XIBs */,
 				1F13032122CE9A8C0069AEDC /* HistoryTableViewCell.swift */,
@@ -310,7 +320,9 @@
 		1F2D881922F72F23007D628D /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
+				1FBC6850231B28E500440B0D /* TableViewSection.swift */,
 				1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */,
+				1FBC684E231B286900440B0D /* TableViewPresenter.swift */,
 			);
 			path = Abstract;
 			sourceTree = "<group>";
@@ -448,7 +460,6 @@
 				1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */,
 				1F42A00222EBEE480057C88C /* utils.swift */,
 				1FCD198D22EE8184008E6194 /* defaults.plist */,
-				1F2D881922F72F23007D628D /* Abstract */,
 			);
 			path = Greenfoot;
 			sourceTree = "<group>";
@@ -460,6 +471,15 @@
 				1FE8A57A22C97DAB0044ABEC /* Summary-TableView.swift */,
 			);
 			path = Summary;
+			sourceTree = "<group>";
+		};
+		1FBC6852231B2FFB00440B0D /* TableViewSections */ = {
+			isa = PBXGroup;
+			children = (
+				1FBC6853231B301800440B0D /* BarGraphTableViewSection.swift */,
+				1FBC6855231B41D000440B0D /* DataLogTableViewSection.swift */,
+			);
+			path = TableViewSections;
 			sourceTree = "<group>";
 		};
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
@@ -797,6 +817,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FBC6851231B28E500440B0D /* TableViewSection.swift in Sources */,
 				1F42A00322EBEE480057C88C /* utils.swift in Sources */,
 				1F2D881622F72AAB007D628D /* SourceAggregator.swift in Sources */,
 				1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */,
@@ -810,6 +831,7 @@
 				1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */,
 				1F216EDE22F7C12F00008A72 /* Measurement.swift in Sources */,
 				1FE256D422E7F53D0020C191 /* UtilitiesTableViewController.swift in Sources */,
+				1FBC6854231B301800440B0D /* BarGraphTableViewSection.swift in Sources */,
 				1F503A4722DA610400A07805 /* GGTabController.swift in Sources */,
 				1FE256D222E7EFDD0020C191 /* UtilityTableViewCell.swift in Sources */,
 				1F654CD422C855F100A5BFD7 /* CircularEmblemView.swift in Sources */,
@@ -823,10 +845,12 @@
 				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */,
+				1FBC6856231B41D000440B0D /* DataLogTableViewSection.swift in Sources */,
 				1F3C99A122F293AA0008A1D3 /* CoreDataProtocols.swift in Sources */,
 				1FE6E7DE22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift in Sources */,
 				1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */,
 				1F00C38622B703A500715506 /* PopupDialog.swift in Sources */,
+				1FBC684F231B286900440B0D /* TableViewPresenter.swift in Sources */,
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
 				1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */,
 				1F2D881822F72F1D007D628D /* SourceAggregatorViewController.swift in Sources */,

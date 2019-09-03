@@ -21,6 +21,8 @@ class SummaryViewController: SourceAggregatorViewController {
     @IBOutlet weak var containerAnchoredTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerFloatingConstraint: NSLayoutConstraint!
     
+    var sections: [TableViewSection] = []
+    
     private var tableViewExpanded: Bool = false {
         didSet {
             self.tableView.isScrollEnabled = false
@@ -53,10 +55,12 @@ class SummaryViewController: SourceAggregatorViewController {
         
         setupTableContainer()
         setupTableView()
+        setupTableViewSections()
     }
     
     override func refresh() {
         super.refresh()
+        setupTableViewSections()
         self.tableView.reloadData()
         
         emblemView.value = String(aggregator.sumCarbon())

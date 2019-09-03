@@ -12,6 +12,8 @@ class SourceAggregator {
     var sources: [CarbonSource] = []
     var points: [Measurement] = []
     
+    var unit: CarbonUnit!
+    
     init(fromSources sources: [CarbonSource]) {
         self.sources = sources
         commonInit()
@@ -79,6 +81,7 @@ class SourceAggregator {
         }
         
         self.points.sort {$0.month.compare($1.month as Date) == .orderedAscending}
+        self.unit = self.points.first?.unit
     }
 }
 
