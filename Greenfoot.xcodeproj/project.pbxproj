@@ -321,7 +321,6 @@
 			isa = PBXGroup;
 			children = (
 				1FBC6850231B28E500440B0D /* TableViewSection.swift */,
-				1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */,
 				1FBC684E231B286900440B0D /* TableViewPresenter.swift */,
 			);
 			path = Abstract;
@@ -448,6 +447,7 @@
 				1F654CD122C854B300A5BFD7 /* Onboarding */,
 				1FAA27FA22C88669007E7403 /* Summary */,
 				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
+				1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */,
 				1F0D878F1F3E70B000ED894A /* AboutViewController.swift */,
 				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
 				1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */,

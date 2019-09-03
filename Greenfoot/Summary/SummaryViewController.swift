@@ -77,6 +77,11 @@ class SummaryViewController: SourceAggregatorViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
+    override func onBLTNPageItemActionClicked(with source: CarbonSource) {
+        super.onBLTNPageItemActionClicked(with: source)
+        self.performSegue(withIdentifier: "toGraphView", sender: source)
+    }
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 0 {
             return

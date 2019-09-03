@@ -13,8 +13,6 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     var navTitle: String
     var tableView: UITableView!
     
-    private var bltnManager: BLTNItemManager?
-    
     init(withTitle title:String, aggregator: SourceAggregator) {
         self.navTitle = title
         super.init(nibName: nil, bundle: nil)
@@ -47,17 +45,12 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     func showBulletin(for source: CarbonSource?) {
         guard let source = source else { return }
         
-        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", source: source)
-        rootItem.delegate = self
-        self.bltnManager = BLTNItemManager(rootItem: rootItem)
-        self.bltnManager?.showBulletin(above: self)
+        self.presentBulletin(forSource: source)
     }
     
-    func onBLTNPageItemActionClicked(with source: CarbonSource) {
-        self.bltnManager?.dismissBulletin(animated: true)
-        self.bltnManager = nil
-        
-        self.navigationController?.pushViewController(GraphViewController.instantiate(for: source), animated: true)
+    override func onBLTNPageItemActionClicked(with source: CarbonSource) {
+        super.onBLTNPageItemActionClicked(with: source)
+        viewGraph(for: source)
     }
     
     func viewGraph(for source: CarbonSource?) {

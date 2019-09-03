@@ -11,7 +11,7 @@ import Material
 import Charts
 import BLTNBoard
 
-class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, InputToolbarDelegate, BLTNPageItemDelegate {
+class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, InputToolbarDelegate {
 
     private let greenModal = GreenfootModal.sharedInstance
     
@@ -60,12 +60,6 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     @IBOutlet weak var toolbar: InputToolbar!
     @IBOutlet weak var monthGraph: HorizontalBarChartView!
     
-    lazy var bulletinManager: BLTNItemManager = {
-        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", source: self.dataSource)
-        rootItem.delegate = self
-        return BLTNItemManager(rootItem: rootItem)
-    }()
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -83,13 +77,13 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     }
     
     @IBAction func addData(_ sender: Any) {
-        bulletinManager.showBulletin(above: self)
+        presentBulletin(forSource: self.dataSource)
     }
     
-    func onBLTNPageItemActionClicked(with source: CarbonSource) {
-        aggregator.refresh()
+    override func onBLTNPageItemActionClicked(with source: CarbonSource) {
+        super.onBLTNPageItemActionClicked(with: source)
+        
         mainGraph.loadDataFrom(array: aggregator.points, labeled: "kWh")
-        bulletinManager.dismissBulletin(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

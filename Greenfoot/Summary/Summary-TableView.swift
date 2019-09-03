@@ -11,8 +11,12 @@ import UIKit
 
 extension SummaryViewController: TableViewPresenter {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let _ = sections[indexPath.section] as? DataLogTableViewSection else { return }
         
-        if let _ = sections[indexPath.section] as? DataLogTableViewSection {
+        let source = self.aggregator.sources[indexPath.row]
+        if source.points.count == 0 {
+            self.presentBulletin(forSource: source)
+        } else {
             self.performSegue(withIdentifier: "toGraphView", sender: self.aggregator.sources[indexPath.row])
         }
     }

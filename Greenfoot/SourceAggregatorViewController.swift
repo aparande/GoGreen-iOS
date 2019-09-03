@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import BLTNBoard
 
-class SourceAggregatorViewController: UIViewController {
+class SourceAggregatorViewController: UIViewController, BLTNPageItemDelegate {
     var aggregator: SourceAggregator!
     var errorInfo: [String: String]?
     private var shouldErrorOnPresent = false
@@ -16,6 +17,21 @@ class SourceAggregatorViewController: UIViewController {
     private let ERROR_TITLE_KEY = "title"
     private let ERROR_MESSAGE_KEY = "message"
     private let ERROR_OK_BUTTON_TITLE = "Ok"
+    
+    var bulletinManager: BLTNItemManager?
+    
+    func presentBulletin(forSource source: CarbonSource) {
+        let rootItem: AddDataBLTNItem = AddDataBLTNItem(title: "Add Data", source: source)
+        rootItem.delegate = self
+        bulletinManager = BLTNItemManager(rootItem: rootItem)
+        bulletinManager?.showBulletin(above: self)
+    }
+    
+    func onBLTNPageItemActionClicked(with source: CarbonSource) {
+        aggregator.refresh()
+        bulletinManager?.dismissBulletin(animated: true)
+        bulletinManager = nil
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
