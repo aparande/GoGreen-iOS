@@ -59,9 +59,8 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     }
     
     func listData(for source: CarbonSource?) {
-        /*
-        guard let data = data else { return }
-        self.navigationController?.pushViewController(BulkDataViewController(withData: data), animated: true)*/
+        guard let source = source else { return }
+        self.navigationController?.pushViewController(BulkDataViewController(withSource: source), animated: true)
     }
     
     override func loadView() {
@@ -77,9 +76,9 @@ extension UtilitiesTableViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UtilityCell", for: indexPath) as! UtilityTableViewCell
         
-        /*
-        cell.data = data[indexPath.row]
-        cell.owner = self */
+        
+        cell.source = self.aggregator.sources[indexPath.row]
+        cell.owner = self
         
         return cell
     }

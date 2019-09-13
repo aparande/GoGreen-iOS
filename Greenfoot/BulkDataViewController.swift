@@ -11,7 +11,16 @@ import Material
 
 class BulkDataViewController: UITableViewController {
     var source: CarbonSource!
-        
+    
+    init(withSource source: CarbonSource) {
+        super.init(style: .plain)
+        self.source = source
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +31,9 @@ class BulkDataViewController: UITableViewController {
         navigationController?.navigationBar.barTintColor = Colors.green
         
         self.title = source.name
+        self.navigationItem.titleLabel.text = source.name
+        
+        self.prepNavigationBar(titled: source.name)
         
         navigationItem.backButton.titleLabel?.font = UIFont.button
         navigationItem.backButton.titleColor = UIColor.white
