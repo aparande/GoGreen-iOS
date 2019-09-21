@@ -94,7 +94,7 @@ class DataPointViewController: UITableViewController {
                     data[(GreenfootModal.sharedInstance.locality?.state)!] = stateConsumption
                 }
                 
-                if let graph = footerView.barGraph as? HorizontalBarChartView {
+                if let graph = footerView.barGraph as? HorizontalBarGraph {
                     graph.loadData(data, labeled: unit!)
                 }
             }

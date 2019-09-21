@@ -31,6 +31,8 @@
 		1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */; };
 		1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */; };
 		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
+		1F2D1A012335EAF3001D3347 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2D1A002335EAF3001D3347 /* BarGraph.swift */; };
+		1F2D1A032335EB35001D3347 /* HorizontalBarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2D1A022335EB35001D3347 /* HorizontalBarGraph.swift */; };
 		1F2D881622F72AAB007D628D /* SourceAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2D881522F72AAB007D628D /* SourceAggregator.swift */; };
 		1F2D881822F72F1D007D628D /* SourceAggregatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */; };
 		1F2E46F522C7E8F600DDDAB2 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */; };
@@ -42,7 +44,7 @@
 		1F3C99A122F293AA0008A1D3 /* CoreDataProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C99A022F293AA0008A1D3 /* CoreDataProtocols.swift */; };
 		1F42A00322EBEE480057C88C /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F42A00222EBEE480057C88C /* utils.swift */; };
 		1F4480E122E6CCFA00811666 /* UtilityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4480E022E6CCFA00811666 /* UtilityCell.xib */; };
-		1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarGraph.swift */; };
+		1F487AA71EFAC9700072D28F /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487AA61EFAC9700072D28F /* BarChartView.swift */; };
 		1F503A4222DA550200A07805 /* GGTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4122DA550200A07805 /* GGTabBarItem.swift */; };
 		1F503A4522DA5C7200A07805 /* GGTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4422DA5C7200A07805 /* GGTabBar.swift */; };
 		1F503A4722DA610400A07805 /* GGTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4622DA610400A07805 /* GGTabController.swift */; };
@@ -149,6 +151,8 @@
 		1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenDataPoint.swift; sourceTree = "<group>"; };
 		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GreenfootModal.swift; path = "Greenfoot/Old Modal/GreenfootModal.swift"; sourceTree = SOURCE_ROOT; };
+		1F2D1A002335EAF3001D3347 /* BarGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
+		1F2D1A022335EB35001D3347 /* HorizontalBarGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBarGraph.swift; sourceTree = "<group>"; };
 		1F2D881522F72AAB007D628D /* SourceAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceAggregator.swift; sourceTree = "<group>"; };
 		1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceAggregatorViewController.swift; sourceTree = "<group>"; };
 		1F2E46F422C7E8F600DDDAB2 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
@@ -160,7 +164,7 @@
 		1F3C99A022F293AA0008A1D3 /* CoreDataProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataProtocols.swift; sourceTree = "<group>"; };
 		1F42A00222EBEE480057C88C /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		1F4480E022E6CCFA00811666 /* UtilityCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UtilityCell.xib; sourceTree = "<group>"; };
-		1F487AA61EFAC9700072D28F /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
+		1F487AA61EFAC9700072D28F /* BarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
 		1F503A4122DA550200A07805 /* GGTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabBarItem.swift; sourceTree = "<group>"; };
 		1F503A4422DA5C7200A07805 /* GGTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabBar.swift; sourceTree = "<group>"; };
 		1F503A4622DA610400A07805 /* GGTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabController.swift; sourceTree = "<group>"; };
@@ -290,7 +294,7 @@
 				1F654CD722C857F600A5BFD7 /* Storyboards */,
 				1F654CD222C855A600A5BFD7 /* XIBs */,
 				1F13032122CE9A8C0069AEDC /* HistoryTableViewCell.swift */,
-				1F487AA61EFAC9700072D28F /* BarGraph.swift */,
+				1F2D19FF2335EAD1001D3347 /* Graphs */,
 				1FAA27FB22C88891007E7403 /* BarGraphTableViewCell.swift */,
 				1FF8B6B11EE8B8B3007BB5D3 /* InputToolbar.swift */,
 				1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */,
@@ -315,6 +319,16 @@
 				1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */,
 			);
 			name = Firebase;
+			sourceTree = "<group>";
+		};
+		1F2D19FF2335EAD1001D3347 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				1F487AA61EFAC9700072D28F /* BarChartView.swift */,
+				1F2D1A002335EAF3001D3347 /* BarGraph.swift */,
+				1F2D1A022335EB35001D3347 /* HorizontalBarGraph.swift */,
+			);
+			path = Graphs;
 			sourceTree = "<group>";
 		};
 		1F2D881922F72F23007D628D /* Abstract */ = {
@@ -821,8 +835,9 @@
 				1F42A00322EBEE480057C88C /* utils.swift in Sources */,
 				1F2D881622F72AAB007D628D /* SourceAggregator.swift in Sources */,
 				1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */,
-				1F487AA71EFAC9700072D28F /* BarGraph.swift in Sources */,
+				1F487AA71EFAC9700072D28F /* BarChartView.swift in Sources */,
 				1FCD198922EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift in Sources */,
+				1F2D1A032335EB35001D3347 /* HorizontalBarGraph.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
 				1FCD198A22EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
@@ -865,6 +880,7 @@
 				1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */,
 				1F503A4522DA5C7200A07805 /* GGTabBar.swift in Sources */,
 				1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */,
+				1F2D1A012335EAF3001D3347 /* BarGraph.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,

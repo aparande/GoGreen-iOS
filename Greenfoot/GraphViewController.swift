@@ -58,7 +58,7 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     
     @IBOutlet weak var mainGraph: BarGraph!
     @IBOutlet weak var toolbar: InputToolbar!
-    @IBOutlet weak var monthGraph: HorizontalBarChartView!
+    @IBOutlet weak var monthGraph: HorizontalBarGraph!
     
     override func viewDidLoad() {
         super.viewDidLoad()

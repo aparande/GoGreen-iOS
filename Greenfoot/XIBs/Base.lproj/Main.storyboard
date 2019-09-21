@@ -228,9 +228,25 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hgZ-5f-tb0" userLabel="Bottom Stack">
                                         <rect key="frame" x="20" y="281.66666666666674" width="335" height="362.33333333333326"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jOk-ga-T4c" customClass="HorizontalBarChartView" customModule="Charts">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsh-77-GkF">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="292.33333333333331"/>
-                                                <color key="backgroundColor" red="0.16404820119999999" green="0.71179783190000001" blue="0.4005393055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jOk-ga-T4c" customClass="HorizontalBarGraph" customModule="Greenfoot" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="34.666666666666643" width="335" height="223.33333333333337"/>
+                                                        <color key="backgroundColor" red="0.16404820119999999" green="0.71179783190000001" blue="0.4005393055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="jOk-ga-T4c" secondAttribute="height" multiplier="3:2" id="wTl-9n-ejB"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="jOk-ga-T4c" firstAttribute="centerY" secondItem="Nsh-77-GkF" secondAttribute="centerY" id="4B7-Fp-yFI"/>
+                                                    <constraint firstAttribute="bottom" secondItem="jOk-ga-T4c" secondAttribute="bottom" priority="999" constant="100" id="758-0J-IYR"/>
+                                                    <constraint firstItem="jOk-ga-T4c" firstAttribute="top" secondItem="Nsh-77-GkF" secondAttribute="top" priority="999" constant="100" id="mqo-7j-7vc"/>
+                                                    <constraint firstItem="jOk-ga-T4c" firstAttribute="leading" secondItem="Nsh-77-GkF" secondAttribute="leading" id="mvd-VP-axg"/>
+                                                    <constraint firstAttribute="trailing" secondItem="jOk-ga-T4c" secondAttribute="trailing" id="qjh-s8-Ozx"/>
+                                                </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZdQ-d0-uTS" userLabel="Button Stack">
                                                 <rect key="frame" x="0.0" y="312.33333333333331" width="335" height="50"/>
