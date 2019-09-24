@@ -17,7 +17,9 @@ extension CarbonDataPoint: Measurement {
         return NSFetchRequest<CarbonDataPoint>(entityName: "CarbonDataPoint")
     }
 
+    /// The lbs of carbon dioxide emitted
     @NSManaged public var carbonValue: Double
+    
     @NSManaged public var fid: String?
     @NSManaged public var lastUpdated: NSDate
     @NSManaged public var month: NSDate

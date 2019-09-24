@@ -27,33 +27,37 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Header" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ng-YP-cPa">
-                        <rect key="frame" x="10" y="10" width="394" height="28.5"/>
+                        <rect key="frame" x="10" y="10" width="394" height="28"/>
                         <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="24"/>
                         <color key="textColor" red="0.1846533716" green="0.79983717200000004" blue="0.44363409279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="kjr-1P-k8N">
-                        <rect key="frame" x="10" y="38.5" width="394" height="18.5"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="kjr-1P-k8N">
+                        <rect key="frame" x="10" y="38" width="394" height="16.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y22-Hn-YTM">
-                                <rect key="frame" x="0.0" y="0.0" width="112" height="18.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="71" height="16.5"/>
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFh-WR-9Up">
-                                <rect key="frame" x="141" y="0.0" width="112" height="18.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFh-WR-9Up" customClass="MeasurementLabel" customModule="Greenfoot" customModuleProvider="target">
+                                <rect key="frame" x="91" y="0.0" width="141.5" height="16.5"/>
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CO2 Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gn-5E-Wgo">
-                                <rect key="frame" x="282" y="0.0" width="112" height="18.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CO2 Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gn-5E-Wgo" customClass="MeasurementLabel" customModule="Greenfoot" customModuleProvider="target">
+                                <rect key="frame" x="252.5" y="0.0" width="141.5" height="16.5"/>
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="y22-Hn-YTM" firstAttribute="width" secondItem="OFh-WR-9Up" secondAttribute="width" multiplier="0.5" id="Dcf-vs-BEC"/>
+                            <constraint firstItem="OFh-WR-9Up" firstAttribute="width" secondItem="4gn-5E-Wgo" secondAttribute="width" id="PTg-xa-vCF"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>

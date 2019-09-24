@@ -23,30 +23,77 @@
 	</array>
 	<key>conversions</key>
 	<dict>
+		<key>direct-default</key>
+		<dict>
+			<key>destinations</key>
+			<array>
+				<dict>
+					<key>dest</key>
+					<string>direct-ktons</string>
+					<key>factor</key>
+					<real>5e-07</real>
+				</dict>
+				<dict>
+					<key>dest</key>
+					<string>direct-tons</string>
+					<key>factor</key>
+					<real>0.005</real>
+				</dict>
+			</array>
+		</dict>
 		<key>odometer-default</key>
 		<dict>
-			<key>dest</key>
-			<string>direct-default</string>
-			<key>factor</key>
-			<real>0.891</real>
+			<key>destinations</key>
+			<array>
+				<dict>
+					<key>dest</key>
+					<string>direct-default</string>
+					<key>factor</key>
+					<real>0.891</real>
+				</dict>
+			</array>
 		</dict>
 		<key>electricity-default</key>
 		<dict>
-			<key>dest</key>
-			<string>direct-default</string>
-			<key>factor</key>
-			<real>1.2328</real>
+			<key>destinations</key>
+			<array>
+				<dict>
+					<key>dest</key>
+					<string>direct-default</string>
+					<key>factor</key>
+					<real>1.2328</real>
+				</dict>
+			</array>
 		</dict>
 		<key>gas-default</key>
 		<dict>
-			<key>dest</key>
-			<string>direct-default</string>
-			<key>factor</key>
-			<real>11.7</real>
+			<key>destinations</key>
+			<dict>
+				<key>dest</key>
+				<string>direct-default</string>
+				<key>factor</key>
+				<string>11.7</string>
+			</dict>
 		</dict>
 	</dict>
 	<key>units</key>
 	<array>
+		<dict>
+			<key>fid</key>
+			<string>direct-ktons</string>
+			<key>name</key>
+			<string>ktons</string>
+			<key>sourceType</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>fid</key>
+			<string>direct-tons</string>
+			<key>name</key>
+			<string>tons</string>
+			<key>sourceType</key>
+			<integer>3</integer>
+		</dict>
 		<dict>
 			<key>fid</key>
 			<string>direct-default</string>

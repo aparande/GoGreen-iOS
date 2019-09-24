@@ -15,8 +15,8 @@ class SummaryViewController: SourceAggregatorViewController {
     @IBOutlet weak var tableContainerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emblemView: CircularEmblemView!
-    @IBOutlet weak var lastMonthLabel: UILabel!
-    @IBOutlet weak var usAverageLabel: UILabel!
+    @IBOutlet weak var lastMonthLabel: MeasurementLabel!
+    @IBOutlet weak var usAverageLabel: MeasurementLabel!
     
     @IBOutlet weak var containerAnchoredTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerFloatingConstraint: NSLayoutConstraint!
@@ -62,9 +62,9 @@ class SummaryViewController: SourceAggregatorViewController {
         super.refresh()
         setupTableViewSections()
         self.tableView.reloadData()
-        
-        emblemView.value = String(aggregator.sumCarbon())
-        lastMonthLabel.text = String(aggregator.carbonEmitted(on: Date().lastMonth))
+
+        emblemView.displayMeasurement(aggregator.sumCarbon())
+        lastMonthLabel.measurement = aggregator.carbonEmitted(on: Date().lastMonth)
     }
     
     override func viewWillAppear(_ animated: Bool) {

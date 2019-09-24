@@ -19,8 +19,8 @@ class UtilityTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var leftTitleLabel: UILabel!
     @IBOutlet weak var rightTitleLabel: UILabel!
-    @IBOutlet weak var totalCO2Label: UILabel!
-    @IBOutlet weak var lastMonthLabel: UILabel!
+    @IBOutlet weak var totalCO2Label: MeasurementLabel!
+    @IBOutlet weak var lastMonthLabel: MeasurementLabel!
     @IBOutlet weak var lastRecordedLabel: UILabel!
     @IBOutlet weak var primaryActionButton: RoundedIconButton!
     @IBOutlet weak var leftActionButton: RoundedIconButton!
@@ -40,15 +40,15 @@ class UtilityTableViewCell: UITableViewCell {
         }
     }
     
-    var totalCo2: Double = 0 {
+    var totalCo2: CarbonValue? {
         didSet {
-            self.totalCO2Label.text = "\(totalCo2)"
+            self.totalCO2Label.measurement = totalCo2
         }
     }
     
-    var lastMonthCo2: Double = 0 {
+    var lastMonthCo2: CarbonValue? {
         didSet {
-            self.lastMonthLabel.text = "\(lastMonthCo2)"
+            self.lastMonthLabel.measurement = lastMonthCo2
         }
     }
     

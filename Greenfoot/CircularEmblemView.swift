@@ -18,15 +18,15 @@ class CircularEmblemView: UIView {
     @IBOutlet weak var unitLabel: UILabel!
     
     
-    @IBInspectable var value:String = "" {
+    @IBInspectable var value:Double = 0 {
         didSet {
-            numberLabel.text = value
+            numberLabel.text = String(format: "%.2f", value)
         }
     }
     
     @IBInspectable var unit:String = "" {
         didSet {
-            unitLabel.text = unit
+            unitLabel.text = unit.uppercased()
         }
     }
     
@@ -78,5 +78,9 @@ class CircularEmblemView: UIView {
         view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         addSubview(view)
         self.view = view
+    }
+    
+    func displayMeasurement(_ meas: Measurement) {
+        (self.value, self.unit) = meas.display()
     }
 }

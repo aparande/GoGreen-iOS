@@ -87,20 +87,19 @@ class SourceAggregator {
 
 //MARK: Source Aggregator Math
 extension SourceAggregator {
-    func sumCarbon() -> Double {
+    func sumCarbon() -> CarbonValue {
         var sum = 0.0
         
         for source in sources {
             for data in source.points {
-                #warning("This neglects units (i.e tons vs lbs)")
                 sum += data.carbonValue
             }
         }
         
-        return sum
+        return CarbonValue(rawValue: sum)
     }
     
-    func carbonEmitted(on date: Date) -> Double {
+    func carbonEmitted(on date: Date) -> CarbonValue {
         var sum = 0.0
         
         for source in sources {
@@ -110,6 +109,6 @@ extension SourceAggregator {
             }
         }
         
-        return sum
+        return CarbonValue(rawValue: sum)
     }
 }

@@ -63,14 +63,18 @@ extension DBManager {
         
         for sourceId in idMap.keys {
             guard let conversionData = data[sourceId] else {continue}
-            guard let destId = conversionData["dest"] as? String else { continue }
-            
-            let conversion = Conversion(context: self.backgroundContext)
-            conversion.source = idMap[sourceId]!
-            conversion.dest = idMap[destId]!
-            conversion.factor = conversionData["factor"] as! Double
-            
-            conversions.append(conversion)
+            guard let destinations = conversionData["destinations"] as? [[String:AnyObject]] else { continue }
+            for dest in destinations {
+                guard let destId = dest["dest"] as? String else { continue }
+                guard let factor = dest["factor"] as? Double else { continue }
+                
+                let conversion = Conversion(context: self.backgroundContext)
+                conversion.source = idMap[sourceId]!
+                conversion.dest = idMap[destId]!
+                conversion.factor = factor
+                
+                conversions.append(conversion)
+            }
         }
         
         return conversions

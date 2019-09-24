@@ -78,6 +78,7 @@
 		1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FAFFB02201AE11A0015CF4B /* Account.storyboard */; };
 		1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB08D4F202E01FD00D4C20C /* DrivingData.swift */; };
 		1FB34B0422F15F690013AE12 /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */; };
+		1FBBFCEB2339EF0C00D9B9CA /* MeasurementLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBBFCEA2339EF0C00D9B9CA /* MeasurementLabel.swift */; };
 		1FBC684F231B286900440B0D /* TableViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC684E231B286900440B0D /* TableViewPresenter.swift */; };
 		1FBC6851231B28E500440B0D /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6850231B28E500440B0D /* TableViewSection.swift */; };
 		1FBC6854231B301800440B0D /* BarGraphTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6853231B301800440B0D /* BarGraphTableViewSection.swift */; };
@@ -201,6 +202,7 @@
 		1FAFFB02201AE11A0015CF4B /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		1FB08D4F202E01FD00D4C20C /* DrivingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingData.swift; sourceTree = "<group>"; };
 		1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
+		1FBBFCEA2339EF0C00D9B9CA /* MeasurementLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementLabel.swift; sourceTree = "<group>"; };
 		1FBC684E231B286900440B0D /* TableViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewPresenter.swift; sourceTree = "<group>"; };
 		1FBC6850231B28E500440B0D /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
 		1FBC6853231B301800440B0D /* BarGraphTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphTableViewSection.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				1F503A4322DA5C2F00A07805 /* TabBarController */,
 				1F1C54C322E397B100D12598 /* RoundedIconButton.swift */,
 				1FE256D122E7EFDD0020C191 /* UtilityTableViewCell.swift */,
+				1FBBFCEA2339EF0C00D9B9CA /* MeasurementLabel.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -852,6 +855,7 @@
 				1F654CD422C855F100A5BFD7 /* CircularEmblemView.swift in Sources */,
 				1F2013BD22BA0154000183FE /* FirebaseUtils-GetData.swift in Sources */,
 				1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */,
+				1FBBFCEB2339EF0C00D9B9CA /* MeasurementLabel.swift in Sources */,
 				1FB34B0422F15F690013AE12 /* DefaultsKeys.swift in Sources */,
 				1F2013BF22BA01A6000183FE /* FirebaseUtils-Storage.swift in Sources */,
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,
