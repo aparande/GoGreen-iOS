@@ -166,6 +166,7 @@ extension AddDataBLTNItem: UITextFieldDelegate {
 
 extension AddDataBLTNItem: InputToolbarDelegate {
     func leftTrigger() {
+        #warning("Error not handled gracefully")
         fatalError("AddDataBLTNItem InputToolbars do not support left clicks")
     }
     

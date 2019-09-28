@@ -68,6 +68,17 @@ extension CarbonSource {
         case utility = 0,
             travel = 1,
             direct = 2
+        
+        var types: [SourceType] {
+            switch self {
+            case .utility:
+                return [.electricity, .gas]
+            case .travel:
+                return [.odometer]
+            default:
+                return []
+            }
+        }
     }
     
     @objc
@@ -87,6 +98,19 @@ extension CarbonSource {
                 return Icon.road_white
             case .direct:
                 return Icon.smoke_white
+            }
+        }
+        
+        var humanName: String {
+            switch self {
+            case .electricity:
+                return "Electric"
+            case .gas:
+                return "Natural Gas"
+            case .odometer:
+                return "Car"
+            case .direct:
+                return "Direct"
             }
         }
     }

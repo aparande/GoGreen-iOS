@@ -28,12 +28,14 @@
         <attribute name="sourceCategory" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sourceType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="data" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CarbonDataPoint" inverseName="source" inverseEntity="CarbonDataPoint" syncable="YES"/>
+        <relationship name="primaryUnit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CarbonUnit" inverseName="associatedSources" inverseEntity="CarbonUnit" syncable="YES"/>
     </entity>
     <entity name="CarbonUnit" representedClassName="CarbonUnit" syncable="YES">
         <attribute name="fid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="sourceType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="associatedPoints" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonDataPoint" inverseName="unit" inverseEntity="CarbonDataPoint" syncable="YES"/>
+        <relationship name="associatedSources" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CarbonSource" inverseName="primaryUnit" inverseEntity="CarbonSource" syncable="YES"/>
         <relationship name="conversionsFrom" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Conversion" inverseName="dest" inverseEntity="Conversion" syncable="YES"/>
         <relationship name="conversionsTo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Conversion" inverseName="source" inverseEntity="Conversion" syncable="YES"/>
     </entity>
@@ -55,9 +57,9 @@
         <element name="Car" positionX="-911.76171875" positionY="-332.078125" width="128" height="120"/>
         <element name="CarbonDataPoint" positionX="-778.7890625" positionY="-109.5234375" width="128" height="163"/>
         <element name="CarbonReference" positionX="-324.1953125" positionY="-64.421875" width="128" height="88"/>
-        <element name="CarbonSource" positionX="-1014.421875" positionY="31.9375" width="128" height="120"/>
-        <element name="CarbonUnit" positionX="-295.52734375" positionY="208.19921875" width="128" height="135"/>
-        <element name="Conversion" positionX="-696.9453125" positionY="308.56640625" width="128" height="105"/>
+        <element name="CarbonSource" positionX="-1014.421875" positionY="31.9375" width="128" height="135"/>
+        <element name="CarbonUnit" positionX="-373.359375" positionY="124.9765625" width="128" height="148"/>
+        <element name="Conversion" positionX="-867.375" positionY="287.640625" width="128" height="105"/>
         <element name="DataPoint" positionX="-359.8515625" positionY="-200.53125" width="128" height="30"/>
     </elements>
 </model>

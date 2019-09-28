@@ -40,8 +40,16 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
         self.title = navTitle
         
         self.prepNavigationBar(titled: navTitle)
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showAddSourceBLTNItem))
+        self.navigationItem.setRightBarButton(addButton, animated: false)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tableView.reloadData()
+    }
+
     func showBulletin(for source: CarbonSource?) {
         guard let source = source else { return }
         
@@ -50,6 +58,7 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     
     override func onBLTNPageItemActionClicked(with source: CarbonSource) {
         super.onBLTNPageItemActionClicked(with: source)
+        self.aggregator.addSource(source)
         viewGraph(for: source)
     }
     
@@ -69,6 +78,13 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
         self.tableView.dataSource = self
         
         self.view = tableView
+    }
+    
+    @objc func showAddSourceBLTNItem() {
+        let rootItem: AddSourceBLTNItem = AddSourceBLTNItem(title: "Add Source", withSourceCategory: .travel)
+        rootItem.delegate = self
+        bulletinManager = BLTNItemManager(rootItem: rootItem)
+        bulletinManager?.showBulletin(above: self)
     }
 }
 

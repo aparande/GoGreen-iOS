@@ -2,7 +2,7 @@
 //  CarbonSource+CoreDataProperties.swift
 //  Greenfoot
 //
-//  Created by Anmol Parande on 7/28/19.
+//  Created by Anmol Parande on 9/28/19.
 //  Copyright © 2019 Anmol Parande. All rights reserved.
 //
 //
@@ -26,15 +26,19 @@ extension CarbonSource {
     }
     
     public var defaultUnit: CarbonUnit {
-        return try! CarbonUnit.with(id: "\(name.lowercased())-default", fromContext: DBManager.shared.backgroundContext)!
+        if let primary = self.primaryUnit {
+            return primary
+        } else {
+            return try! CarbonUnit.with(id: "\(sourceType.humanName.lowercased())-default", fromContext: DBManager.shared.backgroundContext)!
+        }
     }
-
+    
     @NSManaged public var fid: String?
     @NSManaged public var name: String
     @NSManaged public var sourceCategory: SourceCategory
     @NSManaged public var sourceType: SourceType
-    
-    @NSManaged private var data: NSOrderedSet?
+    @NSManaged public var data: NSOrderedSet?
+    @NSManaged public var primaryUnit: CarbonUnit?
 }
 
 // MARK: Generated accessors for data

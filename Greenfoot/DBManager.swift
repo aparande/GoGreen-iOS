@@ -54,13 +54,15 @@ class DBManager {
         }
     }
     
-    func createCarbonSource(name:String, category: CarbonSource.SourceCategory, type: CarbonSource.SourceType) {
+    func createCarbonSource(name:String, category: CarbonSource.SourceCategory, type: CarbonSource.SourceType, unit: CarbonUnit) -> CarbonSource {
         let source = CarbonSource(context: backgroundContext)
         source.name = name
         source.sourceCategory = category
         source.sourceType = type
+        source.primaryUnit = unit
         
         self.save()
+        return source
     }
     
     func createCarbonPoint(_ value: Double, on date: Date, withUnit unit: CarbonUnit, in source: CarbonSource) throws {
@@ -71,6 +73,22 @@ class DBManager {
         guard let point = CarbonDataPoint(inContext: self.backgroundContext, source: source, unit: unit, month: date as NSDate, value: value) else { return }
         source.addToData(point)
         self.save()
+    }
+    
+    func createUnit(named name: String, conversionToCO2 conv: Double, forSourceType sourceType: CarbonSource.SourceType) -> CarbonUnit {
+        let unit = CarbonUnit(context: self.backgroundContext)
+        unit.fid = UUID().uuidString
+        unit.sourceType = sourceType
+        unit.name = name
+        
+        let conversion = Conversion(context: self.backgroundContext)
+        conversion.source = unit
+        conversion.dest = carbonUnit
+        conversion.factor = conv
+        
+        self.save()
+        
+        return unit
     }
 }
 

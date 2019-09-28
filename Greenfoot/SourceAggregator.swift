@@ -65,6 +65,13 @@ class SourceAggregator {
         createAggregates()
     }
     
+    func addSource(_ source: CarbonSource) {
+        if !sources.contains(source) {
+            sources.append(source)
+            self.refresh()
+        }
+    }
+    
     private func createAggregates() {
         self.points = []
         var dateGroups:[NSDate : Double] = [:]
