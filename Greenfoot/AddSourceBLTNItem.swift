@@ -44,10 +44,12 @@ class AddSourceBLTNItem: BLTNPageItem {
             return
         }
         
-        guard let conversion = Double(conversionField.text!) else {
+        guard var conversion = Double(conversionField.text!) else {
             conversionField.isErrorRevealed = true
             return
         }
+        
+        conversion  = 19.6 / conversion
         
         nameField.resignFirstResponder()
         conversionField.resignFirstResponder()
