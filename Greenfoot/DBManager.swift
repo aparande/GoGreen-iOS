@@ -65,12 +65,12 @@ class DBManager {
         return source
     }
     
-    func createCarbonPoint(_ value: Double, on date: Date, withUnit unit: CarbonUnit, in source: CarbonSource) throws {
+    func createCarbonPoint(ofType type: CarbonDataPoint.PointType, value: Double, on date: Date, withUnit unit: CarbonUnit, in source: CarbonSource) throws {
         if source.containsPoint(onDate: date) {
             throw CoreDataError.duplicateError
         }
         
-        guard let point = CarbonDataPoint(inContext: self.backgroundContext, source: source, unit: unit, month: date as NSDate, value: value) else { return }
+        guard let point = CarbonDataPoint(inContext: self.backgroundContext, source: source, unit: unit, type: type, month: date as NSDate, value: value) else { return }
         source.addToData(point)
         self.save()
     }

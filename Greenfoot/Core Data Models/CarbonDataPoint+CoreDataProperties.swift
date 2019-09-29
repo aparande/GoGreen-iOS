@@ -2,7 +2,7 @@
 //  CarbonDataPoint+CoreDataProperties.swift
 //  Greenfoot
 //
-//  Created by Anmol Parande on 7/28/19.
+//  Created by Anmol Parande on 9/28/19.
 //  Copyright © 2019 Anmol Parande. All rights reserved.
 //
 //
@@ -17,13 +17,12 @@ extension CarbonDataPoint: Measurement {
         return NSFetchRequest<CarbonDataPoint>(entityName: "CarbonDataPoint")
     }
 
-    /// The lbs of carbon dioxide emitted
     @NSManaged public var carbonValue: Double
-    
     @NSManaged public var fid: String?
     @NSManaged public var lastUpdated: NSDate
     @NSManaged public var month: NSDate
     @NSManaged public var rawValue: Double
+    @NSManaged public var pointType: PointType
     @NSManaged public var references: NSSet?
     @NSManaged public var source: CarbonSource
     @NSManaged public var unit: CarbonUnit
