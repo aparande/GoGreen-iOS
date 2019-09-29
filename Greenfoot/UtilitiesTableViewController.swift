@@ -57,8 +57,8 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     }
     
     override func onBLTNPageItemActionClicked(with source: CarbonSource) {
-        super.onBLTNPageItemActionClicked(with: source)
         self.aggregator.addSource(source)
+        super.onBLTNPageItemActionClicked(with: source)
         viewGraph(for: source)
     }
     

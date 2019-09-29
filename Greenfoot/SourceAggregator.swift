@@ -68,7 +68,6 @@ class SourceAggregator {
     func addSource(_ source: CarbonSource) {
         if !sources.contains(source) {
             sources.append(source)
-            self.refresh()
         }
     }
     
