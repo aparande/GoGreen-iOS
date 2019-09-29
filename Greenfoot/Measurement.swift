@@ -63,3 +63,17 @@ class CarbonValue: Measurement {
         self.unit = DBManager.shared.carbonUnit
     }
 }
+
+class DerivedValue: Measurement {
+    var carbonValue: Double
+    var month: NSDate
+    var rawValue: Double
+    var unit: CarbonUnit
+    
+    init(rawValue: Double, month: NSDate, unit: CarbonUnit) {
+        self.rawValue = rawValue
+        self.unit = unit
+        self.month = month
+        self.carbonValue = self.unit.carbonConversion!.convert(self.rawValue)
+    }
+}

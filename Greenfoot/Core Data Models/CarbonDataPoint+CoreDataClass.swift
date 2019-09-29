@@ -17,7 +17,6 @@ public class CarbonDataPoint: NSManagedObject, CoreDataRecord {
     required convenience init?(inContext context: NSManagedObjectContext,
                               source: CarbonSource,
                               unit: CarbonUnit,
-                              type: PointType,
                               month: NSDate,
                               value: Double) {
         self.init(context: context)
@@ -26,9 +25,9 @@ public class CarbonDataPoint: NSManagedObject, CoreDataRecord {
         self.month = month
         self.lastUpdated = NSDate()
         self.rawValue = value
-        self.pointType = type
+        self.carbonValue = 0
         
-        if type == .direct {
+        if source.conversionType == .direct {
             guard let carbonConversion = self.unit.carbonConversion else {
                 print("Couldn't create CarbonDataPoint because Unit has no conversions")
                 context.delete(self)
@@ -41,13 +40,5 @@ public class CarbonDataPoint: NSManagedObject, CoreDataRecord {
     
     func reference(atLevel level: CarbonReference.Level) -> CarbonReference? {
         return self.references?.first(where: {($0 as? CarbonReference)?.level == level}) as? CarbonReference
-    }
-}
-
-extension CarbonDataPoint {
-    @objc
-    public enum PointType: Int16 {
-        case direct = 0,
-        derived = 1
     }
 }

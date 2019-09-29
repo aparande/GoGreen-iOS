@@ -55,9 +55,9 @@ class SourceAggregator {
     
     private func generatePoints() {
         if sources.count == 1 {
-            self.points = sources[0].points
+            self.points = computeDerivatives(for: sources[0])
         } else {
-            createAggregates()
+            self.createAggregates()
         }
     }
     
@@ -76,7 +76,7 @@ class SourceAggregator {
         var dateGroups:[NSDate : Double] = [:]
         
         for source in sources {
-            for point in source.points {
+            for point in computeDerivatives(for: source) {
                 dateGroups[point.month] = point.carbonValue + (dateGroups[point.month] ?? 0.0)
             }
         }
@@ -89,6 +89,17 @@ class SourceAggregator {
         self.points.sort {$0.month.compare($1.month as Date) == .orderedAscending}
         self.unit = self.points.first?.unit
     }
+    
+    private func computeDerivatives(for source: CarbonSource) -> [Measurement] {
+        if source.conversionType == .direct {
+            return source.points
+        }
+        
+        if source.sourceType == .odometer {
+            return DifferenceFilter().apply(to: source)
+        }
+        return source.points
+    }
 }
 
 //MARK: Source Aggregator Math
@@ -96,10 +107,8 @@ extension SourceAggregator {
     func sumCarbon() -> CarbonValue {
         var sum = 0.0
         
-        for source in sources {
-            for data in source.points {
-                sum += data.carbonValue
-            }
+        for point in points {
+            sum += point.carbonValue
         }
         
         return CarbonValue(rawValue: sum)

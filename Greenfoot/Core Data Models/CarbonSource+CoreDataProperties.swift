@@ -2,7 +2,7 @@
 //  CarbonSource+CoreDataProperties.swift
 //  Greenfoot
 //
-//  Created by Anmol Parande on 9/28/19.
+//  Created by Anmol Parande on 9/29/19.
 //  Copyright © 2019 Anmol Parande. All rights reserved.
 //
 //
@@ -37,8 +37,10 @@ extension CarbonSource {
     @NSManaged public var name: String
     @NSManaged public var sourceCategory: SourceCategory
     @NSManaged public var sourceType: SourceType
+    @NSManaged public var conversionType: ConversionType
     @NSManaged public var data: NSOrderedSet?
     @NSManaged public var primaryUnit: CarbonUnit?
+
 }
 
 // MARK: Generated accessors for data

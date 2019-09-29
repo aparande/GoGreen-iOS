@@ -49,6 +49,7 @@
 		1F503A4222DA550200A07805 /* GGTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4122DA550200A07805 /* GGTabBarItem.swift */; };
 		1F503A4522DA5C7200A07805 /* GGTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4422DA5C7200A07805 /* GGTabBar.swift */; };
 		1F503A4722DA610400A07805 /* GGTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F503A4622DA610400A07805 /* GGTabController.swift */; };
+		1F521CB623414CF300279F94 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F521CB523414CF300279F94 /* Filters.swift */; };
 		1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D88D71E46418700BEE99B /* GraphViewController.swift */; };
 		1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F61DA6022C7257600462BDB /* AddDataBLTNItem.swift */; };
 		1F62F66222EEBC6D00636D41 /* DBManager+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */; };
@@ -171,6 +172,7 @@
 		1F503A4122DA550200A07805 /* GGTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabBarItem.swift; sourceTree = "<group>"; };
 		1F503A4422DA5C7200A07805 /* GGTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabBar.swift; sourceTree = "<group>"; };
 		1F503A4622DA610400A07805 /* GGTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTabController.swift; sourceTree = "<group>"; };
+		1F521CB523414CF300279F94 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		1F5D88D71E46418700BEE99B /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		1F61DA6022C7257600462BDB /* AddDataBLTNItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataBLTNItem.swift; sourceTree = "<group>"; };
 		1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBManager+Defaults.swift"; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 				1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */,
 				1F2D881522F72AAB007D628D /* SourceAggregator.swift */,
 				1F216EDD22F7C12F00008A72 /* Measurement.swift */,
+				1F521CB523414CF300279F94 /* Filters.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -898,6 +901,7 @@
 				1F1C54C422E397B100D12598 /* RoundedIconButton.swift in Sources */,
 				1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */,
 				1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */,
+				1F521CB623414CF300279F94 /* Filters.swift in Sources */,
 				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
 				1F13032222CE9A8C0069AEDC /* HistoryTableViewCell.swift in Sources */,
 				1FE6E7DF22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift in Sources */,

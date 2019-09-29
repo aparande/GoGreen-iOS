@@ -114,4 +114,10 @@ extension CarbonSource {
             }
         }
     }
+    
+    @objc
+    public enum ConversionType: Int16 {
+        case direct = 0,
+            derived = 1
+    }
 }
