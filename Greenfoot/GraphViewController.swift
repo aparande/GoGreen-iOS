@@ -73,7 +73,10 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        mainGraph.loadDataFrom(array: aggregator.points, labeled: "kWh")
+        for point in aggregator.points {
+            print("\((point.month as Date).toString(withFormat: "MM-YYYY")): \(point.rawValue))")
+        }
+        mainGraph.loadDataFrom(array: aggregator.points, labeled: aggregator.unit.name)
     }
     
     @IBAction func addData(_ sender: Any) {
@@ -83,7 +86,7 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     override func onBLTNPageItemActionClicked(with source: CarbonSource) {
         super.onBLTNPageItemActionClicked(with: source)
         
-        mainGraph.loadDataFrom(array: aggregator.points, labeled: "kWh")
+        mainGraph.loadDataFrom(array: aggregator.points, labeled: aggregator.unit.name)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

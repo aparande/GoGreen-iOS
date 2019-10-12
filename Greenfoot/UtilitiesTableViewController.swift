@@ -8,13 +8,18 @@
 
 import UIKit
 import BLTNBoard
+import Material
 
 class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTableViewCellDelegate {
+    typealias SourceCategory = CarbonSource.SourceCategory
+    
     var navTitle: String
+    var sourceCategory: SourceCategory = .utility
     var tableView: UITableView!
     
-    init(withTitle title:String, aggregator: SourceAggregator) {
+    init(withTitle title:String, forCategory category: SourceCategory, aggregator: SourceAggregator) {
         self.navTitle = title
+        self.sourceCategory = category
         super.init(nibName: nil, bundle: nil)
         
         self.aggregator = aggregator
@@ -22,6 +27,8 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     
     required init?(coder aDecoder: NSCoder) {
         self.navTitle = ""
+        #warning("This is a terrible default")
+        self.sourceCategory = .direct
        
         super.init(coder: aDecoder)
     }
@@ -40,9 +47,11 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
         self.title = navTitle
         
         self.prepNavigationBar(titled: navTitle)
-        
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showAddSourceBLTNItem))
-        self.navigationItem.setRightBarButton(addButton, animated: false)
+        if self.sourceCategory == .travel {
+            let addButton = IconButton(image: Icon.cm.add, tintColor: .white)
+            addButton.addTarget(self, action: #selector(showAddSourceBLTNItem), for: .touchUpInside)
+            self.navigationItem.rightViews = [addButton]
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +90,7 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     }
     
     @objc func showAddSourceBLTNItem() {
-        let rootItem: AddSourceBLTNItem = AddSourceBLTNItem(title: "Add Source", withSourceCategory: .travel)
+        let rootItem: AddSourceBLTNItem = AddSourceBLTNItem(title: "Add Source", withSourceCategory: self.sourceCategory)
         rootItem.delegate = self
         bulletinManager = BLTNItemManager(rootItem: rootItem)
         bulletinManager?.showBulletin(above: self)

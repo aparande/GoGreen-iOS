@@ -188,6 +188,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         //let cell = UITableViewCell(style: .default, reuseIdentifier: "Switch")
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Switch")
         
+        /*
         let switchView = Switch(state: .off, style: .dark, size: .small)
         switchView.addTarget(self, action: #selector(updateSetting(_:)), for: .valueChanged)
         switchView.buttonOnColor = Colors.green
@@ -204,7 +205,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         }
         
         cell.accessoryView = switchView
-        
+        */
         return cell
     }
     

@@ -19,6 +19,10 @@ class DifferenceFilter: Filter {
     }
     
     func apply(to source:CarbonSource) -> [Measurement] {
+        if source.points.count == 0 {
+            return []
+        }
+        
         for i in 0 ..< source.points.count - 1 {
             let firstMonth = source.points[i].month as Date
             let secondMonth = source.points[i+1].month as Date

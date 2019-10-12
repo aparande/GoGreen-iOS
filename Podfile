@@ -10,7 +10,7 @@ target 'Greenfoot' do
   use_frameworks!
 
   # Pods for Greenfoot
-  pod 'Material', '~> 2.0'
+  pod 'Material', '~> 3.1.0'
   pod 'Charts'
   pod 'PopupDialog'
   pod 'Firebase/Core'

@@ -68,8 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let travelData = try! SourceAggregator(fromCategories: [.travel])
             let utilityData = try! SourceAggregator(fromCategories: [.utility])
             
-            let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", aggregator: travelData))
-            let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", aggregator: utilityData))
+        let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", forCategory: .travel, aggregator: travelData))
+        let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", forCategory: .utility, aggregator: utilityData))
             
             tvc.setTabBar(items: [travelButton, logoButton, utilityButton])
             tvc.viewControllers = [travelVc, svc, utilityVc]

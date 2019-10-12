@@ -244,7 +244,7 @@ dialogAppearance.messageTextAlignment = .center
 
 ## Dialog Container Appearance Settings
 
-The container view contains the PopupDialogDefaultView or your custom view controller. the following appearence settings are available:
+The container view contains the PopupDialogDefaultView or your custom view controller. the following appearance settings are available:
 
 ```swift
 let containerAppearance = PopupDialogContainerView.appearance()
@@ -446,6 +446,7 @@ Minimum requirement is iOS 10.0. This dialog was written with Swift 5, for suppo
 <p>&nbsp;</p>
 
 # Changelog
+* **1.1.1** Updates dependencies to Swift 5
 * **1.1.0** Swift 5 support
 * **1.0.0** Pinned Swift version to 4.2<br>Dropped iOS 9 support as of moving to ios-snapshot-test-case
 * **0.9.2** Fixes crash when presenting dialog while app is inactive

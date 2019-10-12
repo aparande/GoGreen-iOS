@@ -56,13 +56,14 @@ class SourceAggregator {
     private func generatePoints() {
         if sources.count == 1 {
             self.points = computeDerivatives(for: sources[0])
+            self.unit = sources[0].defaultUnit
         } else {
             self.createAggregates()
         }
     }
     
     func refresh() {
-        createAggregates()
+        generatePoints()
     }
     
     func addSource(_ source: CarbonSource) {
@@ -118,7 +119,7 @@ extension SourceAggregator {
         var sum = 0.0
         
         for source in sources {
-            let data = source.points.filter({$0.month.compare(date) == .orderedSame})
+            let data = computeDerivatives(for: source).filter({$0.month.compare(date) == .orderedSame})
             if data.count == 1 {
                 sum += data[0].carbonValue
             }

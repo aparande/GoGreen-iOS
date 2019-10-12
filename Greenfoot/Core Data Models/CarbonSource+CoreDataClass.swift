@@ -104,9 +104,9 @@ extension CarbonSource {
         var humanName: String {
             switch self {
             case .electricity:
-                return "Electric"
+                return "Electricity"
             case .gas:
-                return "Natural Gas"
+                return "Gas"
             case .odometer:
                 return "Car"
             case .direct:
