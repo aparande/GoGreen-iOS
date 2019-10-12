@@ -37,7 +37,7 @@
 					<key>dest</key>
 					<string>direct-tons</string>
 					<key>factor</key>
-					<real>0.005</real>
+					<real>0.0005</real>
 				</dict>
 			</array>
 		</dict>

@@ -112,6 +112,8 @@ extension SourceAggregator {
             sum += point.carbonValue
         }
         
+        print("The sum is \(sum)")
+        
         return CarbonValue(rawValue: sum)
     }
     
