@@ -51,6 +51,9 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         var email:String?
         var password: String?
         
+        self.profile = User(withId: UUID().uuidString)
+        
+        /*
         if let user = User.fromDefaults(withKey: "Profile") {
             self.profile = user
         } else if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
@@ -66,7 +69,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 self.profile = User(withId: UUID().uuidString)
                 self.profile.saveToDefaults(forKey: "Profile")
             }
-        }
+        } */
         
         super.init()
         
@@ -143,6 +146,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         
         loggingLocation = true
         
+        /*
         FirebaseUtils.uploadLocation(placemark) { (location) in
             if let locId = location.id, locId != self.locality?.id {
                 #warning("Should prompt user that we detected a location change")
@@ -163,7 +167,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             
             GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
             GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
-        }
+        } */
     }
     
     func setNotificationCategories() {

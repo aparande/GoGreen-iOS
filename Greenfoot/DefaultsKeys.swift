@@ -10,4 +10,7 @@ import Foundation
 
 class DefaultsKeys {
     static let LOADED_CORE_DATA_DEFAULTS = "loadedCoreDataDefaults"
+    static let USER = "user"
+    static let SHOULD_USE_LOCATION = "shouldUseLocation"
+    static let LOCATION = "location"
 }

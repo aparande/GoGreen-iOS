@@ -64,6 +64,8 @@
 		1F70CCC11E105D0600AD351A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCBF1E105D0600AD351A /* Main.storyboard */; };
 		1F70CCC31E105D0600AD351A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC21E105D0600AD351A /* Assets.xcassets */; };
 		1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */; };
+		1F7DBB6423542DE800E6A7F8 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7DBB6323542DE800E6A7F8 /* UserManager.swift */; };
+		1F7DBB662354323200E6A7F8 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7DBB652354323200E6A7F8 /* LocationManager.swift */; };
 		1F8BC1C822EE5B5500B58DFA /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
 		1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9195051E67922B0035A4AD /* BulkDataViewController.swift */; };
 		1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F91DDE31E1570A70020371F /* GeosansLight.ttf */; };
@@ -191,6 +193,8 @@
 		1F70CCC21E105D0600AD351A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F70CCC51E105D0600AD351A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F70CCC71E105D0600AD351A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F7DBB6323542DE800E6A7F8 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		1F7DBB652354323200E6A7F8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1F9195051E67922B0035A4AD /* BulkDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulkDataViewController.swift; sourceTree = "<group>"; };
 		1F91DDE31E1570A70020371F /* GeosansLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeosansLight.ttf; sourceTree = "<group>"; };
 		1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
@@ -512,11 +516,13 @@
 				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
 				1F2013BB22BA0130000183FE /* Firebase */,
 				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
+				1F7DBB6323542DE800E6A7F8 /* UserManager.swift */,
 				1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */,
 				1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */,
 				1F2D881522F72AAB007D628D /* SourceAggregator.swift */,
 				1F216EDD22F7C12F00008A72 /* Measurement.swift */,
 				1F521CB523414CF300279F94 /* Filters.swift */,
+				1F7DBB652354323200E6A7F8 /* LocationManager.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -870,6 +876,7 @@
 				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
 				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */,
+				1F7DBB6423542DE800E6A7F8 /* UserManager.swift in Sources */,
 				1FBC6856231B41D000440B0D /* DataLogTableViewSection.swift in Sources */,
 				1F3C99A122F293AA0008A1D3 /* CoreDataProtocols.swift in Sources */,
 				1FE6E7DE22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift in Sources */,
@@ -891,6 +898,7 @@
 				1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */,
 				1F503A4522DA5C7200A07805 /* GGTabBar.swift in Sources */,
 				1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */,
+				1F7DBB662354323200E6A7F8 /* LocationManager.swift in Sources */,
 				1F2D1A012335EAF3001D3347 /* BarGraph.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
 				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,

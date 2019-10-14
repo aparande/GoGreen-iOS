@@ -35,27 +35,31 @@ extension FirebaseObject {
 
 struct Location: FirebaseObject {
     var id: String?
-    var city: String
-    var state: String
+    var locality: String // City
+    var administrativeArea: String // State
     var country: String
     var isoCode: String
-    var zip: String
+    var postalCode: String
     
     init(fromPlacemark placemark: CLPlacemark) {
-        self.city = placemark.locality!
-        self.state = placemark.administrativeArea!
+        self.locality = placemark.locality!
+        self.administrativeArea = placemark.administrativeArea!
         self.country = placemark.country!
         self.isoCode = placemark.isoCountryCode!
-        self.zip = placemark.postalCode!
+        self.postalCode = placemark.postalCode!
     }
     
     init(fromDict dict: [String:Any]) {
         self.id = dict["id"] as? String
-        self.city = dict["city"] as! String
-        self.state = dict["state"] as! String
+        self.locality = dict["locality"] as! String
+        self.administrativeArea = dict["administrativeArea"] as! String
         self.country = dict["country"] as! String
         self.isoCode = dict["isoCode"] as! String
-        self.zip = dict["zip"] as! String
+        self.postalCode = dict["zip"] as! String
+    }
+    
+    mutating func reassignId(to id: String) {
+        self.id = id
     }
     
     static func fromDefaults(withKey key: String) -> Location? {
@@ -85,20 +89,6 @@ struct User: FirebaseObject {
     
     init(withId id:String) {
         self.id = id
-    }
-    
-    func saveToDefaults(forKey key:String) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(self) {
-            UserDefaults.standard.set(encoded, forKey: key)
-        }
-    }
-    
-    static func fromDefaults(withKey key: String) -> User? {
-        guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
-        
-        let decoder = JSONDecoder()
-        return try? decoder.decode(User.self, from: data)
     }
 }
 

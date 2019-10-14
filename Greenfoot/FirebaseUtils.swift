@@ -11,12 +11,10 @@ import Firebase
 import CoreLocation
 
 class FirebaseUtils {
-    static func uploadLocation(_ placemark: CLPlacemark, completion: @escaping  ((Location) -> Void)) {
-        #warning("It is not smart to be unwrapping these")
+    static func uploadLocation(_ location: Location, completion: @escaping  ((Location) -> Void)) {
         let store = Firestore.firestore()
         let locRef = store.collection("Locations")
         
-        var location = Location(fromPlacemark: placemark)
         var params = location.toJSON()
         
         guard let query = queryCollection(locRef, withParams: params) else { return }
@@ -31,12 +29,16 @@ class FirebaseUtils {
             guard let snapshot = snapshot else { return }
             if snapshot.isEmpty {
                 let docRef = locRef.document()
-                location.id = docRef.documentID
-                params["id"] = location.id
+                
+                var newLoc = location
+                newLoc.id = docRef.documentID
+                
+                params["id"] = newLoc.id
                 docRef.setData(params, merge: true)
-                completion(location)
+                completion(newLoc)
             } else {
-                completion(Location(fromDict: snapshot.documents[0].data()))
+                let newLoc = Location(fromDict: snapshot.documents[0].data())
+                completion(newLoc)
             }
         }
     }

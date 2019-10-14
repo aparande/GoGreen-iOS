@@ -37,13 +37,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        let modal = GreenfootModal.sharedInstance
+        LocationManager.shared.listener = UserManager.shared
+        LocationManager.shared.pollLocation()
+        
+        //let modal = GreenfootModal.sharedInstance
         
         
        // if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
+        /*
             for (_, data) in modal.data {
                 data.reachConsensus()
-            }
+            }*/
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
@@ -86,11 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //TEST THAT THIS WORKS
             SettingsManager.sharedInstance.shouldUseLocation = true
         }*/
-        
-        SettingsManager.sharedInstance.loadLocation()
-        
-        SettingsManager.sharedInstance.setNotificationCategories()
-        SettingsManager.sharedInstance.pruneNotifications()
         
         window!.makeKeyAndVisible()
         

@@ -72,9 +72,9 @@ class GreenfootModal {
         }
         
         var parameters:[String: Any] = ["id":SettingsManager.sharedInstance.profile.id!, "points":totalEnergyPoints]
-        parameters["state"] = locale.state
+        parameters["state"] = locale.administrativeArea
         parameters["country"] = locale.country
-        parameters["city"] = locale.city
+        parameters["city"] = locale.locality
         
         let id = [APIRequestType.log.rawValue, "EP"].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: id, atEndpoint: "logEnergyPoints", withParameters: parameters, andSuccessFunction: {
@@ -96,7 +96,7 @@ class GreenfootModal {
         rankingFetchInProgress = true
         
         var parameters:[String:Any] = ["id":SettingsManager.sharedInstance.profile.id!]
-        parameters["state"] = locale.state
+        parameters["state"] = locale.administrativeArea
         parameters["country"] = locale.country
         
         let stateId = [APIRequestType.get.rawValue, "STATE_RANK"].joined(separator: ":")
@@ -115,7 +115,7 @@ class GreenfootModal {
             }
         }, andFailureFunction: nil)
         
-        parameters["city"] = locale.city
+        parameters["city"] = locale.locality
         
         let cityId = [APIRequestType.get.rawValue, "CITY_RANK"].joined(separator: ":")
         APIRequestManager.sharedInstance.queueAPICall(identifiedBy: cityId, atEndpoint: "getCityRank", withParameters: parameters, andSuccessFunction: {
