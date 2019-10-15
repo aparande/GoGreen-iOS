@@ -83,7 +83,7 @@ class DBManager {
     
     func createUnit(named name: String, conversionToCO2 conv: Double, forSourceType sourceType: CarbonSource.SourceType) -> CarbonUnit {
         let unit = CarbonUnit(context: self.backgroundContext)
-        unit.fid = UUID().uuidString
+        unit.id = UUID().uuidString
         unit.sourceType = sourceType
         unit.name = name
         

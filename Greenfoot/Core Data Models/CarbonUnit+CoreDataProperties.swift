@@ -18,12 +18,15 @@ extension CarbonUnit {
     }
     
     public var carbonConversion: Conversion? {
-        return self.conversionsTo?.first(where: {($0 as? Conversion)?.dest.fid == "direct-default"}) as? Conversion
+        return self.conversionsTo?.first(where: {($0 as? Conversion)?.dest.id == "direct-default"}) as? Conversion
     }
 
-    @NSManaged public var fid: String?
+    @NSManaged public var id: String?
     @NSManaged public var name: String
     @NSManaged public var sourceType: CarbonSource.SourceType
+    @NSManaged public var isDefault: Bool
+    @NSManaged public var isPreloaded: Bool
+    
     @NSManaged public var associatedPoints: NSSet?
     @NSManaged public var conversionsFrom: NSSet?
     @NSManaged public var conversionsTo: NSSet?

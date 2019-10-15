@@ -66,6 +66,7 @@
 		1F70CCC61E105D0600AD351A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */; };
 		1F7DBB6423542DE800E6A7F8 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7DBB6323542DE800E6A7F8 /* UserManager.swift */; };
 		1F7DBB662354323200E6A7F8 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7DBB652354323200E6A7F8 /* LocationManager.swift */; };
+		1F7DBB68235447E900E6A7F8 /* FirebaseUtils+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7DBB67235447E900E6A7F8 /* FirebaseUtils+Defaults.swift */; };
 		1F8BC1C822EE5B5500B58DFA /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
 		1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9195051E67922B0035A4AD /* BulkDataViewController.swift */; };
 		1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F91DDE31E1570A70020371F /* GeosansLight.ttf */; };
@@ -73,6 +74,7 @@
 		1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */; };
 		1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */; };
 		1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */; };
+		1FA735D623544EB5009DD78E /* CarbonUnit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA735D523544EB4009DD78E /* CarbonUnit+CoreDataProperties.swift */; };
 		1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA737F81F001F4100B721D0 /* APIRequestManager.swift */; };
 		1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */; };
 		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
@@ -96,7 +98,6 @@
 		1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */; };
 		1FCD198422EE6874008E6194 /* CarbonReference+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */; };
 		1FCD198922EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */; };
-		1FCD198A22EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */; };
 		1FCD198B22EE7FC1008E6194 /* Conversion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */; };
 		1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */; };
 		1FCD198E22EE8184008E6194 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FCD198D22EE8184008E6194 /* defaults.plist */; };
@@ -195,12 +196,14 @@
 		1F70CCC71E105D0600AD351A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F7DBB6323542DE800E6A7F8 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		1F7DBB652354323200E6A7F8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		1F7DBB67235447E900E6A7F8 /* FirebaseUtils+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils+Defaults.swift"; sourceTree = "<group>"; };
 		1F9195051E67922B0035A4AD /* BulkDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulkDataViewController.swift; sourceTree = "<group>"; };
 		1F91DDE31E1570A70020371F /* GeosansLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeosansLight.ttf; sourceTree = "<group>"; };
 		1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyChangeTableViewCell.swift; sourceTree = "<group>"; };
 		1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonthlyChangeCell.xib; sourceTree = "<group>"; };
 		1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrivingHeader.xib; sourceTree = "<group>"; };
+		1FA735D523544EB4009DD78E /* CarbonUnit+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CarbonUnit+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1FA737F81F001F4100B721D0 /* APIRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequestManager.swift; sourceTree = "<group>"; };
 		1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
@@ -225,7 +228,6 @@
 		1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1FCD198222EE6874008E6194 /* CarbonReference+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonReference+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonUnit+CoreDataClass.swift"; sourceTree = "<group>"; };
-		1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CarbonUnit+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversion+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conversion+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1FCD198D22EE8184008E6194 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
@@ -280,8 +282,8 @@
 		1F10916022F3F71A0019532F /* Core Data Models */ = {
 			isa = PBXGroup;
 			children = (
+				1FA735D523544EB4009DD78E /* CarbonUnit+CoreDataProperties.swift */,
 				1FCD198522EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift */,
-				1FCD198622EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift */,
 				1FCD198722EE7FC1008E6194 /* Conversion+CoreDataClass.swift */,
 				1FCD198822EE7FC1008E6194 /* Conversion+CoreDataProperties.swift */,
 				1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */,
@@ -329,6 +331,7 @@
 				1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */,
 				1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */,
 				1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */,
+				1F7DBB67235447E900E6A7F8 /* FirebaseUtils+Defaults.swift */,
 			);
 			name = Firebase;
 			sourceTree = "<group>";
@@ -850,11 +853,12 @@
 				1F42A00322EBEE480057C88C /* utils.swift in Sources */,
 				1F2D881622F72AAB007D628D /* SourceAggregator.swift in Sources */,
 				1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */,
+				1F7DBB68235447E900E6A7F8 /* FirebaseUtils+Defaults.swift in Sources */,
 				1F487AA71EFAC9700072D28F /* BarChartView.swift in Sources */,
+				1FA735D623544EB5009DD78E /* CarbonUnit+CoreDataProperties.swift in Sources */,
 				1FCD198922EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift in Sources */,
 				1F2D1A032335EB35001D3347 /* HorizontalBarGraph.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
-				1FCD198A22EE7FC1008E6194 /* CarbonUnit+CoreDataProperties.swift in Sources */,
 				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
 				1FE6E7DA22ED180C00E558D7 /* CarbonSource+CoreDataClass.swift in Sources */,
 				1FE6E7E122ED235600E558D7 /* DBManager.swift in Sources */,

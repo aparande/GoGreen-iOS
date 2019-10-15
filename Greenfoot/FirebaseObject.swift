@@ -13,6 +13,11 @@ protocol FirebaseObject: Codable {
     var id: String? {get set}
 }
 
+public extension CodingUserInfoKey {
+    // Helper property to retrieve the context
+    static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")
+}
+
 extension FirebaseObject {
     func toJSON() -> [String:Any] {
         let encoder = JSONEncoder()
@@ -23,13 +28,6 @@ extension FirebaseObject {
         let obj = try! JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
         
         return obj
-    }
-    
-    func saveToDefaults(forKey key:String) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(self) {
-            UserDefaults.standard.set(encoded, forKey: key)
-        }
     }
 }
 

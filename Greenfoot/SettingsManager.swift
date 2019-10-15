@@ -37,7 +37,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         } else {
             if let locale = GreenfootModal.sharedInstance.locality {
                 self.locality = locale
-                self.locality?.saveToDefaults(forKey: "Setting_Locale")
+                //self.locality?.saveToDefaults(forKey: "Setting_Locale")
                 self.shouldUseLocation = true
             }
         }
@@ -282,7 +282,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             #warning("This will overwrite the location stored on the server. Is this right?")
             self.profile.locId = self.locality?.id
             
-            self.profile.saveToDefaults(forKey: "Profile")
+            //self.profile.saveToDefaults(forKey: "Profile")
             FirebaseUtils.updateUser(self.profile)
             
             completion(true, nil)
@@ -325,7 +325,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             self.profile.isLoggedIn = true
             self.profile.locId = self.locality?.id
         
-            self.profile.saveToDefaults(forKey: "Profile")
+            //self.profile.saveToDefaults(forKey: "Profile")
             FirebaseUtils.updateUser(self.profile)
             
             completion(true, nil)

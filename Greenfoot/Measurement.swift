@@ -19,9 +19,11 @@ protocol Measurement {
 
 extension Measurement {
     func display() -> (val: Double, unit: String) {
+        return (self.carbonValue, self.unit.name)
+        /*
         guard let superConversions = self.unit.conversionsTo?.filter({ (conv) -> Bool in
-            (conv as? Conversion)?.source.fid == self.unit.fid
-        }) as? [Conversion] else {
+            (conv as! Conversion)?.source.id == self.unit.fid
+        }) else {
             return (self.carbonValue, self.unit.name)
         }
         
@@ -38,7 +40,7 @@ extension Measurement {
         
         
         
-        return (optimalVal, unitName)
+        return (optimalVal, unitName) */
     }
 }
 

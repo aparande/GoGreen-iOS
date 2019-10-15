@@ -28,19 +28,23 @@ extension DBManager {
     func loadDefaults() {
         print("Loading Defaults")
         
-        let defaults = loadPlist(named: "defaults")
+        //let defaults = loadPlist(named: "defaults")
         
+        /*
         guard let sourcesData = defaults["sources"] as? [[String: AnyObject]] else { return }
         guard let unitsData = defaults["units"] as? [[String: AnyObject]] else { return }
         guard let referencesData = defaults["references"] as? [String: [String: AnyObject]] else { return }
-        guard let conversionsData = defaults["conversions"] as? [String: [String: AnyObject]] else { return }
+        guard let conversionsData = defaults["conversions"] as? [String: [String: AnyObject]] else { return } */
         
-        let sources = createCoreDataObject(CarbonSource.self, fromData: sourcesData)
-        let units = createCoreDataObject(CarbonUnit.self, fromData: unitsData)
-        let conversions = createConversions(forUnits: units, usingData: conversionsData)
-        let references = createReferences(usingData: referencesData, forSources: sources, withUnits: units)
+        FirebaseUtils.loadDefaultUnits(intoContext: self.backgroundContext) { (units) in
+            print("Loaded \(units.map({"\($0.id)-\($0.name)"}))")
+            self.save()
+        }
         
-        self.save()
+        //let sources = createCoreDataObject(CarbonSource.self, fromData: sourcesData)
+        //let units = createCoreDataObject(CarbonUnit.self, fromData: unitsData)
+        //let conversions = createConversions(forUnits: units, usingData: conversionsData)
+        //let references = createReferences(usingData: referencesData, forSources: sources, withUnits: units)
     }
     
     private func createCoreDataObject<T:CoreJsonObject>(_ Obj: T.Type, fromData data: [[String:AnyObject]]) -> [T] {
@@ -55,7 +59,7 @@ extension DBManager {
     private func createConversions(forUnits units: [CarbonUnit], usingData data: [String: [String:AnyObject]]) -> [Conversion] {
         var idMap: [String:CarbonUnit] = [:]
         for unit in units {
-            guard let id = unit.fid else { continue }
+            guard let id = unit.id else { continue }
             idMap[id] = unit
         }
         
@@ -85,7 +89,7 @@ extension DBManager {
                                     withUnits units:[CarbonUnit]) -> [CarbonReference] {
         var idMap: [String:CarbonUnit] = [:]
         for unit in units {
-            guard let id = unit.fid else { continue }
+            guard let id = unit.id else { continue }
             idMap[id] = unit
         }
         

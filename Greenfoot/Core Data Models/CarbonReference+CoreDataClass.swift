@@ -34,7 +34,7 @@ public class CarbonReference: CarbonDataPoint {
             return nil
         }
         
-        guard let carbonConversion = possibleConversions.first(where: {($0 as? Conversion)?.dest.fid == "direct-default"}) as? Conversion else {
+        guard let carbonConversion = possibleConversions.first(where: {($0 as? Conversion)?.dest.id == "direct-default"}) as? Conversion else {
             print("Couldn't create CarbonDataPoint because Unit has no conversion to Carbon")
             context.delete(self)
             return nil
@@ -63,7 +63,7 @@ public class CarbonReference: CarbonDataPoint {
             return nil
         }
         
-        guard let carbonConversion = possibleConversions.first(where: {($0 as? Conversion)?.dest.fid == "direct-default"}) as? Conversion else {
+        guard let carbonConversion = possibleConversions.first(where: {($0 as? Conversion)?.dest.id == "direct-default"}) as? Conversion else {
             print("Couldn't create CarbonDataPoint because Unit has no conversion to Carbon")
             context.delete(self)
             return nil
