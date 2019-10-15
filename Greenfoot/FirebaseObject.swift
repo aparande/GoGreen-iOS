@@ -53,7 +53,7 @@ struct Location: FirebaseObject {
         self.administrativeArea = dict["administrativeArea"] as! String
         self.country = dict["country"] as! String
         self.isoCode = dict["isoCode"] as! String
-        self.postalCode = dict["zip"] as! String
+        self.postalCode = dict["postalCode"] as! String
     }
     
     mutating func reassignId(to id: String) {

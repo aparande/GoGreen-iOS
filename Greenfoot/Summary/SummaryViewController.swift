@@ -21,6 +21,8 @@ class SummaryViewController: SourceAggregatorViewController {
     @IBOutlet weak var containerAnchoredTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerFloatingConstraint: NSLayoutConstraint!
     
+    private var isFirebaseLoaded = false
+    
     var sections: [TableViewSection] = []
     
     private var tableViewExpanded: Bool = false {
@@ -47,24 +49,39 @@ class SummaryViewController: SourceAggregatorViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.isFirebaseLoaded = DBManager.shared.loadedFromFirebase
+        
         let graphNib = UINib(nibName: "BarGraphCell", bundle: nil)
         tableView.register(graphNib, forCellReuseIdentifier: "GraphCell")
         
         let logNib = UINib(nibName: "LogCell", bundle: nil)
         tableView.register(logNib, forCellReuseIdentifier: "LogCell")
         
+        NotificationCenter.default.addObserver(self, selector: #selector(firebaseLoaded), name: DBManager.DEFAULTS_LOADED, object: nil)
+    }
+    
+    @objc func firebaseLoaded() {
+        
+        isFirebaseLoaded = true
+        
         setupTableContainer()
         setupTableView()
         setupTableViewSections()
+        
+        self.refresh()
+    
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func refresh() {
-        super.refresh()
-        setupTableViewSections()
-        self.tableView.reloadData()
+        if self.isFirebaseLoaded {
+            super.refresh()
+            setupTableViewSections()
+            self.tableView.reloadData()
 
-        emblemView.displayMeasurement(aggregator.sumCarbon())
-        lastMonthLabel.measurement = aggregator.carbonEmitted(on: Date().lastMonth)
+            emblemView.displayMeasurement(aggregator.sumCarbon())
+            lastMonthLabel.measurement = aggregator.carbonEmitted(on: Date().lastMonth)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

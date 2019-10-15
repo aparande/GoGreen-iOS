@@ -12,6 +12,8 @@ import UIKit
 
 class DBManager {
     
+    static let DEFAULTS_LOADED = NSNotification.Name("firebase_defaults_loaded")
+    
     let persistentContainer: NSPersistentContainer
     let defaults: UserDefaults
     
@@ -22,17 +24,22 @@ class DBManager {
     static let shared: DBManager = DBManager()
     
     var carbonUnit: CarbonUnit!
+    var loadedFromFirebase: Bool
     
     init(container: NSPersistentContainer, defaults: UserDefaults) {
         self.persistentContainer = container
         self.defaults = defaults
+        self.loadedFromFirebase = false
         
         if !self.defaults.bool(forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS) {
             self.loadDefaults()
             self.defaults.set(true, forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS)
+        } else {
+            print("Firebase Defaults already loaded")
+            self.loadedFromFirebase = true
+            carbonUnit = try! CarbonUnit.defaultUnit(forSourceType: .direct, inContext: self.backgroundContext)
+            NotificationCenter.default.post(name: DBManager.DEFAULTS_LOADED, object: nil)
         }
-        
-        carbonUnit = try! CarbonUnit.with(id: "direct-default", fromContext: self.backgroundContext)!
     }
     
     private convenience init() {

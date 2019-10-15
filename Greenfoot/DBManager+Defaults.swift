@@ -37,8 +37,16 @@ extension DBManager {
         guard let conversionsData = defaults["conversions"] as? [String: [String: AnyObject]] else { return } */
         
         FirebaseUtils.loadDefaultUnits(intoContext: self.backgroundContext) { (units) in
-            print("Loaded \(units.map({"\($0.id)-\($0.name)"}))")
+            self.loadedFromFirebase = true
             self.save()
+            
+            for unit in units {
+                if unit.isDefault && unit.sourceType == .direct {
+                    self.carbonUnit = unit
+                }
+            }
+            
+            NotificationCenter.default.post(name: DBManager.DEFAULTS_LOADED, object: nil)
         }
         
         //let sources = createCoreDataObject(CarbonSource.self, fromData: sourcesData)
