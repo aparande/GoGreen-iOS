@@ -44,7 +44,8 @@
     </entity>
     <entity name="Conversion" representedClassName="Conversion" syncable="YES">
         <attribute name="factor" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="fid" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="isPreloaded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="dest" maxCount="1" deletionRule="Nullify" destinationEntity="CarbonUnit" inverseName="conversionsFrom" inverseEntity="CarbonUnit"/>
         <relationship name="source" maxCount="1" deletionRule="Nullify" destinationEntity="CarbonUnit" inverseName="conversionsTo" inverseEntity="CarbonUnit"/>
     </entity>
@@ -62,7 +63,7 @@
         <element name="CarbonReference" positionX="-324.1953125" positionY="-64.421875" width="128" height="88"/>
         <element name="CarbonSource" positionX="-1014.421875" positionY="31.9375" width="128" height="150"/>
         <element name="CarbonUnit" positionX="-373.359375" positionY="124.9765625" width="128" height="178"/>
-        <element name="Conversion" positionX="-867.375" positionY="287.640625" width="128" height="105"/>
+        <element name="Conversion" positionX="-867.375" positionY="287.640625" width="128" height="118"/>
         <element name="DataPoint" positionX="-359.8515625" positionY="-200.53125" width="128" height="30"/>
     </elements>
 </model>

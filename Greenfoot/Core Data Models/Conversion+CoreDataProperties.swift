@@ -17,8 +17,9 @@ extension Conversion {
         return NSFetchRequest<Conversion>(entityName: "Conversion")
     }
 
-    @NSManaged public var fid: String?
+    @NSManaged public var id: String?
     @NSManaged public var factor: Double
+    @NSManaged public var isPreloaded: Bool
     @NSManaged public var source: CarbonUnit
     @NSManaged public var dest: CarbonUnit
 

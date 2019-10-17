@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseFirestore
 
 extension FirebaseUtils {
     #warning("Can the following methods be condensed into one?")

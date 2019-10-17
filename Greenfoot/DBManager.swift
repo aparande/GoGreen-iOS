@@ -33,7 +33,6 @@ class DBManager {
         
         if !self.defaults.bool(forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS) {
             self.loadDefaults()
-            self.defaults.set(true, forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS)
         } else {
             print("Firebase Defaults already loaded")
             self.loadedFromFirebase = true
