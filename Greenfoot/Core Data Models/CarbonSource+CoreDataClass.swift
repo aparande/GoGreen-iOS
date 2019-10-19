@@ -13,8 +13,18 @@ import CoreData
 import Material
 
 @objc(CarbonSource)
-public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
+public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject, FirebaseObject {
     typealias Record = CarbonSource
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case sourceCategory
+        case sourceType
+        case conversionType
+        case primaryUnitId
+        case userId
+    }
     
     /**
      Constructs a Carbon Source from a "JSON" dictionary. Note JSON only works with primitives
@@ -34,7 +44,44 @@ public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject {
         self.sourceCategory = SourceCategory(rawValue: Int16(sourceCategory))!
         self.sourceType = SourceType(rawValue: Int16(sourceType))!
         
-        self.fid = json["fid"] as? String
+        self.id = json["id"] as? String
+    }
+    
+    public required convenience init(from decoder: Decoder) throws {
+        guard let contextKey = CodingUserInfoKey.managedObjectContext, let context = decoder.userInfo[contextKey] as? NSManagedObjectContext, let entity = NSEntityDescription.entity(forEntityName: "CarbonSource", in: context) else {
+            fatalError("Failed to decode Carbon Source")
+        }
+        
+        self.init(entity: entity, insertInto: context)
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+        self.sourceCategory = try CarbonSource.SourceCategory(rawValue: container.decodeIfPresent(Int16.self, forKey: .sourceCategory) ?? 0) ?? .direct
+        self.sourceType = try CarbonSource.SourceType(rawValue: container.decodeIfPresent(Int16.self, forKey: .sourceType) ?? 0) ?? .direct
+        self.conversionType = try CarbonSource.ConversionType(rawValue: container.decodeIfPresent(Int16.self, forKey: .conversionType) ?? 0) ?? .direct
+        
+        guard let unitId = try container.decodeIfPresent(String.self, forKey: .primaryUnitId) else {
+            return
+        }
+        
+        self.primaryUnit = try CarbonUnit.with(id: unitId, fromContext: context)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(sourceCategory.rawValue, forKey: .sourceCategory)
+        try container.encode(sourceType.rawValue, forKey: .sourceType)
+        try container.encode(conversionType.rawValue, forKey: .conversionType)
+        try container.encode(primaryUnit?.id , forKey: .primaryUnitId)
+        
+        guard let userIdKey = CodingUserInfoKey.userId, let userId = encoder.userInfo[userIdKey] as? String else {
+            fatalError("Failed to encode carbon unit")
+        }
+        
+        try container.encode(userId, forKey: .userId)
     }
     
     @nonobjc public class func all(inContext context: NSManagedObjectContext,

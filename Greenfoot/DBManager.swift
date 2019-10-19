@@ -73,6 +73,8 @@ class DBManager {
             source.conversionType = .direct
         }
         
+        FirebaseUtils.uploadCarbonSource(source)
+        
         self.save()
         return source
     }
@@ -99,6 +101,14 @@ class DBManager {
         conversion.factor = conv
         
         self.save()
+        
+        return unit
+    }
+    
+    func getDefaultUnit(forSourceType sourceType: CarbonSource.SourceType) -> CarbonUnit? {
+        guard let unit = try? CarbonUnit.defaultUnit(forSourceType: sourceType, inContext: self.backgroundContext) else {
+            return nil
+        }
         
         return unit
     }

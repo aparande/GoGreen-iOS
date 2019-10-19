@@ -16,12 +16,14 @@ protocol FirebaseObject: Codable {
 public extension CodingUserInfoKey {
     // Helper property to retrieve the context
     static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")
+    static let userId = CodingUserInfoKey(rawValue: "userId")
 }
 
 extension FirebaseObject {
-    func toJSON() -> [String:Any] {
+    func toJSON(withInfo userInfo:[CodingUserInfoKey:Any] = [:]) -> [String:Any] {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.userInfo = userInfo
         
         #warning("Force unwrapping encoding")
         let data = try! encoder.encode(self)

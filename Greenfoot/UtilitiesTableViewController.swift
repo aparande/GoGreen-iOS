@@ -47,11 +47,10 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
         self.title = navTitle
         
         self.prepNavigationBar(titled: navTitle)
-        if self.sourceCategory == .travel {
-            let addButton = IconButton(image: Icon.cm.add, tintColor: .white)
-            addButton.addTarget(self, action: #selector(showAddSourceBLTNItem), for: .touchUpInside)
-            self.navigationItem.rightViews = [addButton]
-        }
+        
+        let addButton = IconButton(image: Icon.cm.add, tintColor: .white)
+        addButton.addTarget(self, action: #selector(showAddSourceBLTNItem), for: .touchUpInside)
+        self.navigationItem.rightViews = [addButton]
     }
     
     override func viewWillAppear(_ animated: Bool) {

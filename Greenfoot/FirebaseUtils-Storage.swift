@@ -60,4 +60,17 @@ extension FirebaseUtils {
         let payload = point.toJSON()
         docRef.setData(payload)
     }
+    
+    static func uploadCarbonSource(_ source: CarbonSource) {
+        guard let userId = UserManager.shared.user?.id else {
+            return
+        }
+        
+        let store = Firestore.firestore()
+        let ref = store.collection("CarbonSources").document()
+        source.id = ref.documentID
+        
+        let payload = source.toJSON(withInfo: [CodingUserInfoKey.userId!:userId])
+        ref.setData(payload)
+    }
 }

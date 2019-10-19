@@ -34,7 +34,7 @@ extension CarbonSource {
         }
     }
     
-    @NSManaged public var fid: String?
+    @NSManaged public var id: String?
     @NSManaged public var name: String
     @NSManaged public var sourceCategory: SourceCategory
     @NSManaged public var sourceType: SourceType

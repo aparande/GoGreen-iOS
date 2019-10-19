@@ -40,24 +40,23 @@ class AddSourceBLTNItem: BLTNPageItem {
     }
     
     override func actionButtonTapped(sender: UIButton) {
-        if nameField.text == "" || conversionField.text == "" {
+        
+        var source: CarbonSource?
+        switch self.sourceCategory {
+        case .travel:
+            source = self.createTravelSource()
+            break
+        case .utility:
+            source = self.createUtilitySource()
+        default:
             return
         }
         
-        guard var conversion = Double(conversionField.text!) else {
-            conversionField.isErrorRevealed = true
+        guard let unwrappedSource = source else {
             return
         }
         
-        conversion  = 19.6 / conversion
-        
-        nameField.resignFirstResponder()
-        conversionField.resignFirstResponder()
-        
-        let unit = DBManager.shared.createUnit(named: "Miles", conversionToCO2: conversion, forSourceType: sourceType)
-        let source = DBManager.shared.createCarbonSource(name: nameField.text!, category: sourceCategory, type: sourceType, unit: unit)
-        
-        self.delegate?.onBLTNPageItemActionClicked(with: source)
+        self.delegate?.onBLTNPageItemActionClicked(with: unwrappedSource)
     }
     
     override func makeViewsUnderTitle(with interfaceBuilder: BLTNInterfaceBuilder) -> [UIView]? {
@@ -69,11 +68,50 @@ class AddSourceBLTNItem: BLTNPageItem {
         
         stackView.addArrangedSubview(typeControlField)
         stackView.addArrangedSubview(nameField)
-        stackView.addArrangedSubview(conversionField)
+        
+        if self.sourceCategory == .travel {
+            stackView.addArrangedSubview(conversionField)
+        }
         
         let wrapper = interfaceBuilder.wrapView(stackView, width: nil, height: nil, position: .pinnedToEdges)
         
         return [wrapper]
+    }
+    
+    private func createTravelSource() -> CarbonSource? {
+        if nameField.text == "" || conversionField.text == "" {
+            return nil
+        }
+        
+        guard var conversion = Double(conversionField.text!) else {
+            conversionField.isErrorRevealed = true
+            return nil
+        }
+        
+        conversion  = 19.6 / conversion
+        
+        nameField.resignFirstResponder()
+        conversionField.resignFirstResponder()
+        
+        let unit = DBManager.shared.createUnit(named: "Miles", conversionToCO2: conversion, forSourceType: sourceType)
+        let source = DBManager.shared.createCarbonSource(name: nameField.text!, category: sourceCategory, type: sourceType, unit: unit)
+        
+        return source
+    }
+    
+    private func createUtilitySource() -> CarbonSource? {
+        if nameField.text == "" {
+            return nil
+        }
+        
+        guard let unit = DBManager.shared.getDefaultUnit(forSourceType: self.sourceType) else {
+            return nil
+        }
+        
+        let source = DBManager.shared.createCarbonSource(name: nameField.text!, category: self.sourceCategory, type: self.sourceType, unit: unit)
+        
+        
+        return source
     }
     
     private func setupConversionField() {
@@ -88,7 +126,7 @@ class AddSourceBLTNItem: BLTNPageItem {
         conversionField.delegate = self
         conversionField.addTarget(self, action: #selector(textFieldDidChange(textfield:)), for: .editingChanged)
         
-        conversionField.placeholder = "Amount"
+        conversionField.placeholder = "Miles Per Gallon"
         conversionField.error = "Please enter a number"
         
         let doneToolbar = InputToolbar(left: nil, right: Icon.cm.check, color: Colors.green)
