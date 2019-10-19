@@ -18,7 +18,7 @@ extension CarbonDataPoint: Measurement {
     }
 
     @NSManaged public var carbonValue: Double
-    @NSManaged public var fid: String?
+    @NSManaged public var id: String?
     @NSManaged public var lastUpdated: NSDate
     @NSManaged public var month: NSDate
     @NSManaged public var rawValue: Double

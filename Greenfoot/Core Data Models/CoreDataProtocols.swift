@@ -31,7 +31,7 @@ extension CoreDataRecord {
     
     static func with(id: String, fromContext context: NSManagedObjectContext) throws -> Record? {
         let fetchRequest = fetchAllRequest
-        fetchRequest.predicate = NSPredicate(format: "%K = %@", "fid", id)
+        fetchRequest.predicate = NSPredicate(format: "%K = %@", "id", id)
         return try context.fetch(fetchRequest).first
     }
 }

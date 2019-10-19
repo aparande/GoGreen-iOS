@@ -68,10 +68,4 @@ public class CarbonUnit: NSManagedObject, CoreDataRecord, FirebaseObject {
         fetchRequest.predicate = NSPredicate(format: "sourceType = %d AND isDefault = true", type.rawValue)
         return try context.fetch(fetchRequest).first
     }
-    
-    static func with(id: String, fromContext context: NSManagedObjectContext) throws -> Record? {
-        let fetchRequest = fetchAllRequest
-        fetchRequest.predicate = NSPredicate(format: "%K = %@", "id", id)
-        return try context.fetch(fetchRequest).first
-    }
 }

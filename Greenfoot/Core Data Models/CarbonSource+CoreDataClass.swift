@@ -78,7 +78,7 @@ public class CarbonSource: NSManagedObject, CoreDataRecord, CoreJsonObject, Fire
         try container.encode(primaryUnit?.id , forKey: .primaryUnitId)
         
         guard let userIdKey = CodingUserInfoKey.userId, let userId = encoder.userInfo[userIdKey] as? String else {
-            fatalError("Failed to encode carbon unit")
+            fatalError("Failed to encode carbon Source")
         }
         
         try container.encode(userId, forKey: .userId)

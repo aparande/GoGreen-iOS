@@ -9,7 +9,7 @@
     </entity>
     <entity name="CarbonDataPoint" representedClassName="CarbonDataPoint" syncable="YES">
         <attribute name="carbonValue" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="fid" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="month" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="rawValue" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

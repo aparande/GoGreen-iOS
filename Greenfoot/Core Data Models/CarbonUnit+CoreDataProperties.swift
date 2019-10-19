@@ -18,7 +18,7 @@ extension CarbonUnit {
     }
     
     public var carbonConversion: Conversion? {
-        return self.conversionsTo?.first(where: {($0 as? Conversion)?.dest.id == "direct-default"}) as? Conversion
+        return self.conversionsTo?.first(where: {($0 as? Conversion)?.dest.sourceType == .direct}) as? Conversion
     }
 
     @NSManaged public var id: String?
