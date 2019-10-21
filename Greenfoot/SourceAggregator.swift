@@ -9,6 +9,11 @@
 import Foundation
 
 class SourceAggregator {
+    typealias SourceType = CarbonSource.SourceType
+    typealias SourceCategory = CarbonSource.SourceCategory
+    
+    private var boundSourceTypes:Set<SourceType>
+    
     var sources: [CarbonSource] = []
     var points: [Measurement] = []
     
@@ -16,6 +21,8 @@ class SourceAggregator {
     
     init(fromSources sources: [CarbonSource]) {
         self.sources = sources
+        self.boundSourceTypes = []
+        
         commonInit()
     }
     
@@ -24,6 +31,15 @@ class SourceAggregator {
             sources = try CarbonSource.all(inContext: DBManager.shared.backgroundContext, fromCategories: sourceCategories)
         } catch {
             throw CoreDataError.fetchError
+        }
+        
+        self.boundSourceTypes = []
+        for category in sourceCategories {
+            for type in category.types {
+                if !self.boundSourceTypes.contains(type) {
+                    self.boundSourceTypes.insert(type)
+                }
+            }
         }
         
         commonInit()
@@ -36,6 +52,13 @@ class SourceAggregator {
             throw CoreDataError.fetchError
         }
         
+        self.boundSourceTypes = []
+        for type in sourceTypes {
+            if !self.boundSourceTypes.contains(type) {
+                self.boundSourceTypes.insert(type)
+            }
+        }
+        
         commonInit()
     }
     
@@ -44,6 +67,13 @@ class SourceAggregator {
             sources = try CarbonSource.all(inContext: DBManager.shared.backgroundContext)
         } catch {
             throw CoreDataError.fetchError
+        }
+        
+        self.boundSourceTypes = []
+        for type in SourceType.all {
+            if !self.boundSourceTypes.contains(type) {
+                self.boundSourceTypes.insert(type)
+            }
         }
         
         commonInit()
@@ -63,6 +93,14 @@ class SourceAggregator {
     }
     
     func refresh() {
+        do {
+            if self.boundSourceTypes.count != 0 {
+                self.sources = try CarbonSource.all(inContext: DBManager.shared.backgroundContext, withTypes: self.boundSourceTypes.compactMap({$0}))
+            }
+        } catch {
+            print("Couldn't refresh source aggregator")
+        }
+        
         generatePoints()
     }
     

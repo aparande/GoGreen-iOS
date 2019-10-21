@@ -59,8 +59,6 @@ class AddDataBLTNItem: BLTNPageItem {
         }
         
         self.delegate?.onBLTNPageItemActionClicked(with: self.source)
-        
-        //GreenfootModal.sharedInstance.queueReminder(dataType: GreenDataType(rawValue: data.dataName)!)*/
     }
     
     override func makeViewsUnderTitle(with interfaceBuilder: BLTNInterfaceBuilder) -> [UIView]? {

@@ -57,17 +57,16 @@ class SummaryViewController: SourceAggregatorViewController {
         let logNib = UINib(nibName: "LogCell", bundle: nil)
         tableView.register(logNib, forCellReuseIdentifier: "LogCell")
         
+        self.setupTableContainer()
+        self.setupTableView()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(firebaseLoaded), name: DBManager.DEFAULTS_LOADED, object: nil)
     }
     
     @objc func firebaseLoaded() {
         
         isFirebaseLoaded = true
-        
-        setupTableContainer()
-        setupTableView()
-        setupTableViewSections()
-        
+                
         self.refresh()
     
         NotificationCenter.default.removeObserver(self)
@@ -76,9 +75,10 @@ class SummaryViewController: SourceAggregatorViewController {
     override func refresh() {
         if self.isFirebaseLoaded {
             super.refresh()
+            
             setupTableViewSections()
             self.tableView.reloadData()
-
+            
             emblemView.displayMeasurement(aggregator.sumCarbon())
             lastMonthLabel.measurement = aggregator.carbonEmitted(on: Date().lastMonth)
         }

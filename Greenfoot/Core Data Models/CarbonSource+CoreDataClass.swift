@@ -160,6 +160,10 @@ extension CarbonSource {
                 return "Direct"
             }
         }
+        
+        static var all:[SourceType] {
+            return [.direct, .gas, .odometer, .electricity]
+        }
     }
     
     @objc
