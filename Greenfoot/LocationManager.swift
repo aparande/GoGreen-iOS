@@ -14,6 +14,7 @@ protocol LocationListener {
 }
 
 class LocationManager:NSObject, CLLocationManagerDelegate {
+    private static let RETRIES = 3
     private let defaults: UserDefaults
     private let locationManager: CLLocationManager
     private let shouldUseLocation: Bool
@@ -27,8 +28,10 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     }
     
     var listener: LocationListener?
+    var retriesRemaining: Int
     
     init(withDefaults defaults: UserDefaults) {
+        self.retriesRemaining = LocationManager.RETRIES
         self.defaults = defaults
         
         let decoder = JSONDecoder()
@@ -37,7 +40,7 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
         }
         
         self.shouldUseLocation = true
-        
+                
         self.locationManager = CLLocationManager()
         
         super.init()
@@ -48,21 +51,25 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     
     func pollLocation() {
         if self.shouldUseLocation {
+            self.retriesRemaining = LocationManager.RETRIES
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
         } else {
+            self.retriesRemaining = 0
             print("Did not load location because User has turned it off")
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error while updating location " + error.localizedDescription)
+        self.locationLoadFailed()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         CLGeocoder().reverseGeocodeLocation(manager.location!) { (placemarks, error) in
             if let err = error {
                 print("Reverse geocoder failed with error: " + err.localizedDescription)
+                self.locationLoadFailed()
                 return
             }
             
@@ -76,6 +83,13 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
     
     func stopPollingLocation() {
         self.locationManager.stopUpdatingLocation()
+    }
+    
+    private func locationLoadFailed() {
+        retriesRemaining -= 1
+        if self.retriesRemaining <= 0 {
+            self.locationManager.stopUpdatingLocation()
+        }
     }
     
     private func saveLocation(_ placemark: CLPlacemark) {
