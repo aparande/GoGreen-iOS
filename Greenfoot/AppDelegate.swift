@@ -105,6 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         CancelButton.appearance().titleColor = .red
         
+        FlatButton.appearance().tintColor = .white
+        
         let attrs = [
             NSAttributedString.Key.foregroundColor: UIColor.white,
             NSAttributedString.Key.font: UIFont.header
