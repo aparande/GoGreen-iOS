@@ -13,34 +13,6 @@ class BarGraph: BarChartView {
     private var labels: [String] = []
     
     //Assumes data is loaded in ascending order
-    func loadDataFrom(array data:[GreenDataPoint], labeled label:String) {
-        if data.count == 0 {
-            self.data = nil
-            return
-        }
-        
-        var points: [Double] = []
-        labels = []
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/yy"
-        
-        var hasNegative = false
-        
-        for dataPoint in data {
-            let point = dataPoint.value
-            
-            if !hasNegative {
-                hasNegative = (point < 0)
-            }
-            
-            points.append(point)
-            labels.append(formatter.string(from: dataPoint.month))
-        }
-        
-        buildGraphWith(points: points, legendLabel: label, hasNegative: hasNegative)
-    }
-    
     func loadDataFrom(array data:[Measurement], labeled label:String) {
         if data.count == 0 {
             self.data = nil

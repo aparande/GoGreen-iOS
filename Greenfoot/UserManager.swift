@@ -10,7 +10,7 @@ import Foundation
 
 class UserManager: LocationListener {
     let defaults: UserDefaults
-    var user: User?
+    var user: User
     
     static let shared: UserManager = UserManager()
     
@@ -19,7 +19,6 @@ class UserManager: LocationListener {
         
         let decoder = JSONDecoder()
         if let data = defaults.data(forKey: DefaultsKeys.USER), let user = try? decoder.decode(User.self, from: data) {
-            
             self.user = user
         } else {
             self.user = User(withId: UUID().uuidString)
@@ -32,8 +31,6 @@ class UserManager: LocationListener {
     }
     
     func saveUser() {
-        guard let user = self.user else { return }
-        
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(user) {
             defaults.set(encoded, forKey: DefaultsKeys.USER)
@@ -43,7 +40,7 @@ class UserManager: LocationListener {
     }
     
     func locationDidUpdate(to newLoc: Location?) {
-        self.user?.locId = newLoc?.id
+        self.user.locId = newLoc?.id
         self.saveUser()
     }
 }

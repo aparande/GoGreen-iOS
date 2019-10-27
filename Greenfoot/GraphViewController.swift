@@ -11,10 +11,7 @@ import Material
 import Charts
 import BLTNBoard
 
-class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, InputToolbarDelegate {
-
-    private let greenModal = GreenfootModal.sharedInstance
-    
+class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, InputToolbarDelegate {    
     var dataSource: CarbonSource! {
         didSet {
             #warning("Uninjected dependecy")

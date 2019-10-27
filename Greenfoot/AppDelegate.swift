@@ -118,25 +118,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        let defaults = UserDefaults.standard
-        let modal = GreenfootModal.sharedInstance
-        for (key, value) in modal.data {
-            let data = value.data
-            let bonusAttrs = value.bonusDict
-            
-            //Must encode as JSON because otherwise swift can't store structs in UserDefaults.
-            let encodedData = try? JSONEncoder().encode(data)
-            let encodedBonus = try? JSONEncoder().encode(bonusAttrs)
-
-            defaults.set(encodedData, forKey: key.rawValue+":data")
-            defaults.set(encodedBonus, forKey: key.rawValue+":bonus")
-        }
-        
-        if modal.rankings.keys.count == 4 {
-            defaults.set(modal.rankings, forKey:"Rankings")
-        }
-        
-        
+        //let defaults = UserDefaults.standard
+                
+        /*
         if let reminderSettings = SettingsManager.sharedInstance.reminderTimings {
             var reminder: [String:String] = [:]
             for (key, value) in reminderSettings {
@@ -154,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         defaults.set(scheduledReminders, forKey: "ScheduledReminders")
         
-        defaults.synchronize()
+        defaults.synchronize() */
     }
 }
 

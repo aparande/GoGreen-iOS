@@ -10,7 +10,9 @@ import UIKit
 import Material
 import PopupDialog
 
+/*
 class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    /*
     var locationSwitch: Switch!
     var notificationSwitch: Switch!
     
@@ -110,19 +112,13 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         case 0:
             let cvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutViewController")
             self.navigationController?.pushViewController(cvc, animated: true)
-        case 1:
-            let contentHeight:CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 1000 : 2000
-            let vc = FileScrollViewController(fileName: "license", contentHeight: contentHeight)
-            self.navigationController?.pushViewController(vc, animated: true)
-        case 2:
-            let contentHeight:CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 2500 : 4500
-            let vc = FileScrollViewController(fileName: "privacy", contentHeight: contentHeight)
-            self.navigationController?.pushViewController(vc, animated: true)
+            break
         case 3:
             if !SettingsManager.sharedInstance.profile.isLoggedIn {
                 showLogin()
             }
             tableView.deselectRow(at: indexPath, animated: false)
+            break
         default:
             return
         }
@@ -473,8 +469,8 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         repassField.leftViewActiveColor = Colors.green
         firstNameField.leftViewActiveColor = Colors.green
         lastNameField.leftViewActiveColor = Colors.green
-    }
-}
+    } */
+} */
 
 class TableViewCellPicker: UIPickerView {
     var tableViewCell: UITableViewCell?

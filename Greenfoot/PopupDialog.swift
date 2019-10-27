@@ -11,8 +11,10 @@ import PopupDialog
 
 extension PopupDialog {
     static func getPopupDialog(for type: String, controlledBy viewController: UIViewController) -> PopupDialog {
+        return PopupDialog(title: "Bllop", message: "Broken ATM")
         let cancelButton = CancelButton(title: "CANCEL", action: nil)
         if type == "Login" {
+            /*
             // Create the login dialog
             let lvc = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()! as! LoginViewController
             let loginPopup = PopupDialog(viewController: lvc)
@@ -27,6 +29,7 @@ extension PopupDialog {
                                 tableViewController.tableView.reloadSections([2], with: .none)
                             }
                             loginPopup.dismiss() {
+                                /*
                                 if let tutorialViewController = viewController as? TutorialPageViewController {
                                     tutorialViewController.delegate.tutorialComplete()
                                     return
@@ -38,7 +41,7 @@ extension PopupDialog {
                                     popupDialog.addButton(continueButton)
                                     viewController.present(popupDialog, animated: true, completion: nil)
                                 }
-                                
+                                */
                             }
                         } else {
                             if let _ = err {
@@ -65,8 +68,9 @@ extension PopupDialog {
             
             //Add the buttons
             loginPopup.addButtons([loginButton, createButton, resetButton, cancelButton])
-            return loginPopup
+            return loginPopup */
         } else {
+            /*
             //Create the signup dialog
             let svc = UIStoryboard(name: "Account", bundle: nil).instantiateViewController(withIdentifier: "Signup") as! SignupViewController
             let signupPopup = PopupDialog(viewController: svc)
@@ -89,6 +93,7 @@ extension PopupDialog {
                             }
                             
                             signupPopup.dismiss() {
+                                /*
                                 if let tutorialViewController = viewController as? TutorialPageViewController {
                                     tutorialViewController.delegate.signedIn()
                                 }
@@ -98,7 +103,7 @@ extension PopupDialog {
                                     let continueButton = PopupDialogButton(title: "Ok", dismissOnTap: true, action: nil)
                                     popupDialog.addButton(continueButton)
                                     viewController.present(popupDialog, animated: true, completion: nil)
-                                }
+                                } */
                             }
                         } else {
                             if let _ = err {
@@ -111,7 +116,7 @@ extension PopupDialog {
             }
             
             signupPopup.addButtons([signupButton, backButton, cancelButton])
-            return signupPopup
+            return signupPopup */
         }
     }
 }

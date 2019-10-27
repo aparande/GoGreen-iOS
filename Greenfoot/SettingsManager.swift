@@ -11,39 +11,24 @@ import CoreLocation
 import UserNotifications
 import Firebase
 
+
 class SettingsManager: NSObject, CLLocationManagerDelegate {
+    /*
     static let sharedInstance = SettingsManager()
-    
-    var shouldUseLocation:Bool
-    var locality:Location?
-    
+        
     var canNotify:Bool
-    var reminderTimings:[GreenDataType:ReminderSettings]?
-    var scheduledReminders:[GreenDataType:String]
-    
-    let locationFailedNotification = NSNotification.Name.init(rawValue: "LocateFailed")
-    let locationUpdatedNotification = NSNotification.Name.init(rawValue: "LocationUpdated")
-    
+    var reminderTimings:[String:ReminderSettings]
+    var scheduledReminders:[String:String]
+        
     var profile: User
     
-    private var loggingLocation = false
     private var shouldUpdateUser = false
     
     override init() {
+        
         let defaults = UserDefaults.standard
-        
-        if let locale_data = Location.fromDefaults(withKey: "Setting_Locale") {
-            locality = locale_data
-        } else {
-            if let locale = GreenfootModal.sharedInstance.locality {
-                self.locality = locale
-                //self.locality?.saveToDefaults(forKey: "Setting_Locale")
-                self.shouldUseLocation = true
-            }
-        }
-        
+                
         self.canNotify = defaults.bool(forKey: "NotificationSetting")
-        self.shouldUseLocation = UserDefaults.standard.bool(forKey: "LocationSetting")
         
         self.scheduledReminders = [:]
         self.reminderTimings = [:]
@@ -53,7 +38,6 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         
         self.profile = User(withId: UUID().uuidString)
         
-        /*
         if let user = User.fromDefaults(withKey: "Profile") {
             self.profile = user
         } else if let prof = defaults.object(forKey: "Profile") as? [String:Any] {
@@ -67,23 +51,19 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 self.profile = User(withId: uuid)
             } else {
                 self.profile = User(withId: UUID().uuidString)
-                self.profile.saveToDefaults(forKey: "Profile")
+                //self.profile.saveToDefaults(forKey: "Profile")
             }
-        } */
+        }
         
         super.init()
         
-        print(profile.id)
-        
         if let reminderQueue = defaults.object(forKey: "ScheduledReminders") as? [String:String] {
-            for (key, value) in reminderQueue{
-                self.scheduledReminders[GreenDataType(rawValue: key)!] = value
-            }
+            self.scheduledReminders = reminderQueue
         }
         
         if let reminders = defaults.object(forKey: "ReminderSettings") as? [String:String] {
             for (key, value) in reminders {
-                self.reminderTimings![GreenDataType(rawValue: key)!] = ReminderSettings(rawValue: value)!
+                self.reminderTimings![key] = ReminderSettings(rawValue: value)!
             }
         }
         
@@ -146,7 +126,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
         
         loggingLocation = true
         
-        /*
+        
         FirebaseUtils.uploadLocation(placemark) { (location) in
             if let locId = location.id, locId != self.locality?.id {
                 #warning("Should prompt user that we detected a location change")
@@ -167,9 +147,9 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             
             GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchEGrid()
             GreenfootModal.sharedInstance.data[GreenDataType.electric]!.fetchConsumption()
-        } */
+        }
     }
-    
+ 
     func setNotificationCategories() {
         let generalCategory = UNNotificationCategory(identifier: "GENERAL",
                                                      actions: [],
@@ -187,6 +167,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             
             self.canNotify = granted
             
+            /(
             if granted {
                 guard let _ = self.reminderTimings else {
                     self.reminderTimings = [:]
@@ -288,9 +269,10 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
             completion(true, nil)
         }) { (errorMessage) in
             print("Couldn't find account on Firebase. Trying on old server")
+            /*
             self.loginWithServer(email: email, password: password, completion: { (success, message) in
                 completion(success, message)
-            })
+            }) */
         }
     }
     
@@ -388,7 +370,7 @@ class SettingsManager: NSObject, CLLocationManagerDelegate {
                 completion(false, "Please check your network connection or try again later")
             }
         })
-    }
+    } */
 }
 
 enum Settings {
