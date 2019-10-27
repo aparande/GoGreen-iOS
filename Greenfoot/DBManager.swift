@@ -31,9 +31,9 @@ class DBManager {
         self.defaults = defaults
         self.loadedFromFirebase = false
         
-        if !self.defaults.bool(forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS) {
-            self.loadDefaults()
-        } else {
+        self.loadDefaults()
+        
+        if self.defaults.bool(forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS) {
             print("Firebase Defaults already loaded")
             self.loadedFromFirebase = true
             carbonUnit = try! CarbonUnit.defaultUnit(forSourceType: .direct, inContext: self.backgroundContext)

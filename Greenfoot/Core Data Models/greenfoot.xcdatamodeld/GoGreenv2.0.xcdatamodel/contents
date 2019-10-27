@@ -56,14 +56,19 @@
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="month" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="Car" positionX="-911.76171875" positionY="-332.078125" width="128" height="120"/>
         <element name="CarbonDataPoint" positionX="-778.7890625" positionY="-109.5234375" width="128" height="163"/>
         <element name="CarbonReference" positionX="-324.1953125" positionY="-64.421875" width="128" height="88"/>
-        <element name="CarbonSource" positionX="-1014.421875" positionY="31.9375" width="128" height="148"/>
+        <element name="CarbonSource" positionX="-1014.421875" positionY="31.9375" width="128" height="28"/>
         <element name="CarbonUnit" positionX="-373.359375" positionY="124.9765625" width="128" height="178"/>
         <element name="Conversion" positionX="-867.375" positionY="287.640625" width="128" height="118"/>
-        <element name="DataPoint" positionX="-359.8515625" positionY="-200.53125" width="128" height="30"/>
+        <element name="DataPoint" positionX="-359.8515625" positionY="-200.53125" width="128" height="133"/>
     </elements>
 </model>

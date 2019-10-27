@@ -9,12 +9,13 @@
 import Foundation
 import CoreData
 
-protocol CoreDataRecord: NSFetchRequestResult {
-    associatedtype Record: NSFetchRequestResult 
+protocol CoreDataRecord: NSFetchRequestResult, Decodable {
+    associatedtype Record: NSFetchRequestResult, Decodable
     
     static var fetchAllRequest: NSFetchRequest<Record> { get }
     static func all(inContext context: NSManagedObjectContext) throws -> [Record]
     static func with(id: String, fromContext context: NSManagedObjectContext) throws -> Record?
+    static func createIfUnique(inContext context: NSManagedObjectContext, withData data: [String:Any]) -> Record?
 }
 
 extension CoreDataRecord {
@@ -33,6 +34,20 @@ extension CoreDataRecord {
         let fetchRequest = fetchAllRequest
         fetchRequest.predicate = NSPredicate(format: "%K = %@", "id", id)
         return try context.fetch(fetchRequest).first
+    }
+    
+    static func createIfUnique(inContext context: NSManagedObjectContext, withData data: [String:Any]) -> Record? {
+        guard let id = data["id"] as? String else { return nil }
+        
+        if let record = try? self.with(id: id, fromContext: context) {
+            return record
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.userInfo[CodingUserInfoKey.managedObjectContext!] = context
+        guard let json = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted) else { return nil }
+        guard let newObj = try? decoder.decode(Record.self, from: json) else { return nil }
+        return newObj
     }
 }
 

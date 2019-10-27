@@ -11,7 +11,9 @@ import Foundation
 import CoreData
 
 @objc(Conversion)
-public class Conversion: NSManagedObject, FirebaseObject {
+public class Conversion: NSManagedObject, FirebaseObject, CoreDataRecord {
+    typealias Record = Conversion
+    
     func convert(_ value: Double) -> Double {
         return value * self.factor
     }

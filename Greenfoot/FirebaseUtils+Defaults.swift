@@ -24,14 +24,10 @@ extension FirebaseUtils {
             }
             
             guard let snapshot = snapshot else { return completion([]) }
-            let decoder = JSONDecoder()
-            decoder.userInfo[CodingUserInfoKey.managedObjectContext!] = context
-            
             var units = [CarbonUnit]()
+            
             for document in snapshot.documents {
-                guard let json = try? JSONSerialization.data(withJSONObject: document.data(), options: .prettyPrinted) else { continue }
-                
-                guard let newUnit = try? decoder.decode(CarbonUnit.self, from: json) else { continue }
+                guard let newUnit = CarbonUnit.createIfUnique(inContext: context, withData: document.data()) else { continue }
                 
                 units.append(newUnit)
             }
@@ -51,16 +47,15 @@ extension FirebaseUtils {
                 return completion([])
             }
             
+            
             guard let snapshot = snapshot else { return completion([])}
-            let decoder = JSONDecoder()
-            decoder.userInfo[CodingUserInfoKey.managedObjectContext!] = context
             
             var conversions = [Conversion]()
             for document in snapshot.documents {
-                guard let json = try? JSONSerialization.data(withJSONObject: document.data(), options: .prettyPrinted) else { continue }
-                guard let newConv = try? decoder.decode(Conversion.self, from: json) else { continue }
+                guard let newConv = Conversion.createIfUnique(inContext: context, withData: document.data()) else {continue}
                 conversions.append(newConv)
             }
+            
             return completion(conversions)
         }
     }
