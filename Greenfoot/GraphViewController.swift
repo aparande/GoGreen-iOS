@@ -61,6 +61,7 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         prepNavigationBar(titled: dataSource.name)
+        setupNavButtons()
         
         setupMainGraph()
         setupToolbar()
@@ -92,6 +93,11 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
         }
     }
     
+    @objc func goToSettings() {
+        let svc = SettingsViewController(withSource: self.dataSource)
+        self.navigationController?.pushViewController(svc, animated: true)
+    }
+    
     func rightTrigger() {
         if location + 1 < self.datapoints.count {
             location += 1
@@ -114,6 +120,11 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     
     fileprivate func setupMainGraph() {
         mainGraph.delegate = self
+    }
+    
+    fileprivate func setupNavButtons() {
+        let settingsButton = UIBarButtonItem(image: Icon.cm.settings, style: .plain, target: self, action: #selector(goToSettings))
+        self.navigationItem.setRightBarButton(settingsButton, animated: true)
     }
     
     static func instantiate(for source: CarbonSource) -> GraphViewController{

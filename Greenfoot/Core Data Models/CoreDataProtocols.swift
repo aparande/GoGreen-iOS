@@ -13,7 +13,7 @@ protocol CoreDataRecord: NSFetchRequestResult, Decodable {
     associatedtype Record: NSFetchRequestResult, Decodable
     
     static var fetchAllRequest: NSFetchRequest<Record> { get }
-    static func all(inContext context: NSManagedObjectContext) throws -> [Record]
+    static func all(inContext context: NSManagedObjectContext) -> [Record]
     static func with(id: String, fromContext context: NSManagedObjectContext) throws -> Record?
     static func createIfUnique(inContext context: NSManagedObjectContext, withData data: [String:Any]) -> Record?
 }
@@ -26,8 +26,8 @@ extension CoreDataRecord {
         }
     }
     
-    static func all(inContext context: NSManagedObjectContext) throws -> [Record] {
-        return try context.fetch(fetchAllRequest)
+    static func all(inContext context: NSManagedObjectContext) -> [Record] {
+        return (try? context.fetch(fetchAllRequest)) ?? []
     }
     
     static func with(id: String, fromContext context: NSManagedObjectContext) throws -> Record? {

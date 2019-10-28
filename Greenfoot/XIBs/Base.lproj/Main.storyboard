@@ -10,17 +10,11 @@
         <array key="DroidSans.ttf">
             <string>DroidSans</string>
         </array>
-        <array key="Raleway-Regular.ttf">
-            <string>Raleway-Regular</string>
-        </array>
         <array key="Roboto-Black.ttf">
             <string>Roboto-Black</string>
         </array>
         <array key="Roboto-Light.ttf">
             <string>Roboto-Light</string>
-        </array>
-        <array key="Roboto-Regular.ttf">
-            <string>Roboto-Regular</string>
         </array>
     </customFonts>
     <scenes>
@@ -184,20 +178,20 @@
                         <viewControllerLayoutGuide type="bottom" id="QzH-B0-9de"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MdO-Vb-qKr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ccy-4E-t9s" userLabel="Outer Stack">
-                                <rect key="frame" x="0.0" y="44" width="375" height="644"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6Mm-ZH-0Dt" userLabel="Top Stack">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="271.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="232"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AET-YD-1eH">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="227.66666666666666"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="188"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OtU-UA-HLq" customClass="BarGraph" customModule="Greenfoot" customModuleProvider="target">
-                                                        <rect key="frame" x="10" y="21" width="355" height="196.66666666666666"/>
+                                                        <rect key="frame" x="10" y="21" width="355" height="157"/>
                                                         <color key="backgroundColor" red="0.16404820115652818" green="0.71179783192987967" blue="0.40053930549740646" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </view>
                                                 </subviews>
@@ -210,7 +204,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dee-qS-gGd" customClass="InputToolbar" customModule="Greenfoot" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="227.66666666666669" width="375" height="44"/>
+                                                <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                                                 <color key="backgroundColor" red="0.1846533716" green="0.79983717200000004" blue="0.44363409279999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="VkV-HU-vmB"/>
@@ -224,13 +218,13 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hgZ-5f-tb0" userLabel="Bottom Stack">
-                                        <rect key="frame" x="20" y="281.66666666666674" width="335" height="362.33333333333326"/>
+                                        <rect key="frame" x="20" y="242" width="335" height="309"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsh-77-GkF">
-                                                <rect key="frame" x="0.0" y="0.0" width="335" height="292.33333333333331"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="239"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jOk-ga-T4c" customClass="HorizontalBarGraph" customModule="Greenfoot" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="34.666666666666643" width="335" height="223.33333333333337"/>
+                                                        <rect key="frame" x="0.0" y="7.6666666666666856" width="335" height="223.33333333333334"/>
                                                         <color key="backgroundColor" red="0.16404820119999999" green="0.71179783190000001" blue="0.4005393055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="jOk-ga-T4c" secondAttribute="height" multiplier="3:2" id="wTl-9n-ejB"/>
@@ -247,7 +241,7 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZdQ-d0-uTS" userLabel="Button Stack">
-                                                <rect key="frame" x="0.0" y="312.33333333333331" width="335" height="50"/>
+                                                <rect key="frame" x="0.0" y="259" width="335" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBN-bf-IcJ" customClass="FlatButton" customModule="Material">
                                                         <rect key="frame" x="0.0" y="0.0" width="157.66666666666666" height="50"/>
@@ -308,8 +302,8 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mainGraph" destination="OtU-UA-HLq" id="laM-gw-4GL"/>
                         <outlet property="monthGraph" destination="jOk-ga-T4c" id="mML-dh-KNC"/>
@@ -325,7 +319,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="bulkDataVC" id="lVu-wl-YJw" customClass="BulkDataViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="tae-2P-xL3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <connections>
@@ -337,85 +331,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JMD-lO-C1e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2169" y="164"/>
-        </scene>
-        <!--About View Controller-->
-        <scene sceneID="IaN-vL-7An">
-            <objects>
-                <collectionViewController storyboardIdentifier="AboutViewController" id="ZYn-9G-Vva" customClass="AboutViewController" customModule="Greenfoot" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" prefetchingEnabled="NO" id="8sp-UL-CXS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3q5-7P-Btl">
-                            <size key="itemSize" width="280" height="180"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AboutCell" id="WuA-Er-LIL" customClass="AboutCell" customModule="Greenfoot" customModuleProvider="target">
-                                <rect key="frame" x="47.666666666666664" y="0.0" width="280" height="180"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="280" height="180"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0z-LY-ZzQ">
-                                            <rect key="frame" x="20" y="64" width="241" height="25"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="GjF-W6-pEM"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="21"/>
-                                            <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                            <variation key="heightClass=regular-widthClass=regular">
-                                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="40"/>
-                                            </variation>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="This is a multiline description of what the information is" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="n21-w8-Go6">
-                                            <rect key="frame" x="20" y="94" width="241" height="110"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="110" id="amC-hh-ZgL"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="12"/>
-                                            <color key="textColor" white="0.96999999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                            <variation key="heightClass=regular-widthClass=regular">
-                                                <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="25"/>
-                                            </variation>
-                                        </label>
-                                    </subviews>
-                                </view>
-                                <color key="backgroundColor" red="0.18039215689999999" green="0.79812026020000004" blue="0.44165042040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="o0z-LY-ZzQ" firstAttribute="top" secondItem="WuA-Er-LIL" secondAttribute="topMargin" constant="12" id="15O-LR-i49"/>
-                                    <constraint firstAttribute="bottom" secondItem="n21-w8-Go6" secondAttribute="bottom" constant="17" id="EGY-TU-rIR"/>
-                                    <constraint firstItem="o0z-LY-ZzQ" firstAttribute="leading" secondItem="WuA-Er-LIL" secondAttribute="leadingMargin" constant="12" id="IxV-6Z-USn"/>
-                                    <constraint firstItem="n21-w8-Go6" firstAttribute="leading" secondItem="WuA-Er-LIL" secondAttribute="leadingMargin" constant="12" id="QAi-bu-d1Z"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="n21-w8-Go6" secondAttribute="trailing" constant="11" id="c8b-cq-acX"/>
-                                    <constraint firstItem="n21-w8-Go6" firstAttribute="top" secondItem="o0z-LY-ZzQ" secondAttribute="bottom" constant="5" id="sgR-ag-UtB"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="o0z-LY-ZzQ" secondAttribute="trailing" constant="11" id="zWT-8F-Q7y"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="detailLabel" destination="n21-w8-Go6" id="kgn-NT-ugF"/>
-                                    <outlet property="titleLabel" destination="o0z-LY-ZzQ" id="yz9-G8-8XQ"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="ZYn-9G-Vva" id="NWX-Z9-l77"/>
-                            <outlet property="delegate" destination="ZYn-9G-Vva" id="TFC-eu-yM6"/>
-                        </connections>
-                    </collectionView>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="collectionView" destination="8sp-UL-CXS" id="WJQ-e6-PNH"/>
-                        <outlet property="view" destination="8sp-UL-CXS" id="LmH-I8-sBN"/>
-                    </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ph5-aD-mDB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="999" y="858"/>
         </scene>
         <!--Tutorial Page View Controller-->
         <scene sceneID="IlV-So-Twq">

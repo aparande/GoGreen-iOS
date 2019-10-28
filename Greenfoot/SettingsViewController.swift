@@ -10,6 +10,156 @@ import UIKit
 import Material
 import PopupDialog
 
+class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    var source: CarbonSource
+    
+    init(withSource source: CarbonSource) {
+        self.source = source
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        prepNavigationBar(titled: nil)
+        
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.backgroundColor = UIColor(red: 239/255, green: 239/255, blue: 244/255, alpha: 1.0)
+        self.tableView.cellLayoutMarginsFollowReadableWidth = false
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "NotificationCell")
+        
+        
+        let title = "Remind Me On"
+        let value = NotificationManager.shared.reminderSetting(forSource: self.source)
+        
+        cell.textLabel?.text = title
+        cell.detailTextLabel?.text = "\(value)"
+        
+        let textField = UITextField(frame: CGRect.zero)
+        
+        let picker = TableViewCellPicker()
+        picker.tableViewCell = cell
+        picker.delegate = self
+        picker.dataSource = self
+        picker.textField = textField
+        picker.indexPath = indexPath
+        
+        textField.inputView = picker
+        cell.accessoryView = textField
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.accessoryView?.becomeFirstResponder()
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return ReminderSetting.all[row].rawValue
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        guard let tablePicker = pickerView as? TableViewCellPicker else {
+            print("This is not a Table View Cell Picker")
+            return
+        }
+        
+        guard let cell = tablePicker.tableViewCell else {
+            print("Forgot to assign table view cell to picker")
+            return
+        }
+        
+        guard let field = tablePicker.textField else {
+            print("Forgot to assign text field to picker")
+            return
+        }
+        
+        guard let indexPath = tablePicker.indexPath else {
+            print("Forgot to assign index path to picker")
+            return
+        }
+        
+        let value = ReminderSetting.all[row]
+        self.changeReminderSetting(to: value)
+        
+        cell.detailTextLabel?.text = value.rawValue
+                
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        field.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    private func changeReminderSetting(to setting: ReminderSetting) {
+        NotificationManager.shared.scheduleNotification(forSource: self.source, withSetting: setting)
+        
+        NotificationManager.shared.requestNotificationPermissions { (granted) in
+            if !granted {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    
+                    let alertView = UIAlertController(title: "Notification Permisssions", message: "In order to turn on reminders, you need give GoGreen Permissions through the Settings Application", preferredStyle: .alert)
+                    alertView.addAction(UIAlertAction(title: "Open", style: .default, handler: { (_) in
+                        DispatchQueue.main.async {
+                            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                                return
+                            }
+                            
+                            if UIApplication.shared.canOpenURL(settingsUrl) {
+                                UIApplication.shared.open(settingsUrl, completionHandler: {
+                                    _ in
+                                    
+                                    NotificationCenter.default.addObserver(self, selector: #selector(self.checkNotificationUpdate), name: .UIApplicationDidBecomeActive, object: nil)
+                                })
+                            }
+                        }
+                    }))
+                    alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    
+                    self.present(alertView, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    @objc func checkNotificationUpdate() {
+        NotificationManager.shared.requestNotificationPermissions { (granted) in
+            if granted {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+}
+
 /*
 class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     /*

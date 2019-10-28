@@ -87,6 +87,10 @@ class DBManager {
         guard let point = CarbonDataPoint(inContext: self.backgroundContext, source: source, unit: unit, month: date as NSDate, value: value) else { return }
         source.addToData(point)
         
+        if (source.data?.count ?? 0) >= 1 {
+            NotificationManager.shared.scheduleNotification(forSource: source)
+        }
+        
         FirebaseUtils.uploadCarbonDataPoint(point)
         
         self.save()

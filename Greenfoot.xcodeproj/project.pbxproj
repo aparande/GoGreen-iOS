@@ -13,24 +13,18 @@
 		1F0AF06322F2A896001EDC6B /* CarbonDataPointTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AF06222F2A896001EDC6B /* CarbonDataPointTest.swift */; };
 		1F0B6E8F1EE8668900180020 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FCB0FE71E2B3684006463AE /* DroidSans.ttf */; };
 		1F0C23551E6FB644006004CD /* AttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0C23541E6FB644006004CD /* AttributeCell.xib */; };
-		1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D878F1F3E70B000ED894A /* AboutViewController.swift */; };
 		1F123F831FE5A92600FEAC84 /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F123F811FE5A92500FEAC84 /* privacy.txt */; };
 		1F123F841FE5A92600FEAC84 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F123F821FE5A92500FEAC84 /* license.txt */; };
 		1F13032022CE97EE0069AEDC /* HistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F13031F22CE97EE0069AEDC /* HistoryCell.xib */; };
 		1F13032222CE9A8C0069AEDC /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13032122CE9A8C0069AEDC /* HistoryTableViewCell.swift */; };
-		1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */; };
 		1F15D0911F27101400DFA60B /* AddDataHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F15D0901F27101400DFA60B /* AddDataHeader.xib */; };
 		1F1A4B7D2061FCF8005E7D45 /* TestCases.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */; };
 		1F1C54C422E397B100D12598 /* RoundedIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C54C322E397B100D12598 /* RoundedIconButton.swift */; };
-		1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */; };
-		1F2013BD22BA0154000183FE /* FirebaseUtils-GetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */; };
 		1F2013BF22BA01A6000183FE /* FirebaseUtils-Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */; };
 		1F216EDE22F7C12F00008A72 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F216EDD22F7C12F00008A72 /* Measurement.swift */; };
 		1F2544F31FFBF04A0031C9F8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2544F21FFBF04A0031C9F8 /* UserNotifications.framework */; };
-		1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */; };
+		1F2544F51FFC0C5C0031C9F8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F41FFC0C5C0031C9F8 /* SettingsViewController.swift */; };
 		1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */; };
-		1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */; };
-		1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */; };
 		1F2D1A012335EAF3001D3347 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2D1A002335EAF3001D3347 /* BarGraph.swift */; };
 		1F2D1A032335EB35001D3347 /* HorizontalBarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2D1A022335EB35001D3347 /* HorizontalBarGraph.swift */; };
 		1F2D881622F72AAB007D628D /* SourceAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2D881522F72AAB007D628D /* SourceAggregator.swift */; };
@@ -70,29 +64,23 @@
 		1F8BC1C822EE5B5500B58DFA /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
 		1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9195051E67922B0035A4AD /* BulkDataViewController.swift */; };
 		1F91DDE41E1570A70020371F /* GeosansLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F91DDE31E1570A70020371F /* GeosansLight.ttf */; };
-		1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */; };
 		1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */; };
 		1F92AEAD1F01721C006DBE25 /* MonthlyChangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */; };
 		1FA018A21EE39629005ED9E2 /* DrivingHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */; };
 		1FA735D623544EB5009DD78E /* CarbonUnit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA735D523544EB4009DD78E /* CarbonUnit+CoreDataProperties.swift */; };
-		1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA737F81F001F4100B721D0 /* APIRequestManager.swift */; };
-		1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */; };
-		1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */; };
 		1FAA27FC22C88891007E7403 /* BarGraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA27FB22C88891007E7403 /* BarGraphTableViewCell.swift */; };
 		1FAA27FE22C888AB007E7403 /* BarGraphCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FAA27FD22C888AB007E7403 /* BarGraphCell.xib */; };
 		1FAB86151ED78C3F00104969 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */; };
 		1FAFFB03201AE11A0015CF4B /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FAFFB02201AE11A0015CF4B /* Account.storyboard */; };
-		1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB08D4F202E01FD00D4C20C /* DrivingData.swift */; };
+		1FB1BFA62366697D00F6961C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1BFA52366697D00F6961C /* NotificationManager.swift */; };
 		1FB34B0422F15F690013AE12 /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */; };
 		1FBBFCEB2339EF0C00D9B9CA /* MeasurementLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBBFCEA2339EF0C00D9B9CA /* MeasurementLabel.swift */; };
 		1FBC684F231B286900440B0D /* TableViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC684E231B286900440B0D /* TableViewPresenter.swift */; };
 		1FBC6851231B28E500440B0D /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6850231B28E500440B0D /* TableViewSection.swift */; };
 		1FBC6854231B301800440B0D /* BarGraphTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6853231B301800440B0D /* BarGraphTableViewSection.swift */; };
 		1FBC6856231B41D000440B0D /* DataLogTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC6855231B41D000440B0D /* DataLogTableViewSection.swift */; };
-		1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D31EF19A2A007F7835 /* GreenData.swift */; };
 		1FC291D61EF1C235007F7835 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC291D51EF1C235007F7835 /* CoreData.framework */; };
 		1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291D71EF1C25E007F7835 /* greenfoot.xcdatamodeld */; };
-		1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */; };
 		1FC515661F32D0650021DC1D /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FC515651F32D0650021DC1D /* Raleway-Bold.ttf */; };
 		1FC962EC1FF4B48600C6F686 /* BarGraphFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */; };
 		1FCD198322EE6874008E6194 /* CarbonReference+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCD198122EE6874008E6194 /* CarbonReference+CoreDataClass.swift */; };
@@ -137,26 +125,20 @@
 		1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
 		1F0AF06222F2A896001EDC6B /* CarbonDataPointTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbonDataPointTest.swift; sourceTree = "<group>"; };
 		1F0C23541E6FB644006004CD /* AttributeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributeCell.xib; sourceTree = "<group>"; };
-		1F0D878F1F3E70B000ED894A /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		1F123F811FE5A92500FEAC84 /* privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		1F123F821FE5A92500FEAC84 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		1F13031F22CE97EE0069AEDC /* HistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryCell.xib; sourceTree = "<group>"; };
 		1F13032122CE9A8C0069AEDC /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
-		1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPointViewController.swift; sourceTree = "<group>"; };
 		1F15D0901F27101400DFA60B /* AddDataHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDataHeader.xib; sourceTree = "<group>"; };
 		1F1A4B7C2061FCF8005E7D45 /* TestCases.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestCases.plist; sourceTree = "<group>"; };
 		1F1C54C322E397B100D12598 /* RoundedIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedIconButton.swift; sourceTree = "<group>"; };
-		1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICall.swift; sourceTree = "<group>"; };
-		1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils-GetData.swift"; sourceTree = "<group>"; };
 		1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils-Storage.swift"; sourceTree = "<group>"; };
 		1F216EDD22F7C12F00008A72 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		1F2544EF1FFBEE4E0031C9F8 /* Greenfoot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Greenfoot.entitlements; sourceTree = "<group>"; };
 		1F2544F01FFBEF150031C9F8 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		1F2544F21FFBF04A0031C9F8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		1F2544F41FFC0C5C0031C9F8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
-		1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenDataPoint.swift; sourceTree = "<group>"; };
-		1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GreenfootModal.swift; path = "Greenfoot/Old Modal/GreenfootModal.swift"; sourceTree = SOURCE_ROOT; };
 		1F2D1A002335EAF3001D3347 /* BarGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		1F2D1A022335EB35001D3347 /* HorizontalBarGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBarGraph.swift; sourceTree = "<group>"; };
 		1F2D881522F72AAB007D628D /* SourceAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceAggregator.swift; sourceTree = "<group>"; };
@@ -199,29 +181,23 @@
 		1F7DBB67235447E900E6A7F8 /* FirebaseUtils+Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseUtils+Defaults.swift"; sourceTree = "<group>"; };
 		1F9195051E67922B0035A4AD /* BulkDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulkDataViewController.swift; sourceTree = "<group>"; };
 		1F91DDE31E1570A70020371F /* GeosansLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeosansLight.ttf; sourceTree = "<group>"; };
-		1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		1F92AEAA1F017207006DBE25 /* MonthlyChangeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyChangeTableViewCell.swift; sourceTree = "<group>"; };
 		1F92AEAC1F01721C006DBE25 /* MonthlyChangeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonthlyChangeCell.xib; sourceTree = "<group>"; };
 		1FA018A11EE39629005ED9E2 /* DrivingHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrivingHeader.xib; sourceTree = "<group>"; };
 		1FA735D523544EB4009DD78E /* CarbonUnit+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CarbonUnit+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		1FA737F81F001F4100B721D0 /* APIRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequestManager.swift; sourceTree = "<group>"; };
-		1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
-		1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		1FAA27FB22C88891007E7403 /* BarGraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphTableViewCell.swift; sourceTree = "<group>"; };
 		1FAA27FD22C888AB007E7403 /* BarGraphCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BarGraphCell.xib; sourceTree = "<group>"; };
 		1FAB86141ED78C3F00104969 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		1FAFFB02201AE11A0015CF4B /* Account.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
-		1FB08D4F202E01FD00D4C20C /* DrivingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingData.swift; sourceTree = "<group>"; };
+		1FB1BFA52366697D00F6961C /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
 		1FBBFCEA2339EF0C00D9B9CA /* MeasurementLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementLabel.swift; sourceTree = "<group>"; };
 		1FBC684E231B286900440B0D /* TableViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewPresenter.swift; sourceTree = "<group>"; };
 		1FBC6850231B28E500440B0D /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
 		1FBC6853231B301800440B0D /* BarGraphTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphTableViewSection.swift; sourceTree = "<group>"; };
 		1FBC6855231B41D000440B0D /* DataLogTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLogTableViewSection.swift; sourceTree = "<group>"; };
-		1FC291D31EF19A2A007F7835 /* GreenData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreenData.swift; sourceTree = "<group>"; };
 		1FC291D51EF1C235007F7835 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1FC291D81EF1C25E007F7835 /* greenfoot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = greenfoot.xcdatamodel; sourceTree = "<group>"; };
-		1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		1FC515651F32D0650021DC1D /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		1FC962EB1FF4B48600C6F686 /* BarGraphFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BarGraphFooter.xib; sourceTree = "<group>"; };
 		1FCB0FE71E2B3684006463AE /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
@@ -329,7 +305,6 @@
 			children = (
 				1F065E6E22AD8CC90037BEA1 /* FirebaseUtils.swift */,
 				1FE6E1C022B5BAB5004C0E81 /* FirebaseObject.swift */,
-				1F2013BC22BA0154000183FE /* FirebaseUtils-GetData.swift */,
 				1F2013BE22BA01A6000183FE /* FirebaseUtils-Storage.swift */,
 				1F7DBB67235447E900E6A7F8 /* FirebaseUtils+Defaults.swift */,
 			);
@@ -355,20 +330,6 @@
 			path = Abstract;
 			sourceTree = "<group>";
 		};
-		1F328C2322ED0D760085FC1A /* Old Modal */ = {
-			isa = PBXGroup;
-			children = (
-				1FC291DE1EF1CE8D007F7835 /* CoreDataHelper.swift */,
-				1FC291D31EF19A2A007F7835 /* GreenData.swift */,
-				1FB08D4F202E01FD00D4C20C /* DrivingData.swift */,
-				1F2B0AFF1E3E5C9F00C48BB2 /* GreenfootModal.swift */,
-				1FA737F81F001F4100B721D0 /* APIRequestManager.swift */,
-				1F1E7BCC1F3D2F4A00399FB7 /* APICall.swift */,
-				1F261B8D205EFC9600CF5A16 /* GreenDataPoint.swift */,
-			);
-			path = "Old Modal";
-			sourceTree = "<group>";
-		};
 		1F3851B222F0020B00C5630E /* CoreDataTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,15 +350,6 @@
 				1F503A4622DA610400A07805 /* GGTabController.swift */,
 			);
 			path = TabBarController;
-			sourceTree = "<group>";
-		};
-		1F654CD122C854B300A5BFD7 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				1FA917BB1EC54CD400C6ABE9 /* TutorialPageViewController.swift */,
-				1FA917BD1EC5543F00C6ABE9 /* TutorialViewController.swift */,
-			);
-			name = Onboarding;
 			sourceTree = "<group>";
 		};
 		1F654CD222C855A600A5BFD7 /* XIBs */ = {
@@ -473,19 +425,15 @@
 				1FC859BA1E147F4C007F7393 /* Fonts */,
 				1FC291DB1EF1CDB6007F7835 /* Modal */,
 				1F14FADF1EF71498005E9F33 /* Views */,
-				1F654CD122C854B300A5BFD7 /* Onboarding */,
 				1FAA27FA22C88669007E7403 /* Summary */,
 				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
 				1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */,
-				1F0D878F1F3E70B000ED894A /* AboutViewController.swift */,
 				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
-				1F13B4FF1F047DFF002B6E44 /* DataPointViewController.swift */,
 				1F70CCBB1E105D0600AD351A /* AppDelegate.swift */,
 				1F70CCC21E105D0600AD351A /* Assets.xcassets */,
 				1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */,
 				1F70CCC71E105D0600AD351A /* Info.plist */,
-				1F92AEA81F01650C006DBE25 /* HistoryViewController.swift */,
-				1F2544F41FFC0C5C0031C9F8 /* SettingsTableViewController.swift */,
+				1F2544F41FFC0C5C0031C9F8 /* SettingsViewController.swift */,
 				1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */,
 				1F42A00222EBEE480057C88C /* utils.swift */,
 				1FCD198D22EE8184008E6194 /* defaults.plist */,
@@ -515,7 +463,6 @@
 			isa = PBXGroup;
 			children = (
 				1F10916022F3F71A0019532F /* Core Data Models */,
-				1F328C2322ED0D760085FC1A /* Old Modal */,
 				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
 				1F2013BB22BA0130000183FE /* Firebase */,
 				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
@@ -526,6 +473,7 @@
 				1F216EDD22F7C12F00008A72 /* Measurement.swift */,
 				1F521CB523414CF300279F94 /* Filters.swift */,
 				1F7DBB652354323200E6A7F8 /* LocationManager.swift */,
+				1FB1BFA52366697D00F6961C /* NotificationManager.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -859,7 +807,6 @@
 				1FCD198922EE7FC1008E6194 /* CarbonUnit+CoreDataClass.swift in Sources */,
 				1F2D1A032335EB35001D3347 /* HorizontalBarGraph.swift in Sources */,
 				1FF8B6B21EE8B8B3007BB5D3 /* InputToolbar.swift in Sources */,
-				1F261B8E205EFC9600CF5A16 /* GreenDataPoint.swift in Sources */,
 				1FE6E7DA22ED180C00E558D7 /* CarbonSource+CoreDataClass.swift in Sources */,
 				1FE6E7E122ED235600E558D7 /* DBManager.swift in Sources */,
 				1FD0055422C9425200F5828B /* LogTableViewCell.swift in Sources */,
@@ -869,43 +816,33 @@
 				1F503A4722DA610400A07805 /* GGTabController.swift in Sources */,
 				1FE256D222E7EFDD0020C191 /* UtilityTableViewCell.swift in Sources */,
 				1F654CD422C855F100A5BFD7 /* CircularEmblemView.swift in Sources */,
-				1F2013BD22BA0154000183FE /* FirebaseUtils-GetData.swift in Sources */,
-				1F92AEA91F01650C006DBE25 /* HistoryViewController.swift in Sources */,
 				1FBBFCEB2339EF0C00D9B9CA /* MeasurementLabel.swift in Sources */,
 				1FB34B0422F15F690013AE12 /* DefaultsKeys.swift in Sources */,
 				1F2013BF22BA01A6000183FE /* FirebaseUtils-Storage.swift in Sources */,
 				1F70CCBE1E105D0600AD351A /* SummaryViewController.swift in Sources */,
-				1F1E7BCD1F3D2F4A00399FB7 /* APICall.swift in Sources */,
 				1FC291DA1EF1C9F2007F7835 /* greenfoot.xcdatamodeld in Sources */,
 				1F2544F71FFC9C490031C9F8 /* SettingsManager.swift in Sources */,
-				1FA917BC1EC54CD400C6ABE9 /* TutorialPageViewController.swift in Sources */,
 				1FCD198C22EE7FC1008E6194 /* Conversion+CoreDataProperties.swift in Sources */,
 				1F7DBB6423542DE800E6A7F8 /* UserManager.swift in Sources */,
 				1FBC6856231B41D000440B0D /* DataLogTableViewSection.swift in Sources */,
 				1F3C99A122F293AA0008A1D3 /* CoreDataProtocols.swift in Sources */,
 				1FE6E7DE22ED1E6300E558D7 /* CarbonDataPoint+CoreDataClass.swift in Sources */,
-				1FB08D50202E01FD00D4C20C /* DrivingData.swift in Sources */,
 				1F00C38622B703A500715506 /* PopupDialog.swift in Sources */,
 				1FBC684F231B286900440B0D /* TableViewPresenter.swift in Sources */,
 				1F92AEAB1F017207006DBE25 /* MonthlyChangeTableViewCell.swift in Sources */,
-				1F0D87901F3E70B000ED894A /* AboutViewController.swift in Sources */,
 				1F2D881822F72F1D007D628D /* SourceAggregatorViewController.swift in Sources */,
 				1FE6E1C122B5BAB5004C0E81 /* FirebaseObject.swift in Sources */,
-				1F2B0B001E3E5C9F00C48BB2 /* GreenfootModal.swift in Sources */,
 				1F4231EF233DF06C00B58C93 /* AddSourceBLTNItem.swift in Sources */,
-				1FA737F91F001F4100B721D0 /* APIRequestManager.swift in Sources */,
 				1FCD198422EE6874008E6194 /* CarbonReference+CoreDataProperties.swift in Sources */,
 				1FAA27FC22C88891007E7403 /* BarGraphTableViewCell.swift in Sources */,
-				1F2544F51FFC0C5C0031C9F8 /* SettingsTableViewController.swift in Sources */,
+				1F2544F51FFC0C5C0031C9F8 /* SettingsViewController.swift in Sources */,
 				1FCD198B22EE7FC1008E6194 /* Conversion+CoreDataClass.swift in Sources */,
 				1F654CD922C85A8800A5BFD7 /* CircleBorder.swift in Sources */,
 				1F61DA6122C7257600462BDB /* AddDataBLTNItem.swift in Sources */,
 				1F503A4522DA5C7200A07805 /* GGTabBar.swift in Sources */,
-				1F13B5001F047DFF002B6E44 /* DataPointViewController.swift in Sources */,
 				1F7DBB662354323200E6A7F8 /* LocationManager.swift in Sources */,
 				1F2D1A012335EAF3001D3347 /* BarGraph.swift in Sources */,
 				1F5D88D81E46418700BEE99B /* GraphViewController.swift in Sources */,
-				1FA917BE1EC5543F00C6ABE9 /* TutorialViewController.swift in Sources */,
 				1F70CCBC1E105D0600AD351A /* AppDelegate.swift in Sources */,
 				1F62F66222EEBC6D00636D41 /* DBManager+Defaults.swift in Sources */,
 				1FE6E7DB22ED180C00E558D7 /* CarbonSource+CoreDataProperties.swift in Sources */,
@@ -914,10 +851,9 @@
 				1F2E46FA22C7E9C100DDDAB2 /* appearance.swift in Sources */,
 				1F065E6F22AD8CC90037BEA1 /* FirebaseUtils.swift in Sources */,
 				1F521CB623414CF300279F94 /* Filters.swift in Sources */,
-				1FC291DF1EF1CE8D007F7835 /* CoreDataHelper.swift in Sources */,
+				1FB1BFA62366697D00F6961C /* NotificationManager.swift in Sources */,
 				1F13032222CE9A8C0069AEDC /* HistoryTableViewCell.swift in Sources */,
 				1FE6E7DF22ED1E6300E558D7 /* CarbonDataPoint+CoreDataProperties.swift in Sources */,
-				1FC291D41EF19A2A007F7835 /* GreenData.swift in Sources */,
 				1F9195061E67922B0035A4AD /* BulkDataViewController.swift in Sources */,
 				1FE8A57B22C97DAB0044ABEC /* Summary-TableView.swift in Sources */,
 			);

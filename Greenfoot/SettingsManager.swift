@@ -377,8 +377,4 @@ enum Settings {
     case LocationAllowed, NotificationAllowed
 }
 
-enum ReminderSettings: String {
-    case FirstOfMonth = "First of Each Month", OneMonth = "One Month from Last Point", None = "Never"
-    
-    static let allValues = [FirstOfMonth, OneMonth, None]
-}
+
