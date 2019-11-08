@@ -255,6 +255,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F065E53237557AC00D60376 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
+				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
+				1F7DBB6323542DE800E6A7F8 /* UserManager.swift */,
+				1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */,
+				1F7DBB652354323200E6A7F8 /* LocationManager.swift */,
+				1FB1BFA52366697D00F6961C /* NotificationManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		1F10916022F3F71A0019532F /* Core Data Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,18 +475,13 @@
 		1FC291DB1EF1CDB6007F7835 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
+				1F065E53237557AC00D60376 /* Managers */,
 				1F10916022F3F71A0019532F /* Core Data Models */,
-				1F2544F61FFC9C490031C9F8 /* SettingsManager.swift */,
 				1F2013BB22BA0130000183FE /* Firebase */,
-				1FE6E7E022ED235600E558D7 /* DBManager.swift */,
-				1F7DBB6323542DE800E6A7F8 /* UserManager.swift */,
-				1F62F66122EEBC6D00636D41 /* DBManager+Defaults.swift */,
 				1FB34B0322F15F690013AE12 /* DefaultsKeys.swift */,
 				1F2D881522F72AAB007D628D /* SourceAggregator.swift */,
 				1F216EDD22F7C12F00008A72 /* Measurement.swift */,
 				1F521CB523414CF300279F94 /* Filters.swift */,
-				1F7DBB652354323200E6A7F8 /* LocationManager.swift */,
-				1FB1BFA52366697D00F6961C /* NotificationManager.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
