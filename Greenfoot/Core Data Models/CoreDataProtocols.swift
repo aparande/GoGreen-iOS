@@ -39,8 +39,13 @@ extension CoreDataRecord {
     static func createIfUnique(inContext context: NSManagedObjectContext, withData data: [String:Any]) -> Record? {
         guard let id = data["id"] as? String else { return nil }
         
-        if let record = try? self.with(id: id, fromContext: context) {
-            return record
+        do {
+            let record = try self.with(id: id, fromContext: context)
+            if let _ = record {
+                return record!
+            }
+        } catch {
+            //Do Nothing
         }
         
         let decoder = JSONDecoder()

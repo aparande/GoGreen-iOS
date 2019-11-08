@@ -18,7 +18,7 @@ extension CarbonSource {
     }
     
     public var points: [CarbonDataPoint] {
-        var filtered = self.data?.filter {type(of: $0) == CarbonDataPoint.self} as? [CarbonDataPoint] ?? []
+        let filtered = self.data?.filter {type(of: $0) == CarbonDataPoint.self} as? [CarbonDataPoint] ?? []
         return filtered.sorted(by: {($0.month as Date).compare($1.month as Date) == .orderedAscending })
     }
     

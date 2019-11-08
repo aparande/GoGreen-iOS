@@ -62,13 +62,9 @@ class SourceAggregator {
         commonInit()
     }
     
-    init() throws {
-        do {
-            sources = try CarbonSource.all(inContext: DBManager.shared.backgroundContext)
-        } catch {
-            throw CoreDataError.fetchError
-        }
-        
+    init() {
+        sources = CarbonSource.all(inContext: DBManager.shared.backgroundContext)
+
         self.boundSourceTypes = []
         for type in SourceType.all {
             if !self.boundSourceTypes.contains(type) {

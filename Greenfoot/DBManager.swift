@@ -31,14 +31,14 @@ class DBManager {
         self.defaults = defaults
         self.loadedFromFirebase = false
         
-        self.loadDefaults()
-        
         if self.defaults.bool(forKey: DefaultsKeys.LOADED_CORE_DATA_DEFAULTS) {
             print("Firebase Defaults already loaded")
             self.loadedFromFirebase = true
             carbonUnit = try! CarbonUnit.defaultUnit(forSourceType: .direct, inContext: self.backgroundContext)
             NotificationCenter.default.post(name: DBManager.DEFAULTS_LOADED, object: nil)
         }
+        
+        self.loadDefaults()
     }
     
     private convenience init() {

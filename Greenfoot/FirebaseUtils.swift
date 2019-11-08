@@ -92,7 +92,7 @@ class FirebaseUtils {
     }
     
     static func migrateUserData(fromId id:String) {
-        var functions = Functions.functions()
+        let functions = Functions.functions()
         functions.httpsCallable("migrateUserData").call(["oldId": id]) {
             (result, error) in
             #warning("Need to do error handling here")
