@@ -28,6 +28,7 @@ class BarGraphTableViewSection: TableViewSection {
         super.init(withData: [data], cellType: BarGraphTableViewCell.self)
         
         self.title = title
+        self.headerHeight = 50
         commonInit()
     }
     

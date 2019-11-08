@@ -28,6 +28,7 @@ class DataLogTableViewSection: TableViewSection {
         self.init(withSources: sources)
         
         self.title = title
+        self.headerHeight = 50
     }
     
     private func commonInit() {
