@@ -268,6 +268,19 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		1F065E54237557E900D60376 /* CarbonTracking */ = {
+			isa = PBXGroup;
+			children = (
+				1FAA27FA22C88669007E7403 /* Summary */,
+				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
+				1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */,
+				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
+				1F2544F41FFC0C5C0031C9F8 /* SettingsViewController.swift */,
+				1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */,
+			);
+			name = CarbonTracking;
+			sourceTree = "<group>";
+		};
 		1F10916022F3F71A0019532F /* Core Data Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,16 +451,11 @@
 				1FC859BA1E147F4C007F7393 /* Fonts */,
 				1FC291DB1EF1CDB6007F7835 /* Modal */,
 				1F14FADF1EF71498005E9F33 /* Views */,
-				1FAA27FA22C88669007E7403 /* Summary */,
-				1F5D88D71E46418700BEE99B /* GraphViewController.swift */,
-				1F2D881722F72F1D007D628D /* SourceAggregatorViewController.swift */,
-				1F9195051E67922B0035A4AD /* BulkDataViewController.swift */,
+				1F065E54237557E900D60376 /* CarbonTracking */,
 				1F70CCBB1E105D0600AD351A /* AppDelegate.swift */,
 				1F70CCC21E105D0600AD351A /* Assets.xcassets */,
 				1F70CCC41E105D0600AD351A /* LaunchScreen.storyboard */,
 				1F70CCC71E105D0600AD351A /* Info.plist */,
-				1F2544F41FFC0C5C0031C9F8 /* SettingsViewController.swift */,
-				1FE256D322E7F53D0020C191 /* UtilitiesTableViewController.swift */,
 				1F42A00222EBEE480057C88C /* utils.swift */,
 				1FCD198D22EE8184008E6194 /* defaults.plist */,
 			);

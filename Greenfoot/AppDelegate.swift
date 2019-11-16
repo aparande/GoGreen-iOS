@@ -40,56 +40,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LocationManager.shared.listener = UserManager.shared
         LocationManager.shared.pollLocation()
         
-        //let modal = GreenfootModal.sharedInstance
+            
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        let tvc = GGTabController()
         
-       // if UserDefaults.standard.bool(forKey: "CompletedTutorial") {
-        /*
-            for (_, data) in modal.data {
-                data.reachConsensus()
-            }*/
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            let tvc = GGTabController()
-            
-            let svc = storyboard.instantiateInitialViewController() as! NavigationController
-            let summary = svc.viewControllers[0] as! SummaryViewController
-            do {
-                summary.aggregator = try SourceAggregator()
-            } catch {
-                #warning("This is a terrible error message")
-                print("Encountered \(error.localizedDescription)")
-                summary.errorOnPresent(titled: "Error", withMessage: "Something went wrong. Please try redownloading the app")
-            }
-            
-            let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
-            logoButton.itemHeight = 80
-            
-            let travelButton = GGTabBarItem(icon: Icon.road_white, title: "TRAVEL", isRounded: false)
-            let utilityButton = GGTabBarItem(icon: Icon.electric_white, title: "UTILITIES", isRounded: false)
-            
-            let travelData = try! SourceAggregator(fromCategories: [.travel])
-            let utilityData = try! SourceAggregator(fromCategories: [.utility])
+        let svc = storyboard.instantiateInitialViewController() as! NavigationController
+        let summary = svc.viewControllers[0] as! SummaryViewController
+        summary.aggregator = SourceAggregator()
+        
+        let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
+        logoButton.itemHeight = 80
+        
+        let travelButton = GGTabBarItem(icon: Icon.road_white, title: "TRAVEL", isRounded: false)
+        let utilityButton = GGTabBarItem(icon: Icon.electric_white, title: "UTILITIES", isRounded: false)
+        
+        let travelData = try! SourceAggregator(fromCategories: [.travel])
+        let utilityData = try! SourceAggregator(fromCategories: [.utility])
             
         let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", forCategory: .travel, aggregator: travelData))
         let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", forCategory: .utility, aggregator: utilityData))
             
-            tvc.setTabBar(items: [travelButton, logoButton, utilityButton])
-            tvc.viewControllers = [travelVc, svc, utilityVc]
-            
-            tvc.selectedIndex = 1
-            
-            window!.rootViewController = tvc
-       /* } else {
+        tvc.setTabBar(items: [travelButton, logoButton, utilityButton])
+        tvc.viewControllers = [travelVc, svc, utilityVc]
         
-            let pager = TutorialViewController()
-            
-            window!.rootViewController = pager
-            
-            //TEST THAT THIS WORKS
-            SettingsManager.sharedInstance.shouldUseLocation = true
-        }*/
+        tvc.selectedIndex = 1
+        
+        window!.rootViewController = tvc
         
         window!.makeKeyAndVisible()
         
