@@ -49,6 +49,11 @@ class BulkDataViewController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     
     @objc func returnToTutorial() {
         self.navigationController?.presentingViewController?.dismiss(animated: true, completion: nil)

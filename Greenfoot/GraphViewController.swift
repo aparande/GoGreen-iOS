@@ -75,6 +75,8 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
             print("\((point.month as Date).toString(withFormat: "MM-YYYY")): \(point.rawValue))")
         }
         mainGraph.loadDataFrom(array: aggregator.points, labeled: aggregator.unit.name)
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     @IBAction func addData(_ sender: Any) {

@@ -40,33 +40,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LocationManager.shared.listener = UserManager.shared
         LocationManager.shared.pollLocation()
         
-            
+                    
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let tvc = GGTabController()
         
+        let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
+        logoButton.itemHeight = 80
+                            
         let svc = storyboard.instantiateInitialViewController() as! NavigationController
         let summary = svc.viewControllers[0] as! SummaryViewController
         summary.aggregator = SourceAggregator()
-        
-        let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
-        logoButton.itemHeight = 80
-        
-        let travelButton = GGTabBarItem(icon: Icon.road_white, title: "TRAVEL", isRounded: false)
-        let utilityButton = GGTabBarItem(icon: Icon.electric_white, title: "UTILITIES", isRounded: false)
-        
+    
         let travelData = try! SourceAggregator(fromCategories: [.travel])
         let utilityData = try! SourceAggregator(fromCategories: [.utility])
-            
+        
         let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", forCategory: .travel, aggregator: travelData))
         let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", forCategory: .utility, aggregator: utilityData))
-            
-        tvc.setTabBar(items: [travelButton, logoButton, utilityButton])
-        tvc.viewControllers = [travelVc, svc, utilityVc]
+    
+        let travelButton = GGTabBarItem(icon: Icon.electric_white, title: "Projects", isRounded: false)
+        let utilityButton = GGTabBarItem(icon: Icon.logo_white, title: "Footprint", isRounded: false)
         
+        tvc.setTabBar(items: [travelButton, utilityButton])
         tvc.selectedIndex = 1
         
-        window!.rootViewController = tvc
+        let mtvc = SlidingTabsController(viewControllers: [travelVc, svc, utilityVc], withTitles: ["Travel", "Summary", "Utilities"], selectedIndex: 1)
+        
+        let dummyVC = UIViewController()
+        
+        tvc.viewControllers = [mtvc, dummyVC]
+        
+        let presenterVc = StatusBarController(rootViewController: tvc)
+        presenterVc.statusBar.backgroundColor = Colors.green
+        presenterVc.displayStyle = .partial
+        
+        window!.rootViewController = presenterVc
         
         window!.makeKeyAndVisible()
         

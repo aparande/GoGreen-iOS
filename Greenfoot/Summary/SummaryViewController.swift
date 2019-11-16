@@ -89,11 +89,6 @@ class SummaryViewController: SourceAggregatorViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
-    
     override func onBLTNPageItemActionClicked(with source: CarbonSource) {
         super.onBLTNPageItemActionClicked(with: source)
         self.performSegue(withIdentifier: "toGraphView", sender: source)

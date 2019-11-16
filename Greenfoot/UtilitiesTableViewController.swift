@@ -46,18 +46,31 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
         
         self.title = navTitle
         
-        self.prepNavigationBar(titled: navTitle)
+        navigationController?.setNavigationBarHidden(true, animated: false)
         
+        self.prepNavigationBar(titled: navTitle)
+                
         let addButton = IconButton(image: Icon.cm.add, tintColor: .white)
         addButton.addTarget(self, action: #selector(showAddSourceBLTNItem), for: .touchUpInside)
         self.navigationItem.rightViews = [addButton]
+        
+        let fabButton = FABButton(image: Icon.cm.add, tintColor: .white)
+        fabButton.addTarget(self, action: #selector(showAddSourceBLTNItem), for: .touchUpInside)
+        fabButton.backgroundColor = Colors.green
+        
+        let menu = FABMenu()
+        menu.fabButton = fabButton
+        
+        self.view.addSubview(menu)
+        
+        self.view.layout(menu).size(CGSize(width: 40, height: 40)).bottomTrailingSafe(bottom: 70, trailing: 20)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        self.tableView.reloadData()
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
-
+    
     func showBulletin(for source: CarbonSource?) {
         guard let source = source else { return }
         
