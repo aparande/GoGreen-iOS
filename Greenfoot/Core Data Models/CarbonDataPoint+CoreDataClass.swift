@@ -14,7 +14,7 @@ import CoreData
 public class CarbonDataPoint: NSManagedObject, CoreDataRecord, FirebaseObject {
     typealias Record = CarbonDataPoint
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case sourceId
         case unitId

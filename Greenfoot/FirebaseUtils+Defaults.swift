@@ -59,4 +59,32 @@ extension FirebaseUtils {
             return completion(conversions)
         }
     }
+    
+    static func loadReferences(forSource source:CarbonSource, intoContext context: NSManagedObjectContext, completion: @escaping ([CarbonReference]) -> Void) {
+        guard let locId =  UserManager.shared.user.locId else {
+            completion([])
+            return
+        }
+        
+        let ref = Firestore.firestore().collection("CarbonReferences")
+        let query = ref.whereField("locId", isEqualTo: locId).whereField("sourceType", isEqualTo: source.sourceType.rawValue)
+        query.getDocuments { (snapshot, error) in
+            if let err = error {
+                print("Couldn't get carbon references because \(err.localizedDescription)")
+                return completion([])
+            }
+            
+            guard let snapshot = snapshot else {return completion([])}
+            
+            var references = [CarbonReference]()
+            for document in snapshot.documents {
+                var data = document.data()
+                data["source"] = source
+                guard let newRef = CarbonReference.createIfUnique(inContext: context, withData: data) else { continue }
+                references.append(newRef)
+            }
+            
+            return completion(references)
+        }
+    }
 }

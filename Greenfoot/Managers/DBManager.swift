@@ -36,9 +36,9 @@ class DBManager {
             self.loadedFromFirebase = true
             carbonUnit = try! CarbonUnit.defaultUnit(forSourceType: .direct, inContext: self.backgroundContext)
             NotificationCenter.default.post(name: DBManager.DEFAULTS_LOADED, object: nil)
+        } else {
+            self.loadDefaults()
         }
-        
-        self.loadDefaults()
     }
     
     private convenience init() {
@@ -75,6 +75,11 @@ class DBManager {
         
         FirebaseUtils.uploadCarbonSource(source)
         
+        FirebaseUtils.loadReferences(forSource: source, intoContext: self.backgroundContext) { (refs) in
+            print("Downloaded \(refs.count) references for Carbon Source: \(source.name)")
+            self.save()
+        }
+        
         self.save()
         return source
     }
@@ -92,6 +97,21 @@ class DBManager {
         }
         
         FirebaseUtils.uploadCarbonDataPoint(point)
+        
+        // Query for the appropriate references
+        if let sourceId = source.id {
+            let request = CarbonReference.fetchAllRequest
+            request.predicate = NSPredicate(format: "%K = %@", "source.id", sourceId)
+            let references = try! self.backgroundContext.fetch(request)
+            
+            let month = Calendar.current.component(.month, from: date)
+            for reference in references {
+                let refMonth = Calendar.current.component(.month, from: reference.month as Date)
+                if refMonth == month {
+                    point.addToReferences(reference)
+                }
+            }
+        }
         
         self.save()
     }

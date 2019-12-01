@@ -17,6 +17,7 @@ public extension CodingUserInfoKey {
     // Helper property to retrieve the context
     static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")
     static let userId = CodingUserInfoKey(rawValue: "userId")
+    static let source = CodingUserInfoKey(rawValue: "source")
 }
 
 extension FirebaseObject {

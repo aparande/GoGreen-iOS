@@ -12,34 +12,28 @@ import CoreLocation
 
 class FirebaseUtils {
     static func uploadLocation(_ location: Location, completion: @escaping  ((Location) -> Void)) {
-        let store = Firestore.firestore()
-        let locRef = store.collection("Locations")
-        
         var params = location.toJSON()
         
-        guard let query = queryCollection(locRef, withParams: params) else { return }
-        query.getDocuments { (snapshot, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                #warning("Need to do something if the id is nil")
-                completion(location)
+        Functions.functions().httpsCallable("uploadLocation").call(params) {
+            (result, error) in
+            #warning("Need to do error handling here")
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let code = FunctionsErrorCode(rawValue: error.code)
+                    let message = error.localizedDescription
+                    let details = error.userInfo[FunctionsErrorDetailsKey]
+                    print("Firebase failed with code: \(code), message: \(message), details: \(details)")
+                }
+                return;
+            }
+            
+            guard let functionData = result?.data as? [String:Any], let locData = functionData["data"] as? [String:Any] else {
+                print("Couldn't decode data")
                 return
             }
             
-            guard let snapshot = snapshot else { return }
-            if snapshot.isEmpty {
-                let docRef = locRef.document()
-                
-                var newLoc = location
-                newLoc.id = docRef.documentID
-                
-                params["id"] = newLoc.id
-                docRef.setData(params, merge: true)
-                completion(newLoc)
-            } else {
-                let newLoc = Location(fromDict: snapshot.documents[0].data())
-                completion(newLoc)
-            }
+            let newLoc = Location(fromDict: locData)
+            completion(newLoc)
         }
     }
     

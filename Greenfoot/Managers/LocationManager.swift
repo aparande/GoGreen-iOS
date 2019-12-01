@@ -73,10 +73,11 @@ class LocationManager:NSObject, CLLocationManagerDelegate {
                 return
             }
             
-            if placemarks?.count != 0 {
+            if placemarks?.count != 0 && self.retriesRemaining != -1 {
+                self.retriesRemaining = -1 // Ensures save will only be called once
                 let pm = placemarks![0] as CLPlacemark
-                self.saveLocation(pm)
                 self.stopPollingLocation()
+                self.saveLocation(pm)
             }
         }
     }
