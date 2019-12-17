@@ -67,6 +67,7 @@ struct Location: FirebaseObject {
         guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
         
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
         return try? decoder.decode(Location.self, from: data)
     }
 }

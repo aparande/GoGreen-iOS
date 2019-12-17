@@ -69,6 +69,7 @@ class UtilitiesTableViewController: SourceAggregatorViewController, UtilityTable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        self.tableView.reloadData()
     }
     
     func showBulletin(for source: CarbonSource?) {

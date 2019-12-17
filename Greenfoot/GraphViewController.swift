@@ -25,31 +25,7 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     
     private var location: Int!{
         didSet {
-            if aggregator.points.count == 0 {
-                return
-            }
-            
-            let datapoint = aggregator.points[self.location]
-            toolbar.centerField.text = Date.monthFormat(date: datapoint.month as Date)
-            
-            var dict = ["You":datapoint.rawValue]
-
-            #warning("Inelegant")
-            if let cdp = datapoint as? CarbonDataPoint {
-                if let cityRef = cdp.reference(atLevel: .city) {
-                    dict[cityRef.name] = cityRef.rawValue
-                }
-                
-                if let stateRef = cdp.reference(atLevel: .state) {
-                    dict[stateRef.name] = stateRef.rawValue
-                }
-                
-                if let countryRef = cdp.reference(atLevel: .country) {
-                    dict[countryRef.name] = countryRef.rawValue
-                }
-            }
-            
-            monthGraph.loadData(dict, labeled: "Month Data")
+            loadMonthGraph()
         }
     }
     
@@ -74,6 +50,8 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
         for point in aggregator.points {
             print("\((point.month as Date).toString(withFormat: "MM-YYYY")): \(point.rawValue))")
         }
+        
+        loadMonthGraph()
         mainGraph.loadDataFrom(array: aggregator.points, labeled: aggregator.unit.name)
         
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -86,6 +64,7 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
     override func onBLTNPageItemActionClicked(with source: CarbonSource) {
         super.onBLTNPageItemActionClicked(with: source)
         
+        loadMonthGraph()
         mainGraph.loadDataFrom(array: aggregator.points, labeled: aggregator.unit.name)
     }
     
@@ -110,6 +89,34 @@ class GraphViewController: SourceAggregatorViewController, ChartViewDelegate, In
         if location - 1 > -1 {
             location -= 1
         }
+    }
+    
+    fileprivate func loadMonthGraph() {
+        if aggregator.points.count == 0 {
+            return
+        }
+        
+        let datapoint = aggregator.points[self.location]
+        toolbar.centerField.text = Date.monthFormat(date: datapoint.month as Date)
+        
+        var dict = ["You":datapoint.rawValue]
+
+        #warning("Inelegant")
+        if let cdp = datapoint as? CarbonDataPoint {
+            if let cityRef = cdp.reference(atLevel: .city) {
+                dict[cityRef.name] = cityRef.rawValue
+            }
+            
+            if let stateRef = cdp.reference(atLevel: .state) {
+                dict[stateRef.name] = stateRef.rawValue
+            }
+            
+            if let countryRef = cdp.reference(atLevel: .country) {
+                dict[countryRef.name] = countryRef.rawValue
+            }
+        }
+        
+        monthGraph.loadData(dict, labeled: "Month Data")
     }
     
     fileprivate func setupToolbar() {

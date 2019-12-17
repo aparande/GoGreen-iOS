@@ -49,6 +49,7 @@ extension CoreDataRecord {
         }
         
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
         decoder.userInfo[CodingUserInfoKey.managedObjectContext!] = context
         guard let json = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted) else { return nil }
         guard let newObj = try? decoder.decode(Record.self, from: json) else { return nil }
