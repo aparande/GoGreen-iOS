@@ -166,6 +166,7 @@ public class CarbonReference: CarbonDataPoint {
         let decoder = JSONDecoder()
         decoder.userInfo[CodingUserInfoKey.managedObjectContext!] = context
         decoder.userInfo[CodingUserInfoKey.source!] = source
+        decoder.dateDecodingStrategy = .secondsSince1970
         
         guard let json = try? JSONSerialization.data(withJSONObject: refData, options: .prettyPrinted) else { return nil }
         guard let newObj = try? decoder.decode(CarbonReference.self, from: json) else { return nil }

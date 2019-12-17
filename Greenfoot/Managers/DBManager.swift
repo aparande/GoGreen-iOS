@@ -36,6 +36,8 @@ class DBManager {
             self.loadedFromFirebase = true
             carbonUnit = try! CarbonUnit.defaultUnit(forSourceType: .direct, inContext: self.backgroundContext)
             NotificationCenter.default.post(name: DBManager.DEFAULTS_LOADED, object: nil)
+            
+            refreshData()
         } else {
             self.loadDefaults()
         }
@@ -56,6 +58,38 @@ class DBManager {
             } catch {
                 let error = error as NSError
                 fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    func refreshData() {
+        DispatchQueue.global(qos: .background).async {
+            let request = CarbonSource.fetchAllRequest
+            
+            guard let sources = try? self.backgroundContext.fetch(request) else { return }
+            for source in sources {
+                FirebaseUtils.loadReferences(forSource: source, intoContext: self.backgroundContext) { (refs) in
+                    print("Downloaded \(refs.count) references for Carbon Source: \(source.name)")
+                    for ref in refs {
+                        let refMonth = Calendar.current.component(.month, from: ref.month as Date)
+                        let points = source.points.filter({ (point) in
+                            let month = Calendar.current.component(.month, from: point.month as Date)
+                            return refMonth == month
+                        })
+                        
+                        for point in points {
+                            guard let oldRef = point.reference(atLevel: ref.level) else {
+                                point.addToReferences(ref)
+                                continue
+                            }
+                            
+                            if ref.lastUpdated.compare(oldRef.lastUpdated as Date) == ComparisonResult.orderedDescending  {
+                                point.removeFromReferences(oldRef)
+                                point.addToReferences(ref)
+                            }
+                        }
+                    }
+                }
             }
         }
     }

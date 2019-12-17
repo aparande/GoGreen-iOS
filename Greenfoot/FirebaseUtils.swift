@@ -12,6 +12,7 @@ import CoreLocation
 
 class FirebaseUtils {
     static func uploadLocation(_ location: Location, completion: @escaping  ((Location) -> Void)) {
+        print("Location Upload");
         var params = location.toJSON()
         
         Functions.functions().httpsCallable("uploadLocation").call(params) {
