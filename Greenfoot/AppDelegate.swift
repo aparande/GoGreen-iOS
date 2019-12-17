@@ -39,15 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         LocationManager.shared.listener = UserManager.shared
         LocationManager.shared.pollLocation()
-        
                     
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let tvc = GGTabController()
-        
-        let logoButton = GGTabBarItem(icon: Icon.logo_white, title: "HOME", isRounded: true)
-        logoButton.itemHeight = 80
-                            
+                                    
         let svc = storyboard.instantiateInitialViewController() as! NavigationController
         let summary = svc.viewControllers[0] as! SummaryViewController
         summary.aggregator = SourceAggregator()
@@ -57,20 +51,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let travelVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Travel", forCategory: .travel, aggregator: travelData))
         let utilityVc = NavigationController(rootViewController: UtilitiesTableViewController(withTitle: "Utilities", forCategory: .utility, aggregator: utilityData))
-    
-        let travelButton = GGTabBarItem(icon: Icon.electric_white, title: "Projects", isRounded: false)
-        let utilityButton = GGTabBarItem(icon: Icon.logo_white, title: "Footprint", isRounded: false)
-        
-        tvc.setTabBar(items: [travelButton, utilityButton])
-        tvc.selectedIndex = 1
-        
+            
         let mtvc = SlidingTabsController(viewControllers: [travelVc, svc, utilityVc], withTitles: ["Travel", "Summary", "Utilities"], selectedIndex: 1)
         
-        let dummyVC = UIViewController()
-        
-        tvc.viewControllers = [mtvc, dummyVC]
-        
-        let presenterVc = StatusBarController(rootViewController: tvc)
+        let presenterVc = StatusBarController(rootViewController: mtvc)
         presenterVc.statusBar.backgroundColor = Colors.green
         presenterVc.displayStyle = .partial
         
